@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Límites laterales</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+      line-height: 1.6;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1f4e79;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #1f4e79;
+      border-bottom: 3px solid #1f4e79;
+      padding-bottom: 6px;
+      margin-top: 40px;
+    }
+
+    .bloque {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .definicion {
+      border-left: 8px solid #2f80ed;
+      background: #eef6ff;
+    }
+
+    .idea {
+      border-left: 8px solid #27ae60;
+      background: #eefaf2;
+    }
+
+    .ejercicio {
+      border-left: 8px solid #f2994a;
+      background: #fff7ed;
+    }
+
+    .desafio {
+      border-left: 8px solid #9b51e0;
+      background: #f7efff;
+    }
+
+    .titulo-bloque {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .azul {
+      background: #2f80ed;
+      color: white;
+    }
+
+    .verde {
+      background: #27ae60;
+      color: white;
+    }
+
+    .naranja {
+      background: #f2994a;
+      color: white;
+    }
+
+    .morado {
+      background: #9b51e0;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1>Límites laterales</h1>
+
+  <div class="bloque definicion">
+    <span class="etiqueta azul">Definición</span>
+
+    <p>Decimos que</p>
+
+    \[
+    \lim_{x\to a^-} f(x)=L
+    \]
+
+    <p>
+      si los valores de \(f(x)\) se aproximan a \(L\) cuando \(x\) se acerca a \(a\)
+      usando valores menores que \(a\), es decir, con \(x < a \).
+    </p>
+
+    <p>De manera similar, decimos que</p>
+
+    \[
+    \lim_{x\to a^+} f(x)=L
+    \]
+
+    <p>
+      si los valores de \(f(x)\) se aproximan a \(L\) cuando \(x\) se acerca a \(a\)
+      usando valores mayores que \(a\), es decir, con \(x>a\).
+    </p>
+  </div>
+
+  <div class="bloque idea">
+    <span class="etiqueta verde">Idea clave</span>
+
+    <p>
+      El límite usual existe si y solo si los límites laterales existen y son iguales.
+    </p>
+
+    \[
+    \lim_{x\to a} f(x)=L
+    \iff
+    \lim_{x\to a^-} f(x)
+    =
+    \lim_{x\to a^+} f(x)
+    =
+    L.
+    \]
+  </div>
+
+  <h2>Ejemplos</h2>
+
+  <div class="bloque ejercicio">
+    <span class="etiqueta naranja">Ejemplo 1</span>
+
+    \[
+    f(x)=
+    \begin{cases}
+    1, & x<0,\\
+    2, & x\ge 0.
+    \end{cases}
+    \]
+
+    <p>Entonces:</p>
+
+    \[
+    \lim_{x\to 0^-}f(x)=1,
+    \qquad
+    \lim_{x\to 0^+}f(x)=2.
+    \]
+
+    <p>
+      Como los límites laterales son distintos, el límite usual no existe.
+    </p>
+  </div>
+
+  <div class="bloque ejercicio">
+    <span class="etiqueta naranja">Ejemplo 2</span>
+
+    \[
+    f(x)=\frac{x^2-1}{x-1},
+    \qquad x\ne 1.
+    \]
+
+    <p>Factorizando:</p>
+
+    \[
+    f(x)=x+1.
+    \]
+
+    <p>Luego:</p>
+
+    \[
+    \lim_{x\to 1^-}f(x)=2,
+    \qquad
+    \lim_{x\to 1^+}f(x)=2.
+    \]
+
+    <p>
+      Como ambos límites laterales coinciden, se tiene:
+    </p>
+
+    \[
+    \lim_{x\to 1}f(x)=2.
+    \]
+  </div>
+
+  <h2>Ejercicios con parámetro</h2>
+
+  <div class="bloque ejercicio">
+    <span class="etiqueta naranja">Ejercicio 1</span>
+
+    <p>Encuentre el valor de \(k\) para que exista</p>
+
+    \[
+    \lim_{x\to 2}f(x),
+    \]
+
+    <p>donde</p>
+
+    \[
+    f(x)=
+    \begin{cases}
+    3x+k, & x<2,\\
+    x^2, & x\ge 2.
+    \end{cases}
+    \]
+  </div>
+
+  <div class="bloque ejercicio">
+    <span class="etiqueta naranja">Ejercicio 2</span>
+
+    <p>Determine el valor de \(a\) para que exista</p>
+
+    \[
+    \lim_{x\to 1}f(x),
+    \]
+
+    <p>donde</p>
+
+    \[
+    f(x)=
+    \begin{cases}
+    ax+2, & x<1,\\
+    5-x, & x\ge 1.
+    \end{cases}
+    \]
+  </div>
+
+  <div class="bloque ejercicio">
+    <span class="etiqueta naranja">Ejercicio 3</span>
+
+    <p>Encuentre el valor de \(m\) para que exista</p>
+
+    \[
+    \lim_{x\to 0}f(x),
+    \]
+
+    <p>donde</p>
+
+    \[
+    f(x)=
+    \begin{cases}
+    \dfrac{x^2+mx}{x}, & x<0,\\
+    2x+1, & x\ge 0.
+    \end{cases}
+    \]
+  </div>
+
+  <h2>Ejercicios más desafiantes</h2>
+
+  <div class="bloque desafio">
+    <span class="etiqueta morado">Desafío 1</span>
+
+    <p>Encuentre el valor de \(a\) para que exista</p>
+
+    \[
+    \lim_{x\to 0}f(x),
+    \]
+
+    <p>donde</p>
+
+    \[
+    f(x)=
+    \begin{cases}
+    \dfrac{\sin x}{x}, & x<0,\\
+    a+2x, & x\ge 0.
+    \end{cases}
+    \]
+  </div>
+
+  <div class="bloque desafio">
+    <span class="etiqueta morado">Desafío 2</span>
+
+    <p>Determine el valor de \(k\) para que exista</p>
+
+    \[
+    \lim_{x\to 1}f(x),
+    \]
+
+    <p>donde</p>
+
+    \[
+    f(x)=
+    \begin{cases}
+    \dfrac{\ln x}{x-1}, & x>1,\\
+    k+x, & x\le 1.
+    \end{cases}
+    \]
+  </div>
+
+  <div class="bloque desafio">
+    <span class="etiqueta morado">Desafío 3</span>
+
+    <p>Encuentre el valor de \(c\) para que exista</p>
+
+    \[
+    \lim_{x\to \pi}f(x),
+    \]
+
+    <p>donde</p>
+
+    \[
+    f(x)=
+    \begin{cases}
+    \dfrac{\sin x}{x-\pi}, & x<\pi,\\
+    c+\cos x, & x\ge \pi.
+    \end{cases}
+    \]
+  </div>
+
+</div>
+</body>
+</html>
