@@ -23,19 +23,21 @@ function checkSession() {
     const dbBadge = document.getElementById("db-mode-badge");
     const statSync = document.getElementById("stat-sync");
     
-    if (DB.isSupabaseConfigured()) {
-      dbBadge.textContent = "Supabase (Nube)";
-      dbBadge.style.background = "rgba(16, 185, 129, 0.1)"; // verde
-      dbBadge.style.color = "#10b981";
-      statSync.textContent = "Supabase Activo";
-      statSync.style.color = "#10b981";
-    } else {
-      dbBadge.textContent = "LocalStorage (Local)";
-      dbBadge.style.background = "rgba(245, 158, 11, 0.1)"; // naranja
-      dbBadge.style.color = "#f59e0b";
-      statSync.textContent = "Local (Demo)";
-      statSync.style.color = "#f59e0b";
-    }
+    DB.isApiAvailable().then(apiActive => {
+      if (apiActive) {
+        dbBadge.textContent = "Netlify Postgres (Nube)";
+        dbBadge.style.background = "rgba(99, 102, 241, 0.1)"; // indigo
+        dbBadge.style.color = "#6366f1";
+        statSync.textContent = "Postgres Activo";
+        statSync.style.color = "#10b981";
+      } else {
+        dbBadge.textContent = "LocalStorage (Local)";
+        dbBadge.style.background = "rgba(245, 158, 11, 0.1)"; // naranja
+        dbBadge.style.color = "#f59e0b";
+        statSync.textContent = "Local (Demo)";
+        statSync.style.color = "#f59e0b";
+      }
+    });
 
     renderPostsTable();
   } else {
@@ -48,20 +50,37 @@ function checkSession() {
 function initLoginForm() {
   const form = document.getElementById("login-form");
   const errorMsg = document.getElementById("login-error");
+  const submitBtn = form.querySelector("button[type='submit']");
 
-  form.onsubmit = (e) => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
-    if (user === CONFIG.ADMIN_USER && pass === CONFIG.ADMIN_PASS) {
-      sessionStorage.setItem("alvaro_profemate_logged_in", "true");
-      errorMsg.style.display = "none";
-      checkSession();
-    } else {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Verificando...`;
+
+    try {
+      const isValid = await DB.verifyCredentials(user, pass);
+      
+      if (isValid) {
+        sessionStorage.setItem("alvaro_profemate_logged_in", "true");
+        sessionStorage.setItem("admin_user", user);
+        sessionStorage.setItem("admin_pass", pass);
+        errorMsg.style.display = "none";
+        checkSession();
+      } else {
+        errorMsg.style.display = "block";
+        document.getElementById("password").value = "";
+        document.getElementById("password").focus();
+      }
+    } catch (err) {
+      console.error(err);
+      errorMsg.textContent = "Error de conexión con el servidor.";
       errorMsg.style.display = "block";
-      document.getElementById("password").value = "";
-      document.getElementById("password").focus();
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión`;
     }
   };
 }
@@ -69,6 +88,8 @@ function initLoginForm() {
 // Cierre de sesión
 document.getElementById("btn-logout").onclick = () => {
   sessionStorage.removeItem("alvaro_profemate_logged_in");
+  sessionStorage.removeItem("admin_user");
+  sessionStorage.removeItem("admin_pass");
   window.location.reload();
 };
 

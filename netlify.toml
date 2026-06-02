@@ -1,0 +1,14 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Redirigir peticiones de /api/posts a la función serverless de Netlify
+[[redirects]]
+  from = "/api/posts"
+  to = "/.netlify/functions/posts"
+  status = 200
+
+[[redirects]]
+  from = "/api/posts/*"
+  to = "/.netlify/functions/posts"
+  status = 200

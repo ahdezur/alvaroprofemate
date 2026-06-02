@@ -1,5 +1,5 @@
-// Manejo de Datos (LocalStorage o Supabase)
-// Esta capa de abstracción permite cambiar entre almacenamiento local y la nube sin modificar la interfaz de usuario.
+// Manejo de Datos (Híbrido: LocalStorage / Netlify Postgres API)
+// Se conecta a la base de datos central en producción, y usa LocalStorage como fallback local.
 
 const DEFAULT_POSTS = [
   {
@@ -46,7 +46,6 @@ const DEFAULT_POSTS = [
       <p>Cuando una red neuronal procesa esta información, realiza millones de multiplicaciones de matrices por vectores para detectar bordes, texturas y finalmente patrones que identifican al gato. El entrenamiento de estas redes es, en esencia, encontrar los valores de una matriz gigante que minimicen el error.</p>
 
       <div style="text-align: center; margin: 25px 0;">
-        <!-- Ejemplo de HTML incrustado en el Rich Editor (un SVG matemático elegante simulando transformación lineal) -->
         <svg width="200" height="200" viewBox="0 0 200 200" style="background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border);">
           <grid>
             <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
@@ -101,33 +100,63 @@ const DEFAULT_POSTS = [
 ];
 
 const DB = {
-  // Verificar si Supabase está configurado correctamente
-  isSupabaseConfigured() {
-    return CONFIG.SUPABASE_URL && CONFIG.SUPABASE_URL.trim() !== "" &&
-           CONFIG.SUPABASE_KEY && CONFIG.SUPABASE_KEY.trim() !== "";
+  _apiAvailable: null,
+
+  // Comprobar dinámicamente si la API Serverless está en ejecución y disponible
+  async isApiAvailable() {
+    if (this._apiAvailable !== null) return this._apiAvailable;
+    try {
+      const response = await fetch(CONFIG.API_URL, { method: "GET" });
+      // Si retorna 404 significa que la URL no existe (servidor estático sin funciones de Netlify)
+      this._apiAvailable = response.status !== 404;
+      return this._apiAvailable;
+    } catch (error) {
+      this._apiAvailable = false;
+      return false;
+    }
   },
 
-  // Obtener las cabeceras para las peticiones a Supabase
-  _getHeaders() {
+  // Generar cabeceras con autenticación Basic
+  _getAuthHeaders(customUser = null, customPass = null) {
+    const user = customUser || sessionStorage.getItem("admin_user") || CONFIG.ADMIN_USER;
+    const pass = customPass || sessionStorage.getItem("admin_pass") || CONFIG.ADMIN_PASS;
+    const base64Creds = btoa(`${user}:${pass}`);
     return {
-      "apikey": CONFIG.SUPABASE_KEY,
-      "Authorization": `Bearer ${CONFIG.SUPABASE_KEY}`,
+      "Authorization": `Basic ${base64Creds}`,
       "Content-Type": "application/json"
     };
   },
 
-  // Obtener todas las lecturas
-  async getAllPosts() {
-    if (this.isSupabaseConfigured()) {
+  // Validar credenciales contra la API o LocalStorage
+  async verifyCredentials(username, password) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
       try {
-        const response = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/posts?order=date.desc`, {
+        const response = await fetch(`${CONFIG.API_URL}?checkAuth=true`, {
           method: "GET",
-          headers: this._getHeaders()
+          headers: this._getAuthHeaders(username, password)
         });
-        if (!response.ok) throw new Error("Error fetching from Supabase");
+        return response.status === 200;
+      } catch (error) {
+        console.error("Error verificando credenciales en la API:", error);
+        return false;
+      }
+    } else {
+      // Fallback local
+      return username === CONFIG.ADMIN_USER && password === CONFIG.ADMIN_PASS;
+    }
+  },
+
+  // Obtener todos las lecturas
+  async getAllPosts() {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
+      try {
+        const response = await fetch(CONFIG.API_URL, { method: "GET" });
+        if (!response.ok) throw new Error("Error en API de Netlify");
         return await response.json();
       } catch (error) {
-        console.error("Supabase error, falling back to LocalStorage:", error);
+        console.warn("Fallo de conexión a la API, usando LocalStorage:", error);
         return this._getLocalPosts();
       }
     } else {
@@ -137,17 +166,14 @@ const DB = {
 
   // Obtener una lectura por su ID
   async getPostById(id) {
-    if (this.isSupabaseConfigured()) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
       try {
-        const response = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/posts?id=eq.${id}`, {
-          method: "GET",
-          headers: this._getHeaders()
-        });
-        if (!response.ok) throw new Error("Error fetching post from Supabase");
-        const data = await response.json();
-        return data[0] || null;
+        const response = await fetch(`${CONFIG.API_URL}?id=${id}`, { method: "GET" });
+        if (!response.ok) throw new Error("Error en API de Netlify");
+        return await response.json();
       } catch (error) {
-        console.error("Supabase error, falling back to LocalStorage:", error);
+        console.warn("Fallo de conexión a la API, usando LocalStorage:", error);
         return this._getLocalPosts().find(p => p.id === id) || null;
       }
     } else {
@@ -157,51 +183,47 @@ const DB = {
 
   // Crear una nueva lectura
   async createPost(post) {
-    const newPost = {
-      ...post,
-      id: Date.now().toString(), // Generar un ID único simple
-      date: new Date().toISOString().split('T')[0] // YYYY-MM-DD
-    };
-
-    if (this.isSupabaseConfigured()) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
       try {
-        const response = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/posts`, {
+        const response = await fetch(CONFIG.API_URL, {
           method: "POST",
-          headers: {
-            ...this._getHeaders(),
-            "Prefer": "return=representation"
-          },
-          body: JSON.stringify(newPost)
+          headers: this._getAuthHeaders(),
+          body: JSON.stringify(post)
         });
-        if (!response.ok) throw new Error("Error creating post in Supabase");
-        const data = await response.json();
-        return data[0];
+        if (!response.ok) throw new Error("Error creando post en la API");
+        return await response.json();
       } catch (error) {
-        console.error("Supabase error, creating in LocalStorage:", error);
-        return this._createLocalPost(newPost);
+        console.warn("Fallo de conexión a la API, creando en LocalStorage:", error);
+        return this._createLocalPost({
+          ...post,
+          id: Date.now().toString(),
+          date: new Date().toISOString().split('T')[0]
+        });
       }
     } else {
-      return this._createLocalPost(newPost);
+      return this._createLocalPost({
+        ...post,
+        id: Date.now().toString(),
+        date: new Date().toISOString().split('T')[0]
+      });
     }
   },
 
   // Actualizar una lectura existente
   async updatePost(id, updatedFields) {
-    if (this.isSupabaseConfigured()) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
       try {
-        const response = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/posts?id=eq.${id}`, {
+        const response = await fetch(`${CONFIG.API_URL}?id=${id}`, {
           method: "PATCH",
-          headers: {
-            ...this._getHeaders(),
-            "Prefer": "return=representation"
-          },
+          headers: this._getAuthHeaders(),
           body: JSON.stringify(updatedFields)
         });
-        if (!response.ok) throw new Error("Error updating post in Supabase");
-        const data = await response.json();
-        return data[0];
+        if (!response.ok) throw new Error("Error actualizando post en la API");
+        return await response.json();
       } catch (error) {
-        console.error("Supabase error, updating in LocalStorage:", error);
+        console.warn("Fallo de conexión a la API, editando en LocalStorage:", error);
         return this._updateLocalPost(id, updatedFields);
       }
     } else {
@@ -211,16 +233,17 @@ const DB = {
 
   // Eliminar una lectura
   async deletePost(id) {
-    if (this.isSupabaseConfigured()) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
       try {
-        const response = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/posts?id=eq.${id}`, {
+        const response = await fetch(`${CONFIG.API_URL}?id=${id}`, {
           method: "DELETE",
-          headers: this._getHeaders()
+          headers: this._getAuthHeaders()
         });
-        if (!response.ok) throw new Error("Error deleting post in Supabase");
+        if (!response.ok) throw new Error("Error eliminando post en la API");
         return true;
       } catch (error) {
-        console.error("Supabase error, deleting in LocalStorage:", error);
+        console.warn("Fallo de conexión a la API, eliminando en LocalStorage:", error);
         return this._deleteLocalPost(id);
       }
     } else {
@@ -228,12 +251,11 @@ const DB = {
     }
   },
 
-  // --- MÉTODOS PRIVADOS PARA LOCALSTORAGE ---
+  // --- MÉTODOS PRIVADOS PARA LOCALSTORAGE FALLBACK ---
 
   _getLocalPosts() {
     let posts = localStorage.getItem("alvaro_profemate_posts");
     if (!posts) {
-      // Si está vacío, inicializar con los posts por defecto y guardarlos en LocalStorage
       localStorage.setItem("alvaro_profemate_posts", JSON.stringify(DEFAULT_POSTS));
       return DEFAULT_POSTS;
     }
@@ -242,7 +264,7 @@ const DB = {
 
   _createLocalPost(post) {
     const posts = this._getLocalPosts();
-    posts.unshift(post); // Insertar al inicio (orden cronológico inverso)
+    posts.unshift(post);
     localStorage.setItem("alvaro_profemate_posts", JSON.stringify(posts));
     return post;
   },
@@ -265,5 +287,4 @@ const DB = {
   }
 };
 
-// Exportar base de datos para uso global
 window.DB = DB;

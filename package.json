@@ -1,0 +1,13 @@
+{
+  "name": "alvaro-profemate",
+  "version": "1.0.0",
+  "description": "Sitio web corporativo de Álvaro Hernández con administración de blog y Netlify Postgres",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
+  "private": true
+}
