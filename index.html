@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álvaro Hernández – Profesor de Matemáticas</title>
+  <meta name="description" content="Clases particulares universitarias y escolares de Cálculo, Álgebra, Ecuaciones Diferenciales y más. Modalidad online, presencial y sincrónica.">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+      Álvaro<span>Profemate</span>
+    </a>
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="#" class="nav-link active">Inicio</a></li>
+      <li><a href="#materias" class="nav-link">Materias</a></li>
+      <li><a href="#sobre-mi" class="nav-link">Sobre Mí</a></li>
+      <li><a href="#modalidades" class="nav-link">Planes y Clases</a></li>
+      <li><a href="#blog" class="nav-link">Lecturas</a></li>
+      <li><a href="#contacto" class="nav-link">Contacto</a></li>
+    </ul>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Ph.D. en Modelación Matemática</span>
+        <h1 class="hero-title">Domina las Matemáticas a Nivel <span>Universitario</span></h1>
+        <p class="hero-desc">Clases personalizadas y recursos avanzados para Álgebra, Cálculo, Ecuaciones Diferenciales y Modelación Matemática. Aprende con un académico universitario con amplia experiencia pedagógica y de investigación.</p>
+        <div class="hero-btns">
+          <a href="#contacto" class="btn btn-primary"><i class="fa-regular fa-calendar-check"></i> Agendar Clase</a>
+          <a href="#materias" class="btn btn-secondary">Explorar Materias</a>
+        </div>
+      </div>
+      <div class="hero-graphic">
+        <div class="hero-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-family: var(--font-title); font-size: 14px; color: var(--accent); font-weight: 600;"><i class="fa-solid fa-wave-square"></i> Visualización Matemática</span>
+            <span style="font-size: 12px; color: var(--text-muted);">f(x) = &int; sin(t) dt</span>
+          </div>
+          <div class="hero-math-visual">
+            <!-- SVG Dinámico Premium representando curvas matemáticas y áreas de integración -->
+            <svg viewBox="0 0 300 150">
+              <!-- Grid background -->
+              <defs>
+                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+              
+              <!-- Axes -->
+              <line x1="20" y1="75" x2="280" y2="75" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5"/>
+              <line x1="150" y1="10" x2="150" y2="140" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5"/>
+              
+              <!-- Integration area (shaded) -->
+              <path d="M 90 75 Q 120 20 150 75 Q 180 130 210 75 L 210 75 L 90 75 Z" fill="rgba(6, 182, 212, 0.15)" />
+              
+              <!-- Function curves -->
+              <path d="M 30 75 Q 60 130 90 75 Q 120 20 150 75 Q 180 130 210 75 Q 240 20 270 75" fill="none" stroke="url(#cyan-indigo-grad)" stroke-width="3" />
+              
+              <!-- Gradients definition -->
+              <defs>
+                <linearGradient id="cyan-indigo-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#06b6d4" />
+                  <stop offset="100%" stop-color="#6366f1" />
+                </linearGradient>
+              </defs>
+              
+              <!-- Math Labels -->
+              <text x="260" y="70" fill="var(--text-muted)" font-size="10" font-family="monospace">x</text>
+              <text x="155" y="25" fill="var(--text-muted)" font-size="10" font-family="monospace">y</text>
+              <circle cx="120" cy="40" r="3" fill="#6366f1" />
+              <text x="125" y="35" fill="#f8fafc" font-size="9" font-family="monospace">Máx local</text>
+            </svg>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">
+            <p>Modelado analítico y numérico para resolver problemas de ingeniería complejos y optimización.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MATERIAS SECTION -->
+  <section id="materias">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Materias Académicas</span>
+        <h2 class="section-title">¿Necesitas ayuda en estas asignaturas?</h2>
+        <p class="section-subtitle">Explicaciones claras, desarrollo de guías de ejercicios, preparación para certámenes, pruebas y tutorías personalizadas a todo nivel.</p>
+      </div>
+      
+      <div class="subjects-grid">
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-plus-minus"></i></div>
+          <h3 class="subject-title">Introducción al Cálculo</h3>
+          <p class="subject-desc">Fundamentos matemáticos, funciones, límites y continuidad. La base crítica para toda la matemática superior.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <h3 class="subject-title">Cálculo Diferencial</h3>
+          <p class="subject-desc">Estudio de la derivada, razones de cambio, optimización y trazado de curvas. Entendimiento visual e intuitivo.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-calculator"></i></div>
+          <h3 class="subject-title">Cálculo Integral</h3>
+          <p class="subject-desc">La integral definida, técnicas de integración, áreas, volúmenes e integrales impropias. Estrategias efectivas de resolución.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <h3 class="subject-title">Cálculo Multivariable</h3>
+          <p class="subject-desc">Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas de Green, Stokes y Gauss.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-border-all"></i></div>
+          <h3 class="subject-title">Álgebra Lineal</h3>
+          <p class="subject-desc">Matrices, sistemas de ecuaciones, espacios vectoriales, transformaciones lineales, autovalores y autovectores.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-bezier-curve"></i></div>
+          <h3 class="subject-title">Ecuaciones Diferenciales</h3>
+          <p class="subject-desc">Ecuaciones diferenciales ordinarias de primer y segundo orden, transformada de Laplace y modelación matemática.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-infinity"></i></div>
+          <h3 class="subject-title">Cálculo Avanzado</h3>
+          <p class="subject-desc">Series de Fourier, variables complejas, análisis vectorial avanzado y aplicaciones avanzadas de ingeniería.</p>
+        </div>
+        <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          <h3 class="subject-title">Álgebra</h3>
+          <p class="subject-desc">Fundamentos algebraicos, inducción, sumatorias, números complejos, polinomios y sistemas lineales fundamentales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ SECTION -->
+  <section id="sobre-mi" style="background-color: var(--bg-secondary);">
+    <div class="container about-grid">
+      <div class="about-details">
+        <span class="section-tag">Sobre Mí</span>
+        <h2 class="section-title">Dr. Álvaro Hernández</h2>
+        <p>Docente universitario apasionado por la enseñanza y el aprendizaje efectivo de las matemáticas. Mi enfoque pedagógico se centra en construir intuición, reducir la abstracción innecesaria y guiar al estudiante de manera estructurada hacia la resolución autónoma de problemas complejos.</p>
+        <p>Investigador en el área de Educación Matemática, donde me he adjudicado dos proyectos de investigación como investigador principal, además de varios proyectos de innovación docente enfocados en mejorar la comprensión del cálculo a nivel de pregrado.</p>
+        <p>De trato amable, perseverante y profundamente comprometido con el desarrollo académico de mis estudiantes, adaptando las explicaciones al ritmo y necesidades individuales.</p>
+        
+        <div class="degree-box">
+          <div class="degree-title"><i class="fa-solid fa-award"></i> Grado Académico Principal</div>
+          <p class="degree-desc"><strong>Doctor en Ciencias de la Ingeniería con Mención en Modelación Matemática</strong><br>Facultad de Ciencias Físicas y Matemáticas, Universidad de Chile.</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; position: relative;">
+          <h3 style="font-size: 20px; margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-microscope"></i> Investigación y Proyectos</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+            <li>Investigador Principal en proyectos de innovación metodológica universitaria.</li>
+            <li>Publicaciones enfocadas en la didáctica del Cálculo y el Álgebra.</li>
+            <li>Diseño de entornos virtuales de aprendizaje y herramientas de auto-aprendizaje guiado.</li>
+          </ul>
+        </div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; position: relative;">
+          <h3 style="font-size: 20px; margin-bottom: 15px; color: var(--primary);"><i class="fa-solid fa-chalkboard-user"></i> Experiencia Docente</h3>
+          <ul style="padding-left: 20px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+            <li>Cátedras universitarias en carreras de Ingeniería, Ciencias y Pedagogía.</li>
+            <li>Más de 10 años impartiendo asesorías personalizadas en ramos de alta exigencia.</li>
+            <li>Creador de guías, talleres de nivelación y material de estudio interactivo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODALIDADES/PLANES SECTION -->
+  <section id="modalidades">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Modalidades</span>
+        <h2 class="section-title">Formatos de Clases Disponibles</h2>
+        <p class="section-subtitle">Opciones flexibles que se adaptan a tu horario, ubicación y método preferido de aprendizaje.</p>
+      </div>
+
+      <div class="modalities-grid">
+        <!-- Clases Online -->
+        <div class="modality-card">
+          <div class="modality-icon"><i class="fa-solid fa-laptop"></i></div>
+          <h3 class="modality-title">Clases Online</h3>
+          <p class="modality-desc">Sesiones interactivas en vivo por Zoom mediante pizarra digital de alta precisión. Ideal para consultas puntuales, revisión de guías y explicaciones personalizadas sin salir de casa.</p>
+          <div class="modality-footer">
+            <a href="#contacto" class="btn btn-secondary">Consultar Disponibilidad</a>
+          </div>
+        </div>
+
+        <!-- Clases Sincrónicas -->
+        <div class="modality-card highlight">
+          <div class="modality-icon"><i class="fa-solid fa-circle-play"></i></div>
+          <h3 class="modality-title">Clases Sincrónicas</h3>
+          <p class="modality-desc">Modalidad realizada dentro de un Entorno Virtual de Aprendizaje (EVA) personalizado. Incluye acceso a clases grabadas completas, material de estudio complementario y evaluaciones de autodiagnóstico.</p>
+          <div class="modality-footer">
+            <a href="#contacto" class="btn btn-primary">Ver Planes Disponibles</a>
+          </div>
+        </div>
+
+        <!-- Clases Presenciales -->
+        <div class="modality-card">
+          <div class="modality-icon"><i class="fa-solid fa-users"></i></div>
+          <h3 class="modality-title">Clases Presenciales</h3>
+          <p class="modality-desc">Clases tradicionales cara a cara en un lugar conveniente a convenir. Perfecto para sesiones intensivas de una hora cronológica con foco en el desarrollo detallado de problemas.</p>
+          <div class="modality-footer">
+            <a href="#contacto" class="btn btn-secondary">Coordinar Lugar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LECTURAS (BLOG) SECTION -->
+  <section id="blog" style="background-color: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Lecturas</span>
+        <h2 class="section-title">Blog de Educación Matemática</h2>
+        <p class="section-subtitle">Explicaciones pedagógicas, artículos de interés científico y guías prácticas escritas para facilitarte el aprendizaje de las matemáticas.</p>
+      </div>
+
+      <!-- Blog Grid (Carga dinámica desde JS/db.js) -->
+      <div class="blog-grid" id="blog-container">
+        <!-- Spinner cargando -->
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px 0; color: var(--accent);">
+          <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+          <p style="margin-top: 15px; font-family: var(--font-title); font-size: 14px;">Cargando lecturas...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <section id="testimonios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Testimonios</span>
+        <h2 class="section-title">Lo que dicen mis estudiantes</h2>
+        <p class="section-subtitle">La opinión de quienes han logrado superar sus ramos de matemática universitaria.</p>
+      </div>
+
+      <div class="testimonial-slider-container">
+        <div class="testimonial-track" id="testimonial-track">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide">
+            <div style="font-size: 28px; color: var(--accent); margin-bottom: 20px;"><i class="fa-solid fa-quote-left"></i></div>
+            <p class="testimonial-quote">"Excelente profesor. Su método de enseñanza para Cálculo Integral me ayudó a comprender los conceptos más abstractos que no entendía en la cátedra universitaria. Logré aprobar sin problemas."</p>
+            <div class="testimonial-author">Carlos M.</div>
+            <div class="testimonial-role">Estudiante de Plan Común de Ingeniería</div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div style="font-size: 28px; color: var(--accent); margin-bottom: 20px;"><i class="fa-solid fa-quote-left"></i></div>
+            <p class="testimonial-quote">"El doctor Álvaro tiene una paciencia increíble y una excelente llegada con los alumnos. Sus tutorías presenciales de Álgebra Lineal fueron la clave para salvar el semestre de forma exitosa."</p>
+            <div class="testimonial-author">Valentina R.</div>
+            <div class="testimonial-role">Estudiante de Licenciatura en Ciencias</div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="testimonial-slide">
+            <div style="font-size: 28px; color: var(--accent); margin-bottom: 20px;"><i class="fa-solid fa-quote-left"></i></div>
+            <p class="testimonial-quote">"La plataforma virtual y la calidad de las clases grabadas de Ecuaciones Diferenciales son espectaculares. Ideal para mí que tengo que trabajar y estudiar al mismo tiempo."</p>
+            <div class="testimonial-author">Andrés G.</div>
+            <div class="testimonial-role">Estudiante de Ingeniería Civil Industrial</div>
+          </div>
+        </div>
+
+        <div class="slider-controls" id="slider-controls">
+          <button class="slider-dot active" data-index="0"></button>
+          <button class="slider-dot" data-index="1"></button>
+          <button class="slider-dot" data-index="2"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contacto" style="background-color: var(--bg-secondary);">
+    <div class="container contact-grid">
+      <div>
+        <span class="section-tag">Contacto</span>
+        <h2 class="section-title">¿Listo para mejorar tu rendimiento?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 35px; font-size: 16px;">Agenda una sesión de asesoría, realiza consultas de disponibilidad o solicita información detallada sobre los programas de tutorías sincrónicas.</p>
+        
+        <div class="contact-info-cards">
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fa-regular fa-envelope"></i></div>
+            <div>
+              <h4 class="contact-info-title">Correo Electrónico</h4>
+              <p class="contact-info-value">contacto@alvaroprofemate.cl</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div>
+              <h4 class="contact-info-title">Modalidad de Clases</h4>
+              <p class="contact-info-value">Online (Zoom/EVA), Presencial (Santiago de Chile)</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 40px;">
+          <!-- Enlace de Google Calendar especificado por el usuario -->
+          <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ07V3i4gFumvgb_c603GopIVSnUy_eNFcPQn0YXyc4FmLUhj3jwjKyTSOsBPiLIG8NIY_ZJhD2v?gv=true" target="_blank" class="btn btn-primary" style="padding: 15px 35px; font-size: 16px;">
+            <i class="fa-solid fa-calendar-days"></i> Agendar Hora en Google Calendar
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <form id="landing-contact-form">
+          <div class="form-group-row">
+            <div class="form-group">
+              <label for="name" class="form-label">Nombre Completo</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="Ej. juan@correo.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject" class="form-label">Asignatura de Interés</label>
+            <select id="subject" name="subject" class="form-control" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Introducción al Cálculo">Introducción al Cálculo</option>
+              <option value="Cálculo Diferencial">Cálculo Diferencial</option>
+              <option value="Cálculo Integral">Cálculo Integral</option>
+              <option value="Cálculo Multivariable">Cálculo Multivariable / Avanzado</option>
+              <option value="Álgebra Lineal">Álgebra Lineal</option>
+              <option value="Ecuaciones Diferenciales">Ecuaciones Diferenciales</option>
+              <option value="Otro / Consulta general">Otro / Consulta general</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message" class="form-label">Mensaje o Dudas</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Cuéntame en qué materia estás y qué tipo de ayuda necesitas..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Enviar Mensaje</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-logo-desc">
+        <a href="#" class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          Álvaro<span>Profemate</span>
+        </a>
+        <p>Comprometidos con el aprendizaje profundo de las matemáticas. Doctorado y experiencia pedagógica enfocada en el éxito académico de estudiantes universitarios e ingenieros.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-links-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#materias">Materias</a></li>
+            <li><a href="#sobre-mi">Sobre Mí</a></li>
+            <li><a href="#modalidades">Planes</a></li>
+            <li><a href="#blog">Lecturas</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-col">
+          <h4>Contacto</h4>
+          <ul>
+            <li>contacto@alvaroprofemate.cl</li>
+            <li><a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ07V3i4gFumvgb_c603GopIVSnUy_eNFcPQn0YXyc4FmLUhj3jwjKyTSOsBPiLIG8NIY_ZJhD2v?gv=true" target="_blank">Agenda Virtual</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Álvaro Hernández Profemate. Todos los derechos reservados. Plantilla Premium lista para Netlify.</p>
+      <a href="admin.html" class="admin-portal-link"><i class="fa-solid fa-lock"></i> Portal Administrador</a>
+    </div>
+  </footer>
+
+  <!-- READING MODAL (Lector de artículos del blog) -->
+  <div id="reading-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-body">
+        <div class="modal-header-meta">
+          <span class="category" id="modal-category">CATEGORÍA</span>
+          <span class="divider">&bull;</span>
+          <span class="date" id="modal-date">01 Ene 2026</span>
+          <span class="divider">&bull;</span>
+          <span class="time" id="modal-read-time">5 min lectura</span>
+        </div>
+        <h2 class="modal-title" id="modal-title">Título de la Lectura</h2>
+        <div class="modal-article-text" id="modal-content-area">
+          <!-- El contenido con HTML embebido se inyecta dinámicamente aquí -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Javascript Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

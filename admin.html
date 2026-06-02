@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración – Álvaro Profemate</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+
+  <!-- LOGIN WRAPPER -->
+  <div class="admin-login-wrapper" id="login-wrapper">
+    <div class="admin-login-card">
+      <div class="admin-login-header">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          Álvaro<span>Profemate</span>
+        </a>
+        <h2 style="margin-top: 10px;">Acceso Administrador</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Ingresa tus credenciales de gestión</p>
+      </div>
+
+      <div class="login-error" id="login-error">Usuario o contraseña incorrectos.</div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Nombre de Usuario</label>
+          <input type="text" id="username" class="form-control" placeholder="admin" required autofocus autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+          <i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD CONTAINER (Initially Hidden) -->
+  <div class="admin-container" id="dashboard-wrapper" style="display: none;">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <a href="index.html" class="logo" style="padding: 0 10px;">
+        <div class="logo-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+        Álvaro<span>Profemate</span>
+      </a>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-menu-item active" id="menu-dashboard" data-section="dashboard">
+          <i class="fa-solid fa-chart-pie"></i> Panel General
+        </li>
+        <li class="admin-menu-item" id="menu-editor" data-section="editor">
+          <i class="fa-solid fa-pen-to-square"></i> Nueva Lectura
+        </li>
+        <li class="admin-menu-item" id="btn-logout" style="margin-top: 40px; color: #ef4444;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión
+        </li>
+      </ul>
+      
+      <div style="margin-top: auto; padding: 10px; border-radius: var(--border-radius-sm); background: rgba(255,255,255,0.02); border: 1px solid var(--border);">
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); display: block;">Modo Persistencia:</span>
+        <span id="db-mode-badge" class="table-tag" style="margin-top: 5px; display: inline-block;">LocalStorage</span>
+      </div>
+    </aside>
+
+    <!-- MAIN MAIN MAIN CONTENT -->
+    <main class="admin-main">
+      <!-- HEADER -->
+      <header class="admin-header">
+        <div>
+          <h2 id="section-title">Panel de Control</h2>
+          <p style="color: var(--text-muted); font-size: 14px;">Administra el contenido del blog corporativo</p>
+        </div>
+        <div class="admin-user-info">
+          <span class="admin-user-name"><i class="fa-regular fa-circle-user" style="color: var(--accent);"></i> admin</span>
+          <a href="index.html" class="btn btn-secondary" style="padding: 6px 16px; font-size: 13px;">
+            <i class="fa-solid fa-house"></i> Ir a la Web
+          </a>
+        </div>
+      </header>
+
+      <!-- SECTION: DASHBOARD -->
+      <section class="admin-section active" id="section-dashboard">
+        <!-- STATS CARDS -->
+        <div class="admin-stats">
+          <div class="stat-card">
+            <h4 style="color: var(--text-muted); font-size: 13px; font-weight: 500; text-transform: uppercase;">Total Lecturas</h4>
+            <div class="stat-num" id="stat-total-posts">0</div>
+          </div>
+          <div class="stat-card">
+            <h4 style="color: var(--text-muted); font-size: 13px; font-weight: 500; text-transform: uppercase;">Categorías Activas</h4>
+            <div class="stat-num" id="stat-categories">0</div>
+          </div>
+          <div class="stat-card">
+            <h4 style="color: var(--text-muted); font-size: 13px; font-weight: 500; text-transform: uppercase;">Estado de Sincronía</h4>
+            <div class="stat-num" id="stat-sync" style="font-size: 20px; margin-top: 15px;">Listo</div>
+          </div>
+        </div>
+
+        <!-- POST MANAGER TABLE -->
+        <h3 style="font-size: 20px; margin-bottom: 20px;"><i class="fa-solid fa-list"></i> Lecturas del Blog</h3>
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="posts-table-body">
+              <!-- Cargado dinámicamente -->
+              <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-muted);">Cargando lecturas...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECTION: EDITOR (Create/Edit Form) -->
+      <section class="admin-section" id="section-editor">
+        <div class="editor-form">
+          <h3 style="font-size: 20px; margin-bottom: 25px;" id="editor-title-label"><i class="fa-solid fa-file-pen"></i> Escribir Nueva Lectura</h3>
+          
+          <form id="post-editor-form">
+            <!-- Hidden inputs -->
+            <input type="hidden" id="edit-post-id" value="">
+            
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="post-title" class="form-label">Título de la Lectura</label>
+                <input type="text" id="post-title" class="form-control" placeholder="Ej. Integrales triples paso a paso" required>
+              </div>
+              <div class="form-group">
+                <label for="post-category" class="form-label">Categoría</label>
+                <select id="post-category" class="form-control" required>
+                  <option value="Cálculo">Cálculo</option>
+                  <option value="Álgebra Lineal">Álgebra Lineal</option>
+                  <option value="Ecuaciones Diferenciales">Ecuaciones Diferenciales</option>
+                  <option value="Álgebra">Álgebra</option>
+                  <option value="Educación Matemática">Educación Matemática</option>
+                  <option value="Modelación">Modelación</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="post-excerpt" class="form-label">Resumen / Extracto (Para tarjetas en la Landing Page)</label>
+                <input type="text" id="post-excerpt" class="form-control" placeholder="Escribe un breve resumen de máximo 200 caracteres..." required>
+              </div>
+              <div class="form-group">
+                <label for="post-read-time" class="form-label">Tiempo de Lectura Estimado</label>
+                <input type="text" id="post-read-time" class="form-control" placeholder="Ej. 5 min" required>
+              </div>
+            </div>
+
+            <!-- WYSIWYG Editor Container -->
+            <div class="form-group">
+              <label class="form-label">Contenido de la Lectura (Editor Enriquecido / HTML)</label>
+              
+              <div class="wysiwyg-container">
+                <!-- Toolbar -->
+                <div class="wysiwyg-toolbar">
+                  <button type="button" class="toolbar-btn" data-cmd="bold" title="Negrita"><i class="fa-solid fa-bold"></i></button>
+                  <button type="button" class="toolbar-btn" data-cmd="italic" title="Cursiva"><i class="fa-solid fa-italic"></i></button>
+                  <button type="button" class="toolbar-btn" data-cmd="underline" title="Subrayado"><i class="fa-solid fa-underline"></i></button>
+                  
+                  <span class="toolbar-divider"></span>
+                  
+                  <button type="button" class="toolbar-btn" data-cmd="formatBlock" data-val="h3" title="Título H3"><i class="fa-solid fa-h3">H3</i></button>
+                  <button type="button" class="toolbar-btn" data-cmd="formatBlock" data-val="p" title="Párrafo normal"><i class="fa-solid fa-paragraph"></i></button>
+                  
+                  <span class="toolbar-divider"></span>
+                  
+                  <button type="button" class="toolbar-btn" data-cmd="insertUnorderedList" title="Lista de Viñetas"><i class="fa-solid fa-list-ul"></i></button>
+                  <button type="button" class="toolbar-btn" data-cmd="insertOrderedList" title="Lista Numerada"><i class="fa-solid fa-list-ol"></i></button>
+                  
+                  <span class="toolbar-divider"></span>
+                  
+                  <button type="button" class="toolbar-btn" data-cmd="createLink" title="Insertar Enlace"><i class="fa-solid fa-link"></i></button>
+                  <button type="button" class="toolbar-btn" data-cmd="insertImage" title="Insertar Imagen por URL"><i class="fa-solid fa-image"></i></button>
+                  
+                  <span class="toolbar-divider"></span>
+                  
+                  <!-- Switch HTML source editor -->
+                  <button type="button" class="toolbar-btn" id="btn-html-mode" title="Editar Código HTML Fuente" style="width: auto; padding: 0 8px; gap: 5px;">
+                    <i class="fa-solid fa-code"></i> Código HTML
+                  </button>
+                </div>
+                
+                <!-- Visual Editing Area -->
+                <div id="editor-visual" class="wysiwyg-editor" contenteditable="true">
+                  <p>Comienza a escribir tu lectura aquí...</p>
+                </div>
+                
+                <!-- HTML Code Editing Area -->
+                <textarea id="editor-code" class="wysiwyg-code-editor" placeholder="Pega tu código HTML aquí (puedes incluir iframes, scripts interactivos, etc.)..."></textarea>
+              </div>
+            </div>
+
+            <div class="editor-actions">
+              <button type="button" class="btn btn-secondary" id="btn-cancel-edit"><i class="fa-solid fa-ban"></i> Cancelar</button>
+              <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Publicación</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Javascript Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
