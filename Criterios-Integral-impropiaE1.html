@@ -52,6 +52,7 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
         }
 
         h2 {
@@ -262,11 +263,104 @@
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Feedback Widget styling */
+        .feedback-widget {
+            background: var(--bg-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+
+        .feedback-widget.voted {
+            background: var(--success-bg);
+            border-color: var(--success-border);
+        }
+
+        .feedback-label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .feedback-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 2px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            outline: none;
+        }
+
+        .feedback-btn:hover {
+            transform: scale(1.25);
+        }
+
+        .feedback-btn.selected {
+            transform: scale(1.2);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .feedback-btn.muted {
+            opacity: 0.35;
+            transform: scale(0.85);
+        }
+
+        .feedback-thankyou {
+            display: none;
+            color: var(--success-green);
+            font-weight: bold;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Responsive positioning */
+        @media (max-width: 820px) {
+            .feedback-widget {
+                position: static;
+                margin-top: 1rem;
+                margin-bottom: 1.5rem;
+                justify-content: space-between;
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Feedback Widget -->
+        <div class="feedback-widget" id="feedback-widget">
+            <span class="feedback-label">¿Te sirvió esta página?</span>
+            <div class="feedback-buttons" id="feedback-buttons">
+                <button class="feedback-btn" data-val="sad" title="No, fue confusa">😢</button>
+                <button class="feedback-btn" data-val="neutral" title="Neutral / Más o menos">😐</button>
+                <button class="feedback-btn" data-val="happy" title="Sí, muy útil">😊</button>
+            </div>
+            <div class="feedback-thankyou" id="feedback-thankyou">¡Gracias por tu feedback!</div>
+        </div>
+
+        <!-- Invisible Netlify Form for Feedback Submissions -->
+        <form name="feedback-criterios" data-netlify="true" netlify-honeypot="bot-field" hidden>
+            <input type="text" name="pagina" />
+            <input type="text" name="utilidad" />
+        </form>
+
         <h2>Integrales impropias de primera especie hacia $\displaystyle +\infty$</h2>
         
         <div class="intro-context">
@@ -548,6 +642,73 @@
                 }
             }
         }
+
+        // Feedback widget logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const feedbackWidget = document.getElementById("feedback-widget");
+            const feedbackButtons = document.getElementById("feedback-buttons");
+            const feedbackThankYou = document.getElementById("feedback-thankyou");
+            const buttons = document.querySelectorAll(".feedback-btn");
+            const storageKey = "feedback_criterios_integrales";
+
+            // Check if user has already voted
+            const savedFeedback = localStorage.getItem(storageKey);
+            if (savedFeedback) {
+                showVotedState(savedFeedback);
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const value = btn.getAttribute("data-val");
+                    
+                    // Save locally
+                    localStorage.setItem(storageKey, value);
+
+                    // Submit to Netlify Forms asynchronously
+                    submitFeedbackToNetlify(value);
+
+                    // Update UI state
+                    showVotedState(value);
+                });
+            });
+
+            function showVotedState(value) {
+                feedbackWidget.classList.add("voted");
+                buttons.forEach(btn => {
+                    if (btn.getAttribute("data-val") === value) {
+                        btn.classList.add("selected");
+                        btn.classList.remove("muted");
+                    } else {
+                        btn.classList.add("muted");
+                        btn.classList.remove("selected");
+                    }
+                    btn.disabled = true;
+                });
+                feedbackThankYou.style.display = "block";
+            }
+
+            function submitFeedbackToNetlify(value) {
+                const formName = "feedback-criterios";
+                const pageName = "Criterios-Integral-impropiaE1";
+
+                const formData = new FormData();
+                formData.append("form-name", formName);
+                formData.append("pagina", pageName);
+                formData.append("utilidad", value);
+
+                fetch("/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(() => {
+                    console.log("Feedback submitted to Netlify successfully.");
+                })
+                .catch((error) => {
+                    console.error("Error submitting feedback to Netlify:", error);
+                });
+            }
+        });
     </script>
 </body>
 </html>
