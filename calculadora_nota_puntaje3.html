@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de nota por puntaje – Álvaro Profemate</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='fav-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23fav-grad)'/%3E%3Cpath d='M 4,16 L 7,16 L 10,26 L 13,4 L 28,4' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M 15,25 L 20.5,14 L 26,25' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='17.5' y1='21.5' x2='23.5' y2='21.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='20.5' y1='11' x2='23' y2='7.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ok: #10b981;
+      --warn: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-secondary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 600px;
+      background: var(--gradient-hero);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Volver a la Home Button */
+    .back-btn-container {
+      width: 100%;
+      max-width: 760px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-start;
+      z-index: 10;
+    }
+    
+    .back-btn {
+      color: var(--text-secondary);
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition-fast);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 50px;
+      backdrop-filter: blur(8px);
+    }
+    
+    .back-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateX(-3px);
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 760px;
+      z-index: 10;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: var(--text-primary);
+      font-family: var(--font-title);
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 10px auto 0;
+      max-width: 620px;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      padding: 35px;
+      backdrop-filter: blur(12px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .campo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: var(--font-title);
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.2s;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15);
+    }
+
+    .ayuda {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.35;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: var(--font-title);
+    }
+
+    .btn-principal {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+    }
+
+    .btn-principal:hover {
+      background: var(--gradient-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.4), var(--shadow-glow);
+    }
+
+    .btn-secundario {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secundario:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .resultado {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(6, 182, 212, 0.05);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      display: none;
+    }
+
+    .resultado.visible {
+      display: block;
+    }
+
+    .nota {
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+      text-align: center;
+      margin: 8px 0 16px;
+      font-family: var(--font-title);
+      text-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+    }
+
+    .estado {
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      font-family: var(--font-title);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .estado.aprobado {
+      color: var(--ok);
+    }
+
+    .estado.reprobado {
+      color: var(--warn);
+    }
+
+    .detalle {
+      text-align: center;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .formula {
+      margin-top: 25px;
+      padding: 18px;
+      background: var(--bg-secondary);
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .error {
+      margin-top: 16px;
+      color: var(--warn);
+      font-weight: 700;
+      display: none;
+      font-size: 14px;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 30px;
+    }
+
+    /* Tabla de notas adaptada */
+    #tablaNotas {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    #tablaNotas .estado {
+      text-align: center;
+      font-size: 1.15rem;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-bottom: 0;
+    }
+
+    #tablaNotas table {
+      width: 100%;
+      border-collapse: collapse;
+      background: transparent !important;
+    }
+
+    #tablaNotas th, #tablaNotas td {
+      border-bottom: 1px solid var(--border) !important;
+      color: var(--text-secondary) !important;
+      padding: 12px;
+    }
+
+    #tablaNotas th {
+      background: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+      font-family: var(--font-title);
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body class="theme-light">
+  <div class="back-btn-container">
+    <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver a la Web</a>
+  </div>
+  
+  <main class="contenedor">
+    <header class="header">
+      <h1>Calculadora de Nota</h1>
+      <p>
+        Ingresa el puntaje obtenido y el puntaje máximo. La calificación se calcula en escala de 1,0 a 7,0, con exigencia configurable.
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="grid">
+        <div class="campo">
+          <label for="puntajeObtenido">Puntaje obtenido</label>
+          <input id="puntajeObtenido" type="number" min="0" step="1" placeholder="Ej: 60" />
+          <span class="ayuda">Puntos que obtuvo el estudiante.</span>
+        </div>
+
+        <div class="campo">
+          <label for="puntajeMaximo">Puntaje máximo</label>
+          <input id="puntajeMaximo" type="number" min="1" step="1" value="100" />
+          <span class="ayuda">Total de puntos de la evaluación.</span>
+        </div>
+
+        <div class="campo">
+          <label for="notaAprobacion">Nota mínima para aprobar</label>
+          <input id="notaAprobacion" type="number" step="0.1" value="4.0" />
+          <span class="ayuda">En Chile suele ser 4,0, pero puede variar según la institución.</span>
+        </div>
+
+        <div class="campo">
+          <label for="exigencia">Exigencia (%)</label>
+          <input id="exigencia" type="number" min="1" max="99" step="1" value="60" />
+          <span class="ayuda">Porcentaje necesario para obtener la nota mínima de aprobación.</span>
+        </div>
+      </div>
+
+      <div class="acciones">
+        <button id="btnCalcular" class="btn-principal" type="button"><i class="fa-solid fa-calculator"></i> Calcular nota</button>
+        <button id="btnTabla" class="btn-principal" type="button"><i class="fa-solid fa-table"></i> Generar tabla</button>
+        <button id="btnLimpiar" class="btn-secundario" type="button"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+      </div>
+
+      <p id="mensajeError" class="error"></p>
+
+      <div id="resultado" class="resultado">
+        <div id="estado" class="estado"></div>
+        <div id="nota" class="nota">-</div>
+        <p id="detalle" class="detalle"></p>
+      </div>
+
+      <div id="aprobacion" class="resultado">
+        <div class="estado aprobado" style="font-size: 1.15rem; margin-bottom: 8px;">¿Qué puntaje necesito para aprobar?</div>
+        <p id="detalleAprobacion" class="detalle"></p>
+      </div>
+
+      <div id="tablaNotas" class="resultado">
+        <div class="estado" style="font-size: 1.15rem; margin-bottom: 15px;"><i class="fa-solid fa-list-ol"></i> Tabla de puntaje y nota</div>
+        <div style="max-height: 360px; overflow: auto; margin-top: 16px; border-radius: 14px; border: 1px solid var(--border);">
+          <table>
+            <thead>
+              <tr>
+                <th>Puntaje</th>
+                <th>Porcentaje</th>
+                <th>Nota</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoTabla"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="formula">
+        <strong>Escala usada:</strong><br />
+        Si el porcentaje obtenido es menor que la exigencia, la nota se calcula linealmente entre 1,0 y la nota mínima para aprobar. Si el porcentaje obtenido es mayor o igual que la exigencia, la nota se calcula linealmente entre la nota mínima para aprobar y 7,0.
+      </div>
+    </section>
+
+    <footer>
+      alvaroprofemate.cl
+    </footer>
+  </main>
+
+  <script>
+    function leerNumero(id) {
+      return Number(document.getElementById(id).value);
+    }
+
+    function leerDatos() {
+      return {
+        puntajeObtenido: leerNumero("puntajeObtenido"),
+        puntajeMaximo: leerNumero("puntajeMaximo"),
+        notaMinima: 1.0,
+        notaMaxima: 7.0,
+        notaAprobacion: leerNumero("notaAprobacion"),
+        exigencia: leerNumero("exigencia"),
+        decimales: 1
+      };
+    }
+
+    function validarDatos(datos, validarPuntajeObtenido) {
+      if (validarPuntajeObtenido && isNaN(datos.puntajeObtenido)) {
+        return "Ingresa el puntaje obtenido.";
+      }
+
+      if (isNaN(datos.puntajeMaximo) || isNaN(datos.notaAprobacion) || isNaN(datos.exigencia)) {
+        return "Completa todos los campos numéricos.";
+      }
+
+      if (datos.puntajeMaximo <= 0) {
+        return "El puntaje máximo debe ser mayor que 0.";
+      }
+
+      if (validarPuntajeObtenido && datos.puntajeObtenido < 0) {
+        return "El puntaje obtenido no puede ser negativo.";
+      }
+
+      if (validarPuntajeObtenido && datos.puntajeObtenido > datos.puntajeMaximo) {
+        return "El puntaje obtenido no puede ser mayor que el puntaje máximo.";
+      }
+
+      if (datos.notaAprobacion <= 1 || datos.notaAprobacion >= 7) {
+        return "La nota mínima para aprobar debe quedar entre 1,0 y 7,0.";
+      }
+
+      if (datos.exigencia <= 0 || datos.exigencia >= 100) {
+        return "La exigencia debe estar entre 1% y 99%.";
+      }
+
+      return "";
+    }
+
+    function calcularNotaConDatos(puntaje, datos) {
+      var porcentaje = (puntaje / datos.puntajeMaximo) * 100;
+      var nota;
+
+      if (porcentaje < datos.exigencia) {
+        nota = datos.notaMinima + (porcentaje / datos.exigencia) * (datos.notaAprobacion - datos.notaMinima);
+      } else {
+        nota = datos.notaAprobacion + ((porcentaje - datos.exigencia) / (100 - datos.exigencia)) * (datos.notaMaxima - datos.notaAprobacion);
+      }
+
+      if (nota < datos.notaMinima) nota = datos.notaMinima;
+      if (nota > datos.notaMaxima) nota = datos.notaMaxima;
+
+      return nota;
+    }
+
+    function calcularNota() {
+      var datos = leerDatos();
+      var error = validarDatos(datos, true);
+      var resultado = document.getElementById("resultado");
+      var aprobacion = document.getElementById("aprobacion");
+
+      ocultarError();
+      resultado.classList.remove("visible");
+      aprobacion.classList.remove("visible");
+
+      if (error !== "") {
+        mostrarError(error);
+        return;
+      }
+
+      var porcentaje = (datos.puntajeObtenido / datos.puntajeMaximo) * 100;
+      var nota = calcularNotaConDatos(datos.puntajeObtenido, datos);
+      var notaMostrada = nota.toFixed(datos.decimales);
+      var estado = document.getElementById("estado");
+
+      document.getElementById("nota").textContent = notaMostrada;
+
+      if (nota >= datos.notaAprobacion) {
+        estado.textContent = "Aprobado";
+        estado.className = "estado aprobado";
+      } else {
+        estado.textContent = "Reprobado";
+        estado.className = "estado reprobado";
+      }
+
+      document.getElementById("detalle").textContent =
+        "Obtuvo " + datos.puntajeObtenido +
+        " de " + datos.puntajeMaximo +
+        " puntos, equivalente a " + porcentaje.toFixed(1) +
+        "%. Con " + datos.exigencia +
+        "% de exigencia, la nota es " + notaMostrada + ".";
+
+      resultado.classList.add("visible");
+      mostrarPuntajeParaAprobar(datos);
+    }
+
+    function mostrarPuntajeParaAprobar(datos) {
+      var puntajeExacto = (datos.exigencia / 100) * datos.puntajeMaximo;
+      var puntajeEntero = Math.ceil(puntajeExacto);
+      var texto =
+        "Para aprobar con nota " + datos.notaAprobacion.toFixed(1) +
+        ", se necesita obtener al menos " + puntajeExacto.toFixed(2) +
+        " puntos. Si el puntaje se registra solo con números enteros, se necesitan " +
+        puntajeEntero + " puntos.";
+
+      document.getElementById("detalleAprobacion").textContent = texto;
+      document.getElementById("aprobacion").classList.add("visible");
+    }
+
+    function generarTabla() {
+      var datos = leerDatos();
+      var error = validarDatos(datos, false);
+      var cuerpoTabla = document.getElementById("cuerpoTabla");
+      var tablaNotas = document.getElementById("tablaNotas");
+
+      ocultarError();
+      tablaNotas.classList.remove("visible");
+
+      if (error !== "") {
+        mostrarError(error);
+        return;
+      }
+
+      cuerpoTabla.innerHTML = "";
+
+      for (var p = 0; p <= datos.puntajeMaximo; p += 1) {
+        agregarFilaTabla(cuerpoTabla, p, datos);
+      }
+
+      tablaNotas.classList.add("visible");
+      mostrarPuntajeParaAprobar(datos);
+    }
+
+    function agregarFilaTabla(cuerpoTabla, puntaje, datos) {
+      var porcentaje = (puntaje / datos.puntajeMaximo) * 100;
+      var nota = calcularNotaConDatos(puntaje, datos);
+      var estadoTexto = nota >= datos.notaAprobacion ? "Aprueba" : "Reprueba";
+
+      var fila = document.createElement("tr");
+      var celda1 = document.createElement("td");
+      var celda2 = document.createElement("td");
+      var celda3 = document.createElement("td");
+      var celda4 = document.createElement("td");
+
+      celda1.textContent = String(puntaje);
+      celda2.textContent = porcentaje.toFixed(1) + "%";
+      celda3.textContent = nota.toFixed(datos.decimales);
+      celda4.textContent = estadoTexto;
+
+      celda1.style.padding = "10px";
+      celda2.style.padding = "10px";
+      celda3.style.padding = "10px";
+      celda4.style.padding = "10px";
+      celda1.style.borderBottom = "1px solid var(--border)";
+      celda2.style.borderBottom = "1px solid var(--border)";
+      celda3.style.borderBottom = "1px solid var(--border)";
+      celda4.style.borderBottom = "1px solid var(--border)";
+
+      fila.appendChild(celda1);
+      fila.appendChild(celda2);
+      fila.appendChild(celda3);
+      fila.appendChild(celda4);
+      cuerpoTabla.appendChild(fila);
+    }
+
+    function mostrarError(texto) {
+      var mensajeError = document.getElementById("mensajeError");
+      mensajeError.textContent = texto;
+      mensajeError.classList.add("visible");
+    }
+
+    function ocultarError() {
+      document.getElementById("mensajeError").classList.remove("visible");
+    }
+
+    function limpiar() {
+      document.getElementById("puntajeObtenido").value = "";
+      document.getElementById("puntajeMaximo").value = "100";
+      document.getElementById("notaAprobacion").value = "4.0";
+      document.getElementById("exigencia").value = "60";
+      document.getElementById("resultado").classList.remove("visible");
+      document.getElementById("aprobacion").classList.remove("visible");
+      document.getElementById("tablaNotas").classList.remove("visible");
+      ocultarError();
+    }
+
+    document.getElementById("btnCalcular").addEventListener("click", calcularNota);
+    document.getElementById("btnTabla").addEventListener("click", generarTabla);
+    document.getElementById("btnLimpiar").addEventListener("click", limpiar);
+  </script>
+</body>
+</html>

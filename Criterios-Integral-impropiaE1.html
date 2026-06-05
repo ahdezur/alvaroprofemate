@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criterios de Convergencia: Primera Especie - AlvaroProfeMate</title>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            },
+            startup: {
+                typeset: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary-blue: #2A4365;
+            --light-blue: #EBF8FF;
+            --accent-blue: #3182CE;
+            --text-main: #2D3748;
+            --text-muted: #718096;
+            --bg-gray: #F7FAFC;
+            --border-color: #E2E8F0;
+            --box-rigor-bg: #EBF8FF;
+            --box-rigor-border: #3182CE;
+            --success-green: #38A169;
+            --success-bg: #F0FFF4;
+            --success-border: #C6F6D5;
+            --danger-red: #E53E3E;
+            --danger-bg: #FFF5F5;
+            --danger-border: #FED7D7;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-gray);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-context {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background: #F7FAFC;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Caja de Hipótesis General (Rigor) */
+        .box-rigor {
+            background-color: var(--box-rigor-bg);
+            border-left: 5px solid var(--box-rigor-border);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .box-rigor-title {
+            color: var(--primary-blue);
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Controles de Filtro */
+        .filter-controls {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-blue);
+            background: white;
+            color: var(--accent-blue);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        /* Estilos de Tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 2px -1px rgba(0,0,0,0.15);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--bg-gray);
+        }
+
+        tr {
+            transition: opacity 0.3s ease;
+        }
+
+        .crit-name {
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .obs-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Configuración de listas con Check Grueso Verde */
+        td ul {
+            list-style-type: none;
+            margin: 0;
+            padding-left: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        td ul li {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        td ul li::before {
+            content: "✔";
+            color: var(--success-green);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        td ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Botón de Despliegue de Ejemplos Integrado */
+        .ejemplo-btn {
+            background-color: var(--light-blue);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .ejemplo-btn:hover {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        /* Contenedor Oculto de Ejemplos */
+        .ejemplo-content {
+            display: none;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+        }
+        
+        .ejemplo-content.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Cajas de Contraste Pedagógico (Aplica vs Falla) */
+        .box-case {
+            padding: 0.6rem;
+            margin-bottom: 0.6rem;
+            border-radius: 6px;
+            border-left: 4px solid;
+            background: white;
+        }
+
+        .box-case:last-child {
+            margin-bottom: 0;
+        }
+
+        .box-case-success {
+            background-color: var(--success-bg);
+            border-color: var(--success-border);
+            border-left-color: var(--success-green);
+            color: #1A202C;
+        }
+
+        .box-case-danger {
+            background-color: var(--danger-bg);
+            border-color: var(--danger-border);
+            border-left-color: var(--danger-red);
+            color: #1A202C;
+        }
+
+        .case-title {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9em;
+        }
+
+        .case-title-success { color: #22543D; }
+        .case-title-danger { color: #742A2A; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Integrales impropias de primera especie hacia $\displaystyle +\infty$</h2>
+        
+        <div class="intro-context">
+            El objetivo es estudiar la convergencia de la integral impropia $\displaystyle \int_{a}^{\infty} f(x) \, dx$. <br>
+            <strong>Nota:</strong> Toda función $\displaystyle g(x)$ indicada en los criterios es una <strong>función auxiliar</strong> que el estudiante debe proponer caso a caso para establecer la comparación.
+        </div>
+
+        <div class="box-rigor">
+            <div class="box-rigor-title">
+                <span>📘</span> Hipótesis General Obligatoria
+            </div>
+            <strong>Las funciones $\displaystyle f$ y $\displaystyle g$ deben ser continuas en el intervalo $\displaystyle [a, \infty[$</strong>.<br>
+            <em>Razón analítica:</em> Garantiza la existencia de $\displaystyle \int_{a}^{t} f(x) \, dx$ para todo $\displaystyle t \ge a$, aislando el análisis asintótico exclusivamente al límite cuando $\displaystyle x \to \infty$.
+        </div>
+
+        <div class="filter-controls">
+            <button class="filter-btn active" onclick="filterTable('all')">Todos los Criterios</button>
+            <button class="filter-btn" onclick="filterTable('no-negativa')">Criterios que Exigen Funciones No Negativas ($\displaystyle f, g \ge 0$)</button>
+            <button class="filter-btn" onclick="filterTable('general')">Criterios Generales (Independientes del Signo)</button>
+        </div>
+
+        <table id="criteriosTable">
+            <thead>
+                <tr>
+                    <th width="20%">Criterio</th>
+                    <th width="30%">$\displaystyle \int_{a}^{\infty} f(x) \, dx$ converge si:</th>
+                    <th width="30%">$\displaystyle \int_{a}^{\infty} f(x) \, dx$ diverge si:</th>
+                    <th width="20%">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="crit-row general">
+                    <td><span class="crit-name">Condición Necesaria (Límite del Integrando)</span></td>
+                    <td><em style="color:var(--text-muted);">No aplica para demostrar convergencia</em></td>
+                    <td>
+                        <ul>
+                            <li>$\displaystyle \lim_{x \to \infty} f(x) = L \neq 0$ o no existe (oscila).</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Divergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Aplica BIEN (Concluyente)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \cos(x) \, dx$</strong><br>
+                                $\displaystyle \lim_{x \to \infty} \cos(x)$ oscila. La integral <strong>diverge</strong> garantizadamente.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Aplica MAL (Trampa)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x} \, dx$</strong> <br>
+                                $\displaystyle \lim_{x \to \infty} \frac{1}{x} = 0$. <strong>Inconcluso.</strong> Que tienda a cero no asegura un área finita.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="obs-text">Filtro de descarte rápido. Si el límite es $\displaystyle 0$, el criterio no es concluyente.</td>
+                </tr>
+
+                <tr class="crit-row no-negativa">
+                    <td><span class="crit-name">Comparación Directa</span></td>
+                    <td>
+                        <ul>
+                            <li>$\displaystyle 0 \le f(x) \le g(x)$ para todo $\displaystyle x \ge a$.</li>
+                            <li>$\displaystyle \int_{a}^{\infty} g(x) \, dx$ es convergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Caso 1: Convergencia (Bien)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{\cos^2(x)}{x^2} \, dx$</strong><br>
+                                Se acota: $\displaystyle 0 \le \frac{\cos^2(x)}{x^2} \le \frac{1}{x^2}$. Como $\displaystyle \int_{1}^{\infty} \frac{1}{x^2} \, dx$ converge, esta <strong>converge</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Caso 2: Convergencia (Mal)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x+1} \, dx$</strong><br>
+                                Se acota $\displaystyle \frac{1}{x+1} \le \frac{1}{x}$, pero $\displaystyle \int_{1}^{\infty} \frac{1}{x} \, dx$ diverge. Ser "menor que infinito" es <strong>inconcluso</strong>.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>$\displaystyle 0 \le g(x) \le f(x)$ para todo $\displaystyle x \ge a$.</li>
+                            <li>$\displaystyle \int_{a}^{\infty} g(x) \, dx$ es divergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Divergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Caso 3: Divergencia (Bien)</div>
+                                <strong>$\displaystyle \int_{2}^{\infty} \frac{1}{\ln(x)} \, dx$</strong><br>
+                                Como $\displaystyle \ln(x) &lt; x \implies \frac{1}{\ln(x)} &gt; \frac{1}{x}$. Como $\displaystyle \int_{2}^{\infty} \frac{1}{x} \, dx$ diverge, esta <strong>diverge</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Caso 4: Divergencia (Mal)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x^2} \, dx$</strong><br>
+                                Se acota $\displaystyle \frac{1}{x^2} \ge \frac{1}{x^3}$, pero $\displaystyle \int_{1}^{\infty} \frac{1}{x^3} \, dx$ converge. Ser "mayor que un número finito" es <strong>inconcluso</strong>.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="obs-text">Requiere funciones no negativas. Su efectividad radica en acotar con integrales $\displaystyle p$.</td>
+                </tr>
+
+                <tr class="crit-row no-negativa">
+                    <td><span class="crit-name">Comparación por Paso al Límite</span></td>
+                    <td>
+                        <ul>
+                            <li>$\displaystyle \lim_{x \to \infty} \frac{f(x)}{g(x)} = L$ con $\displaystyle 0 &lt; L &lt; \infty$.</li>
+                            <li>$\displaystyle \int_{a}^{\infty} g(x) \, dx$ es convergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Aplica BIEN</div>
+                                <strong>$\displaystyle \int_{2}^{\infty} \frac{1}{\sqrt{x^3 - 1}} \, dx$</strong><br>
+                                Usamos $\displaystyle g(x) = \frac{1}{x^{3/2}}$. El límite da $\displaystyle L = 1$. Como la integral auxiliar converge, esta <strong>converge</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Aplica MAL (Límite Inválido)</div>
+                                <strong>Trampa:</strong> Si eliges mal $\displaystyle g(x)$ y resulta $\displaystyle L = 0$ o $\displaystyle L = \infty$, el criterio se vuelve <strong>inconcluso</strong> en la mayoría de los casos básicos.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>$\displaystyle \lim_{x \to \infty} \frac{f(x)}{g(x)} = L$ con $\displaystyle 0 &lt; L &lt; \infty$.</li>
+                            <li>$\displaystyle \int_{a}^{\infty} g(x) \, dx$ es divergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Caso de Divergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Aplica BIEN</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{x}{x^2 + 1} \, dx$</strong><br>
+                                Usamos $\displaystyle g(x) = \frac{1}{x}$. El límite da $\displaystyle L = 1$. Como la integral auxiliar diverge, esta <strong>diverge</strong>.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="obs-text">Indispensable cuando las constantes dificultan acotar limpiamente. Ambas integrales comparten destino.</td>
+                </tr>
+
+                <tr class="crit-row no-negativa">
+                    <td><span class="crit-name">Criterio de la Serie</span></td>
+                    <td>
+                        <ul>
+                            <li>La serie asociada $\displaystyle \sum_{n=k}^{\infty} f(n)$ es convergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Caso 1: Convergencia (Bien)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x^2} \, dx$</strong><br>
+                                Su serie asociada $\displaystyle \sum_{n=1}^{\infty} \frac{1}{n^2}$ converge. Como $\displaystyle f(x)$ es positiva, decreciente y continua, la integral <strong>converge</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Caso 2: Convergencia (Mal)</div>
+                                <strong>Trampa (Falta Monotonía):</strong> Si una función vale $\displaystyle 0$ en todos los enteros (ej. $\displaystyle f(n)=0$), la serie converge a $\displaystyle 0$. Pero si la función tiene "baches" inmensos entre cada entero, el área de la integral podría divergir al infinito. No aplicar sin probar que la función decrece.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>La serie asociada $\displaystyle \sum_{n=k}^{\infty} f(n)$ es divergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Divergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Caso 3: Divergencia (Bien)</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x} \, dx$</strong><br>
+                                Su serie asociada es la Serie Armónica $\displaystyle \sum_{n=1}^{\infty} \frac{1}{n}$ (divergente). Como cumple las hipótesis, la integral <strong>diverge</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Caso 4: Divergencia (Mal)</div>
+                                <strong>Trampa (Falta Monotonía):</strong> Aplicar el criterio a una función que oscila y crece caóticamente pero que diverge en sus términos enteros. Al no ser decreciente, la geometría que conecta el área con la sumatoria se rompe.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="obs-text">Exige obligatoriamente que $\displaystyle f(x)$ sea <strong>continua, no negativa y monótona decreciente</strong>.</td>
+                </tr>
+
+                <tr class="crit-row general">
+                    <td><span class="crit-name">Convergencia Absoluta</span></td>
+                    <td>
+                        <ul>
+                            <li>La integral $\displaystyle \int_{a}^{\infty} |f(x)| \, dx$ es convergente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Aplica BIEN</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x^2} \, dx$</strong><br>
+                                Notamos que $\displaystyle \left| \frac{\sin(x)}{x^2} \right| \le \frac{1}{x^2}$. Como la absoluta converge por acotación, la original <strong>converge absolutamente</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Aplica MAL (Falso Recíproco)</div>
+                                <strong>Trampa:</strong> Creer que si la integral absoluta diverge, la original obligatoriamente diverge. <br>
+                                <em>Falso:</em> $\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x} \, dx$ diverge en valor absoluto pero converge de forma condicional.
+                            </div>
+                        </div>
+                    </td>
+                    <td><em style="color:var(--text-muted);">No aplica para demostrar divergencia</em></td>
+                    <td class="obs-text">Si la integral del valor absoluto diverge, la original aún podría presentar <strong>Convergencia Condicional</strong>.</td>
+                </tr>
+
+                <tr class="crit-row general">
+                    <td><span class="crit-name">Criterio de Dirichlet</span></td>
+                    <td>
+                        <ul>
+                            <li>$\displaystyle \left| \int_{a}^{t} f(x) \, dx \right| \le M$ para todo $\displaystyle t \ge a$.</li>
+                            <li>$\displaystyle \lim_{x \to \infty} g(x) = 0$ y es monótona decreciente.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Aplica BIEN</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x} \, dx$</strong><br>
+                                $\displaystyle f(x)=\sin(x)$ tiene primitiva acotada, y $\displaystyle g(x)=\frac{1}{x}$ decrece monótonamente a $\displaystyle 0$. <strong>Converge condicionalmente</strong>.
+                            </div>
+                            <div class="box-case box-case-danger">
+                                <div class="case-title case-title-danger">🔴 Aplica MAL (Falta Monotonía)</div>
+                                <strong>Trampa:</strong> Olvidar verificar que $\displaystyle g(x)$ sea <em>monótona</em> decreciente. Si $\displaystyle g(x) \to 0$ pero oscilando sin control, el teorema colapsa.
+                            </div>
+                        </div>
+                    </td>
+                    <td><em style="color:var(--text-muted);">No aplica para demostrar divergencia</em></td>
+                    <td class="obs-text">Diseñado analíticamente para ondas amortiguadas que cambian infinitamente de signo.</td>
+                </tr>
+
+                <tr class="crit-row general">
+                    <td><span class="crit-name">Criterio de Abel</span></td>
+                    <td>
+                        <ul>
+                            <li>La integral $\displaystyle \int_{a}^{\infty} f(x) \, dx$ es convergente.</li>
+                            <li>$\displaystyle g(x)$ es monótona y acotada en $\displaystyle [a, \infty[$.</li>
+                        </ul>
+                        <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
+                        <div class="ejemplo-content">
+                            <div class="box-case box-case-success">
+                                <div class="case-title case-title-success">🟢 Aplica BIEN</div>
+                                <strong>$\displaystyle \int_{1}^{\infty} e^{-1/x} \frac{\sin(x)}{x} \, dx$</strong><br>
+                                $\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x} \, dx$ ya converge, y el factor auxiliar $\displaystyle g(x) = e^{-1/x}$ es monótono y acotado por $\displaystyle 1$. <strong>Converge</strong>.
+                            </div>
+                        </div>
+                    </td>
+                    <td><em style="color:var(--text-muted);">No aplica para demostrar divergencia</em></td>
+                    <td class="obs-text">Útil para validar convergencias tras introducir un factor de suavizado sobre una integral conocida.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const rows = document.querySelectorAll('.crit-row');
+            rows.forEach(row => {
+                if (category === 'all' || row.classList.contains(category)) {
+                    row.style.display = '';
+                    row.style.opacity = '1';
+                } else {
+                    row.style.display = 'none';
+                    row.style.opacity = '0';
+                }
+            });
+        }
+
+        function toggleEjemplo(btn) {
+            const content = btn.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                if (btn.textContent.includes('Divergencia')) {
+                    btn.textContent = 'Ver Casos de Divergencia';
+                } else if (btn.textContent.includes('Caso de Divergencia')) {
+                    btn.textContent = 'Ver Caso de Divergencia';
+                } else {
+                    btn.textContent = 'Ver Casos de Convergencia';
+                }
+            } else {
+                content.classList.add('show');
+                btn.textContent = 'Ocultar Casos';
+                if(window.MathJax) {
+                    MathJax.typesetPromise([content]);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

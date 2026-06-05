@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demostración de Animaciones Matemáticas – Álvaro Profemate</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      padding: 60px 24px;
+      min-height: 100vh;
+      background-color: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .demo-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .header-demo {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .header-demo h1 {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      margin-bottom: 12px;
+      font-family: var(--font-title);
+      color: var(--text-primary);
+    }
+
+    .header-demo p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .demo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      transform: translateY(-4px);
+    }
+
+    .demo-card-title {
+      font-family: var(--font-title);
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .demo-math-visual {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+    }
+
+    .demo-math-visual svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .demo-card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 15px;
+      flex-grow: 1;
+    }
+
+    .badge-opcion {
+      background: var(--primary-glow);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-title);
+      align-self: flex-start;
+      margin-top: 10px;
+    }
+
+    .btn-select {
+      background: var(--gradient-accent);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-family: var(--font-title);
+      margin-top: 15px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      border: none;
+    }
+
+    .btn-select:hover {
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+      transform: scale(1.02);
+    }
+
+    .theme-toggle-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+      z-index: 1000;
+      transition: var(--transition-fast);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body class="theme-light"> <!-- Iniciamos en tema claro para validar los colores claros -->
+  
+  <div class="demo-container">
+    <div class="header-demo">
+      <h1>Opciones de Visualización Matemática</h1>
+      <p>Interactúa con las tres animaciones inspiradas en Brilliant y selecciona tu favorita para la página principal.</p>
+    </div>
+
+    <div class="demo-grid">
+      
+      <!-- CARD OPCION A -->
+      <div class="demo-card">
+        <div class="demo-card-title">
+          <i class="fa-solid fa-chart-line"></i> Opción A: Derivada (Secante a Tangente)
+        </div>
+        <div class="demo-math-visual">
+          <svg id="svg-derivada" viewBox="0 0 300 150">
+            <!-- Grid -->
+            <defs>
+              <pattern id="grid-a" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(128, 128, 128, 0.08)" stroke-width="1"/>
+              </pattern>
+              <linearGradient id="grad-derivada" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#6366f1" />
+              </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-a)" />
+            
+            <!-- Axes -->
+            <line x1="20" y1="130" x2="280" y2="130" stroke="var(--border)" stroke-width="1.5"/>
+            <line x1="30" y1="15" x2="30" y2="140" stroke="var(--border)" stroke-width="1.5"/>
+            
+            <!-- Curve path (filled dynamically) -->
+            <path id="curva-derivada" fill="none" stroke="url(#grad-derivada)" stroke-width="3" />
+            
+            <!-- Triangle delta x / delta y -->
+            <path id="triangulo-delta" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5" stroke-dasharray="3,3" />
+            
+            <!-- Lines -->
+            <line id="linea-secante" stroke="rgba(239, 68, 68, 0.7)" stroke-width="1.5" />
+            <line id="linea-tangente" stroke="#10b981" stroke-width="2" opacity="0.8" />
+            
+            <!-- Points -->
+            <circle id="punto-p" r="5" fill="#6366f1" />
+            <circle id="punto-q" r="5" fill="#06b6d4" />
+            
+            <!-- Dynamic Labels -->
+            <text id="label-dx" fill="var(--text-muted)" font-size="8" font-family="monospace" text-anchor="middle"></text>
+            <text id="label-dy" fill="var(--text-muted)" font-size="8" font-family="monospace"></text>
+            
+            <!-- Static labels -->
+            <text x="125" y="110" fill="#6366f1" font-size="9" font-family="sans-serif" font-weight="bold">P (fijo)</text>
+            <text id="label-q-static" fill="#06b6d4" font-size="9" font-family="sans-serif" font-weight="bold">Q (móvil)</text>
+          </svg>
+        </div>
+        <div class="demo-card-desc">
+          Muestra una secante que gira y converge suavemente en una recta tangente verde cuando el punto móvil <strong>Q</strong> se acerca al punto <strong>P</strong>. Representa el límite de la pendiente de cambio medio para dar la pendiente instantánea.
+        </div>
+        <span class="badge-opcion"><i class="fa-solid fa-bolt"></i> Dinámica de Derivadas</span>
+      </div>
+
+      <!-- CARD OPCION B -->
+      <div class="demo-card">
+        <div class="demo-card-title">
+          <i class="fa-solid fa-chart-bar"></i> Opción B: Integral (Sumas de Riemann)
+        </div>
+        <div class="demo-math-visual">
+          <svg id="svg-integral" viewBox="0 0 300 150">
+            <defs>
+              <pattern id="grid-b" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(128, 128, 128, 0.08)" stroke-width="1"/>
+              </pattern>
+              <linearGradient id="grad-rect" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(6, 182, 212, 0.3)" />
+                <stop offset="100%" stop-color="rgba(99, 102, 241, 0.05)" />
+              </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-b)" />
+            
+            <!-- Axes -->
+            <line x1="20" y1="130" x2="280" y2="130" stroke="var(--border)" stroke-width="1.5"/>
+            <line x1="30" y1="15" x2="30" y2="140" stroke="var(--border)" stroke-width="1.5"/>
+            
+            <!-- Shaded rectangles group -->
+            <g id="grupo-rectangulos"></g>
+            
+            <!-- Curve -->
+            <path id="curva-integral" fill="none" stroke="url(#grad-derivada)" stroke-width="3" />
+            
+            <!-- Labels -->
+            <text id="label-n" x="40" y="30" fill="var(--text-primary)" font-size="10" font-family="sans-serif" font-weight="bold"></text>
+            <text id="label-error" x="40" y="45" fill="var(--text-muted)" font-size="8" font-family="monospace"></text>
+          </svg>
+        </div>
+        <div class="demo-card-desc">
+          Muestra de forma interactiva cómo las sumas rectangulares cubren el área bajo la curva. Las barras se vuelven más delgadas secuencialmente ($n=4 \to 8 \to 16 \to 32 \to 64$), logrando una aproximación perfecta a la integral real.
+        </div>
+        <span class="badge-opcion"><i class="fa-solid fa-cubes"></i> Dinámica de Integración</span>
+      </div>
+
+      <!-- CARD OPCION C -->
+      <div class="demo-card">
+        <div class="demo-card-title">
+          <i class="fa-solid fa-circle-notch"></i> Opción C: Onda y Círculo Trigonométrico
+        </div>
+        <div class="demo-math-visual">
+          <svg id="svg-trig" viewBox="0 0 300 150">
+            <defs>
+              <pattern id="grid-c" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(128, 128, 128, 0.08)" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid-c)" />
+            
+            <!-- Unit Circle Axes -->
+            <line x1="15" y1="75" x2="115" y2="75" stroke="var(--border)" stroke-width="1" />
+            <line x1="65" y1="25" x2="65" y2="125" stroke="var(--border)" stroke-width="1" />
+            
+            <!-- Unit Circle -->
+            <circle cx="65" cy="75" r="35" fill="none" stroke="var(--border)" stroke-width="1.5" />
+            
+            <!-- Wave Axes -->
+            <line x1="130" y1="75" x2="290" y2="75" stroke="var(--border)" stroke-width="1.5" />
+            <line x1="130" y1="20" x2="130" y2="130" stroke="var(--border)" stroke-width="1" />
+            
+            <!-- Connecting dashed line -->
+            <line id="linea-conexion" stroke="rgba(6, 182, 212, 0.6)" stroke-width="1" stroke-dasharray="2,2" />
+            
+            <!-- Rotator vector -->
+            <line id="vector-rotatorio" x1="65" y1="75" stroke="#6366f1" stroke-width="2.5" />
+            <circle id="punto-rotatorio" r="4" fill="#6366f1" />
+            
+            <!-- Trigonometric components inside circle -->
+            <line id="comp-cos" x1="65" stroke="#ef4444" stroke-width="2" />
+            <line id="comp-sin" stroke="#06b6d4" stroke-width="2" />
+            
+            <!-- Sine Wave curve -->
+            <path id="curva-seno" fill="none" stroke="url(#grad-derivada)" stroke-width="3" />
+            
+            <!-- Moving wave leading dot -->
+            <circle id="punto-onda" r="4" fill="#06b6d4" />
+            
+            <!-- Angle text -->
+            <text id="label-trig-angle" x="140" y="30" fill="var(--text-primary)" font-size="9" font-family="sans-serif" font-weight="bold"></text>
+          </svg>
+        </div>
+        <div class="demo-card-desc">
+          Muestra la traslación geométrica de un giro sobre el círculo unitario a la oscilación periódica de una onda senoidal. Permite entender de manera intuitiva el origen geométrico de las funciones trigonométricas.
+        </div>
+        <span class="badge-opcion"><i class="fa-solid fa-bezier-curve"></i> Análisis de Oscilaciones</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Botón flotante para cambiar de tema (Light / Dark) -->
+  <button class="theme-toggle-btn" id="theme-toggle" title="Cambiar Tema Claro/Oscuro">
+    <i class="fa-solid fa-moon" id="theme-icon"></i>
+  </button>
+
+  <script>
+    // ==========================================
+    // CONTROLES DE TEMA (CLARO / OSCURO)
+    // ==========================================
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('theme-light')) {
+        body.classList.remove('theme-light');
+        themeIcon.className = 'fa-solid fa-sun';
+      } else {
+        body.classList.add('theme-light');
+        themeIcon.className = 'fa-solid fa-moon';
+      }
+    });
+
+    // ==========================================
+    // ANIMACIÓN A: DERIVADA
+    // ==========================================
+    function f_a(x) {
+      // Función matemática para la curva
+      return 125 - 0.4 * (x - 30) - 20 * Math.sin((x - 30) / 45);
+    }
+
+    // Dibujar curva estática de la opción A
+    const curvaDerivada = document.getElementById('curva-derivada');
+    let pathA = 'M 30 ' + f_a(30);
+    for (let x = 31; x <= 270; x++) {
+      pathA += ' L ' + x + ' ' + f_a(x);
+    }
+    curvaDerivada.setAttribute('d', pathA);
+
+    const x_p = 120;
+    const y_p = f_a(x_p);
+    document.getElementById('punto-p').setAttribute('cx', x_p);
+    document.getElementById('punto-p').setAttribute('cy', y_p);
+
+    let t_derivada = 0;
+
+    function animarDerivada() {
+      t_derivada += 0.015;
+      // Oscilar h de forma suave usando seno
+      let h = 80 + 75 * Math.sin(t_derivada);
+      // Evitar que h sea exactamente 0 para evitar divisiones por cero
+      if (Math.abs(h) < 2) h = h < 0 ? -2 : 2;
+
+      let x_q = x_p + h;
+      let y_q = f_a(x_q);
+
+      // Limitar a los bordes de la visual
+      if (x_q < 30) x_q = 30;
+      if (x_q > 270) x_q = 270;
+      y_q = f_a(x_q);
+
+      const puntoQ = document.getElementById('punto-q');
+      puntoQ.setAttribute('cx', x_q);
+      puntoQ.setAttribute('cy', y_q);
+
+      // Posición del label estático de Q
+      const labelQStatic = document.getElementById('label-q-static');
+      labelQStatic.setAttribute('x', x_q + 8);
+      labelQStatic.setAttribute('y', y_q - 5);
+
+      // Calcular pendiente m de la secante
+      const m_secante = (y_q - y_p) / (x_q - x_p);
+      
+      // Dibujar línea secante extendida
+      const x1_sec = 30;
+      const y1_sec = y_p + m_secante * (x1_sec - x_p);
+      const x2_sec = 270;
+      const y2_sec = y_p + m_secante * (x2_sec - x_p);
+      
+      const lineaSecante = document.getElementById('linea-secante');
+      lineaSecante.setAttribute('x1', x1_sec);
+      lineaSecante.setAttribute('y1', y1_sec);
+      lineaSecante.setAttribute('x2', x2_sec);
+      lineaSecante.setAttribute('y2', y2_sec);
+
+      // Calcular pendiente real (derivada aproximada por incremento infinitesimal)
+      const h_inf = 0.01;
+      const dy_tangente = f_a(x_p + h_inf) - y_p;
+      const m_tangente = dy_tangente / h_inf;
+
+      // Dibujar línea tangente fija en P
+      const x1_tan = 50;
+      const y1_tan = y_p + m_tangente * (x1_tan - x_p);
+      const x2_tan = 210;
+      const y2_tan = y_p + m_tangente * (x2_tan - x_p);
+
+      const lineaTangente = document.getElementById('linea-tangente');
+      lineaTangente.setAttribute('x1', x1_tan);
+      lineaTangente.setAttribute('y1', y1_tan);
+      lineaTangente.setAttribute('x2', x2_tan);
+      lineaTangente.setAttribute('y2', y2_tan);
+
+      // Dibujar triángulo de deltas
+      const triangulo = document.getElementById('triangulo-delta');
+      triangulo.setAttribute('d', `M ${x_p} ${y_p} L ${x_q} ${y_p} L ${x_q} ${y_q}`);
+
+      // Actualizar etiquetas dinámicas
+      const labelDx = document.getElementById('label-dx');
+      labelDx.setAttribute('x', x_p + h/2);
+      labelDx.setAttribute('y', y_p + (h > 0 ? 12 : -6));
+      labelDx.textContent = 'Δx = ' + Math.abs(h).toFixed(0);
+
+      const labelDy = document.getElementById('label-dy');
+      labelDy.setAttribute('x', x_q + (h > 0 ? 6 : -35));
+      labelDy.setAttribute('y', y_p + (y_q - y_p)/2);
+      labelDy.textContent = 'Δy = ' + Math.abs(y_q - y_p).toFixed(0);
+
+      requestAnimationFrame(animarDerivada);
+    }
+
+    // ==========================================
+    // ANIMACIÓN B: INTEGRAL
+    // ==========================================
+    function f_b(x) {
+      return 110 - 25 * Math.sin((x - 40) / 30) - 15 * Math.cos((x - 40) / 60);
+    }
+
+    // Curva de la opción B
+    const curvaIntegral = document.getElementById('curva-integral');
+    let pathB = 'M 30 ' + f_b(30);
+    for (let x = 31; x <= 270; x++) {
+      pathB += ' L ' + x + ' ' + f_b(x);
+    }
+    curvaIntegral.setAttribute('d', pathB);
+
+    const grupoRectangulos = document.getElementById('grupo-rectangulos');
+    const labelN = document.getElementById('label-n');
+    const labelError = document.getElementById('label-error');
+    
+    // Lista de particiones a mostrar secuencialmente
+    const particiones = [4, 8, 12, 16, 24, 32, 48, 64];
+    let idxParticion = 0;
+    let ultimoCambio = 0;
+
+    function renderRiemann(N) {
+      grupoRectangulos.innerHTML = '';
+      const a = 60;
+      const b = 240;
+      const ancho = (b - a) / N;
+      
+      let sumaAreas = 0;
+      let areaReal = 0; // Aproximada por trapecios finos
+      
+      // Calcular aproximación fina de área real para evaluar error
+      const pasosFinisimos = 1000;
+      const dx_finito = (b - a) / pasosFinisimos;
+      for (let i = 0; i < pasosFinisimos; i++) {
+        const x = a + i * dx_finito;
+        const y = 130 - f_b(x); // Altura con respecto al eje y=130
+        areaReal += y * dx_finito;
+      }
+
+      for (let i = 0; i < N; i++) {
+        const x = a + i * ancho;
+        const y = f_b(x); // Usando extremo izquierdo
+        const altura = 130 - y; // Altura con respecto al eje y=130
+        sumaAreas += altura * ancho;
+
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', x);
+        rect.setAttribute('y', y);
+        rect.setAttribute('width', ancho - 0.5); // Brecha mínima para apreciar barras
+        rect.setAttribute('height', altura);
+        rect.setAttribute('fill', 'url(#grad-rect)');
+        rect.setAttribute('stroke', 'rgba(6, 182, 212, 0.4)');
+        rect.setAttribute('stroke-width', '0.5');
+        grupoRectangulos.appendChild(rect);
+      }
+
+      // Mostrar estadísticas
+      labelN.textContent = `Partición: n = ${N} barras`;
+      
+      const errorPct = Math.abs((sumaAreas - areaReal) / areaReal) * 100;
+      labelError.textContent = `Error de área: ${errorPct.toFixed(2)}%`;
+    }
+
+    function animarIntegral(tiempo) {
+      if (!ultimoCambio) ultimoCambio = tiempo;
+      
+      // Cambiar partición cada 1.5 segundos
+      if (tiempo - ultimoCambio > 1500) {
+        idxParticion = (idxParticion + 1) % particiones.length;
+        renderRiemann(particiones[idxParticion]);
+        ultimoCambio = tiempo;
+      }
+      
+      requestAnimationFrame(animarIntegral);
+    }
+
+    // Inicializar primera llamada
+    renderRiemann(particiones[idxParticion]);
+
+    // ==========================================
+    // ANIMACIÓN C: UNIDAD TRIGONOMÉTRICA
+    // ==========================================
+    const R = 35;
+    const cx_c = 65;
+    const cy_c = 75;
+
+    let angulo_trig = 0;
+    const curvaSeno = document.getElementById('curva-seno');
+
+    function animarTrigonometria() {
+      angulo_trig += 0.025;
+      if (angulo_trig > Math.PI * 2) {
+        angulo_trig -= Math.PI * 2;
+      }
+
+      // Punto sobre el círculo unitario
+      const px = cx_c + R * Math.cos(angulo_trig);
+      const py = cy_c - R * Math.sin(angulo_trig);
+
+      // Actualizar vector rotatorio
+      const vector = document.getElementById('vector-rotatorio');
+      vector.setAttribute('x2', px);
+      vector.setAttribute('y2', py);
+
+      const puntoRot = document.getElementById('punto-rotatorio');
+      puntoRot.setAttribute('cx', px);
+      puntoRot.setAttribute('cy', py);
+
+      // Componentes de coseno y seno
+      const compCos = document.getElementById('comp-cos');
+      compCos.setAttribute('x1', cx_c);
+      compCos.setAttribute('y1', cy_c);
+      compCos.setAttribute('x2', px);
+      compCos.setAttribute('y2', cy_c);
+
+      const compSin = document.getElementById('comp-sin');
+      compSin.setAttribute('x1', px);
+      compSin.setAttribute('y1', cy_c);
+      compSin.setAttribute('x2', px);
+      compSin.setAttribute('y2', py);
+
+      // Dibujar la onda que se mueve a la derecha
+      // La onda va desde x=130 hasta x=290
+      let d_wave = '';
+      const start_x = 130;
+      const end_x = 290;
+      
+      for (let x = start_x; x <= end_x; x++) {
+        // Mapear x al ángulo retrocediendo a medida que avanzamos en x
+        const fase_wave = angulo_trig - (x - start_x) * 0.05;
+        const wave_y = cy_c - R * Math.sin(fase_wave);
+        if (x === start_x) {
+          d_wave += `M ${x} ${wave_y}`;
+        } else {
+          d_wave += ` L ${x} ${wave_y}`;
+        }
+      }
+      curvaSeno.setAttribute('d', d_wave);
+
+      // Línea de conexión horizontal del círculo a la onda
+      const lineaConexion = document.getElementById('linea-conexion');
+      lineaConexion.setAttribute('x1', px);
+      lineaConexion.setAttribute('y1', py);
+      lineaConexion.setAttribute('x2', start_x);
+      lineaConexion.setAttribute('y2', py);
+
+      // Punto en el frente de la onda
+      const puntoOnda = document.getElementById('punto-onda');
+      puntoOnda.setAttribute('cx', start_x);
+      puntoOnda.setAttribute('cy', py);
+
+      // Actualizar etiqueta del ángulo
+      const lblAngle = document.getElementById('label-trig-angle');
+      const deg = Math.round(angulo_trig * 180 / Math.PI);
+      lblAngle.textContent = `Ángulo: θ = ${deg}° | sen(θ) = ${(Math.sin(angulo_trig)).toFixed(2)}`;
+
+      requestAnimationFrame(animarTrigonometria);
+    }
+
+    // ==========================================
+    // DISPARADORES DE ANIMACIONES
+    // ==========================================
+    requestAnimationFrame(animarDerivada);
+    requestAnimationFrame(animarIntegral);
+    requestAnimationFrame(animarTrigonometria);
+
+  </script>
+</body>
+</html>

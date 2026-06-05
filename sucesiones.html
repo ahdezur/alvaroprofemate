@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso de Sucesiones – Álvaro Profemate</title>
+  <meta name="description" content="Ruta interactiva de aprendizaje sobre sucesiones reales. De la intuición gráfica al límite formal, álgebra de límites y topología real.">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- MathJax for LaTeX mathematical formatting -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='fav-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23fav-grad)'/%3E%3Cpath d='M 4,16 L 7,16 L 10,26 L 13,4 L 28,4' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M 15,25 L 20.5,14 L 26,25' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='17.5' y1='21.5' x2='23.5' y2='21.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='20.5' y1='11' x2='23' y2='7.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <style>
+    /* Styling extension for e-learning Journey Map */
+    .course-header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 0 40px 0;
+      text-align: center;
+      position: relative;
+    }
+    
+    .course-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--gradient-hero);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .course-header .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .course-header h1 {
+      font-family: var(--font-title);
+      font-size: 42px;
+      font-weight: 800;
+      margin: 15px 0;
+      color: var(--text-primary);
+    }
+
+    .course-header h1 span {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .course-header p.lead {
+      color: var(--text-secondary);
+      font-size: 18px;
+      max-width: 750px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .journey-section {
+      padding: 80px 0;
+      background: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .journey-container {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    /* Serpentine SVG connector line container */
+    .journey-svg-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .journey-line {
+      fill: none;
+      stroke: url(#journey-grad);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 10 7;
+      animation: dashflow 30s linear infinite;
+    }
+
+    @keyframes dashflow {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 75px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Journey Accordion Card */
+    .journey-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .journey-card:hover {
+      border-color: var(--accent-glow);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-4px);
+    }
+
+    /* Number step marker */
+    .step-marker {
+      position: absolute;
+      top: -23px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--gradient-accent);
+      border: 4px solid var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-family: var(--font-title);
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      z-index: 5;
+      transition: transform var(--transition-fast) ease;
+    }
+
+    .journey-card:hover .step-marker {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .journey-card.active {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .journey-card.active .step-marker {
+      background: var(--gradient-accent);
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    /* Card Header details */
+    .card-header {
+      padding: 30px 20px 20px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .level-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .card-toggle-icon {
+      margin-top: 15px;
+      color: var(--text-muted);
+      font-size: 14px;
+      transition: transform var(--transition-normal);
+    }
+
+    .journey-card.active .card-toggle-icon {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    /* Card Accordion Body (Slide Transition using grid rows) */
+    .card-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-inner-content {
+      min-height: 0;
+      overflow: hidden;
+      transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0 20px;
+      border-top: 0 solid var(--border);
+    }
+
+    .journey-card.active .card-body {
+      grid-template-rows: 1fr;
+    }
+
+    .journey-card.active .card-inner-content {
+      padding: 20px;
+      border-top-width: 1px;
+      cursor: default;
+    }
+
+    .journey-card.active .card-inner-content * {
+      cursor: auto;
+    }
+
+    /* Learning content layout inside card */
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    .card-warn {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid #ef4444;
+      padding: 10px 12px;
+      border-radius: var(--border-radius-sm);
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .card-warn strong {
+      color: #ef4444;
+    }
+
+    /* Pill Badges */
+    .pill-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .pill {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pill.pill-connection {
+      border-color: rgba(6, 182, 212, 0.3);
+      color: var(--accent);
+      background: rgba(6, 182, 212, 0.05);
+    }
+
+    /* Plotter layout */
+    .interactive-plotter {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .plotter-title {
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plotter-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .control-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .control-select {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 6px 10px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .plotter-slider {
+      flex-grow: 1;
+      accent-color: var(--accent);
+      height: 4px;
+      cursor: pointer;
+    }
+
+    .slider-val {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text-primary);
+      min-width: 32px;
+      text-align: right;
+    }
+
+    .plotter-svg-wrapper {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .plotter-svg {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+
+    .plotter-readout {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      line-height: 1.4;
+      border: 1px solid var(--border);
+    }
+
+    .plotter-readout span.highlight {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* Grid coordinate placement rules for S-curve (Winding) desktop layout */
+    @media (min-width: 992px) {
+      .journey-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+      .journey-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+      .journey-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+      
+      .journey-card:nth-child(4) { grid-column: 3; grid-row: 2; }
+      .journey-card:nth-child(5) { grid-column: 2; grid-row: 2; }
+      .journey-card:nth-child(6) { grid-column: 1; grid-row: 2; }
+    }
+
+    /* Responsive Mobile Layout (Straight vertical timeline) */
+    @media (max-width: 991px) {
+      .journey-svg-container {
+        display: none; /* Hide serpentine SVG connector line */
+      }
+      
+      .journey-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        padding-left: 20px;
+      }
+      
+      /* Vertical connector line on mobile */
+      .journey-grid::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        left: 23px; /* Align with center of step markers */
+        width: 4px;
+        background: var(--gradient-accent);
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+        border-radius: 2px;
+        z-index: 1;
+      }
+      
+      .journey-card {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+        padding-left: 45px; /* Offset text to make room for step markers */
+      }
+      
+      .step-marker {
+        left: 23px;
+        top: 35px;
+        transform: translateY(-50%) translateX(-50%);
+      }
+
+      .journey-card:hover .step-marker {
+        transform: translateY(-50%) translateX(-50%) scale(1.1);
+      }
+
+      .journey-card.active .step-marker {
+        transform: translateY(-50%) translateX(-50%) scale(1.1);
+      }
+
+      .card-header {
+        text-align: left;
+        padding: 20px 15px 15px 0;
+      }
+    }
+  </style>
+</head>
+<body class="theme-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 32 32" style="display: block;">
+          <path d="M 4,16 L 7,16 L 10,26 L 13,4 L 28,4" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 15,25 L 20.5,14 L 26,25" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="17.5" y1="21.5" x2="23.5" y2="21.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+          <line x1="20.5" y1="11" x2="23" y2="7.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      Álvaro<span>Profemate</span>
+    </a>
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="index.html" class="nav-link">Inicio</a></li>
+      <li><a href="index.html#materias" class="nav-link">Materias</a></li>
+      <li><a href="#" class="nav-link active">Sucesiones</a></li>
+      <li><a href="index.html#blog" class="nav-link">Lecturas</a></li>
+      <li><a href="index.html#contacto" class="nav-link">Contacto</a></li>
+    </ul>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- COURSE HERO HEADER -->
+  <header class="course-header">
+    <div class="container">
+      <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Curso de Análisis Matemático</span>
+      <h1>Sucesiones <span>Numéricas</span></h1>
+      <p class="lead">Una ruta interactiva de aprendizaje estructurada paso a paso. Desde la intuición visual inmediata hasta la formalización analítica y los cimientos de la topología real.</p>
+    </div>
+  </header>
+
+  <!-- JOURNEY ROADMAP SECTION -->
+  <section class="journey-section">
+    <div class="container">
+      <div class="journey-container" id="journey-container">
+        
+        <!-- Serpentine SVG connector path (drawn dynamically via JS) -->
+        <div class="journey-svg-container">
+          <svg width="100%" height="100%" id="journey-svg">
+            <defs>
+              <linearGradient id="journey-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#6366f1" />
+              </linearGradient>
+            </defs>
+            <path id="journey-path" class="journey-line" />
+          </svg>
+        </div>
+
+        <div class="journey-grid" id="journey-grid">
+          
+          <!-- LEVEL 1: FASE 1 -->
+          <div class="journey-card" id="node-1">
+            <div class="step-marker">1</div>
+            <div class="card-header">
+              <span class="level-tag">Nivel 1</span>
+              <h3 class="card-title">Fase 1: Domina la intuición visual</h3>
+              <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="card-body">
+              <div class="card-inner-content">
+                <p class="card-desc">Comenzamos modelando las sucesiones como funciones aplicadas con dominio en los números naturales: \( a_n: \mathbb{N} \to \mathbb{R} \). Se explora de manera intuitiva y visual cómo se comportan a largo plazo.</p>
+                <p class="card-desc">Clasificamos las sucesiones mediante su comportamiento de llegada en tres grandes categorías:</p>
+                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
+                  <li><strong>Convergentes:</strong> Tienden a estabilizarse en un único valor real fijo.</li>
+                  <li><strong>Divergentes:</strong> Escapan de forma ilimitada hacia el infinito positivo (\(+\infty\)) o negativo (\(-\infty\)).</li>
+                  <li><strong>Oscilantes o No Convergentes:</strong> Alternan valores de forma infinita sin estabilizarse ni escapar ordenadamente.</li>
+                </ul>
+                
+                <!-- Plotter Integration space -->
+                <div class="interactive-plotter">
+                  <div class="plotter-title">
+                    <i class="fa-solid fa-chart-line" style="color: var(--accent);"></i>
+                    Visualizador de Convergencia
+                  </div>
+                  
+                  <div class="plotter-controls">
+                    <div class="control-group">
+                      <label class="control-label" for="plotter-preset">Sucesión \( a_n \)</label>
+                      <select id="plotter-preset" class="control-select">
+                        <option value="1/n">\( 1/n \) (Convergente)</option>
+                        <option value="n/n+1">\( n/(n+1) \) (Convergente)</option>
+                        <option value="alt">\( (-1)^n / n \) (Alternante)</option>
+                        <option value="osc">\( (-1)^n \) (Oscilante)</option>
+                        <option value="div">\( n / 15 \) (Divergente)</option>
+                      </select>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="plotter-eps">Banda de error (\(\varepsilon\))</label>
+                      <div class="slider-container">
+                        <input type="range" id="plotter-eps" min="0.05" max="0.50" step="0.01" value="0.20" class="plotter-slider">
+                        <span id="eps-val" class="slider-val">0.20</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="plotter-controls" style="grid-template-columns: 1fr; margin-bottom: 12px;">
+                    <div class="control-group">
+                      <label class="control-label" for="plotter-n">Términos visibles (\( N \))</label>
+                      <div class="slider-container">
+                        <input type="range" id="plotter-n" min="10" max="40" step="1" value="25" class="plotter-slider">
+                        <span id="n-val" class="slider-val">25</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="plotter-svg-wrapper">
+                    <svg class="plotter-svg" id="plotter-svg">
+                      <!-- Grid and axis elements drawn by JS -->
+                      <g id="plot-grid"></g>
+                      <rect id="eps-rect" fill="rgba(6, 182, 212, 0.12)" />
+                      <line id="eps-upper-line" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3" />
+                      <line id="eps-lower-line" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3" />
+                      <line id="limit-line" stroke="#10b981" stroke-width="1.5" />
+                      <g id="plot-dots"></g>
+                    </svg>
+                  </div>
+                  
+                  <div class="plotter-readout" id="plotter-readout">
+                    Cargando visualización matemática...
+                  </div>
+                </div>
+
+                <div class="pill-container">
+                  <span class="pill"><i class="fa-solid fa-eye"></i> Visualización</span>
+                  <span class="pill"><i class="fa-solid fa-arrows-to-dot"></i> Convergencia</span>
+                  <span class="pill pill-connection"><i class="fa-solid fa-link"></i> Requisito para Nivel 2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- LEVEL 2: FASE 2 -->
+          <div class="journey-card" id="node-2">
+            <div class="step-marker">2</div>
+            <div class="card-header">
+              <span class="level-tag">Nivel 2</span>
+              <h3 class="card-title">Fase 2: Enfréntate al límite formal</h3>
+              <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="card-body">
+              <div class="card-inner-content">
+                <p class="card-desc">Traducimos la intuición visual a la definición formal clásica usando la métrica del análisis:</p>
+                <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 10px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace;">
+                  \( \forall \varepsilon > 0, \exists N_0 \in \mathbb{N} \text{ tal que } \forall n \ge N_0, |a_n - L| < \varepsilon \)
+                </div>
+                <p class="card-desc">Construimos el concepto mediante bandas de error de radio \(\varepsilon\) alrededor del valor límite \(L\). El índice límite \(N_0\) representa el umbral a partir del cual todos los términos subsecuentes quedan encerrados en dicha banda de forma definitiva.</p>
+                
+                <div class="card-warn">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <strong>Trampa lógica común:</strong> Negar que una sucesión converja a un valor real \(L\) no significa que escape necesariamente al infinito. La sucesión puede estar perfectamente acotada y, sin embargo, oscilar indefinidamente (por ejemplo, \(a_n = (-1)^n\)).
+                </div>
+
+                <div class="pill-container">
+                  <span class="pill"><i class="fa-solid fa-shield-halved"></i> Rigor Formal</span>
+                  <span class="pill"><i class="fa-solid fa-brain"></i> Análisis Lógico</span>
+                  <span class="pill pill-connection"><i class="fa-solid fa-link"></i> Requisito para Nivel 3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- LEVEL 3: FASE 3 -->
+          <div class="journey-card" id="node-3">
+            <div class="step-marker">3</div>
+            <div class="card-header">
+              <span class="level-tag">Nivel 3</span>
+              <h3 class="card-title">Fase 3: Domina el álgebra de límites</h3>
+              <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="card-body">
+              <div class="card-inner-content">
+                <p class="card-desc">Exploramos cómo operar aritméticamente con sucesiones a través de sus propiedades algebraicas fundamentales. Si sabemos que \(\lim a_n = A\) y \(\lim b_n = B\), entonces:</p>
+                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
+                  <li><strong>Suma / Resta:</strong> \( \lim (a_n \pm b_n) = A \pm B \)</li>
+                  <li><strong>Producto:</strong> \( \lim (a_n \cdot b_n) = A \cdot B \)</li>
+                  <li><strong>Cociente:</strong> \( \lim (a_n / b_n) = A / B \) (con \(B \ne 0\))</li>
+                </ul>
+                
+                <div class="card-warn">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                  <strong>Exigencia Crítica:</strong> Estas propiedades aritméticas **solo son válidas** si se ha demostrado previamente que los límites individuales \(A\) y \(B\) existen y son finitos en \(\mathbb{R}\). Operar con límites indeterminados o infinitos sin esta justificación invalida formalmente la prueba.
+                </div>
+
+                <div class="pill-container">
+                  <span class="pill"><i class="fa-solid fa-plus-minus"></i> Álgebra de Límites</span>
+                  <span class="pill"><i class="fa-solid fa-circle-check"></i> Finitud Previa</span>
+                  <span class="pill pill-connection"><i class="fa-solid fa-link"></i> Requisito para Nivel 4</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- LEVEL 4: FASE 4 -->
+          <div class="journey-card" id="node-4">
+            <div class="step-marker">4</div>
+            <div class="card-header">
+              <span class="level-tag">Nivel 4</span>
+              <h3 class="card-title">Fase 4: Compara y acota sucesiones</h3>
+              <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="card-body">
+              <div class="card-inner-content">
+                <p class="card-desc">No todas las sucesiones se resuelven mediante álgebra directa. En esta etapa, introducimos herramientas de acotación y comparación para calcular límites indirectamente:</p>
+                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
+                  <li><strong>Teorema del Sándwich (Encaje):</strong> Si \( a_n \le b_n \le c_n \) para todo \( n \ge N_0 \), y sabemos que \(\lim a_n = \lim c_n = L\), entonces necesariamente la sucesión central converge al mismo valor: \(\lim b_n = L\).</li>
+                  <li><strong>Teorema de Nula por Acotada:</strong> Si una sucesión \(a_n\) es infinitesimal (\(\lim a_n = 0\)) y otra sucesión \(b_n\) está acotada (\(|b_n| \le M\)), su producto tiende inevitablemente a cero: \(\lim (a_n \cdot b_n) = 0\).</li>
+                  <li><strong>Relación Cero-Infinito:</strong> Análisis del recíproco de sucesiones divergentes estrictas y su comportamiento asintótico.</li>
+                </ul>
+
+                <div class="pill-container">
+                  <span class="pill"><i class="fa-solid fa-compress"></i> Sándwich</span>
+                  <span class="pill"><i class="fa-solid fa-border-style"></i> Acotación</span>
+                  <span class="pill pill-connection"><i class="fa-solid fa-link"></i> Requisito para Nivel 5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- LEVEL 5: FASE 5 -->
+          <div class="journey-card" id="node-5">
+            <div class="step-marker">5</div>
+            <div class="card-header">
+              <span class="level-tag">Nivel 5</span>
+              <h3 class="card-title">Fase 5: Demuestra la existencia del límite</h3>
+              <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="card-body">
+              <div class="card-inner-content">
+                <p class="card-desc">Damos el paso definitivo hacia la abstracción pura. Pasamos de calcular límites numéricos a demostrar la existencia del límite sin calcular su valor de forma directa.</p>
+                <p class="card-desc"><strong>Teorema de la Convergencia Monótona:</strong> Toda sucesión que es monótona (creciente o decreciente) y se encuentra acotada en el sentido de su crecimiento, tiene la garantía matemática de ser convergente. Este teorema descansa sobre el fundamental <strong>Axioma del Supremo</strong> de los números reales.</p>
+                <p class="card-desc">Como aplicación directa de esta teoría, demostramos analíticamente que la sucesión creciente y acotada superiormente:</p>
+                <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 10px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace;">
+                  \( a_n = \left(1 + \frac{1}{n}\right)^n \)
+                </div>
+                <p class="card-desc">es convergente, y definimos su límite como el número trascendente de Euler: \( \lim a_n = e \approx 2.71828 \).</p>
+
+                <div class="pill-container">
+                  <span class="pill"><i class="fa-solid fa-arrow-trend-up"></i> Monotonía</span>
+                  <span class="pill"><i class="fa-solid fa-compass-drafting"></i> Supremo</span>
+                  <span class="pill"><i class="fa-solid fa-calculator"></i> Número e</span>
+                  <span class="pill pill-connection"><i class="fa-solid fa-link"></i> Requisito para Nivel 6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- LEVEL 6: FASE 6 -->
+          <div class="journey-card" id="node-6">
+            <div class="step-marker">6</div>
+            <div class="card-header">
+              <span class="level-tag">Nivel 6</span>
+              <h3 class="card-title">Fase 6: Profundiza en la topología</h3>
+              <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="card-body">
+              <div class="card-inner-content">
+                <p class="card-desc">En el nivel de especialización del curso, abordamos la topología interna de la recta real mediante el comportamiento asintótico complejo:</p>
+                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
+                  <li><strong>Subsucesiones y Puntos Límite:</strong> Extracción de términos para estudiar valores de acumulación alternativos.</li>
+                  <li><strong>Teorema de Bolzano-Weierstrass:</strong> Demostramos que toda sucesión infinita y acotada en \(\mathbb{R}\) posee al menos una subsucesión convergente.</li>
+                  <li><strong>Criterio de Convergencia de Cauchy:</strong> Una sucesión converge si y solo si sus términos se agrupan infinitamente entre sí al avanzar el índice: \(\forall \varepsilon > 0, \exists N_0 \text{ tal que } \forall n, m \ge N_0, |a_n - a_m| < \varepsilon\). Esto permite probar convergencia en espacios completos sin conocer a priori el valor del límite.</li>
+                </ul>
+
+                <div class="pill-container">
+                  <span class="pill"><i class="fa-solid fa-vector-square"></i> Bolzano-Weierstrass</span>
+                  <span class="pill"><i class="fa-solid fa-arrows-left-right-to-line"></i> Cauchy</span>
+                  <span class="pill pill-connection"><i class="fa-solid fa-school"></i> Análisis Real</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-logo-desc">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 32 32" style="display: block;">
+              <path d="M 4,16 L 7,16 L 10,26 L 13,4 L 28,4" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 15,25 L 20.5,14 L 26,25" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="17.5" y1="21.5" x2="23.5" y2="21.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+              <line x1="20.5" y1="11" x2="23" y2="7.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          Álvaro<span>Profemate</span>
+        </a>
+        <p>Comprometidos con el aprendizaje profundo de las matemáticas. Doctorado y experiencia pedagógica enfocada en el éxito académico de estudiantes universitarios e ingenieros.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-links-col">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html#materias">Materias</a></li>
+            <li><a href="index.html#sobre-mi">Sobre Mí</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-col">
+          <h4>Herramientas</h4>
+          <ul>
+            <li><a href="calculadora_nota_puntaje3.html">Nota por Puntaje</a></li>
+            <li><a href="calculadora_nota_aprobacion_ramo.html">Aprobar Asignatura</a></li>
+            <li><a href="#">Ruta de Sucesiones</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-col">
+          <h4>Contacto</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> contacto@alvaroprofemate.cl</li>
+            <li><i class="fa-solid fa-location-dot"></i> Santiago, Chile</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Álvaro Hernández Profemate. Todos los derechos reservados. Plantilla Premium lista para Netlify.</p>
+    </div>
+  </footer>
+
+  <!-- e-Learning Roadmap Logic & Plotter JS engine -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initMobileMenu();
+      initAccordion();
+      initJourneyConnector();
+      initSequencePlotter();
+    });
+
+    /* ==========================================================================
+       1. Mobile Navbar Toggle
+       ========================================================================== */
+    function initMobileMenu() {
+      const menuToggle = document.getElementById("menu-toggle");
+      const navMenu = document.getElementById("nav-menu");
+      if (!menuToggle || !navMenu) return;
+
+      menuToggle.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        const icon = menuToggle.querySelector("i");
+        if (navMenu.classList.contains("active")) {
+          icon.classList.replace("fa-bars", "fa-xmark");
+        } else {
+          icon.classList.replace("fa-xmark", "fa-bars");
+        }
+      });
+    }
+
+    /* ==========================================================================
+       2. Journey Map S-Curve Connector Rendering
+       ========================================================================== */
+    function initJourneyConnector() {
+      const container = document.getElementById("journey-container");
+      const path = document.getElementById("journey-path");
+      if (!container || !path) return;
+
+      function drawJourneyPath() {
+        // Only draw serpentine curves on desktop
+        if (window.innerWidth < 992) {
+          path.setAttribute("d", "");
+          return;
+        }
+
+        const containerRect = container.getBoundingClientRect();
+        const coords = [];
+
+        // Fetch center coords of each circle step marker relative to the container
+        for (let i = 1; i <= 6; i++) {
+          const node = document.getElementById(`node-${i}`);
+          if (!node) continue;
+          const marker = node.querySelector(".step-marker");
+          if (!marker) continue;
+
+          const markerRect = marker.getBoundingClientRect();
+          const x = (markerRect.left + markerRect.width / 2) - containerRect.left;
+          const y = (markerRect.top + markerRect.height / 2) - containerRect.top;
+          coords.push({ x, y });
+        }
+
+        if (coords.length < 6) return;
+
+        // Draw perfect S-Curve connector lines between nodes
+        let d = `M ${coords[0].x} ${coords[0].y}`;
+        
+        // Node 1 -> Node 2
+        d += ` L ${coords[1].x} ${coords[1].y}`;
+        
+        // Node 2 -> Node 3
+        d += ` L ${coords[2].x} ${coords[2].y}`;
+        
+        // Node 3 -> Node 4: Curves down and turns around to the left (cubic bezier curve loop)
+        const loopOffset = 110; // how much the loop curves to the right
+        d += ` C ${coords[2].x + loopOffset} ${coords[2].y}, ${coords[3].x + loopOffset} ${coords[3].y}, ${coords[3].x} ${coords[3].y}`;
+        
+        // Node 4 -> Node 5
+        d += ` L ${coords[4].x} ${coords[4].y}`;
+        
+        // Node 5 -> Node 6
+        d += ` L ${coords[5].x} ${coords[5].y}`;
+
+        path.setAttribute("d", d);
+      }
+
+      // Draw path initially and bind layout update event listeners
+      setTimeout(drawJourneyPath, 200);
+      window.addEventListener("resize", drawJourneyPath);
+
+      // Expose to window so we can trigger updates during card expansion
+      window.updateJourneyPath = drawJourneyPath;
+    }
+
+    /* ==========================================================================
+       3. Accordion Interaction (Progressive Disclosure)
+       ========================================================================== */
+    function initAccordion() {
+      const cards = document.querySelectorAll(".journey-card");
+      
+      cards.forEach(card => {
+        const header = card.querySelector(".card-header");
+        
+        header.addEventListener("click", (e) => {
+          // Prevent expanding if clicking inside expanded section elements
+          if (e.target.closest(".card-inner-content")) return;
+          
+          const isActive = card.classList.contains("active");
+          
+          // Collapse all cards (accordion behavior)
+          cards.forEach(c => c.classList.remove("active"));
+          
+          // Toggle active state of clicked card
+          if (!isActive) {
+            card.classList.add("active");
+          }
+
+          // Typeset any new mathematical formulas inside card using MathJax
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([card]);
+          }
+
+          // Smoothly animate the serpentine line as the grids shift heights
+          animateSerpentineConnector();
+        });
+      });
+
+      // Animate path repeatedly during accordion transitions
+      function animateSerpentineConnector() {
+        let startTime = Date.now();
+        const duration = 400; // matching CSS transition duration
+        
+        function step() {
+          if (window.updateJourneyPath) window.updateJourneyPath();
+          if (Date.now() - startTime < duration) {
+            requestAnimationFrame(step);
+          } else {
+            if (window.updateJourneyPath) window.updateJourneyPath();
+          }
+        }
+        requestAnimationFrame(step);
+      }
+    }
+
+    /* ==========================================================================
+       4. Interactive Epsilon-N0 Sequences Plotter (E-learning Engine)
+       ========================================================================== */
+    function initSequencePlotter() {
+      const presetSelect = document.getElementById("plotter-preset");
+      const epsSlider = document.getElementById("plotter-eps");
+      const epsValText = document.getElementById("eps-val");
+      const nSlider = document.getElementById("plotter-n");
+      const nValText = document.getElementById("n-val");
+      const svg = document.getElementById("plotter-svg");
+      const gridGroup = document.getElementById("plot-grid");
+      const dotsGroup = document.getElementById("plot-dots");
+      const epsRect = document.getElementById("eps-rect");
+      const epsUpperLine = document.getElementById("eps-upper-line");
+      const epsLowerLine = document.getElementById("eps-lower-line");
+      const limitLine = document.getElementById("limit-line");
+      const readout = document.getElementById("plotter-readout");
+
+      if (!presetSelect || !epsSlider || !nSlider || !svg) return;
+
+      // Presets catalog with formulas and analytical N0 calculations
+      const presets = {
+        '1/n': {
+          formula: (n) => 1 / n,
+          limit: 0,
+          convergent: true,
+          ymin: -0.2,
+          ymax: 1.2,
+          yTicks: [0, 0.5, 1],
+          calcN0: (eps) => Math.floor(1 / eps) + 1
+        },
+        'n/n+1': {
+          formula: (n) => n / (n + 1),
+          limit: 1,
+          convergent: true,
+          ymin: 0.3,
+          ymax: 1.2,
+          yTicks: [0.5, 0.75, 1],
+          calcN0: (eps) => Math.max(1, Math.floor((1 - eps) / eps) + 1)
+        },
+        'alt': {
+          formula: (n) => (n % 2 === 0 ? 1 : -1) / n,
+          limit: 0,
+          convergent: true,
+          ymin: -1.2,
+          ymax: 1.2,
+          yTicks: [-1, -0.5, 0, 0.5, 1],
+          calcN0: (eps) => Math.floor(1 / eps) + 1
+        },
+        'osc': {
+          formula: (n) => (n % 2 === 0 ? 1 : -1),
+          limit: 0,
+          convergent: false,
+          ymin: -1.5,
+          ymax: 1.5,
+          yTicks: [-1, 0, 1],
+          calcN0: () => null
+        },
+        'div': {
+          formula: (n) => n / 15,
+          limit: Infinity,
+          convergent: false,
+          ymin: -0.2,
+          ymax: 3.0,
+          yTicks: [0, 1, 2],
+          calcN0: () => null
+        }
+      };
+
+      function updatePlot() {
+        const presetKey = presetSelect.value;
+        const eps = parseFloat(epsSlider.value);
+        const N = parseInt(nSlider.value);
+        const seq = presets[presetKey];
+
+        epsValText.textContent = eps.toFixed(2);
+        nValText.textContent = N;
+
+        // SVG layout configurations
+        const svgW = svg.clientWidth || 360;
+        const svgH = 180;
+        const marginL = 40;
+        const marginR = 15;
+        const marginT = 15;
+        const marginB = 25;
+        const plotW = svgW - marginL - marginR;
+        const plotH = svgH - marginT - marginB;
+
+        // Coordinates mapping functions
+        function getX(n) {
+          return marginL + (n - 1) * (plotW / (N - 1));
+        }
+
+        function getY(val) {
+          return marginT + plotH * (seq.ymax - val) / (seq.ymax - seq.ymin);
+        }
+
+        // 1. Draw Grid, ticks, and Axes
+        gridGroup.innerHTML = "";
+        
+        // Draw Horizontal grid lines for Y ticks
+        seq.yTicks.forEach(tickVal => {
+          const yPos = getY(tickVal);
+          if (yPos >= marginT && yPos <= marginT + plotH) {
+            // Grid line
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", marginL);
+            line.setAttribute("y1", yPos);
+            line.setAttribute("x2", svgW - marginR);
+            line.setAttribute("y2", yPos);
+            line.setAttribute("stroke", "var(--border)");
+            line.setAttribute("stroke-width", "1");
+            if (tickVal !== 0) line.setAttribute("stroke-dasharray", "2,2");
+            gridGroup.appendChild(line);
+
+            // Ticks text label
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", marginL - 8);
+            text.setAttribute("y", yPos + 4);
+            text.setAttribute("fill", "var(--text-muted)");
+            text.setAttribute("font-size", "10");
+            text.setAttribute("text-anchor", "end");
+            text.setAttribute("font-family", "monospace");
+            text.textContent = tickVal;
+            gridGroup.appendChild(text);
+          }
+        });
+
+        // Vertical tick lines for X indices
+        const xTicksCount = 5;
+        const step = Math.ceil(N / xTicksCount);
+        for (let i = 1; i <= N; i += step) {
+          const xPos = getX(i);
+          // Label number tick
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", xPos);
+          text.setAttribute("y", svgH - 8);
+          text.setAttribute("fill", "var(--text-muted)");
+          text.setAttribute("font-size", "10");
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("font-family", "monospace");
+          text.textContent = i;
+          gridGroup.appendChild(text);
+        }
+
+        // 2. Draw Epsilon Band around Limit L (if convergent)
+        if (seq.convergent) {
+          const limitY = getY(seq.limit);
+          const upperY = getY(seq.limit + eps);
+          const lowerY = getY(seq.limit - eps);
+
+          // Epsilon rect band shadow
+          epsRect.style.display = "block";
+          epsRect.setAttribute("x", marginL);
+          epsRect.setAttribute("y", Math.max(marginT, upperY));
+          epsRect.setAttribute("width", plotW);
+          epsRect.setAttribute("height", Math.min(plotH, lowerY - upperY));
+
+          // Epsilon limit dashed lines
+          epsUpperLine.style.display = "block";
+          epsUpperLine.setAttribute("x1", marginL);
+          epsUpperLine.setAttribute("y1", upperY);
+          epsUpperLine.setAttribute("x2", svgW - marginR);
+          epsUpperLine.setAttribute("y2", upperY);
+
+          epsLowerLine.style.display = "block";
+          epsLowerLine.setAttribute("x1", marginL);
+          epsLowerLine.setAttribute("y1", lowerY);
+          epsLowerLine.setAttribute("x2", svgW - marginR);
+          epsLowerLine.setAttribute("y2", lowerY);
+
+          // Center limit L line
+          limitLine.style.display = "block";
+          limitLine.setAttribute("x1", marginL);
+          limitLine.setAttribute("y1", limitY);
+          limitLine.setAttribute("x2", svgW - marginR);
+          limitLine.setAttribute("y2", limitY);
+        } else {
+          epsRect.style.display = "none";
+          epsUpperLine.style.display = "none";
+          epsLowerLine.style.display = "none";
+          limitLine.style.display = "none";
+        }
+
+        // 3. Evaluate and Plot terms (Dots)
+        dotsGroup.innerHTML = "";
+        
+        let firstInsideIndex = null;
+        let terms = [];
+        
+        for (let n = 1; n <= N; n++) {
+          const val = seq.formula(n);
+          terms.push(val);
+          
+          const cx = getX(n);
+          const cy = getY(val);
+          
+          let isInside = false;
+          if (seq.convergent) {
+            isInside = Math.abs(val - seq.limit) < eps;
+          }
+
+          // Plot Point Circle Node
+          if (cy >= marginT && cy <= marginT + plotH) {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", cx);
+            circle.setAttribute("cy", cy);
+            circle.setAttribute("r", "4");
+            
+            if (seq.convergent) {
+              circle.setAttribute("fill", isInside ? "var(--accent)" : "#94a3b8");
+              if (isInside) {
+                circle.setAttribute("stroke", "var(--accent-glow)");
+                circle.setAttribute("stroke-width", "3");
+              }
+            } else {
+              circle.setAttribute("fill", "var(--text-muted)");
+            }
+            dotsGroup.appendChild(circle);
+          }
+        }
+
+        // 4. Calculate analytical N0 threshold (for limits up to n=1000)
+        let n0 = null;
+        if (seq.convergent) {
+          n0 = seq.calcN0(eps);
+        }
+
+        // 5. Update math readouts panel description
+        if (seq.convergent) {
+          const limVal = seq.limit;
+          const bandMin = (limVal - eps).toFixed(2);
+          const bandMax = (limVal + eps).toFixed(2);
+          
+          let info = `Límite <span class="highlight">L = ${limVal}</span>. error <span class="highlight">ε = ${eps.toFixed(2)}</span>.<br>`;
+          info += `Banda de error: (${bandMin}, ${bandMax}).<br>`;
+          
+          if (n0 <= N) {
+            info += `Umbral límite <span class="highlight" style="color: #10b981;">N₀ = ${n0}</span>. Para todo n ≥ ${n0}, aₙ está dentro de la banda.`;
+          } else {
+            info += `Umbral límite <span class="highlight" style="color: #ef4444;">N₀ = ${n0}</span> (fuera del gráfico visible N=${N}).`;
+          }
+          readout.innerHTML = info;
+        } else {
+          if (presetKey === 'osc') {
+            readout.innerHTML = `Sucesión oscilante <span class="highlight">aₙ = (-1)ⁿ</span>.<br>Valores alternan entre -1 y 1.<br><span class="highlight" style="color: #ef4444;">No converge</span>. No existe ningún índice N₀ para ε < 1.0.`;
+          } else {
+            readout.innerHTML = `Sucesión divergente <span class="highlight">aₙ = n/15</span>.<br>Valores escapan al infinito: aₙ → +∞.<br><span class="highlight" style="color: #ef4444;">Sucesión no acotada y divergente</span>.`;
+          }
+        }
+      }
+
+      // Bind input events for sliders and preset selects
+      presetSelect.addEventListener("change", updatePlot);
+      epsSlider.addEventListener("input", updatePlot);
+      nSlider.addEventListener("input", updatePlot);
+      
+      // Update plot on initial load
+      updatePlot();
+      window.addEventListener("resize", updatePlot);
+    }
+  </script>
+
+</body>
+</html>

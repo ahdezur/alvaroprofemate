@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de nota para aprobar – Álvaro Profemate</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='fav-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23fav-grad)'/%3E%3Cpath d='M 4,16 L 7,16 L 10,26 L 13,4 L 28,4' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M 15,25 L 20.5,14 L 26,25' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='17.5' y1='21.5' x2='23.5' y2='21.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='20.5' y1='11' x2='23' y2='7.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-secondary);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 600px;
+      background: var(--gradient-hero);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Volver a la Home Button */
+    .back-btn-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 25px auto 0 auto;
+      padding: 0 16px;
+      display: flex;
+      justify-content: flex-start;
+      z-index: 10;
+    }
+    
+    .back-btn {
+      color: var(--text-secondary);
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition-fast);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 50px;
+      backdrop-filter: blur(8px);
+    }
+    
+    .back-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateX(-3px);
+    }
+
+    header {
+      background: transparent;
+      padding: 30px 16px 20px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      color: var(--text-primary);
+      font-family: var(--font-title);
+      font-weight: 700;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 25px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-md);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.35rem;
+      color: var(--text-primary);
+      font-family: var(--font-title);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-family: var(--font-title);
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      outline: none;
+      transition: var(--transition-fast);
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15);
+    }
+
+    .helper {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: var(--font-title);
+      transition: var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.4), var(--shadow-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 12px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    th {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: var(--font-title);
+      font-weight: 600;
+    }
+
+    td input {
+      padding: 8px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .resultado {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .resultado strong {
+      color: var(--text-primary);
+    }
+
+    .ok {
+      background: rgba(16, 185, 129, 0.06);
+      border-left: 6px solid #10b981;
+    }
+
+    .warning {
+      background: rgba(245, 158, 11, 0.06);
+      border-left: 6px solid #f59e0b;
+    }
+
+    .danger {
+      background: rgba(239, 68, 68, 0.06);
+      border-left: 6px solid #ef4444;
+    }
+
+    .error {
+      color: #ef4444;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 650px) {
+      header h1 {
+        font-size: 1.55rem;
+      }
+
+      th, td {
+        font-size: 0.9rem;
+        padding: 10px 8px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body class="theme-light">
+  <div class="back-btn-container">
+    <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver a la Web</a>
+  </div>
+
+  <header>
+    <h1>Calcular Nota para Aprobar</h1>
+    <p>Indica tus evaluaciones, ponderaciones y notas obtenidas para saber qué necesitas en lo que queda.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Configuración general</h2>
+
+      <div class="grid">
+        <div>
+          <label for="notaAprobacion">Nota mínima para aprobar</label>
+          <input type="number" id="notaAprobacion" min="1" max="7" step="0.1" value="4.0" />
+        </div>
+
+        <div>
+          <label for="cantidadPruebas">Cantidad de pruebas</label>
+          <input type="number" id="cantidadPruebas" min="1" step="1" value="3" />
+        </div>
+
+        <div>
+          <label for="tieneExamen">¿El ramo tiene examen?</label>
+          <select id="tieneExamen">
+            <option value="no">No</option>
+            <option value="si">Sí</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="bloqueExamen" class="grid hidden" style="margin-top: 20px;">
+        <div>
+          <label for="ponderacionPresentacion">Ponderación nota de presentación (%)</label>
+          <input type="number" id="ponderacionPresentacion" min="0" max="100" step="0.1" value="70" />
+        </div>
+
+        <div>
+          <label for="ponderacionExamen">Ponderación examen (%)</label>
+          <input type="number" id="ponderacionExamen" min="0" max="100" step="0.1" value="30" />
+        </div>
+
+        <div>
+          <label for="notaExamen">Nota de examen</label>
+          <input type="number" id="notaExamen" min="1" max="7" step="0.1" placeholder="Déjalo vacío si aún no lo rindes" />
+          <p class="helper">Si está vacío, se calculará qué nota necesitas en el examen.</p>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-primary" onclick="generarTabla()"><i class="fa-solid fa-table-cells"></i> Generar pruebas</button>
+        <button class="btn-secondary" onclick="limpiarTodo()"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+      </div>
+
+      <p id="errorConfig" class="error"></p>
+    </section>
+
+    <section class="card">
+      <h2>2. Evaluaciones del ramo</h2>
+      <p class="helper" style="margin-bottom: 15px;">Ingresa la ponderación de cada prueba dentro de la nota de presentación. Si una prueba aún no se rinde, deja la nota en blanco.</p>
+
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Prueba</th>
+              <th>Ponderación (%)</th>
+              <th>Nota obtenida</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tablaPruebas"></tbody>
+        </table>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-primary" onclick="calcular()"><i class="fa-solid fa-square-poll-vertical"></i> Calcular notas requeridas</button>
+      </div>
+    </section>
+
+    <section id="resultado" class="card resultado">
+      <h2>3. Resultado</h2>
+      <p>Completa los datos y presiona <strong>Calcular</strong>.</p>
+    </section>
+  </main>
+
+  <script>
+    const cantidadPruebas = document.getElementById("cantidadPruebas");
+    const tieneExamen = document.getElementById("tieneExamen");
+    const bloqueExamen = document.getElementById("bloqueExamen");
+    const tablaPruebas = document.getElementById("tablaPruebas");
+    const resultado = document.getElementById("resultado");
+    const errorConfig = document.getElementById("errorConfig");
+
+    tieneExamen.addEventListener("change", () => {
+      bloqueExamen.classList.toggle("hidden", tieneExamen.value === "no");
+      generarTabla();
+    });
+
+    function generarTabla() {
+      errorConfig.textContent = "";
+      const n = parseInt(cantidadPruebas.value);
+
+      if (isNaN(n) || n <= 0) {
+        errorConfig.textContent = "La cantidad de pruebas debe ser un número entero positivo.";
+        return;
+      }
+
+      tablaPruebas.innerHTML = "";
+
+      for (let i = 1; i <= n; i++) {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>Prueba ${i}</td>
+          <td><input type="number" class="ponderacion" min="0" max="100" step="0.1" placeholder="Ej: ${redondear(100 / n)}"></td>
+          <td><input type="number" class="nota" min="1" max="7" step="0.1" placeholder="Vacía si pendiente"></td>
+          <td class="estado">Pendiente</td>
+        `;
+        tablaPruebas.appendChild(fila);
+      }
+
+      if (tieneExamen.value === "si") {
+        const filaExamen = document.createElement("tr");
+        filaExamen.innerHTML = `
+          <td><strong>Examen</strong></td>
+          <td><input type="number" value="${document.getElementById("ponderacionExamen").value}" disabled></td>
+          <td><input type="number" id="notaExamenTabla" min="1" max="7" step="0.1" placeholder="Vacía si pendiente"></td>
+          <td id="estadoExamen">Pendiente</td>
+        `;
+        tablaPruebas.appendChild(filaExamen);
+      }
+    }
+
+    function calcular() {
+      const notaAprobacion = parseFloat(document.getElementById("notaAprobacion").value);
+      const conExamen = tieneExamen.value === "si";
+      const ponderaciones = [...document.querySelectorAll(".ponderacion")];
+      const notas = [...document.querySelectorAll(".nota")];
+      const estados = [...document.querySelectorAll(".estado")];
+      const estadoExamen = document.getElementById("estadoExamen");
+      const notaExamenTabla = document.getElementById("notaExamenTabla");
+
+      resultado.className = "card resultado";
+
+      if (!validarNota(notaAprobacion)) {
+        mostrarError("La nota mínima para aprobar debe estar entre 1.0 y 7.0.");
+        return;
+      }
+
+      if (ponderaciones.length === 0) {
+        mostrarError("Primero debes generar la tabla de pruebas.");
+        return;
+      }
+
+      let sumaPonderaciones = 0;
+      let aportePresentacionObtenido = 0;
+      let ponderacionPruebasPendientes = 0;
+      let pruebasPendientes = 0;
+      let hayError = false;
+
+      for (let i = 0; i < ponderaciones.length; i++) {
+        const p = parseFloat(ponderaciones[i].value);
+        const notaTexto = notas[i].value.trim();
+        const nota = parseFloat(notaTexto);
+
+        estados[i].textContent = "";
+
+        if (isNaN(p) || p < 0 || p > 100) {
+          estados[i].textContent = "Ponderación inválida";
+          hayError = true;
+          continue;
+        }
+
+        sumaPonderaciones += p;
+
+        if (notaTexto === "") {
+          ponderacionPruebasPendientes += p;
+          pruebasPendientes++;
+          estados[i].textContent = "Pendiente";
+        } else if (!validarNota(nota)) {
+          estados[i].textContent = "Nota inválida";
+          hayError = true;
+        } else {
+          aportePresentacionObtenido += nota * (p / 100);
+          estados[i].textContent = "Rendida";
+        }
+      }
+
+      if (hayError) {
+        mostrarError("Revisa las ponderaciones y notas ingresadas. Las notas deben estar entre 1.0 y 7.0.");
+        return;
+      }
+
+      if (Math.abs(sumaPonderaciones - 100) > 0.01) {
+        mostrarError(`Las ponderaciones de las pruebas deben sumar 100%. Actualmente suman ${redondear(sumaPonderaciones)}%.`);
+        return;
+      }
+
+      let ponderacionPresentacionFinal = 100;
+      let ponderacionExamenFinal = 0;
+      let notaExamenIngresada = null;
+      let examenPendiente = false;
+
+      if (conExamen) {
+        ponderacionPresentacionFinal = parseFloat(document.getElementById("ponderacionPresentacion").value);
+        ponderacionExamenFinal = parseFloat(document.getElementById("ponderacionExamen").value);
+
+        if (isNaN(ponderacionPresentacionFinal) || isNaN(ponderacionExamenFinal) || ponderacionPresentacionFinal < 0 || ponderacionExamenFinal < 0) {
+          mostrarError("Las ponderaciones de presentación y examen deben ser números válidos.");
+          return;
+        }
+
+        if (Math.abs(ponderacionPresentacionFinal + ponderacionExamenFinal - 100) > 0.01) {
+          mostrarError("La ponderación de presentación y examen debe sumar 100%.");
+          return;
+        }
+
+        const notaExamenTexto = notaExamenTabla ? notaExamenTabla.value.trim() : "";
+
+        if (notaExamenTexto === "") {
+          examenPendiente = true;
+          if (estadoExamen) estadoExamen.textContent = "Pendiente";
+        } else {
+          const notaExamen = parseFloat(notaExamenTexto);
+          if (!validarNota(notaExamen)) {
+            if (estadoExamen) estadoExamen.textContent = "Nota inválida";
+            mostrarError("La nota de examen debe estar entre 1.0 y 7.0.");
+            return;
+          }
+          notaExamenIngresada = notaExamen;
+          if (estadoExamen) estadoExamen.textContent = "Rendido";
+        }
+      }
+
+      const pesoPresentacion = ponderacionPresentacionFinal / 100;
+      const pesoExamen = ponderacionExamenFinal / 100;
+
+      const aporteFinalObtenidoPorPruebas = aportePresentacionObtenido * pesoPresentacion;
+      const aporteFinalObtenidoPorExamen = notaExamenIngresada === null ? 0 : notaExamenIngresada * pesoExamen;
+      const aporteFinalObtenido = aporteFinalObtenidoPorPruebas + aporteFinalObtenidoPorExamen;
+
+      const pesoFinalPruebasPendientes = (ponderacionPruebasPendientes / 100) * pesoPresentacion;
+      const pesoFinalExamenPendiente = examenPendiente ? pesoExamen : 0;
+      const pesoFinalPendienteTotal = pesoFinalPruebasPendientes + pesoFinalExamenPendiente;
+
+      const notaPresentacionActual = aportePresentacionObtenido;
+      let html = "";
+      html += `<h2>3. Resultado</h2>`;
+      html += `<p>Nota acumulada en la nota de presentación: <strong>${redondear(notaPresentacionActual)}</strong></p>`;
+      html += `<p>Aporte acumulado a la nota final del ramo: <strong>${redondear(aporteFinalObtenido)}</strong></p>`;
+      html += `<p>Ponderación pendiente en pruebas: <strong>${redondear(ponderacionPruebasPendientes)}%</strong> de la presentación.</p>`;
+
+      if (conExamen) {
+        html += `<p>El examen representa un <strong>${redondear(ponderacionExamenFinal)}%</strong> de la nota final.</p>`;
+      }
+
+      if (pesoFinalPendienteTotal === 0) {
+        const notaFinal = aporteFinalObtenido;
+        html += `<p>Ya no quedan evaluaciones pendientes.</p>`;
+        html += `<p>Tu nota final estimada es <strong>${redondear(notaFinal)}</strong>.</p>`;
+
+        if (notaFinal >= notaAprobacion) {
+          resultado.classList.add("ok");
+          html += `<p><strong>Resultado:</strong> apruebas el ramo.</p>`;
+        } else {
+          resultado.classList.add("danger");
+          html += `<p><strong>Resultado:</strong> no alcanzas la nota mínima de aprobación.</p>`;
+        }
+      } else {
+        const promedioNecesarioPendiente = (notaAprobacion - aporteFinalObtenido) / pesoFinalPendienteTotal;
+
+        if (pruebasPendientes > 0 && examenPendiente) {
+          html += `<p>Para aprobar, considerando que todavía rindes pruebas y examen, necesitas promediar aproximadamente <strong>${redondear(promedioNecesarioPendiente)}</strong> entre todas las evaluaciones pendientes.</p>`;
+          html += `<p>Es decir, si obtienes aproximadamente <strong>${redondear(promedioNecesarioPendiente)}</strong> en cada prueba pendiente, también deberías obtener aproximadamente <strong>${redondear(promedioNecesarioPendiente)}</strong> en el examen.</p>`;
+        } else if (pruebasPendientes > 0) {
+          html += `<p>Para aprobar, necesitas promediar aproximadamente <strong>${redondear(promedioNecesarioPendiente)}</strong> en las ${pruebasPendientes} prueba(s) pendiente(s).</p>`;
+        } else if (examenPendiente) {
+          html += `<p>Para aprobar el ramo, necesitas obtener aproximadamente <strong>${redondear(promedioNecesarioPendiente)}</strong> en el examen.</p>`;
+        }
+
+        if (promedioNecesarioPendiente <= 1) {
+          resultado.classList.add("ok");
+          html += `<p><strong>Estás en muy buen escenario:</strong> incluso con nota mínima en lo pendiente podrías aprobar.</p>`;
+        } else if (promedioNecesarioPendiente > 7) {
+          resultado.classList.add("danger");
+          html += `<p><strong>No alcanza:</strong> necesitarías más de 7.0 en las evaluaciones pendientes.</p>`;
+        } else {
+          resultado.classList.add("warning");
+          html += `<p><strong>Escenario posible:</strong> debes obtener esa nota aproximada en lo pendiente.</p>`;
+        }
+      }
+
+      resultado.innerHTML = html;
+    }
+
+    function mostrarError(mensaje) {
+      resultado.className = "card resultado danger";
+      resultado.innerHTML = `<h2>3. Resultado</h2><p class="error">${mensaje}</p>`;
+    }
+
+    function validarNota(nota) {
+      return !isNaN(nota) && nota >= 1 && nota <= 7;
+    }
+
+    function redondear(x) {
+      if (isNaN(x) || !isFinite(x)) return "—";
+      return Number(x).toFixed(1);
+    }
+
+    function limpiarTodo() {
+      document.getElementById("notaAprobacion").value = "4.0";
+      cantidadPruebas.value = "3";
+      tieneExamen.value = "no";
+      bloqueExamen.classList.add("hidden");
+      document.getElementById("ponderacionPresentacion").value = "70";
+      document.getElementById("ponderacionExamen").value = "30";
+      document.getElementById("notaExamen").value = "";
+      const notaExamenTabla = document.getElementById("notaExamenTabla");
+      if (notaExamenTabla) {
+        notaExamenTabla.value = "";
+      }
+      tablaPruebas.innerHTML = "";
+      errorConfig.textContent = "";
+      resultado.className = "card resultado";
+      resultado.innerHTML = `<h2>3. Resultado</h2><p>Completa los datos y presiona <strong>Calcular</strong>.</p>`;
+      generarTabla();
+    }
+
+    generarTabla();
+  </script>
+</body>
+</html>
