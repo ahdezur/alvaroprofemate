@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva: Lugares Geométricos y Cónicas</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --accent: #0f172a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--accent);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 20px auto;
+            padding: 0 20px;
+            transition: max-width 0.3s ease;
+        }
+
+        /* Sección Introductoria Fija */
+        .intro-section {
+            background: var(--surface);
+            padding: 20px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .intro-section ol {
+            margin-left: 0;
+            padding-left: 20px;
+        }
+
+        .intro-section li {
+            margin-bottom: 8px;
+        }
+
+        /* Barra de Herramientas y Pestañas */
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+        }
+
+        .tab-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
+            color: var(--text);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #334155;
+        }
+
+        .btn-toggle-pauta {
+            background-color: #059669;
+            margin-top: 15px;
+        }
+
+        .btn-toggle-pauta:hover {
+            background-color: #047857;
+        }
+
+        /* Área de Trabajo y Modos de Pantalla */
+        .workspace {
+            display: block;
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        /* Estado: Pantalla Dividida Activa (Solo Enunciado + Asistente de Fórmulas) */
+        .workspace.split-mode {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 25px;
+            padding: 20px;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .column {
+            padding: 25px;
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+        }
+
+        .workspace.split-mode .enunciado-col {
+            border: 1px solid var(--border);
+        }
+
+        /* Contenedores ocultos de fórmulas en vista normal */
+        .formulas-reserva {
+            display: none !important;
+        }
+
+        /* Columna Asistente de Fórmulas Dinámica/Sticky */
+        .formulas-col {
+            display: none; 
+        }
+
+        .workspace.split-mode .formulas-col {
+            display: block;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+        }
+
+        /* Control de Visibilidad de Contenidos */
+        .exercise-content {
+            display: none;
+        }
+
+        .exercise-content.active {
+            display: block;
+        }
+
+        .pauta-container {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8fafc;
+            border-left: 4px solid #059669;
+            border-radius: 4px;
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .formula-box {
+            background: white;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary);
+            font-size: 0.95rem;
+            box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+        }
+
+        h2, h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        
+        ol li {
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Guía de Lugares Geométricos y Cónicas</h1>
+        <p>Método Analítico y Eliminación de Parámetros</p>
+    </header>
+
+    <div class="container" id="main-container">
+        
+        <section class="intro-section">
+            <h3>Estrategia General de Resolución</h3>
+            <p>Para resolver cualquier problema de lugar geométrico de forma analítica, sigue rigurosamente estos pasos fundamentales:</p>
+            <ol>
+                <li><strong>Definir el punto del lugar geométrico:</strong> Asigna las coordenadas $P(x, y)$ al punto final cuyo rastro queremos medir.</li>
+                <li><strong>Identificar los parámetros libres:</strong> Si el enunciado menciona puntos móviles o rectas variables, asígnales variables auxiliares (por ejemplo, el punto $C(t, c)$ o la pendiente $m$).</li>
+                <li><strong>Plantear las relaciones algebraicas:</strong> Traduce las condiciones geométricas del enunciado (perpendicularidad, distancias, puntos medios, intersecciones) en ecuaciones donde coexistan $x$, $y$ y tus parámetros libres.</li>
+                <li><strong>Eliminar los parámetros:</strong> Utiliza el álgebra para despejar y desaparecer los parámetros variables. El objetivo es obtener una <strong>única ecuación</strong> que relacione exclusivamente a $x$ con $y$.</li>
+                <li><strong>Identificar la cónica:</strong> Lleva la ecuación a su forma canónica o estándar para reconocer qué tipo de curva representa y determina sus elementos principales.</li>
+            </ol>
+        </section>
+        
+        <div class="controls-bar">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchExercise(1)">Ejercicio 1</button>
+                <button class="tab-btn" onclick="switchExercise(2)">Ejercicio 2</button>
+                <button class="tab-btn" onclick="switchExercise(3)">Ejercicio 3</button>
+                <button class="tab-btn" onclick="switchExercise(4)">Ejercicio 4</button>
+            </div>
+            <button class="btn" id="split-btn" onclick="toggleSplitScreen()">Dividir Pantalla</button>
+        </div>
+
+        <div class="workspace" id="workspace">
+            
+            <div class="column enunciado-col">
+                
+                <div id="exe-1" class="exercise-content active">
+                    <h2>Ejercicio 1: Puntos medios con una curva base</h2>
+                    <p>Se tiene una parábola fija de ecuación $\displaystyle y^2 = 4cx$. Considera el vértice de la parábola $\displaystyle O(0,0)$ y un punto variable $\displaystyle Q$ que se desplaza a lo largo de toda la curva. Determinar e identificar el lugar geométrico que describen los puntos medios del segmento $\displaystyle OQ$.</p>
+                    
+                    <div id="normal-formulas-1" class="formulas-reserva">
+                        <div class="formula-box"><strong>Punto Medio:</strong> $\displaystyle M = \left( \frac{x_1 + x_2}{2}, \frac{y_1 + y_2}{2} \right)$</div>
+                        <div class="formula-box"><strong>Condición de Pertenencia:</strong> Si $\displaystyle Q(x_1, y_1) \in \text{curva} \implies y_1^2 = 4cx_1$</div>
+                    </div>
+
+                    <button class="btn btn-toggle-pauta" onclick="togglePauta(1)">Ver / Ocultar Pauta</button>
+                    
+                    <div id="pauta-container-1" class="pauta-container hidden">
+                        <h3>Pauta de Resolución - Ejercicio 1</h3>
+                        <ol>
+                            <li>Definimos el punto móvil sobre la curva como $\displaystyle Q(x_1, y_1)$, cumpliendo de forma inicial $\displaystyle y_1^2 = 4cx_1$.</li>
+                            <li>Planteamos las ecuaciones de punto medio con el origen $\displaystyle (0,0)$: <br> $$\displaystyle x = \frac{0 + x_1}{2} \implies x_1 = 2x$$ $$\displaystyle y = \frac{0 + y_1}{2} \implies y_1 = 2y$$</li>
+                            <li>Sustituimos estas equivalencias en la parábola base: <br> $$\displaystyle (2y)^2 = 4c(2x) \implies 4y^2 = 8cx$$</li>
+                            <li>Simplificando la expresión dividiendo por 4: <br> $$\displaystyle y^2 = 2cx$$</li>
+                        </ol>
+                        <p><strong>Conclusión:</strong> Es una <strong>nueva parábola</strong> con el foco situado justamente a la mitad de la distancia focal original.</p>
+                    </div>
+                </div>
+
+                <div id="exe-2" class="exercise-content">
+                    <h2>Ejercicio 2: Intersección de rectas móviles</h2>
+                    <p>Considera dos rectas variables, $\displaystyle L_1$ y $\displaystyle L_2$, que pasan por los puntos fijos $\displaystyle (a, 0)$ y $\displaystyle (-a, 0)$ respectivamente (con $\displaystyle a > 0$). Las pendientes de ambas rectas son inversamente proporcionales, siendo $\displaystyle k$ la constante de proporcionalidad (con $\displaystyle k \neq 0$). Hallar e identificar el lugar geométrico que describe el punto de intersección $\displaystyle P(x, y)$ de estas rectas, discutiendo analíticamente la naturaleza de la curva según los casos $\displaystyle k > 0$ y $\displaystyle k < 0$.</p>
+                    
+                    <div id="normal-formulas-2" class="formulas-reserva">
+                        <div class="formula-box"><strong>Ecuación punto-pendiente:</strong> $\displaystyle y - y_1 = m(x - x_1)$</div>
+                        <div class="formula-box"><strong>Variables inversamente proporcionales:</strong> $\displaystyle u$ y $\displaystyle v$ con constante de proporcionalidad $\displaystyle k$ cumplen: $\displaystyle u \cdot v = k$ (o $\displaystyle v = \frac{k}{u}$)</div>
+                        <div class="formula-box"><strong>Diferencia de cuadrados:</strong> $\displaystyle (x + a)(x - a) = x^2 - a^2$</div>
+                        <div class="formula-box"><strong>Elipse canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} + \frac{y^2}{\beta^2} = 1$</div>
+                        <div class="formula-box"><strong>Hipérbola canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} - \frac{y^2}{\beta^2} = 1$</div>
+                    </div>
+
+                    <button class="btn btn-toggle-pauta" onclick="togglePauta(2)">Ver / Ocultar Pauta</button>
+                    
+                    <div id="pauta-container-2" class="pauta-container hidden">
+                        <h3>Pauta de Resolución - Ejercicio 2</h3>
+                        <ol>
+                            <li><strong>Deducción de las ecuaciones de las rectas:</strong> Usando la ecuación punto-pendiente, $\displaystyle L_1$ pasa por $\displaystyle (a, 0)$ con pendiente $\displaystyle m_1$: <br> $$y = m_1(x - a)$$ y $\displaystyle L_2$ pasa por $\displaystyle (-a, 0)$ con pendiente $\displaystyle m_2$: <br> $$y = m_2(x + a)$$</li>
+                            <li><strong>Relación de proporcionalidad:</strong> Como las pendientes son inversamente proporcionales con constante $\displaystyle k$: <br> $$m_1 \cdot m_2 = k \implies m_2 = \frac{k}{m_1}$$ Denotando el parámetro libre como $\displaystyle m_1 = m$ (con $\displaystyle m \neq 0$), las rectas son: <br> $$L_1: y = m(x - a)$$ $$L_2: y = \frac{k}{m}(x + a)$$</li>
+                            <li><strong>Eliminación del parámetro:</strong> Despejamos $\displaystyle m$ de $\displaystyle L_1$: <br> $$m = \frac{y}{x - a}$$ y lo sustituimos en la ecuación de $\displaystyle L_2$: <br> $$y = \frac{k}{\frac{y}{x - a}}(x + a) \implies y^2 = k(x - a)(x + a)$$</li>
+                            <li><strong>Ecuación final y normalización:</strong> Distribuyendo la diferencia de cuadrados: <br> $$y^2 = k(x^2 - a^2) \implies kx^2 - y^2 = ka^2$$ Dividiendo por $\displaystyle ka^2$: <br> $$\frac{x^2}{a^2} - \frac{y^2}{ka^2} = 1$$</li>
+                        </ol>
+                        <h3>Discusión de casos:</h3>
+                        <ul>
+                            <li><strong>Si $\displaystyle k > 0$:</strong> Como el denominador de $\displaystyle y^2$ es positivo, corresponde a una <strong>hipérbola</strong> centrada en el origen con eje transverso horizontal.</li>
+                            <li><strong>Si $\displaystyle k < 0$:</strong> Definiendo $\displaystyle k = -k'$ (con $\displaystyle k' > 0$), la ecuación queda como $\displaystyle \frac{x^2}{a^2} + \frac{y^2}{k'a^2} = 1$, lo cual corresponde a una <strong>elipse</strong> centrada en el origen.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="exe-3" class="exercise-content">
+                    <h2>Ejercicio 3: El lugar geométrico del Circuncentro</h2>
+                    <p>El triángulo $OBC$ tiene su base fija en el eje $OX$ con $O = (0,0)$ y $B = (a,0)$. El vértice variable $C$ se mueve sobre la recta horizontal $y = c$. Determinar e identificar el lugar geométrico que describe el circuncentro $K(x,y)$ (intersección de las mediatrices del triángulo).</p>
+                    
+                    <div id="normal-formulas-3" class="formulas-reserva">
+                        <div class="formula-box"><strong>Distancia al cuadrado:</strong> $d^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2$</div>
+                        <div class="formula-box"><strong>Propiedad del Circuncentro:</strong> $d(K,O) = d(K,B) = d(K,C)$</div>
+                        <div class="formula-box"><strong>Parábola ordinaria vertical:</strong> $(x - h)^2 = 4p(y - k)$</div>
+                    </div>
+
+                    <button class="btn btn-toggle-pauta" onclick="togglePauta(3)">Ver / Ocultar Pauta</button>
+                    
+                    <div id="pauta-container-3" class="pauta-container hidden">
+                        <h3>Pauta de Resolución - Ejercicio 3</h3>
+                        <ol>
+                            <li>Establecemos el vértice dinámico como $C(t,c)$ con parámetro libre $t$.</li>
+                            <li>Por definición, el circuncentro equidista de los puntos. Evaluamos primero $d(K,O)^2 = d(K,B)^2$: <br> $$x^2 + y^2 = (x-a)^2 + y^2 \implies x^2 = x^2 - 2ax + a^2 \implies x = \frac{a}{2}$$</li>
+                            <li>Ahora igualamos la distancia respecto al vértice móvil $C(t,c)$, es decir, $d(K,O)^2 = d(K,C)^2$: <br> $$x^2 + y^2 = (x-t)^2 + (y-c)^2$$</li>
+                            <li>Reemplazamos el valor constante $x = \frac{a}{2}$ y desarrollamos los binomios cuadrados: <br> $$\left(\frac{a}{2}\right)^2 + y^2 = \left(\frac{a}{2}-t\right)^2 + y^2 - 2cy + c^2 \implies 2cy = t^2 - at + c^2$$</li>
+                            <li>Asociando la variable del parámetro en la progresión geométrica del plano, obtenemos la ecuación analítica final: <br> $$x^2 - ax - 2cy + c^2 = 0$$</li>
+                        </ol>
+                        <p><strong>Conclusión:</strong> Corresponde formalmente a una <strong>parábola vertical</strong> simétrica respecto al eje vertical $x = \frac{a}{2}$.</p>
+                    </div>
+                </div>
+
+                <div id="exe-4" class="exercise-content">
+                    <h2>Ejercicio 4: Ángulo/Pendiente constante con extremos fijos</h2>
+                    <p>Un triángulo tiene sus vértices fijos en $A(-a, 0)$ y $B(a, 0)$. El tercer vértice $C(x, y)$ se mueve de modo que el producto de las pendientes de los lados $AC$ y $BC$ es siempre una constante fija $K$ ($K \neq 0$). Determinar el lugar geométrico de $C$ y discutir analíticamente cómo cambia la naturaleza de la curva si $K > 0$ o si $K < 0$.</p>
+                    
+                    <div id="normal-formulas-4" class="formulas-reserva">
+                        <div class="formula-box"><strong>Cálculo de Pendiente:</strong> $m = \frac{y_2 - y_1}{x_2 - x_1}$</div>
+                        <div class="formula-box"><strong>Elipse Canónica:</strong> $\frac{x^2}{\alpha^2} + \frac{y^2}{\beta^2} = 1 \quad (\text{Signos iguales})$</div>
+                        <div class="formula-box"><strong>Hipérbola Canónica:</strong> $\frac{x^2}{\alpha^2} - \frac{y^2}{\beta^2} = 1 \quad (\text{Signos opuestos})$</div>
+                    </div>
+
+                    <button class="btn btn-toggle-pauta" onclick="togglePauta(4)">Ver / Ocultar Pauta</button>
+                    
+                    <div id="pauta-container-4" class="pauta-container hidden">
+                        <h3>Pauta de Resolución - Ejercicio 4</h3>
+                        <ol>
+                            <li>Calculamos las pendientes hacia los dos extremos fijos $A$ y $B$: <br> $$m_{AC} = \frac{y - 0}{x - (-a)} = \frac{y}{x+a}, \quad m_{BC} = \frac{y - 0}{x - a} = \frac{y}{x-a}$$</li>
+                            <li>Aplicamos el producto de pendientes determinado por la constante $K$: <br> $$\left(\frac{y}{x+a}\right)\cdot\left(\frac{y}{x-a}\right) = K \implies \frac{y^2}{x^2-a^2} = K$$</li>
+                            <li>Agrupamos términos coordenados: <br> $$y^2 = K(x^2 - a^2) \implies Kx^2 - y^2 = Ka^2$$</li>
+                            <li>Dividimos por $Ka^2$ para normalizar el miembro derecho: <br> $$\frac{x^2}{a^2} - \frac{y^2}{Ka^2} = 1$$</li>
+                        </ol>
+                        <h3>Discusión del Parámetro:</h3>
+                        <ul>
+                            <li><strong>Si $K < 0$:</strong> Redefiniendo como $K = -k$ (con $k>0$), la ecuación se vuelve $\frac{x^2}{a^2} + \frac{y^2}{ka^2} = 1$. Al ser ambos coeficientes positivos, es una <strong>Elipse</strong>.</li>
+                            <li><strong>Si $K > 0$:</strong> Mantiene la resta estructural de la ecuación estándar. Representa una <strong>Hipérbola</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="column formulas-col" id="floating-formulas">
+                <h3>Asistente de Fórmulas</h3>
+                <div id="dynamic-formulas-content"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentExercise = 1;
+        let isSplitMode = false;
+
+        function switchExercise(num) {
+            currentExercise = num;
+            
+            // Alternar clases de botones de pestañas
+            document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index + 1 === num);
+            });
+
+            // Alternar visibilidad de los bloques de ejercicios
+            document.querySelectorAll('.exercise-content').forEach((content, index) => {
+                content.classList.toggle('active', index + 1 === num);
+            });
+            
+            // Si está activa la pantalla dividida, actualizar el panel de fórmulas flotante
+            if (isSplitMode) {
+                syncFormulas();
+            }
+        }
+
+        function togglePauta(num) {
+            const currentPauta = document.getElementById(`pauta-container-${num}`);
+            
+            if (currentPauta.classList.contains('hidden')) {
+                currentPauta.classList.remove('hidden');
+            } else {
+                currentPauta.classList.add('hidden');
+            }
+            
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function toggleSplitScreen() {
+            const workspace = document.getElementById('workspace');
+            const container = document.getElementById('main-container');
+            const splitBtn = document.getElementById('split-btn');
+
+            isSplitMode = !isSplitMode;
+
+            if (isSplitMode) {
+                workspace.classList.add('split-mode');
+                container.style.maxWidth = "100%";
+                splitBtn.innerText = "Pantalla Normal";
+                syncFormulas();
+            } else {
+                workspace.classList.remove('split-mode');
+                container.style.maxWidth = "1300px";
+                splitBtn.innerText = "Dividir Pantalla";
+                document.getElementById('dynamic-formulas-content').innerHTML = "";
+            }
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function syncFormulas() {
+            // Extrae el contenido de fórmulas directamente del contenedor de reserva correspondiente
+            const formulasHtml = document.getElementById(`normal-formulas-${currentExercise}`).innerHTML;
+            document.getElementById('dynamic-formulas-content').innerHTML = formulasHtml;
+            
+            if (window.MathJax) {
+                MathJax.typesetPromise([document.getElementById('dynamic-formulas-content')]);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio Resuelto: Álgebra Combinatoria | AlvaroProfeMate.cl</title>
+  
+  <!-- Configuración de MathJax para renderizado matemático impecable -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Fuentes Premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* VARIABLES REORGANIZADAS CON EL DESIGN SYSTEM PEDAGÓGICO DE ALVAROPROFEMATE */
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #1d4ed8; /* Azul Real de AlvaroProfeMate */
+      --accent-hover: #1e40af;
+      --border: #e2e8f0;
+      
+      --sol-bg: #f0fdf4;
+      --sol-border: #22c55e;
+      --sol-text: #166534;
+      
+      --formula-bg: #f8fafc;
+      --formula-border: #94a3b8;
+      
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --border: #334155;
+      
+      --sol-bg: #064e3b;
+      --sol-border: #10b981;
+      --sol-text: #ecfdf5;
+      
+      --formula-bg: #0f172a;
+      --formula-border: #475569;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* BARRA DE PROGRESO DE LECTURA */
+    .progress-container {
+      position: fixed; top: 0; left: 0; width: 100%; height: 5px; background: rgba(0,0,0,0.05); z-index: 1200;
+    }
+    .progress-bar {
+      height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #10b981); transition: width 0.1s ease;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .navbar-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-container {
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.5px;
+    }
+    
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    /* BOTONES */
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
+    }
+    
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(29, 78, 216, 0.2);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(29, 78, 216, 0.05);
+      color: var(--accent-hover);
+      border-color: var(--accent-hover);
+      box-shadow: none;
+    }
+
+    .btn-theme {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-theme:hover {
+      background: rgba(0,0,0,0.03);
+      border-color: var(--text);
+    }
+
+    [data-theme="dark"] .btn-theme:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .sun-icon { display: none; }
+    [data-theme="dark"] .sun-icon { display: block; }
+    [data-theme="dark"] .moon-icon { display: none; }
+
+    /* LAYOUT CONTENEDOR PRINCIPAL */
+    .main-container {
+      max-width: 900px;
+      width: 100%;
+      margin: 1.25rem auto;
+      padding: 0 1rem;
+      transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      flex: 1;
+    }
+    
+    .content-wrapper {
+      display: flex;
+      gap: 0;
+      transition: gap 0.4s ease;
+    }
+    
+    .exercise-pane {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: all 0.4s ease;
+    }
+    
+    .formula-pane {
+      width: 0;
+      opacity: 0;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid transparent;
+      border-radius: 16px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s ease, border-color 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      box-shadow: var(--shadow);
+    }
+    
+    /* MODIFICADORES DEL SPLIT SCREEN */
+    .split-active.main-container {
+      max-width: 1300px;
+    }
+    
+    .split-active .content-wrapper {
+      gap: 1.25rem;
+    }
+    
+    .split-active .formula-pane {
+      width: 400px;
+      opacity: 1;
+      padding: 1.25rem;
+      border-color: var(--border);
+      overflow-y: auto;
+      max-height: 85vh;
+      position: sticky;
+      top: 80px;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow);
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-accent {
+      background: rgba(29, 78, 216, 0.08);
+      color: var(--accent);
+    }
+
+    .badge-solucion {
+      background: rgba(34, 197, 94, 0.08);
+      color: #22c55e;
+    }
+
+    /* SECCIÓN DE SOLUCIÓN */
+    .solucion-box {
+      display: none;
+      border-left: 5px solid var(--sol-border);
+      background: var(--sol-bg);
+      color: var(--sol-text);
+      padding: 1.15rem 1.35rem;
+      border-radius: 4px 14px 14px 4px;
+      margin-top: 0.75rem;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .solucion-box p {
+      margin-top: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .box-resultado {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      background: linear-gradient(135deg, rgba(29, 78, 216, 0.04) 0%, rgba(255,255,255,0.8) 100%);
+      margin: 0.75rem 0;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.03);
+      text-align: center;
+      overflow-x: auto;
+    }
+
+    [data-theme="dark"] .box-resultado {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(30, 41, 59, 0.8) 100%);
+    }
+
+    .boxed-result {
+      border: 2px solid var(--sol-border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      display: inline-block;
+      margin: 0.5rem 0;
+    }
+
+    [data-theme="dark"] .boxed-result {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    /* SECCIÓN DE FÓRMULAS */
+    .formula-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--accent);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .formula-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .formula-card {
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.6rem 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .formula-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      border-color: var(--formula-border);
+    }
+
+    .formula-card h4 {
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .formula-card .math-expr {
+      overflow-x: auto;
+      padding: 0.25rem 0;
+    }
+
+    /* REDUCIR ESPACIO DE MATHJAX DISPLAY */
+    mjx-container[display="true"] {
+      margin: 0.4rem 0 !important;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+      .logo-text {
+        font-size: 1rem;
+      }
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1.05rem;
+      }
+      .main-container {
+        padding: 0 1rem;
+        margin: 1.5rem auto;
+      }
+      .card {
+        padding: 1.5rem;
+      }
+      .split-active.main-container {
+        max-width: 100%;
+      }
+      .split-active .content-wrapper {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .split-active .formula-pane {
+        width: 100%;
+        max-height: none;
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE PROGRESO -->
+  <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo-container">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" style="display: block;">
+            <path d="M 4,16 L 7,16 L 10,26 L 13,4 L 28,4" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 15,25 L 20.5,14 L 26,25" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="17.5" y1="21.5" x2="23.5" y2="21.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+            <line x1="20.5" y1="11" x2="23" y2="7.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="logo-text">Álvaro<span>Profemate</span></div>
+      </a>
+      
+      <!-- Botón Dividir Pantalla -->
+      <button class="btn btn-outline" id="btnToggleSplit" onclick="toggleSplitScreen()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+        <span>Dividir Pantalla</span>
+      </button>
+
+      <!-- Botón Modo Oscuro -->
+      <button class="btn-theme" onclick="toggleTheme()" aria-label="Cambiar tema">
+        <!-- Moon Icon -->
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <!-- Sun Icon -->
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="main-container" id="mainContainer">
+    <div class="content-wrapper" id="contentWrapper">
+      
+      <!-- COLUMNA IZQUIERDA: EJERCICIO -->
+      <div class="exercise-pane">
+        
+        <!-- Enunciado -->
+        <div class="card">
+          <div class="card-title">
+            <span class="badge badge-accent">Problema Resuelto</span>
+            <span>Identidades y Sumas Combinatorias</span>
+          </div>
+          <p style="font-weight: 500; font-size: 1.05rem;">Pruebe que para todo $n\geq 2$ y $k\in\{2,\ldots,n\}$ se tiene que</p>
+          <div class="box-resultado">
+            $$
+            (k^2-k)\binom{n}{k}
+            =
+            (n^2-n)\binom{n-2}{k-2}.
+            $$
+          </div>
+          <p style="font-weight: 500; font-size: 1.05rem;">Utilice este resultado para calcular la suma</p>
+          <div class="box-resultado">
+            $$
+            \sum_{k=0}^{n}(k^2-k)\binom{n}{k}.
+            $$
+          </div>
+          
+          <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+            <button class="btn" id="btnToggleSol" onclick="toggleSolucion()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>Ver Solución Completa</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Caja de Solución (Oculta por defecto) -->
+        <div class="card solucion-box" id="solucionBox">
+          <div class="card-title" style="color: var(--sol-text);">
+            <span class="badge badge-solucion">Demostración y Cálculo</span>
+            <span>Solución Desarrollada</span>
+          </div>
+          
+          <p>Para $k\in\{2,\ldots,n\}$, tenemos</p>
+          $$
+          (k^2-k)\binom{n}{k}
+          =
+          k(k-1)\frac{n!}{k!(n-k)!}.
+          $$
+
+          <p>Como</p>
+          $$
+          k!=k(k-1)(k-2)!,
+          $$
+          
+          <p>se obtiene</p>
+          $$
+          k(k-1)\frac{n!}{k!(n-k)!}
+          =
+          \frac{n!}{(k-2)!(n-k)!}.
+          $$
+
+          <p>Por otra parte,</p>
+          $$
+          (n^2-n)\binom{n-2}{k-2}
+          =
+          n(n-1)\frac{(n-2)!}{(k-2)!(n-k)!}.
+          $$
+
+          <p>Como</p>
+          $$
+          n!=n(n-1)(n-2)!,
+          $$
+          
+          <p>entonces</p>
+          $$
+          (n^2-n)\binom{n-2}{k-2}
+          =
+          \frac{n!}{(k-2)!(n-k)!}.
+          $$
+
+          <p>Por lo tanto,</p>
+          $$
+          (k^2-k)\binom{n}{k}
+          =
+          (n^2-n)\binom{n-2}{k-2}.
+          $$
+
+          <p>Ahora, como $k^2-k=0$ para $k=0$ y $k=1$, se tiene</p>
+          $$
+          \sum_{k=0}^{n}(k^2-k)\binom{n}{k}
+          =
+          \sum_{k=2}^{n}(k^2-k)\binom{n}{k}.
+          $$
+
+          <p>Usando la identidad anterior,</p>
+          $$
+          \sum_{k=2}^{n}(k^2-k)\binom{n}{k}
+          =
+          (n^2-n)\sum_{k=2}^{n}\binom{n-2}{k-2}.
+          $$
+
+          <p>Haciendo el cambio de índice $j=k-2$, resulta</p>
+          $$
+          (n^2-n)\sum_{j=0}^{n-2}\binom{n-2}{j}.
+          $$
+
+          <p>Por la identidad binomial,</p>
+          $$
+          \sum_{j=0}^{n-2}\binom{n-2}{j}
+          =
+          2^{n-2}.
+          $$
+
+          <p>Finalmente,</p>
+          <div style="text-align: center;">
+            <div class="boxed-result">
+              $$
+              \sum_{k=0}^{n}(k^2-k)\binom{n}{k}
+              =
+              (n^2-n)2^{n-2}
+              $$
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- COLUMNA DERECHA: FÓRMULAS DE APOYO -->
+      <div class="formula-pane" id="formulaPane">
+        <div class="formula-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path></svg>
+          <span>Fórmulas Requeridas</span>
+        </div>
+        
+        <!-- Fórmulas -->
+        <div class="formula-card">
+          <h4>Coeficiente binomial</h4>
+          <div class="math-expr">
+            $$
+            \binom{n}{k}=\frac{n!}{k!(n-k)!}
+            $$
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h4>Propiedad del factorial</h4>
+          <div class="math-expr">
+            $$
+            n!=n(n-1)(n-2)!
+            $$
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h4>Teorema binomial</h4>
+          <div class="math-expr">
+            $$
+            (a+b)^m=\sum_{j=0}^{m}\binom{m}{j}a^{m-j}b^j
+            $$
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h4>Cambio de índice ($k = j + p$)</h4>
+          <div class="math-expr">
+            $$
+            \sum_{k=j}^{n} a_k = \sum_{k=j+p}^{n+p} a_{k-p}
+            $$
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h4>Cambio de índice ($k = j - p$)</h4>
+          <div class="math-expr">
+            $$
+            \sum_{k=j}^{n} a_k = \sum_{k=j-p}^{n-p} a_{k+p}
+            $$
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    Desarrollado con rigor pedagógico por <a href="https://alvaroprofemate.cl" target="_blank">AlvaroProfeMate.cl</a> &copy; 2026. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    // =========================================
+    // 1. LÓGICA DE MOSTRAR/OCULTAR SOLUCIÓN
+    // =========================================
+    function toggleSolucion() {
+      const box = document.getElementById("solucionBox");
+      const btn = document.getElementById("btnToggleSol");
+      const isHidden = window.getComputedStyle(box).display === "none";
+      
+      if (isHidden) {
+        box.style.display = "block";
+        btn.querySelector("span").textContent = "Ocultar Solución";
+        btn.querySelector("svg").innerHTML = `<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>`;
+        
+        // Re-typeset LaTeX inside solution box
+        if (window.MathJax) {
+          MathJax.typesetClear([box]);
+          MathJax.typesetPromise([box]);
+        }
+      } else {
+        box.style.display = "none";
+        btn.querySelector("span").textContent = "Ver Solución Completa";
+        btn.querySelector("svg").innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+      }
+    }
+
+    // =========================================
+    // 2. LÓGICA DE PANTALLA DIVIDIDA (SPLIT SCREEN)
+    // =========================================
+    function toggleSplitScreen() {
+      const container = document.getElementById("mainContainer");
+      const btn = document.getElementById("btnToggleSplit");
+      const isSplit = container.classList.toggle("split-active");
+      
+      if (isSplit) {
+        btn.classList.remove("btn-outline");
+        btn.querySelector("span").textContent = "Ocultar Fórmulas";
+      } else {
+        btn.classList.add("btn-outline");
+        btn.querySelector("span").textContent = "Dividir Pantalla";
+      }
+    }
+
+    // =========================================
+    // 3. LÓGICA DE CAMBIO DE TEMA (LIGHT/DARK)
+    // =========================================
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+    }
+    
+    // Inicializar tema guardado
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+
+    // =========================================
+    // 4. BARRA DE PROGRESO DE LECTURA
+    // =========================================
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('progressBar').style.width = progress + '%';
+    });
+  </script>
+</body>
+</html>

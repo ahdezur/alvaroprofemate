@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fase 1: Definición Formal de Límite | AlvaroProfeMate.cl</title>
+
+  <!-- Configuración de MathJax para renderizado matemático impecable -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* VARIABLES REORGANIZADAS CON EL DESIGN SYSTEM PEDAGÓGICO DE ALVAROPROFEMATE */
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8; /* Azul Real de plantilla_alvaroprofemate */
+      --border: #dbe3f0;
+      
+      /* Paleta del UI Kit Pedagógico */
+      --def-bg: #f8fbff;     --def-border: #1d4ed8; --def-text: var(--text);
+      --teo-bg: #f5f3ff;     --teo-border: #6d28d9; --teo-text: var(--text);
+      --dem-bg: #f8fafc;     --dem-border: #94a3b8; --dem-text: var(--text);
+      --idea-bg: #f0fdf4;    --idea-border: #22c55e; --idea-text: var(--text);
+      --obs-bg: #ecfeff;     --obs-border: #06b6d4; --obs-text: var(--text);
+      --trampa-bg: #fef2f2;  --trampa-border: #ef4444; --trampa-text: var(--text);
+      --gatillo-bg: #fffbeb; --gatillo-border: #f59e0b; --gatillo-text: var(--text);
+      --prot-bg: #ffffff;    --prot-border: #334155; --prot-text: var(--text);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 4rem;
+    }
+
+    /* BARRA DE PROGRESO DE LECTURA */
+    .progress-container {
+      position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: #e5e7eb; z-index: 1200;
+    }
+    .progress-bar {
+      height: 100%; width: 0%; background: linear-gradient(90deg, #14b8a6, #10b981); transition: width 0.1s ease;
+    }
+
+    /* HEADER */
+    header {
+      width: 100%; background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+      color: white; padding: 3rem 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 2rem;
+    }
+    .header-content { display: flex; align-items: center; justify-content: center; gap: 24px; max-width: 1000px; margin: 0 auto; }
+    .header-logo { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; background: #ffffff; padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
+    .header-text { text-align: left; }
+    .header-text h1 { margin: 0; color: white; font-size: 2.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 700; }
+    .header-text p { margin: 0.4rem 0 0 0; font-size: 1.15rem; color: #ccfbf1; font-weight: 500; }
+
+    /* PESTAÑAS */
+    .container { max-width: 1000px; width: 100%; padding: 0 1rem; transition: max-width 0.4s ease; }
+    .tabs { display: flex; gap: 0.4rem; margin-bottom: -1px; overflow-x: auto; }
+    .tab-btn { background: #cbd5e1; border: none; padding: 1rem 1.5rem; border-radius: 10px 10px 0 0; font-weight: bold; color: var(--text); cursor: pointer; transition: 0.2s; white-space: nowrap; font-size: 0.95rem; }
+    .tab-btn:hover { background: #94a3b8; color: white; }
+    .tab-btn.active { background: var(--card); color: var(--def-border); border-top: 4px solid var(--def-border); box-shadow: 0 -4px 6px rgba(0,0,0,0.02); }
+    .tab-content { background: var(--card); padding: 2.5rem; border-radius: 0 10px 10px 10px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); display: none; min-height: 500px; }
+    .tab-content.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* BOTONES */
+    .btn { background: var(--def-border); color: white; border: none; padding: 0.8rem 1.4rem; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 0.95rem; }
+    .btn:hover { background: #1d4ed8; }
+    .btn-outline { background: transparent; color: var(--def-border); border: 2px solid var(--def-border); }
+    .btn-outline:hover { background: #eff6ff; }
+
+    /* CAJAS PEDAGÓGICAS */
+    .box { padding: 1.2rem 1.5rem; margin: 1.5rem 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+    .box-title { font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem; font-size: 1.05rem; }
+    .box-definicion { background-color: var(--def-bg); border-left: 5px solid var(--def-border); color: var(--def-text); }
+    .box-teorema { background-color: var(--teo-bg); border-left: 5px solid var(--teo-border); color: var(--teo-text); }
+    .box-demostracion { background-color: var(--dem-bg); border-left: 3px dashed var(--dem-border); color: var(--dem-text); font-size: 0.95rem; padding-left: 1.2rem; }
+    .box-idea { background-color: var(--idea-bg); border-left: 5px solid var(--idea-border); color: var(--idea-text); }
+    .box-observacion { background-color: var(--obs-bg); border-left: 5px solid var(--obs-border); color: var(--obs-text); }
+    .box-trampa { background-color: var(--trampa-bg); border-left: 5px solid var(--trampa-border); color: var(--trampa-text); }
+    .box-gatillador { background-color: var(--gatillo-bg); border-left: 5px solid var(--gatillo-border); color: var(--gatillo-text); }
+    .box-protocolo { background-color: var(--prot-bg); border: 1px solid var(--border); border-top: 5px solid var(--prot-border); color: var(--prot-text); }
+    .box-metacognicion { background-color: var(--card); border: 1px solid var(--border); border-image: linear-gradient(to right, #ec4899, #8b5cf6) 1; border-width: 0 0 0 5px; color: var(--text); }
+    .box-resultado { border: 2px solid var(--accent); border-radius: 12px; padding: 1.5rem; background: linear-gradient(135deg, #eef2ff, #ffffff); margin: 2rem auto; box-shadow: 0 8px 25px rgba(29, 78, 216, 0.12); overflow-x: auto; text-align: center; font-size: 1.25rem; }
+    .box-flat { margin: 1.5rem 0; padding: 1.4rem; border: 1px solid var(--border); background: #f8fbff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+    .box-flat-title { font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem; font-size: 1.1rem; color: #000000; }
+
+    /* WIDGET INTERACTIVO */
+    .widget-container {
+      display: flex; gap: 2rem; background: #ffffff; padding: 2rem; border-radius: 12px;
+      border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      margin: 2rem 0; flex-wrap: wrap;
+    }
+    .widget-graph {
+      flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center;
+    }
+    .widget-graph canvas {
+      width: 100%; max-width: 450px; aspect-ratio: 1/1; border: 2px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+    }
+    .widget-controls {
+      flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: center;
+    }
+    .slider-container { margin: 1.5rem 0; }
+    input[type=range] {
+      -webkit-appearance: none; width: 100%; background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; margin-top: -8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%; height: 6px; cursor: pointer; background: #cbd5e1; border-radius: 3px;
+    }
+    .widget-output {
+      background: #eff6ff; border: 1px solid #bfdbfe; padding: 1rem; border-radius: 8px; font-size: 1.15rem;
+      margin-bottom: 1.5rem; text-align: center;
+      min-height: 105px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .widget-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.8rem; table-layout: fixed; }
+    .widget-table th { background: #f1f5f9; padding: 0.5rem 0.2rem; border: 1px solid var(--border); color: var(--text); font-size: 0.8rem; width: 50%; }
+    .widget-table td { padding: 0; border: 1px solid var(--border); vertical-align: top; }
+    .inner-table { width: 100%; border-collapse: collapse; }
+    .inner-table td { padding: 0.4rem 0.2rem; border-bottom: 1px solid #f1f5f9; border-left: none; border-right: none; font-size: 0.8rem; }
+    .inner-table tr:last-child td { border-bottom: none; }
+
+    /* EVALUACIÓN FORMATIVA V/F */
+    .vf-item { margin-bottom: 1.2rem; padding: 1.2rem; border: 1px solid var(--border); border-radius: 8px; background: #fafbfc; }
+    .vf-item p { margin-top: 0; font-weight: 600; }
+    .vf-item label { cursor: pointer; margin-right: 1.5rem; font-weight: 500; background: #fff; padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: 6px; display: inline-block; transition: background 0.2s; }
+    .vf-item label:hover { background: #f1f5f9; }
+    .retro { margin-top: 0.8rem; padding: 0.8rem; border-radius: 6px; display: none; line-height: 1.5; }
+    .retro.correcto { background: #ecfdf5; border-left: 4px solid #22c55e; color: #14532d; }
+    .retro.incorrecto { background: #fef2f2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+
+    /* INSIGNIAS DE DIFICULTAD */
+    .nivel { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.8rem; font-weight: bold; margin-left: 0.5rem; cursor: help; position: relative; }
+    .nivel-facil { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .nivel-intermedio { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+    .nivel-dificil { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+    /* SPLIT SCREEN */
+    .toolbar { display: flex; justify-content: flex-end; margin-bottom: 1.5rem; }
+    .split-wrapper { display: flex; gap: 0; transition: gap 0.4s ease; }
+    .exercise-pane { flex: 1; transition: all 0.4s ease; }
+    .formula-pane { width: 0; opacity: 0; overflow: hidden; background: #f8fafc; border-radius: 8px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s ease; display: flex; flex-direction: column; }
+    .split-active .split-wrapper { gap: 2rem; }
+    .split-active .formula-pane { width: 380px; opacity: 1; padding: 1.2rem; border: 2px dashed var(--dem-border); overflow-y: auto; position: sticky; top: 2rem; max-height: calc(100vh - 4rem); align-self: flex-start; }
+    .solucion-desplegable { display: none; margin-top: 1rem; padding: 1.2rem; background: #f8fafc; border-radius: 6px; border: 1px solid var(--border); }
+
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; text-align: center; }
+      .header-text { text-align: center; }
+      .header-text h1 { font-size: 1.8rem; }
+      .split-active .split-wrapper { flex-direction: column; gap: 1.5rem; }
+      .split-active .formula-pane { width: 100%; height: auto; max-height: 400px; position: static; align-self: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER INSTITUCIONAL -->
+  <header>
+    <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="header-content">
+      <div class="header-logo" style="display:flex; align-items:center; justify-content:center; background:var(--accent); color:white; font-weight:bold; font-size:1.6rem; border: 2px solid white;">APM</div>
+      <div class="header-text">
+        <h1>Módulo de Límites</h1>
+        <p>Fase 1: Construyendo el rigor matemático desde la intuición funcional</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- LIENZO DE CONTROL PRINCIPAL -->
+  <div class="container" id="mainContainer">
+    
+    <!-- Pestañas del Ciclo RAM -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab(event, 'tab-gatillo')">Motivación</button>
+      <button class="tab-btn" onclick="openTab(event, 'tab-rigor')">Vecindades</button>
+      <button class="tab-btn" onclick="openTab(event, 'tab-def2')">Límite \(\varepsilon - \delta\)</button>
+      <button class="tab-btn" onclick="openTab(event, 'tab-ejemplos')">Ejemplos</button>
+      <button class="tab-btn" onclick="openTab(event, 'tab-practica')">Ejercitación</button>
+    </div>
+
+    <!-- PESTAÑA 1: MOTIVACIÓN -->
+    <div id="tab-gatillo" class="tab-content active">
+      <h2>Motivación</h2>
+      
+      <p>En muchas situaciones no nos interesa únicamente conocer el valor exacto de una función en un punto, sino también entender qué ocurre con sus valores cuando la variable se acerca a dicho punto.</p>
+      <p>Por ejemplo, considere la función:</p>
+      $$f(x)=\frac{x^2-1}{x-1}$$
+      <p>Si intentamos evaluar la función en $x=1$, obtenemos una división por cero, por lo que $f(1)$ no está definida. Sin embargo, al calcular valores de la función para números cercanos a $1$, observamos que los resultados parecen aproximarse cada vez más al número $2$. Esto nos lleva a una pregunta natural:</p>
+
+      <div class="box box-idea">
+        <div class="box-title">💡 Pregunta guía</div>
+        <p style="font-style: italic; font-weight: bold; text-align: center; margin: 0.5rem 0;">¿Es posible describir matemáticamente el comportamiento de una función cerca de un punto, incluso cuando la función no está definida en dicho punto?</p>
+      </div>
+
+      <p>La respuesta a esta pregunta da origen al concepto de límite.</p>
+      <p>En esta unidad aprenderemos a interpretar y calcular límites de funciones. Comenzaremos desarrollando una intuición sobre el concepto a partir de ejemplos, gráficos y tablas de valores, para luego estudiar las herramientas y propiedades que permiten trabajar con límites de manera rigurosa.</p>
+
+      <!-- WIDGET INTERACTIVO -->
+      <h3 style="margin-top: 3rem; text-align:center; color: #000000;">Explorador Visual: La tendencia hacia el vacío</h3>
+      <div class="widget-container">
+        <!-- Gráfica Canvas -->
+        <div class="widget-graph">
+          <canvas id="limitCanvas" width="800" height="800"></canvas>
+        </div>
+        
+        <!-- Controles y Tabla -->
+        <div class="widget-controls">
+          <div class="widget-output">
+            <div style="margin-bottom: 0.5rem;">Valor de entrada: <strong><span id="xValDisplay">$x = 0.00$</span></strong></div>
+            <div id="fxResultContainer">Evaluación: <strong>$f(x) = 1.00$</strong></div>
+          </div>
+          
+          <div class="slider-container">
+            <label for="xSlider" style="font-weight: bold; color: var(--text);">Desliza para acercar $x$ a $1$:</label>
+            <input type="range" id="xSlider" min="0" max="2" step="0.01" value="0">
+          </div>
+          
+          <table class="widget-table">
+            <tr>
+              <th>Aproximación por la Izquierda</th>
+              <th>Aproximación por la Derecha</th>
+            </tr>
+            <tr>
+              <td>
+                <table class="inner-table">
+                  <tr><td>$x = 0.900$</td><td>$\to f(x) = 1.900$</td></tr>
+                  <tr><td>$x = 0.990$</td><td>$\to f(x) = 1.990$</td></tr>
+                  <tr><td>$x = 0.999$</td><td>$\to f(x) = 1.999$</td></tr>
+                </table>
+              </td>
+              <td>
+                <table class="inner-table">
+                  <tr><td>$x = 1.100$</td><td>$\to f(x) = 2.100$</td></tr>
+                  <tr><td>$x = 1.010$</td><td>$\to f(x) = 2.010$</td></tr>
+                  <tr><td>$x = 1.001$</td><td>$\to f(x) = 2.001$</td></tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--muted);">Nota como ambos lados colapsan visualmente hacia el mismo destino ($y=2$).</p>
+        </div>
+      </div>
+
+      <button class="btn" onclick="document.querySelectorAll('.tab-btn')[1].click()">Avanzar a Vecindades ➔</button>
+    </div>
+
+    <!-- PESTAÑA 2: DEFINICIONES 1 -->
+    <div id="tab-rigor" class="tab-content">
+      <h2>Vecindades y Puntos de Acumulación</h2>
+      <p>Para estudiar el comportamiento de una función cerca de un punto, necesitamos formalizar la idea de "estar cerca".</p>
+
+      <div class="box-flat" id="m-rigor">
+        <div class="box-flat-title">📘 Definición: Vecindad de un punto</div>
+        <p>Sea $a\in\mathbb{R}$ y sea $\delta>0$. Llamaremos <strong>vecindad de radio $\delta$ centrada en $a$</strong> al intervalo abierto:</p>
+        <div class="box-resultado">
+          $$(a-\delta,a+\delta)$$
+        </div>
+        <p>Equivalentemente, un número real $x$ pertenece a esta vecindad si y sólo si:</p>
+        <div class="box-resultado">
+          $$|x-a| < \delta$$
+        </div>
+        <p class="muted" style="margin-top: 1rem;">La cantidad $|x-a|$ representa la distancia entre $x$ y $a$, por lo que la condición anterior indica que $x$ se encuentra a menos de una distancia $\delta$ de $a$.</p>
+      </div>
+
+      <div class="box-flat">
+        <div class="box-flat-title">📘 Definición: Vecindad perforada</div>
+        <p>En el estudio de límites suele ser necesario excluir el propio punto $a$. Por esta razón se introduce la <strong>vecindad perforada</strong> de radio $\delta$ centrada en $a$, definida por:</p>
+        <div class="box-resultado">
+          $$0 < |x-a| < \delta$$
+        </div>
+        <p>Esta condición describe todos los puntos que se encuentran a menos de una distancia $\delta$ de $a$, excepto el propio punto $a$.</p>
+        
+        <!-- Explorador Interactivo de Vecindades (Reemplaza al ejemplo estático) -->
+        <div style="margin-top: 1.2rem; padding: 1.2rem; border: 1px solid var(--border); background: #f8fafc; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.01);">
+          <strong style="display: block; margin-bottom: 0.6rem; color: #1f2937;">💡 Simulador Interactivo de Vecindades</strong>
+          <p class="muted" style="margin-bottom: 1rem; font-size: 0.9rem;">Interactúa con los controles para ver el comportamiento del punto $x$ en la recta numérica:</p>
+          
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+            <!-- Controles -->
+            <div style="flex: 1.2; min-width: 250px;">
+              <div style="margin-bottom: 0.8rem;">
+                <label style="font-weight: bold; display: block; margin-bottom: 0.3rem; font-size: 0.9rem;">Centro ($a$): <span id="aDisplayVal">$3.00$</span></label>
+                <input type="range" id="centerASlider" min="1.0" max="5.0" step="0.1" value="3.0" style="width: 100%;">
+              </div>
+              <div style="margin-bottom: 0.8rem;">
+                <label style="font-weight: bold; display: block; margin-bottom: 0.3rem; font-size: 0.9rem;">Radio ($\delta$): <span id="deltaDisplayVal">$0.50$</span></label>
+                <input type="range" id="radiusDeltaSlider" min="0.1" max="2.0" step="0.05" value="0.50" style="width: 100%;">
+              </div>
+              <div style="margin-bottom: 0.8rem;">
+                <label style="font-weight: bold; display: block; margin-bottom: 0.3rem; font-size: 0.9rem;">Punto ($x$): <span id="xDisplayVal">$2.80$</span></label>
+                <input type="range" id="pointXSlider" min="0.5" max="5.5" step="0.05" value="2.80" style="width: 100%;">
+              </div>
+              <div>
+                <label style="font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem;">
+                  <input type="checkbox" id="perforatedCheckbox" checked style="width: 18px; height: 18px; cursor: pointer;">
+                  Perforar vecindad (excluir $a$)
+                </label>
+              </div>
+            </div>
+            
+            <!-- Salida Matemática -->
+            <div style="flex: 1; min-width: 250px; background: #ffffff; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; font-size: 0.95rem;">
+              <div id="mathNeighborhoodOutput" style="line-height: 1.6;">
+                <!-- Se actualiza con JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas del gráfico 1D -->
+          <div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <canvas id="neighborhoodCanvas" width="800" height="150" style="width: 100%; max-width: 600px; height: 75px; background: #ffffff;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box-flat">
+        <div class="box-flat-title">📘 Definición: Puntos de acumulación</div>
+        <p>Para que tenga sentido estudiar el límite de una función cuando $x$ se aproxima a un punto $a$, debe ser posible encontrar puntos del dominio arbitrariamente cercanos a $a$.</p>
+        <p>Diremos que $a$ es un <strong>punto de acumulación del dominio de $f$</strong> si toda vecindad perforada de $a$ contiene al menos un punto del dominio de la función:</p>
+        <div class="box-resultado">
+          $$\forall \delta>0,\ \exists x\in\operatorname{dom}(f),\ 0 < |x-a| < \delta$$
+        </div>
+        <p class="muted" style="margin-top: 1rem;">Esta condición garantiza que existen valores de la función cada vez más cercanos a $a$ y, por lo tanto, que tiene sentido preguntarse por el comportamiento de $f(x)$ cuando $x$ se aproxima a dicho punto.</p>
+      </div>
+
+      <button class="btn" onclick="document.querySelectorAll('.tab-btn')[2].click()">Avanzar a Límite \(\varepsilon - \delta\) ➔</button>
+    </div>
+
+    <!-- PESTAÑA 3: DEFINICIONES 2 -->
+    <div id="tab-def2" class="tab-content">
+      <h2>Límite</h2>
+      <p>Supongamos que $\displaystyle a$ es un punto de acumulación del dominio de una función $\displaystyle f$. Cuando tomamos valores de $\displaystyle x$ cada vez más cercanos a $\displaystyle a$, es posible que los valores de $\displaystyle f(x)$ comiencen a acercarse a un número fijo $\displaystyle L$.</p>
+      <p>Si esto ocurre, diremos que el límite de $\displaystyle f(x)$ cuando $\displaystyle x$ tiende a $\displaystyle a$ es igual a $\displaystyle L$.</p>
+      <p>La idea fundamental es que no nos interesa necesariamente el valor de $\displaystyle f(a)$, sino el comportamiento de la función en puntos del dominio arbitrariamente cercanos a $\displaystyle a$.</p>
+
+      <p>Introducimos la notación $\displaystyle \lim_{x\to a}f(x)=L$ si los valores de $\displaystyle f(x)$ pueden hacerse tan cercanos a $\displaystyle L$ como queramos tomando valores de $\displaystyle x$ suficientemente cercanos a $\displaystyle a$.</p>
+
+      <div class="box-flat">
+        <div class="box-flat-title">📘 Caracterización $\varepsilon-\delta$ de Límite de Funciones</div>
+        <p>Sea $\displaystyle f:A\to\mathbb R$ y sea $\displaystyle a$ un punto de acumulación de $\displaystyle A$, diremos que:</p>
+        <div class="box-resultado">
+          $$\lim_{x\to a}f(x)=L$$
+        </div>
+        <p>si</p>
+        <div class="box-resultado">
+          $$\forall\varepsilon>0,\ \exists\delta>0,\ 0<\left|x-a\right|<\delta\Longrightarrow \left|f(x)-L\right|<\varepsilon$$
+        </div>
+      </div>
+
+      <!-- Simulador Interactivo de Límite Épsilon-Delta -->
+      <div style="margin-top: 1.5rem; padding: 2rem; border: 1px solid var(--border); background: #f8fbff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); font-size: 1.15rem;">
+        <strong style="display: block; margin-bottom: 0.9rem; color: #1f2937; font-size: 1.45rem;">💡 Simulador Dinámico $\displaystyle \varepsilon - \delta$</strong>
+        <p class="muted" style="margin-bottom: 1.5rem; font-size: 1.15rem; line-height: 1.55;">Visualiza cómo la tolerancia horizontal $\displaystyle \delta$ debe acoplarse al margen de error vertical $\displaystyle \varepsilon$ para asegurar el límite de la función $\displaystyle f(x) = 0.5x^2$ cuando $\displaystyle x \to 2$ ($\displaystyle a=2, L=2$):</p>
+        
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.2rem;">
+          <!-- Controles -->
+          <div style="flex: 1.2; min-width: 300px;">
+            <div style="margin-bottom: 1.5rem;">
+              <label style="font-weight: bold; display: block; margin-bottom: 0.5rem; font-size: 1.2rem;">Margen de error vertical ($\displaystyle \varepsilon$): <span id="epsValDisplay">$\displaystyle 0.50$</span></label>
+              <input type="range" id="epsilonSlider" min="0.15" max="1.0" step="0.05" value="0.50" style="width: 100%;">
+              <span style="font-size: 1.0rem; color: var(--muted); display: block; margin-top: 0.25rem;">Define el ancho de la franja horizontal alrededor de $\displaystyle L$.</span>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <label style="font-weight: bold; display: block; margin-bottom: 0.5rem; font-size: 1.2rem;">Tolerancia horizontal ($\displaystyle \delta$): <span id="delValDisplay">$\displaystyle 0.20$</span></label>
+              <input type="range" id="deltaSliderED" min="0.05" max="1.0" step="0.05" value="0.20" style="width: 100%;">
+              <span style="font-size: 1.0rem; color: var(--muted); display: block; margin-top: 0.25rem;">Define el ancho del intervalo horizontal alrededor de $\displaystyle a$.</span>
+            </div>
+            <div style="margin-bottom: 1.5rem; background: #ffffff; padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border); font-size: 1.15rem;">
+              <strong style="font-size: 1.2rem;">Estado del Límite:</strong>
+              <div id="edStatusDisplay" style="margin-top: 0.6rem; font-weight: bold; font-size: 1.3rem;">
+                <!-- Se actualiza con JS -->
+              </div>
+              <div id="edExplanationDisplay" style="margin-top: 0.6rem; font-size: 1.1rem; color: var(--muted); line-height: 1.5;">
+                <!-- Explicación -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Gráfico Canvas (Agrandado de 320px a 420px) -->
+          <div style="flex: 1; min-width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <canvas id="epsDelCanvas" width="600" height="600" style="width: 100%; max-width: 420px; aspect-ratio: 1/1; border: 1px solid var(--border); border-radius: 8px; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.02);"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Interpretación</h3>
+      <p>La desigualdad $\displaystyle 0 < |x-a| < \delta$ controla qué tan cerca está la entrada $\displaystyle x$ del punto $\displaystyle a$.</p>
+      <p>Por otra parte, $\displaystyle |f(x)-L| < \varepsilon$ controla qué tan cerca está la salida $\displaystyle f(x)$ del valor límite $\displaystyle L$.</p>
+      <p>La definición afirma que podemos garantizar una aproximación arbitrariamente buena a $\displaystyle L$ restringiendo suficientemente los valores de entrada alrededor de $\displaystyle a$.</p>
+
+      <div class="box box-idea">
+        <div class="box-title">💡 Idea clave</div>
+        <p>Para demostrar que $\displaystyle \lim_{x\to a}f(x)=L$, debemos mostrar que toda vecindad de $\displaystyle L$ contiene a los valores de $\displaystyle f(x)$ correspondientes a una vecindad perforada suficientemente pequeña de $\displaystyle a$.</p>
+      </div>
+
+      <div class="box box-trampa">
+        <div class="box-title">🚨 Error común</div>
+        <p>Pensar que $\displaystyle \lim_{x\to a}f(x)=L$ implica necesariamente que $f(a)=L$.</p>
+        <p>El valor de la función en $a$ y el valor del límite son conceptos distintos. Incluso puede ocurrir que $f(a)$ no exista y que el límite sí exista.</p>
+      </div>
+
+      <div class="box-flat">
+        <div class="box-flat-title">🧠 Esquema mental</div>
+        <p>La definición formal puede resumirse visualmente así:</p>
+        <div class="box-resultado" style="margin: 0.5rem 0; font-size: 1.1rem; padding: 0.8rem;">
+          $$0 < |x-a| < \delta \qquad\Longrightarrow\qquad |f(x)-L| < \varepsilon$$
+        </div>
+        <p>Es decir:</p>
+        <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+          <li>$x$ está cerca de $a$.</li>
+          <li>Entonces $f(x)$ está cerca de $L$.</li>
+        </ul>
+        <p>La tarea consiste en encontrar una vecindad adecuada de $a$ (controlada por $\delta$) para asegurar que los valores de la función queden dentro de la vecindad deseada de $L$ (controlada por $\varepsilon$).</p>
+      </div>
+
+      <button class="btn" onclick="document.querySelectorAll('.tab-btn')[3].click()">Avanzar a Ejemplos ➔</button>
+    </div>
+
+    <!-- PESTAÑA 4: EJEMPLOS -->
+    <div id="tab-ejemplos" class="tab-content">
+      <h2>Ejemplos</h2>
+      <p>Para comprender cómo se aplica la caracterización $\displaystyle \varepsilon-\delta$ en la práctica, analizaremos paso a paso un ejemplo de límite lineal sencillo.</p>
+
+      <div class="box-flat">
+        <div class="box-flat-title">📝 Enunciado del Ejemplo</div>
+        <p>Demuestre formalmente, utilizando la definición $\displaystyle \varepsilon-\delta$, que:</p>
+        <div class="box-resultado" style="font-size: 1.25rem; padding: 1rem; margin: 0.8rem 0;">
+          $$\lim_{x \to 2} (3x - 1) = 5$$
+        </div>
+      </div>
+
+      <div class="box box-idea" style="margin-top: 1.5rem;">
+        <div class="box-title">💡 Estrategia de Resolución</div>
+        <p>Debemos probar que para cualquier margen de error vertical $\displaystyle \varepsilon > 0$, podemos encontrar una tolerancia horizontal $\displaystyle \delta > 0$ tal que:</p>
+        <div class="box-resultado" style="margin: 0.5rem 0; font-size: 1.1rem; padding: 0.6rem;">
+          $$0 < |x - 2| < \delta \qquad\Longrightarrow\qquad |(3x - 1) - 5| < \varepsilon$$
+        </div>
+        <p>El proceso consta de dos fases principales:</p>
+        <ol style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.6;">
+          <li><strong>Análisis preliminar:</strong> Manipulamos algebraicamente la desigualdad de salida para expresar $\displaystyle \delta$ en función de $\displaystyle \varepsilon$.</li>
+          <li><strong>Demostración formal:</strong> Escribimos la justificación lógica formal en el orden correcto.</li>
+        </ol>
+      </div>
+
+      <h3 style="margin-top: 2rem;">Fase 1: Análisis Preliminar (Búsqueda de $\displaystyle \delta$)</h3>
+      <p>Partimos de la condición que queremos asegurar (la tesis) y la simplificamos para hacer aparecer el término controlado $\displaystyle |x - 2|$:</p>
+      
+      <div style="background: #ffffff; padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border); margin: 1rem 0; line-height: 1.6;">
+        <p>Queremos que:</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$|(3x - 1) - 5| < \varepsilon$$
+        </div>
+        <p>Simplificamos el interior del valor absoluto:</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$|3x - 6| < \varepsilon$$
+        </div>
+        <p>Factorizamos el coeficiente común (3):</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$3|x - 2| < \varepsilon$$
+        </div>
+        <p>Dividimos ambos miembros por 3 para aislar el término $\displaystyle |x - 2|$:</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$|x - 2| < \frac{\varepsilon}{3}$$
+        </div>
+      </div>
+
+      <p>Esta última línea nos indica el valor exacto de la tolerancia horizontal necesaria. Si queremos que el error final sea menor a $\displaystyle \varepsilon$, debemos restringir $\displaystyle x$ a una distancia menor que $\displaystyle \frac{\varepsilon}{3}$ de $\displaystyle a=2$. Por lo tanto, elegimos:</p>
+      <div class="box-resultado" style="margin: 0.8rem 0; font-size: 1.2rem; font-weight: bold; padding: 0.8rem; background: #fffbeb; border: 1px solid #fef3c7; color: #b45309;">
+        $$\delta = \frac{\varepsilon}{3}$$
+      </div>
+
+      <h3 style="margin-top: 2rem;">Fase 2: Demostración Formal</h3>
+      <p>Una vez encontrado el candidato a $\displaystyle \delta$, procedemos a escribir la demostración lógica rigurosa que valida nuestra elección:</p>
+
+      <div class="box box-demostracion" style="margin-top: 1rem; line-height: 1.6;">
+        <p><strong>Demostración:</strong> Sea $\displaystyle \varepsilon > 0$ un número real positivo arbitrario. Elegimos:</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$\delta = \frac{\varepsilon}{3}$$
+        </div>
+        <p>Por lo tanto, si tomamos cualquier $\displaystyle x$ que cumpla la condición de vecindad perforada:</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$0 < |x - 2| < \delta$$
+        </div>
+        <p>Podemos justificar la cadena de desigualdades para la función:</p>
+        <div style="text-align: center; margin: 0.8rem 0;">
+          $$|(3x - 1) - 5| = |3x - 6| = 3|x - 2| < 3\delta = 3\left(\frac{\varepsilon}{3}\right) = \varepsilon$$
+        </div>
+        <p>Como hemos demostrado que $\displaystyle |(3x - 1) - 5| < \varepsilon$, concluimos que, por definición:</p>
+        <div style="text-align: center; margin: 0.8rem 0; font-size: 1.15rem; font-weight: bold;">
+          $$\lim_{x \to 2} (3x - 1) = 5 \qquad \blacksquare$$
+        </div>
+      </div>
+
+      <div class="box box-trampa" style="margin-top: 2rem;">
+        <div class="box-title">💡 Interpretación Geométrica y Pendiente</div>
+        <p>¿Por qué la relación es exactamente $\displaystyle \delta = \frac{\varepsilon}{3}$? Esto se debe a la pendiente de la recta $\displaystyle y = 3x - 1$. Como la pendiente es $\displaystyle 3$, cualquier cambio horizontal en las entradas ($\displaystyle x$) se amplifica por un factor de $\displaystyle 3$ en las salidas ($\displaystyle y$). Por lo tanto, para garantizar que la salida no se desvíe más de $\displaystyle \varepsilon$ del valor $\displaystyle 5$, el margen horizontal en la entrada debe ser obligatoriamente $\displaystyle 3$ veces más pequeño, es decir, $\displaystyle \frac{\varepsilon}{3}$.</p>
+      </div>
+
+      <button class="btn" onclick="document.querySelectorAll('.tab-btn')[4].click()">Avanzar a Ejercitación ➔</button>
+    </div>
+
+    <!-- PESTAÑA 5: EJERCITACIÓN (SPLIT-SCREEN INTERACTIVO) -->
+    <div id="tab-practica" class="tab-content">
+      <div class="toolbar" id="m-ejercicios">
+        <button id="btnToggleSplit" class="btn btn-outline" onclick="toggleSplitScreen()">
+          📖 Mostrar Formulario (Dividir Pantalla)
+        </button>
+      </div>
+
+      <div class="split-wrapper" id="splitWrapper">
+        
+        <!-- PANEL IZQUIERDO: EJERCICIOS Y SOLUCIONES DE ALTO NIVEL -->
+        <div class="exercise-pane">
+          <h2>Ejercitación</h2>
+          <p>Desarrolla paso a paso los siguientes problemas en tu bitácora de cálculo y contrasta los argumentos lógicos con la pauta docente.</p>
+
+          <!-- SECCIÓN: COMPRENSIÓN CONCEPTUAL (V/F) -->
+          <div class="box box-metacognicion" style="margin-bottom: 2rem;">
+            <div class="box-title">🧠 Control de Comprensión Lógica (Verdadero o Falso)</div>
+            <p style="margin-bottom: 1rem;">Pon a prueba tu rigor matemático respondiendo los siguientes enunciados críticos:</p>
+            
+            <div class="vf-item">
+              <p>1. Si invertimos el orden riguroso de los cuantificadores dentro de la definición funcional de Weierstrass escribiendo $\displaystyle \exists \delta > 0, \forall \varepsilon > 0 \dots$, el significado matemático del límite se conserva inalterado.</p>
+              <button class="btn btn-outline" onclick="evaluarVF(1, true)" style="padding: 0.35rem 0.8rem; font-size:0.85rem;">Verdadero</button>
+              <button class="btn btn-outline" onclick="evaluarVF(1, false)" style="padding: 0.35rem 0.8rem; font-size:0.85rem;">Falso</button>
+              <div id="retro-vf1" class="retro"></div>
+            </div>
+
+            <div class="vf-item">
+              <p>2. Para un margen de error $\displaystyle \varepsilon > 0$ dado, el radio de vecindad $\displaystyle \delta > 0$ que satisface la definición formal de límite es único.</p>
+              <button class="btn btn-outline" onclick="evaluarVF(2, true)" style="padding: 0.35rem 0.8rem; font-size:0.85rem;">Verdadero</button>
+              <button class="btn btn-outline" onclick="evaluarVF(2, false)" style="padding: 0.35rem 0.8rem; font-size:0.85rem;">Falso</button>
+              <div id="retro-vf2" class="retro"></div>
+            </div>
+          </div>
+
+          <!-- Leyenda del Semáforo -->
+          <div class="semaforo-leyenda" style="margin-bottom: 1.5rem; font-size: 0.95rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; background: #f8fafc; padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid var(--border); width: fit-content;">
+            <span style="font-weight: bold; color: var(--text);">Dificultad:</span>
+            <span style="display: flex; align-items: center; gap: 0.3rem;">🟢 Fácil</span>
+            <span style="display: flex; align-items: center; gap: 0.3rem;">🟡 Intermedio</span>
+            <span style="display: flex; align-items: center; gap: 0.3rem;">🔴 Difícil</span>
+          </div>
+
+          <!-- EJERCICIO 1 -->
+          <div class="box box-protocolo">
+            <div class="box-title">
+              Problema I: Estructura Lineal Directa
+              <span class="nivel nivel-facil" data-tooltip="Nivel Fácil: Requiere la aplicación estricta del protocolo inverso de aislamiento algebraico sin cotas artificiales.">🟢 Fácil</span>
+            </div>
+            <p>Demuestre rigurosamente por medio de la definición formal $\displaystyle \varepsilon - \delta$ la validez de la siguiente igualdad:</p>
+            $$\lim_{x \to 3} (4x - 5) = 7$$
+            
+            <button class="btn" onclick="toggleSolucion('sol-1')">Desplegar Pauta Analítica</button>
+            <div id="sol-1" class="solucion-desplegable">
+              <div class="box box-demostracion">
+                <p><strong>Demostración formal:</strong> Sea $\displaystyle \varepsilon > 0$ un margen de error arbitrario. Nuestro objetivo analítico es hallar un radio de entorno horizontal $\displaystyle \delta > 0$ tal que se satisfaga de forma incondicional la siguiente implicación de vecindades:</p>
+                $$0 < |x - 3| < \delta \Longrightarrow |(4x - 5) - 7| < \varepsilon $$
+                <p>Para construir la dependencia de $\displaystyle \delta$ respecto a $\displaystyle \varepsilon$, procedemos con la manipulación algebraica inversa de la tesis:</p>
+                $$|4x - 12| < \varepsilon$$
+                <p>Aplicando las propiedades del operador de valor absoluto, factorizamos la constante lineal común:</p>
+                $$|4(x - 3)| < \varepsilon \Longrightarrow 4|x - 3| < \varepsilon$$
+                <p>Aislamos el binomio fundamental de nuestra hipótesis dividiendo por el coeficiente escalar:</p>
+                $$|x - 3| < \frac{\varepsilon}{4}$$
+                <p><strong>Conclusión Lógica:</strong> Al fijar formalmente el valor de $\displaystyle \delta = \frac{\varepsilon}{4}$, aseguramos de manera exacta que toda variable $\displaystyle x$ contenida en el entorno perforado mapeará sus imágenes en la franja de error vertical requerida. Queda demostrado. $\blacksquare$</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- EJERCICIO 2 -->
+          <div class="box box-protocolo">
+            <div class="box-title">
+              Problema II: Estructura No Lineal con Acotación Inicial
+              <span class="nivel nivel-dificil" data-tooltip="Nivel Difícil: Estructura cuadrática. Dado que el residuo depende de la variable x, exige imponer un entorno maestro acotado artificialmente para estabilizar el coeficiente.">🔴 Difícil</span>
+            </div>
+            <p>Demuestre rigurosamente por medio del formalismo de entornos reales el siguiente límite cuadrático elemental:</p>
+            $$\lim_{x \to 2} x^2 = 4$$
+            
+            <button class="btn" onclick="toggleSolucion('sol-2')">Desplegar Pauta Analítica</button>
+            <div id="sol-2" class="solucion-desplegable">
+              <div class="box box-demostracion">
+                <p><strong>Demostración formal:</strong> Planteamos la estructura matemática inicial basada en la tesis $\displaystyle |f(x) - L| < \varepsilon$:</p>
+                $$|x^2 - 4| < \varepsilon \Longrightarrow |x - 2| \cdot |x + 2| < \varepsilon$$
+                <p>Al intentar despejar el término $\displaystyle |x - 2|$ de nuestra hipótesis, observamos una anomalía analítica fatal: la expresión resultante, $\displaystyle \delta = \frac{\varepsilon}{|x+2|}$, no es lícita dado que un radio de tolerancia del dominio jamás puede depender de la variable fluctuante $\displaystyle x$.</p>
+                
+                <p><strong>Estrategia de Acotación Artificial:</strong> Para neutralizar el factor variable $\displaystyle |x + 2|$, imponemos un entorno de búsqueda maestro inicial restringiendo nuestro radio máximo a un valor unitario arbitrario: $\displaystyle \delta_1 = 1$.</p>
+                $$0 < |x - 2| < 1 \Longrightarrow -1 < x - 2 < 1 \Longrightarrow 1 < x < 3$$
+                <p>Conociendo los límites extremos lícitos de nuestra variable $\displaystyle x \in (1,3)$, modificamos analíticamente la desigualdad sumando $\displaystyle 2$ en todos sus extremos para acotar el término conflictivo:</p>
+                $$1 + 2 < x + 2 < 3 + 2 \Longrightarrow 3 < x + 2 < 5$$
+                <p>De esta cadena deducimos con absoluto rigor numérico que, en el peor de los escenarios posibles dentro de nuestro entorno maestro, el factor jamás superará el valor de $\displaystyle 5$ ($\displaystyle |x + 2| < 5$). Reemplazamos esta cota en la inecuación original:</p>
+                $$|x - 2| \cdot |x + 2| < 5|x - 2| < \varepsilon \Longrightarrow |x - 2| < \frac{\varepsilon}{5}$$
+                
+                <p><strong>Conclusión Lógica Definitiva:</strong> Para asegurar de manera simultánea el cumplimiento de la cota maestra y de la precisión del error vertical, seleccionamos lógicamente a $\displaystyle \delta$ como el menor valor del conjunto resolutor por medio del operador mínimo:</p>
+                <div class="box-resultado" style="font-size:1.1rem; padding:1.2rem;">
+                  $$\delta = \min\left(1, \frac{\varepsilon}{5}\right) \quad \blacksquare$$
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <!-- PANEL DERECHO OCULTO: FORMULARIO Y APUNTES EN SPLIT-SCREEN -->
+        <div class="formula-pane">
+          <h3>Apuntes Teóricos</h3>
+          <p class="muted">Usa estos conceptos si experimentas dificultades lógicas en el desarrollo.</p>
+          
+          <div class="box box-definicion" style="padding: 1rem; font-size: 0.9rem;">
+            <strong>Esquema de Distancias:</strong>
+            $$\text{Hipótesis (Entorno Perforado):}$$
+            $$0 < |x - a| < \delta$$
+            $$\text{Tesis (Entorno de Imágenes):}$$
+            $$|f(x) - L| < \varepsilon$$
+          </div>
+
+          <div class="box box-idea" style="padding: 1rem; font-size: 0.9rem;">
+            <strong>Propiedades del valor absoluto</strong>
+            <ul style="padding-left:1.2rem; margin:0.4rem 0;">
+              <li>$\displaystyle |ab| = |a||b|$</li>
+              <li>$\displaystyle |-a| = |a|$</li>
+              <li>$\displaystyle |a + b| \le |a| + |b|$ (Desigualdad triangular)</li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* =========================================
+       1. LÓGICA DEL WIDGET INTERACTIVO DE LÍMITES
+       ========================================= */
+    document.addEventListener("DOMContentLoaded", function() {
+      const canvas = document.getElementById("limitCanvas");
+      const ctx = canvas.getContext("2d");
+      const slider = document.getElementById("xSlider");
+      const xDisplay = document.getElementById("xValDisplay");
+      const fxResultContainer = document.getElementById("fxResultContainer");
+
+      // Set dimensions
+      const width = canvas.width;
+      const height = canvas.height;
+      const padding = 60;
+      
+      // Coordinate System constraints
+      const xMin = -0.5, xMax = 2.5;
+      const yMin = -0.5, yMax = 3.5;
+      
+      function mapX(x) { return padding + ((x - xMin) / (xMax - xMin)) * (width - 2 * padding); }
+      function mapY(y) { return height - padding - ((y - yMin) / (yMax - yMin)) * (height - 2 * padding); }
+
+      function drawGraph(currentX) {
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw Grid
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for(let i = 0; i <= 3; i+=0.5) {
+          ctx.moveTo(mapX(xMin), mapY(i)); ctx.lineTo(mapX(xMax), mapY(i));
+          ctx.moveTo(mapX(i), mapY(yMin)); ctx.lineTo(mapX(i), mapY(yMax));
+        }
+        ctx.stroke();
+
+        // Draw Axes
+        ctx.strokeStyle = "#64748b";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(mapX(xMin), mapY(0)); ctx.lineTo(mapX(xMax), mapY(0)); // X axis
+        ctx.moveTo(mapX(0), mapY(yMin)); ctx.lineTo(mapX(0), mapY(yMax)); // Y axis
+        ctx.stroke();
+
+        // Labels
+        ctx.fillStyle = "#000000";
+        // x and y are variables (math italic)
+        ctx.font = "italic 26px 'Times New Roman', Times, 'MathJax_Math', serif";
+        ctx.fillText("x", mapX(xMax) - 20, mapY(0) + 30);
+        ctx.fillText("y", mapX(0) - 30, mapY(yMax) + 20);
+        
+        // 1 and 2 are constants (math regular upright)
+        ctx.font = "26px 'Times New Roman', Times, 'MathJax_Main', serif";
+        ctx.fillText("1", mapX(1) - 10, mapY(0) + 30);
+        ctx.fillText("2", mapX(0) - 30, mapY(2) + 10);
+
+        // Draw Function Line: y = x + 1 (Except at x=1)
+        ctx.strokeStyle = "#1d4ed8";
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(mapX(xMin), mapY(xMin + 1));
+        ctx.lineTo(mapX(xMax), mapY(xMax + 1));
+        ctx.stroke();
+
+        // The Undefined Hole at (1, 2)
+        const isUndefined = Math.abs(currentX - 1.0) < 0.001;
+        ctx.beginPath();
+        ctx.arc(mapX(1), mapY(2), 12, 0, 2 * Math.PI);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = isUndefined ? "#ef4444" : "#1d4ed8"; // Red if directly on it
+        ctx.stroke();
+
+        // Draw Current Point
+        if (!isUndefined) {
+          const currentY = currentX + 1;
+          ctx.beginPath();
+          ctx.arc(mapX(currentX), mapY(currentY), 10, 0, 2 * Math.PI);
+          ctx.fillStyle = "#f59e0b"; // Amber point
+          ctx.fill();
+          
+          // Draw tracking lines
+          ctx.strokeStyle = "#f59e0b";
+          ctx.lineWidth = 2;
+          ctx.setLineDash([10, 10]);
+          ctx.beginPath();
+          ctx.moveTo(mapX(currentX), mapY(0));
+          ctx.lineTo(mapX(currentX), mapY(currentY));
+          ctx.lineTo(mapX(0), mapY(currentY));
+          ctx.stroke();
+          ctx.setLineDash([]); // reset
+        }
+      }
+
+      let isTypesetting = false;
+      let needsTypeset = false;
+
+      function triggerMathJaxTypeset() {
+        if (!window.MathJax) return;
+        
+        if (isTypesetting) {
+          needsTypeset = true;
+          return;
+        }
+
+        isTypesetting = true;
+        needsTypeset = false;
+
+        MathJax.typesetClear([xDisplay, fxResultContainer]);
+        MathJax.typesetPromise([xDisplay, fxResultContainer])
+          .then(() => {
+            isTypesetting = false;
+            if (needsTypeset) {
+              triggerMathJaxTypeset();
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            isTypesetting = false;
+          });
+      }
+
+      function updateWidget() {
+        const val = parseFloat(slider.value);
+        xDisplay.innerHTML = '$x = ' + val.toFixed(2) + '$';
+        
+        // Handle undefined state strictly
+        if (Math.abs(val - 1.0) < 0.001) {
+          fxResultContainer.innerHTML = 'Evaluación: <span style="color: #ef4444; font-weight:bold; font-size:1.15rem;">$f(x)$ indefinido</span>';
+        } else {
+          const yVal = val + 1;
+          fxResultContainer.innerHTML = 'Evaluación: <strong>$f(x) = ' + yVal.toFixed(2) + '$</strong>';
+        }
+        
+        triggerMathJaxTypeset();
+        drawGraph(val);
+      }
+
+      slider.addEventListener("input", updateWidget);
+      updateWidget(); // Initialize
+
+      // ========================================================
+      // LÓGICA DEL SIMULADOR DE VECINDADES (TAB 2)
+      // ========================================================
+      const nCanvas = document.getElementById("neighborhoodCanvas");
+      const nCtx = nCanvas.getContext("2d");
+      const aSlider = document.getElementById("centerASlider");
+      const dSlider = document.getElementById("radiusDeltaSlider");
+      const xSliderN = document.getElementById("pointXSlider");
+      const perfCheck = document.getElementById("perforatedCheckbox");
+      
+      const aDisplay = document.getElementById("aDisplayVal");
+      const dDisplay = document.getElementById("deltaDisplayVal");
+      const xDisplayN = document.getElementById("xDisplayVal");
+      const mathOutput = document.getElementById("mathNeighborhoodOutput");
+      
+      const nWidth = nCanvas.width;
+      const nHeight = nCanvas.height;
+      const nPadding = 50;
+      
+      const coordMin = 0.0;
+      const coordMax = 6.0;
+      
+      function mapNX(val) {
+        return nPadding + ((val - coordMin) / (coordMax - coordMin)) * (nWidth - 2 * nPadding);
+      }
+      
+      function drawNeighborhood() {
+        const a = parseFloat(aSlider.value);
+        const delta = parseFloat(dSlider.value);
+        const x = parseFloat(xSliderN.value);
+        const isPerf = perfCheck.checked;
+        
+        nCtx.clearRect(0, 0, nWidth, nHeight);
+        
+        const yAxis = nHeight / 2 + 10;
+        
+        // 1. Draw main axis line
+        nCtx.strokeStyle = "#cbd5e1";
+        nCtx.lineWidth = 4;
+        nCtx.beginPath();
+        nCtx.moveTo(mapNX(coordMin), yAxis);
+        nCtx.lineTo(mapNX(coordMax), yAxis);
+        nCtx.stroke();
+        
+        // 2. Draw Ticks and Labels
+        nCtx.fillStyle = "#6b7280";
+        nCtx.font = "20px 'Times New Roman', serif";
+        nCtx.textAlign = "center";
+        for (let i = 0; i <= 6; i++) {
+          const cx = mapNX(i);
+          nCtx.strokeStyle = "#cbd5e1";
+          nCtx.lineWidth = 2;
+          nCtx.beginPath();
+          nCtx.moveTo(cx, yAxis - 10);
+          nCtx.lineTo(cx, yAxis + 10);
+          nCtx.stroke();
+          
+          nCtx.fillText(i.toString(), cx, yAxis + 35);
+        }
+        
+        // 3. Highlight Interval (a - delta, a + delta)
+        const xStart = mapNX(a - delta);
+        const xEnd = mapNX(a + delta);
+        
+        nCtx.fillStyle = "rgba(29, 78, 216, 0.12)"; // Soft blue fill
+        nCtx.fillRect(xStart, yAxis - 15, xEnd - xStart, 30);
+        
+        nCtx.strokeStyle = "#1d4ed8"; // Royal Blue line for interval bounds
+        nCtx.lineWidth = 3;
+        nCtx.beginPath();
+        nCtx.moveTo(xStart, yAxis - 15);
+        nCtx.lineTo(xEnd, yAxis - 15);
+        nCtx.moveTo(xStart, yAxis + 15);
+        nCtx.lineTo(xEnd, yAxis + 15);
+        nCtx.stroke();
+        
+        // Draw open brackets ( and )
+        nCtx.fillStyle = "#1d4ed8";
+        nCtx.font = "bold 32px sans-serif";
+        nCtx.fillText("(", xStart - 5, yAxis + 10);
+        nCtx.fillText(")", xEnd + 5, yAxis + 10);
+        
+        // 4. Draw Center Point a
+        const cxA = mapNX(a);
+        if (isPerf) {
+          // Perforated: Draw empty circle with red/blue outline representing the hole
+          nCtx.beginPath();
+          nCtx.arc(cxA, yAxis, 10, 0, 2 * Math.PI);
+          nCtx.fillStyle = "#ffffff";
+          nCtx.fill();
+          nCtx.strokeStyle = "#ef4444";
+          nCtx.lineWidth = 4;
+          nCtx.stroke();
+          
+          // Label a below the axis
+          nCtx.fillStyle = "#ef4444";
+          nCtx.font = "italic bold 20px 'Times New Roman', serif";
+          nCtx.fillText("a", cxA, yAxis - 25);
+        } else {
+          // Regular: Draw solid blue circle
+          nCtx.beginPath();
+          nCtx.arc(cxA, yAxis, 8, 0, 2 * Math.PI);
+          nCtx.fillStyle = "#1d4ed8";
+          nCtx.fill();
+          
+          // Label a
+          nCtx.fillStyle = "#1d4ed8";
+          nCtx.font = "italic bold 20px 'Times New Roman', serif";
+          nCtx.fillText("a", cxA, yAxis - 25);
+        }
+        
+        // 5. Draw point x
+        const cxX = mapNX(x);
+        nCtx.beginPath();
+        nCtx.arc(cxX, yAxis, 8, 0, 2 * Math.PI);
+        nCtx.fillStyle = "#f59e0b"; // Orange/Amber
+        nCtx.fill();
+        nCtx.strokeStyle = "#d97706";
+        nCtx.lineWidth = 2;
+        nCtx.stroke();
+        
+        // Label x
+        nCtx.fillStyle = "#d97706";
+        nCtx.font = "italic bold 20px 'Times New Roman', serif";
+        nCtx.fillText("x", cxX, yAxis - 25);
+      }
+      
+      let isNTypesetting = false;
+      let needsNTypeset = false;
+      
+      function triggerNeighborhoodTypeset() {
+        if (!window.MathJax) return;
+        if (isNTypesetting) {
+          needsNTypeset = true;
+          return;
+        }
+        isNTypesetting = true;
+        needsNTypeset = false;
+        
+        MathJax.typesetClear([aDisplay, dDisplay, xDisplayN, mathOutput]);
+        MathJax.typesetPromise([aDisplay, dDisplay, xDisplayN, mathOutput])
+          .then(() => {
+            isNTypesetting = false;
+            if (needsNTypeset) {
+              triggerNeighborhoodTypeset();
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            isNTypesetting = false;
+          });
+      }
+      
+      function updateNeighborhoodMath() {
+        const a = parseFloat(aSlider.value);
+        const delta = parseFloat(dSlider.value);
+        const x = parseFloat(xSliderN.value);
+        const isPerf = perfCheck.checked;
+        
+        const xMinVal = (a - delta).toFixed(2);
+        const xMaxVal = (a + delta).toFixed(2);
+        const dist = Math.abs(x - a).toFixed(2);
+        
+        aDisplay.innerHTML = '$a = ' + a.toFixed(2) + '$';
+        dDisplay.innerHTML = '$\\delta = ' + delta.toFixed(2) + '$';
+        xDisplayN.innerHTML = '$x = ' + x.toFixed(2) + '$';
+        
+        let intervalStr = '';
+        let conditionStr = '';
+        let resultStr = '';
+        const inside = isPerf 
+          ? (x > a - delta && x < a + delta && Math.abs(x - a) > 0.001)
+          : (x > a - delta && x < a + delta);
+          
+        if (isPerf) {
+          intervalStr = `V_{\\delta}^*(a) = (${xMinVal}, ${xMaxVal}) \\setminus \\{${a.toFixed(2)}\\}`;
+          conditionStr = `0 < |x - a| < \\delta \\implies 0 < ${dist} < ${delta.toFixed(2)}`;
+          if (inside) {
+            resultStr = `<span style="color: #22c55e; font-weight: bold;">$x \\in V_{\\delta}^*(a)$ (Dentro)</span>`;
+          } else {
+            if (Math.abs(x - a) < 0.001) {
+              resultStr = `<span style="color: #ef4444; font-weight: bold;">$x \\notin V_{\\delta}^*(a)$ (Excluido por ser $x=a$)</span>`;
+            } else {
+              resultStr = `<span style="color: #ef4444; font-weight: bold;">$x \\notin V_{\\delta}^*(a)$ (Fuera)</span>`;
+            }
+          }
+        } else {
+          intervalStr = `V_{\\delta}(a) = (${xMinVal}, ${xMaxVal})`;
+          conditionStr = `|x - a| < \\delta \\implies ${dist} < ${delta.toFixed(2)}`;
+          if (inside) {
+            resultStr = `<span style="color: #22c55e; font-weight: bold;">$x \\in V_{\\delta}(a)$ (Dentro)</span>`;
+          } else {
+            resultStr = `<span style="color: #ef4444; font-weight: bold;">$x \\notin V_{\\delta}(a)$ (Fuera)</span>`;
+          }
+        }
+        
+        mathOutput.innerHTML = `
+          <div style="margin-bottom: 0.5rem;"><strong>Intervalo:</strong> $${intervalStr}$</div>
+          <div style="margin-bottom: 0.5rem;"><strong>Condición:</strong> $${conditionStr}$</div>
+          <div><strong>Estado:</strong> ${resultStr}</div>
+        `;
+        
+        triggerNeighborhoodTypeset();
+        drawNeighborhood();
+      }
+      
+      aSlider.addEventListener("input", updateNeighborhoodMath);
+      dSlider.addEventListener("input", updateNeighborhoodMath);
+      xSliderN.addEventListener("input", updateNeighborhoodMath);
+      perfCheck.addEventListener("change", updateNeighborhoodMath);
+      
+      updateNeighborhoodMath(); // Initialize neighborhood simulator
+
+      // ========================================================
+      // LÓGICA DEL SIMULADOR ÉPSILON-DELTA (TAB 3)
+      // ========================================================
+      const edCanvas = document.getElementById("epsDelCanvas");
+      const edCtx = edCanvas.getContext("2d");
+      const epsSlider = document.getElementById("epsilonSlider");
+      const delSlider = document.getElementById("deltaSliderED");
+      
+      const epsValDisplay = document.getElementById("epsValDisplay");
+      const delValDisplay = document.getElementById("delValDisplay");
+      const edStatusDisplay = document.getElementById("edStatusDisplay");
+      const edExplanationDisplay = document.getElementById("edExplanationDisplay");
+      
+      const edWidth = edCanvas.width;
+      const edHeight = edCanvas.height;
+      const edPadding = 60;
+      
+      const xMinED = 0.5, xMaxED = 3.5;
+      const yMinED = 0.0, yMaxED = 4.5;
+      const aED = 2.0;
+      const LED = 2.0;
+      
+      function fED(x) {
+        return 0.5 * x * x;
+      }
+      
+      function mapEDX(x) {
+        return edPadding + ((x - xMinED) / (xMaxED - xMinED)) * (edWidth - 2 * edPadding);
+      }
+      
+      function mapEDY(y) {
+        return edHeight - edPadding - ((y - yMinED) / (yMaxED - yMinED)) * (edHeight - 2 * edPadding);
+      }
+      
+      let isEDTypesetting = false;
+      let needsEDTypeset = false;
+      
+      function triggerEpsDelTypeset() {
+        if (!window.MathJax) return;
+        if (isEDTypesetting) {
+          needsEDTypeset = true;
+          return;
+        }
+        isEDTypesetting = true;
+        needsEDTypeset = false;
+        
+        MathJax.typesetClear([epsValDisplay, delValDisplay, edStatusDisplay, edExplanationDisplay]);
+        MathJax.typesetPromise([epsValDisplay, delValDisplay, edStatusDisplay, edExplanationDisplay])
+          .then(() => {
+            isEDTypesetting = false;
+            if (needsEDTypeset) {
+              triggerEpsDelTypeset();
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            isEDTypesetting = false;
+          });
+      }
+      
+      function drawEpsDel(eps, del, isValid) {
+        edCtx.clearRect(0, 0, edWidth, edHeight);
+        
+        // 1. Draw Grid
+        edCtx.strokeStyle = "#e2e8f0";
+        edCtx.lineWidth = 1;
+        edCtx.beginPath();
+        for (let x = 0.5; x <= 3.5; x += 0.5) {
+          edCtx.moveTo(mapEDX(x), mapEDY(yMinED));
+          edCtx.lineTo(mapEDX(x), mapEDY(yMaxED));
+        }
+        for (let y = 0.5; y <= 4.5; y += 0.5) {
+          edCtx.moveTo(mapEDX(xMinED), mapEDY(y));
+          edCtx.lineTo(mapEDX(xMaxED), mapEDY(y));
+        }
+        edCtx.stroke();
+        
+        // 2. Draw Epsilon Band (Horizontal Strip)
+        edCtx.fillStyle = "rgba(29, 78, 216, 0.05)";
+        const yEpsTop = mapEDY(LED + eps);
+        const yEpsBottom = mapEDY(LED - eps);
+        edCtx.fillRect(mapEDX(xMinED), yEpsTop, mapEDX(xMaxED) - mapEDX(xMinED), yEpsBottom - yEpsTop);
+        
+        // Epsilon dashed borders
+        edCtx.strokeStyle = "rgba(29, 78, 216, 0.35)";
+        edCtx.lineWidth = 2;
+        edCtx.setLineDash([6, 6]);
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(xMinED), yEpsTop);
+        edCtx.lineTo(mapEDX(xMaxED), yEpsTop);
+        edCtx.moveTo(mapEDX(xMinED), yEpsBottom);
+        edCtx.lineTo(mapEDX(xMaxED), yEpsBottom);
+        edCtx.stroke();
+        edCtx.setLineDash([]);
+        
+        // 3. Draw Delta Band (Vertical Strip)
+        edCtx.fillStyle = "rgba(217, 119, 6, 0.04)";
+        const xDelLeft = mapEDX(aED - del);
+        const xDelRight = mapEDX(aED + del);
+        edCtx.fillRect(xDelLeft, mapEDY(yMaxED), xDelRight - xDelLeft, mapEDY(yMinED) - mapEDY(yMaxED));
+        
+        // Delta dashed borders
+        edCtx.strokeStyle = "rgba(217, 119, 6, 0.35)";
+        edCtx.lineWidth = 2;
+        edCtx.setLineDash([6, 6]);
+        edCtx.beginPath();
+        edCtx.moveTo(xDelLeft, mapEDY(yMinED));
+        edCtx.lineTo(xDelLeft, mapEDY(yMaxED));
+        edCtx.moveTo(xDelRight, mapEDY(yMinED));
+        edCtx.lineTo(xDelRight, mapEDY(yMaxED));
+        edCtx.stroke();
+        edCtx.setLineDash([]);
+        
+        // 4. Draw Intersection Box (Target Zone)
+        edCtx.fillStyle = isValid ? "rgba(34, 197, 94, 0.08)" : "rgba(239, 68, 68, 0.08)";
+        edCtx.fillRect(xDelLeft, yEpsTop, xDelRight - xDelLeft, yEpsBottom - yEpsTop);
+        
+        edCtx.strokeStyle = isValid ? "#22c55e" : "#ef4444";
+        edCtx.lineWidth = 2.5;
+        edCtx.setLineDash([6, 6]);
+        edCtx.strokeRect(xDelLeft, yEpsTop, xDelRight - xDelLeft, yEpsBottom - yEpsTop);
+        edCtx.setLineDash([]);
+        
+        // 5. Draw Axes
+        edCtx.strokeStyle = "#475569";
+        edCtx.lineWidth = 3;
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(xMinED), mapEDY(0));
+        edCtx.lineTo(mapEDX(xMaxED), mapEDY(0));
+        edCtx.moveTo(mapEDX(xMinED), mapEDY(yMinED));
+        edCtx.lineTo(mapEDX(xMinED), mapEDY(yMaxED));
+        edCtx.stroke();
+        
+        // 6. Draw Function Curve in segments
+        const step = 0.005;
+        let prevX = xMinED;
+        let prevY = fED(prevX);
+        for (let x = xMinED + step; x <= xMaxED + 0.0001; x += step) {
+          let y = fED(x);
+          
+          let color = "#94a3b8"; // Default: grey outside active interval
+          let lineWidth = 3;
+          
+          let midX = (prevX + x) / 2;
+          if (midX >= aED - del && midX <= aED + del) {
+            lineWidth = 6;
+            let midY = fED(midX);
+            if (midY >= LED - eps && midY <= LED + eps) {
+              color = "#22c55e"; // Green: within epsilon
+            } else {
+              color = "#ef4444"; // Red: escapes epsilon
+            }
+          }
+          
+          edCtx.strokeStyle = color;
+          edCtx.lineWidth = lineWidth;
+          edCtx.beginPath();
+          edCtx.moveTo(mapEDX(prevX), mapEDY(prevY));
+          edCtx.lineTo(mapEDX(x), mapEDY(y));
+          edCtx.stroke();
+          
+          prevX = x;
+          prevY = y;
+        }
+        
+        // 7. Draw Perforated Point (a, L) = (2, 2)
+        edCtx.beginPath();
+        edCtx.arc(mapEDX(aED), mapEDY(LED), 8, 0, 2 * Math.PI);
+        edCtx.fillStyle = "#ffffff";
+        edCtx.fill();
+        edCtx.strokeStyle = "#1d4ed8";
+        edCtx.lineWidth = 3;
+        edCtx.stroke();
+        
+        // 8. Ticks & Labels
+        // Axis Title
+        edCtx.fillStyle = "#1f2937";
+        edCtx.font = "italic bold 22px 'Times New Roman', serif";
+        edCtx.textAlign = "right";
+        edCtx.fillText("x", mapEDX(xMaxED) + 22, mapEDY(0) + 6);
+        edCtx.fillText("y", mapEDX(xMinED) - 8, mapEDY(yMaxED) - 20);
+        
+        // X-axis Ticks
+        edCtx.strokeStyle = "#475569";
+        edCtx.lineWidth = 1.5;
+        
+        // Tick a = 2.0
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(aED), mapEDY(0));
+        edCtx.lineTo(mapEDX(aED), mapEDY(0) + 6);
+        edCtx.stroke();
+        
+        // Tick a-delta
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(aED - del), mapEDY(0));
+        edCtx.lineTo(mapEDX(aED - del), mapEDY(0) + 6);
+        edCtx.stroke();
+        
+        // Tick a+delta
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(aED + del), mapEDY(0));
+        edCtx.lineTo(mapEDX(aED + del), mapEDY(0) + 6);
+        edCtx.stroke();
+        
+        // Y-axis Ticks
+        // Tick L = 2.0
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(xMinED), mapEDY(LED));
+        edCtx.lineTo(mapEDX(xMinED) - 6, mapEDY(LED));
+        edCtx.stroke();
+        
+        // Tick L-epsilon
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(xMinED), mapEDY(LED - eps));
+        edCtx.lineTo(mapEDX(xMinED) - 6, mapEDY(LED - eps));
+        edCtx.stroke();
+        
+        // Tick L+epsilon
+        edCtx.beginPath();
+        edCtx.moveTo(mapEDX(xMinED), mapEDY(LED + eps));
+        edCtx.lineTo(mapEDX(xMinED) - 6, mapEDY(LED + eps));
+        edCtx.stroke();
+        
+        // Labels Text
+        edCtx.font = "18px 'Segoe UI', system-ui, sans-serif";
+        edCtx.textAlign = "center";
+        edCtx.textBaseline = "top";
+        
+        // Center label a
+        edCtx.fillStyle = "#1e3a8a";
+        edCtx.fillText("a=2.0", mapEDX(aED), mapEDY(0) + 12);
+        
+        // Delta labels (if not overlapping)
+        if (mapEDX(aED + del) - mapEDX(aED - del) > 65) {
+          edCtx.fillStyle = "#d97706";
+          edCtx.fillText((aED - del).toFixed(2), mapEDX(aED - del), mapEDY(0) + 35);
+          edCtx.fillText((aED + del).toFixed(2), mapEDX(aED + del), mapEDY(0) + 35);
+        }
+        
+        // Y-axis labels
+        edCtx.textAlign = "right";
+        edCtx.textBaseline = "middle";
+        
+        // Center label L
+        edCtx.fillStyle = "#1e3a8a";
+        edCtx.fillText("L=2.0", mapEDX(xMinED) - 18, mapEDY(LED));
+        
+        // Epsilon labels (if not overlapping)
+        if (mapEDY(LED - eps) - mapEDY(LED + eps) > 48) {
+          edCtx.fillStyle = "#1d4ed8";
+          edCtx.fillText((LED - eps).toFixed(2), mapEDX(xMinED) - 18, mapEDY(LED - eps));
+          edCtx.fillText((LED + eps).toFixed(2), mapEDX(xMinED) - 18, mapEDY(LED + eps));
+        }
+      }
+      
+      function updateEpsDelMath() {
+        const eps = parseFloat(epsSlider.value);
+        const del = parseFloat(delSlider.value);
+        
+        epsValDisplay.innerHTML = '$\\varepsilon = ' + eps.toFixed(2) + '$';
+        delValDisplay.innerHTML = '$\\delta = ' + del.toFixed(2) + '$';
+        
+        const maxDelta = Math.sqrt(4 + 2 * eps) - 2;
+        const isValid = del <= maxDelta + 0.0001;
+        
+        if (isValid) {
+          edStatusDisplay.innerHTML = `<span style="color: #22c55e;">✓ Condición Cumplida</span>`;
+          edExplanationDisplay.innerHTML = `Para $\\varepsilon = ${eps.toFixed(2)}$, el radio máximo permitido es $\\delta_{\\text{max}} \\approx ${maxDelta.toFixed(3)}$. Como tu $\\delta = ${del.toFixed(2)} \\le \\delta_{\\text{max}}$, se garantiza que para todo $x$ en el entorno perforado, $f(x)$ cae dentro de la franja.`;
+        } else {
+          edStatusDisplay.innerHTML = `<span style="color: #ef4444;">✗ Condición Incumplida</span>`;
+          edExplanationDisplay.innerHTML = `Para $\\varepsilon = ${eps.toFixed(2)}$, el radio máximo permitido es $\\delta_{\\text{max}} \\approx ${maxDelta.toFixed(3)}$. Como tu $\\delta = ${del.toFixed(2)} > \\delta_{\\text{max}}$, algunos valores de $f(x)$ escapan de la franja (mostrados en rojo).`;
+        }
+        
+        triggerEpsDelTypeset();
+        drawEpsDel(eps, del, isValid);
+      }
+      
+      epsSlider.addEventListener("input", updateEpsDelMath);
+      delSlider.addEventListener("input", updateEpsDelMath);
+      
+      updateEpsDelMath(); // Initialize
+    });
+
+    /* =========================================
+       2. LÓGICA DE CONTROL DE PESTAÑAS (TABS)
+       ========================================= */
+    function openTab(evt, tabId) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      evt.currentTarget.classList.add('active');
+      
+      // Reseteo automático del split screen si el alumno abandona la sección práctica
+      if(tabId !== 'tab-practica') {
+        const wrapper = document.getElementById('splitWrapper');
+        if(wrapper && wrapper.classList.contains('split-active')) {
+          toggleSplitScreen();
+        }
+      }
+    }
+
+    /* =========================================
+       3. LÓGICA DEL SPLIT-SCREEN DINÁMICO
+       ========================================= */
+    function toggleSplitScreen() {
+      const wrapper = document.getElementById('splitWrapper');
+      const btn = document.getElementById('btnToggleSplit');
+      const container = document.getElementById('mainContainer');
+      
+      wrapper.classList.toggle('split-active');
+      
+      if (wrapper.classList.contains('split-active')) {
+        btn.innerHTML = "✕ Ocultar Formulario (Pantalla Completa)";
+        container.style.maxWidth = "1300px"; // Amplía el lienzo máx para dar confort visual
+      } else {
+        btn.innerHTML = "📖 Mostrar Formulario (Dividir Pantalla)";
+        container.style.maxWidth = "1000px"; // Retorna al estándar armónico de lectura
+      }
+    }
+
+    /* =========================================
+       4. DESPLIEGUE DE PAUTAS DE EJERCICIOS
+       ========================================= */
+    function toggleSolucion(id) {
+      const bloque = document.getElementById(id);
+      const isVisible = bloque.style.display === 'block';
+      bloque.style.display = isVisible ? 'none' : 'block';
+
+      if (!isVisible && window.MathJax) {
+        MathJax.typesetClear([bloque]);
+        MathJax.typesetPromise([bloque]);
+      }
+    }
+
+
+    /* =========================================
+       5. BANCO DE DATOS: VERDADERO O FALSO
+       ========================================= */
+    const respuestasQuiz = {
+      1: {
+        correcta: false,
+        ok: "¡Excelente discernimiento analítico! El cuantificador universal debe atacar primero (\\(\\displaystyle \\forall \\varepsilon\\)) exigiendo precisión métrica de forma externa, y el cuantificador existencial (\\(\\displaystyle \\exists \\delta\\)) debe defenderse en consecuencia. Si existiera un \\(\\displaystyle \\delta\\) maestro fijo capaz de resistir cualquier franja vertical, se rompería la naturaleza de aproximación infinita.",
+        bad: "Cuidado con la lectura lógica. Escribir \\(\\displaystyle \\exists \\delta, \\forall \\varepsilon\\) significa que puedes fijar un entorno inamovible en el dominio que es capaz de garantizar de forma simultánea cualquier margen de error vertical infinitamente pequeño, lo cual invalida la dependencia topológica del Cálculo."
+      },
+      2: {
+        correcta: false,
+        ok: "¡Excelente comprensión analítica! El valor de \\(\\displaystyle \\delta\\) no es único. Si un determinado entorno de radio \\(\\displaystyle \\delta\\) logra encerrar todas las imágenes dentro de la franja \\(\\displaystyle \\varepsilon\\), entonces cualquier sub-intervalo más estrecho (es decir, cualquier otro radio menor \\(\\displaystyle 0 < \\delta' < \\delta\\)) también lo garantizará automáticamente.",
+        bad: "Cuidado con el concepto de vecindades. Recuerda que la definición formal requiere encontrar *al menos un* radio de seguridad \\(\\displaystyle \\delta > 0\\). Si un determinado radio \\(\\displaystyle \\delta\\) asegura la condición, cualquier sub-intervalo más estrecho (cualquier \\(\\displaystyle \\delta'\\) menor) también asegurará que las imágenes caigan dentro de la franja de error."
+      }
+    };
+
+    function evaluarVF(preguntaId, seleccionUsuario) {
+      const datos = respuestasQuiz[preguntaId];
+      const bloqueRetro = document.getElementById('retro-vf' + preguntaId);
+      const esCorrecto = seleccionUsuario === datos.correcta;
+
+      bloqueRetro.style.display = 'block';
+      bloqueRetro.className = esCorrecto ? 'retro correcto' : 'retro incorrecto';
+      bloqueRetro.innerHTML = esCorrecto 
+        ? '<strong>✔ ¡Correcto!</strong> ' + datos.ok 
+        : '<strong>✘ Respuesta Incorrecta.</strong> ' + datos.bad;
+
+      if (window.MathJax) {
+        MathJax.typesetClear([bloqueRetro]);
+        MathJax.typesetPromise([bloqueRetro]);
+      }
+    }
+
+    /* =========================================
+       6. BARRA DE PROGRESO DINÁMICA
+       ========================================= */
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('progress-bar').style.width = progress + '%';
+    });
+  </script>
+
+</body>
+</html>

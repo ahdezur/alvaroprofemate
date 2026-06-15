@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TÍTULO DE LA PÁGINA | AlvaroProfeMate.cl</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --border: #dbe3f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 260px;
+      height: 100%;
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 1.2rem;
+      transition: 0.3s;
+      z-index: 1000;
+    }
+
+    .sidebar.active { left: 0; }
+
+    .sidebar h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 0.6rem 0;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      background: #f59e0b;
+      color: white;
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1100;
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .toggle-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+    }
+
+    /* Header layout */
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #fff;
+      padding: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 2.5rem 1.2rem;
+      text-align: center;
+    }
+
+    header h1 { margin: 0; font-size: 2rem; }
+
+    header p { margin-top: 0.6rem; font-size: 1rem; opacity: 0.95; }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    h2 { color: var(--accent); margin-top: 0; }
+
+    .definicion {
+      border-left: 5px solid var(--accent);
+      padding-left: 1rem;
+      background: #f8fbff;
+    }
+
+    .ejemplo, .ejercicios { background: #fcfdff; }
+
+    .solucion {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .btn-solucion {
+      margin-top: 0.8rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .btn-solucion:hover { opacity: 0.92; }
+
+    ol { padding-left: 1.4rem; }
+
+    .muted { color: var(--muted); font-size: 0.95rem; }
+
+    .leyenda {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0.5rem 0 1rem;
+      text-align: center;
+    }
+
+    .error {
+      border-left: 5px solid #ef4444;
+      background: #fef2f2;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+
+    .idea-clave {
+      border-left: 5px solid #22c55e;
+      background: #f0fdf4;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+
+    .resultado {
+      border: 2px solid #1d4ed8;
+      border-radius: 12px;
+      padding: 1rem;
+      background: linear-gradient(135deg, #eef2ff, #ffffff);
+      margin-top: 1rem;
+      box-shadow: 0 6px 18px rgba(29,78,216,0.15);
+    }
+
+    footer {
+      position: sticky;
+      bottom: 0;
+      text-align: center;
+      color: var(--muted);
+      padding: 0.55rem 1rem;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid var(--border);
+      z-index: 900;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .subrayado {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      font-weight: 600;
+    }
+
+    /* Diagrama */
+    .diagrama-funcion {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 1rem;
+      align-items: center;
+      margin: 1.2rem 0;
+    }
+
+    .conjunto {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .conjunto.dominio {
+      background: linear-gradient(135deg, #eff6ff, #ffffff);
+      border-color: #93c5fd;
+    }
+
+    .conjunto.codominio {
+      background: linear-gradient(135deg, #fff7ed, #ffffff);
+      border-color: #fdba74;
+    }
+
+    .flechas-conceptos {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .flecha-concepto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--accent);
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    .flecha-concepto.preimagen {
+      color: #7c3aed;
+    }
+
+    .linea-flecha {
+      position: relative;
+      width: 100%;
+      height: 4px;
+      background: currentColor;
+      margin: 0.25rem 0;
+      border-radius: 999px;
+    }
+
+    .linea-flecha.derecha::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 14px solid currentColor;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .linea-flecha.izquierda::before {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-right: 14px solid currentColor;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .texto-flecha {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: normal;
+      text-align: center;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .mini-grid.single {
+      grid-template-columns: 1fr;
+    }
+
+    .mini-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .mini-card h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 70%; /* más alto para GeoGebra */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      background: #000;
+      margin-top: 1rem;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Verdadero/Falso */
+    .vf-item {
+      margin-bottom: 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fcfdff;
+    }
+
+    .vf-item label { cursor: pointer; margin-right: 1rem; }
+
+    .retro {
+      margin-top: 0.6rem;
+      padding: 0.6rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .retro strong { display: block; margin-bottom: 0.4rem; }
+    .correcto { background: #ecfdf5; border-left: 4px solid #22c55e; }
+    .incorrecto { background: #fef2f2; border-left: 4px solid #ef4444; }
+
+    .btn {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .header-content, .diagrama-funcion, .mini-grid {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .flecha { transform: rotate(90deg); }
+    }
+  .roman-paren {
+  counter-reset: item;
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.roman-paren li {
+  counter-increment: item;
+  margin-bottom: 0.3rem;
+}
+
+.roman-paren li::before {
+  content: "(" counter(item, lower-roman) ") ";
+  font-weight: normal;
+}
+
+.nivel {
+  position: relative;
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 0.4rem;
+  cursor: help;
+}
+
+.nivel:hover {
+  opacity: 0.95;
+}
+
+.nivel::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 260px;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: var(--tooltip-bg, #111827);
+  color: var(--tooltip-text, #111827);
+  font-size: 0.78rem;
+  font-weight: bold;
+  line-height: 1.35;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 1300;
+  white-space: normal;
+}
+
+.nivel::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 3px);
+  transform: translateX(-50%);
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid var(--tooltip-bg, #111827);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  z-index: 1300;
+}
+
+.nivel:hover::after,
+.nivel:hover::before {
+  opacity: 1;
+}
+
+.nivel:hover::after {
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.nivel-facil {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+  --tooltip-bg: #bbf7d0;
+  --tooltip-text: #065f46;
+}
+
+.nivel-intermedio {
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fde047;
+  --tooltip-bg: #fef08a;
+  --tooltip-text: #713f12;
+}
+
+.nivel-dificil {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  --tooltip-bg: #fecaca;
+  --tooltip-text: #7f1d1d;
+}
+
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  z-index: 1200;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #1d4ed8, #22c55e);
+  transition: width 0.2s ease;
+}
+
+</style>
+</head>
+<body>
+
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <h3>Contenido</h3>
+    <a href="#m1">1. Motivación</a>
+    <a href="#m2">2. Definición / Concepto central</a>
+    <a href="#m3">3. Idea clave y error común</a>
+    <a href="#m4">4. Ejemplos resueltos</a>
+    <a href="#m5">5. Video o recurso recomendado</a>
+    <a href="#propiedades">6. Propiedades / Resumen</a>
+    <a href="#m6">7. Verdadero o Falso</a>
+    <a href="#m7">8. Ejercicios propuestos</a>
+  </div>
+
+<header>
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+  <div class="header-content">
+    <img src="logoAlvaroProfeMate2.png" class="logo" alt="Logo">
+    <!--<img src="https://static.wixstatic.com/media/03c9d4_0e1d7f37a69247e2bef6e36ad1e592b7~mv2.jpg" class="logo" alt="Logo">-->
+    <div>
+      <h1>TÍTULO DEL CONTENIDO</h1>
+      <p>Subtítulo breve de la página: idea principal, objetivo o descripción del tema</p>
+    </div>
+  </div>
+</header>
+
+  <main>
+
+    <div class="idea-clave" style="max-width:900px; margin:1rem auto;">
+      <strong>Tiempo estimado:</strong> XX minutos
+    </div>
+
+    <!-- =====================================================
+      BLOQUE 1: MOTIVACIÓN
+      Objetivo: presentar el problema, pregunta guía o contexto inicial.
+    ====================================================== -->
+    <section class="card" id="m1">
+      <h2>1. Motivación</h2>
+
+      <p>
+        Escribe aquí una introducción breve al tema. La idea es conectar el contenido con una
+        pregunta natural, una dificultad frecuente o una situación matemática concreta.
+      </p>
+
+      <div class="idea-clave">
+        <strong>Pregunta guía:</strong> escribe aquí una pregunta que oriente la clase o el estudio del contenido.
+      </div>
+
+      <!-- Opcional: diagrama conceptual simple -->
+      <div class="diagrama-funcion">
+        <div class="conjunto dominio">
+          <strong>Concepto A</strong><br>
+          $A$<br>
+          <span class="muted">descripción breve</span>
+        </div>
+
+        <div class="flechas-conceptos">
+          <div class="flecha-concepto imagen">
+            <span>Relación directa</span>
+            <div class="linea-flecha derecha"></div>
+            <span class="texto-flecha">explica aquí la relación entre ambos conceptos</span>
+          </div>
+
+          <div class="flecha-concepto preimagen">
+            <div class="linea-flecha izquierda"></div>
+            <span>Relación inversa</span>
+            <span class="texto-flecha">explica aquí otra forma de mirar el problema</span>
+          </div>
+        </div>
+
+        <div class="conjunto codominio">
+          <strong>Concepto B</strong><br>
+          $B$<br>
+          <span class="muted">descripción breve</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 2: DEFINICIÓN O CONCEPTO CENTRAL
+      Objetivo: enunciar formalmente la definición, propiedad o teorema.
+    ====================================================== -->
+    <section class="card definicion" id="m2">
+      <h2>2. Definición / Concepto central</h2>
+
+      <p>
+        Escribe aquí la definición principal del contenido. Puedes usar fórmulas en línea como $x^2+1$
+        o fórmulas centradas usando doble signo peso.
+      </p>
+
+      <div class="resultado">
+        $$
+        	ext{ESCRIBE AQUÍ LA FÓRMULA PRINCIPAL}
+        $$
+      </div>
+
+      <p>
+        Agrega una explicación en palabras simples para que el estudiante pueda interpretar la definición.
+      </p>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 3: IDEA CLAVE Y ERROR COMÚN
+      Objetivo: reforzar intuición y advertir errores frecuentes.
+    ====================================================== -->
+    <section class="card" id="m3">
+      <h2>3. Idea clave y error común</h2>
+
+      <div class="idea-clave">
+        <p><strong>Idea clave:</strong> escribe aquí la idea central que el estudiante debe recordar.</p>
+      </div>
+
+      <div class="error">
+        <p><strong>Error común:</strong> escribe aquí un error frecuente asociado al contenido.</p>
+        <p>
+          Puedes agregar una corrección o advertencia breve para evitar la confusión.
+        </p>
+      </div>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 4: EJEMPLOS RESUELTOS
+      Objetivo: mostrar uno o más ejemplos con desarrollo.
+    ====================================================== -->
+    <section class="card ejemplo" id="m4">
+      <h2>4. Ejemplos resueltos</h2>
+
+      <div class="mini-grid single">
+        <div class="mini-card">
+          <h3>Ejemplo 1</h3>
+
+          <p>
+            Escribe aquí el enunciado del ejemplo.
+          </p>
+
+          <div class="resultado">
+            $$
+            	ext{Resultado esperado o expresión importante}
+            $$
+          </div>
+
+          <p><strong>Solución:</strong></p>
+          <p>
+            Desarrolla aquí la solución paso a paso. Puedes usar expresiones como
+            $$
+            a^2+b^2=c^2
+            $$
+          </p>
+
+          <div class="resultado">
+            <p><strong>Conclusión:</strong></p>
+            $$
+            	ext{respuesta final}
+            $$
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <h3>Ejemplo 2</h3>
+
+          <p>
+            Escribe aquí un segundo ejemplo, idealmente con una dificultad levemente mayor.
+          </p>
+
+          <button class="btn-solucion" onclick="toggleSolucionEjemplo()">Mostrar solución</button>
+
+          <div class="solucion" id="solucion-ejemplo">
+            <p>
+              Escribe aquí la solución oculta del ejemplo. Al presionar el botón, esta solución aparecerá.
+            </p>
+            <div class="resultado">
+              $$
+              	ext{respuesta final}
+              $$
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 5: VIDEO, GEOGEBRA O RECURSO EXTERNO
+      Objetivo: insertar iframe de YouTube, GeoGebra u otro recurso.
+    ====================================================== -->
+    <section class="card" id="m5">
+      <h2>5. Video o recurso recomendado</h2>
+      <p>
+        Agrega aquí una breve explicación del recurso recomendado.
+      </p>
+
+      <div class="video-container">
+        <iframe src="URL_DEL_RECURSO_EMBEBIDO"
+          title="Recurso recomendado"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <p class="muted">
+        Si no se visualiza correctamente, puedes agregar aquí un enlace externo.
+      </p>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 6: PROPIEDADES O RESUMEN
+      Objetivo: resumir reglas, propiedades o ideas finales.
+    ====================================================== -->
+    <section class="card" id="propiedades">
+      <h2>6. Propiedades / Resumen</h2>
+
+      <p>
+        Usa este bloque para reunir propiedades importantes, observaciones o una tabla resumen.
+      </p>
+
+      <div class="idea-clave">
+        <ul>
+          <li><strong>Propiedad 1:</strong> escribe aquí una propiedad importante.</li>
+          <li><strong>Propiedad 2:</strong> escribe aquí otra propiedad importante.</li>
+          <li><strong>Propiedad 3:</strong> escribe aquí una observación final.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:1rem;">
+        <h3>Resumen visual</h3>
+        <table style="width:100%; border-collapse: collapse;">
+          <tr style="background:#f1f5f9;">
+            <th style="padding:8px; border:1px solid var(--border);">Concepto</th>
+            <th style="padding:8px; border:1px solid var(--border);">Descripción</th>
+            <th style="padding:8px; border:1px solid var(--border);">Observación</th>
+          </tr>
+          <tr>
+            <td style="padding:8px; border:1px solid var(--border);">Concepto 1</td>
+            <td style="padding:8px; border:1px solid var(--border);">Descripción breve</td>
+            <td style="padding:8px; border:1px solid var(--border);">Comentario</td>
+          </tr>
+          <tr>
+            <td style="padding:8px; border:1px solid var(--border);">Concepto 2</td>
+            <td style="padding:8px; border:1px solid var(--border);">Descripción breve</td>
+            <td style="padding:8px; border:1px solid var(--border);">Comentario</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 7: VERDADERO O FALSO
+      Objetivo: preguntas interactivas con retroalimentación inmediata.
+      Para agregar preguntas nuevas, debes:
+      1. copiar un bloque .vf-item
+      2. cambiar name="vfX"
+      3. cambiar responderVF(X, true/false)
+      4. agregar la pregunta X en el objeto preguntasVF del script
+    ====================================================== -->
+    <section class="card ejercicios" id="m6">
+      <h2>7. Verdadero o Falso</h2>
+      <p>Selecciona la alternativa correcta en cada afirmación.</p>
+
+      <div class="vf-item">
+        <p><strong>1.</strong> Escribe aquí una afirmación verdadera o falsa.</p>
+        <label><input type="radio" name="vf1" onclick="responderVF(1, true)"> Verdadero</label>
+        <label><input type="radio" name="vf1" onclick="responderVF(1, false)"> Falso</label>
+        <div id="retro-vf1" class="retro"></div>
+      </div>
+
+      <div class="vf-item">
+        <p><strong>2.</strong> Escribe aquí una segunda afirmación verdadera o falsa.</p>
+        <label><input type="radio" name="vf2" onclick="responderVF(2, true)"> Verdadero</label>
+        <label><input type="radio" name="vf2" onclick="responderVF(2, false)"> Falso</label>
+        <div id="retro-vf2" class="retro"></div>
+      </div>
+
+      <div class="vf-item">
+        <p><strong>3.</strong> Escribe aquí una tercera afirmación verdadera o falsa.</p>
+        <label><input type="radio" name="vf3" onclick="responderVF(3, true)"> Verdadero</label>
+        <label><input type="radio" name="vf3" onclick="responderVF(3, false)"> Falso</label>
+        <div id="retro-vf3" class="retro"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+      BLOQUE 8: EJERCICIOS PROPUESTOS
+      Objetivo: lista de ejercicios con íconos de dificultad y pautas desplegables.
+      Niveles disponibles:
+      Fácil:       <span class="nivel nivel-facil" data-tooltip="Fácil: ejercicio simple; no deberías tener mayores dificultades en resolverlo.">🟢</span>
+      Intermedio:  <span class="nivel nivel-intermedio" data-tooltip="Intermedio: requiere aplicar las definiciones con cuidado y justificar algunos pasos.">🟡</span>
+      Difícil:     <span class="nivel nivel-dificil" data-tooltip="Difícil: ejercicio desafiante; puede requerir combinar varias ideas y escribir una demostración más elaborada.">🔴</span>
+    ====================================================== -->
+    <section class="card ejercicios" id="m7">
+      <h2>8. Ejercicios propuestos</h2>
+      <p>Resuelve los siguientes ejercicios usando las ideas desarrolladas en esta página.</p>
+
+      <ol>
+        <li>
+          <p><span class="nivel nivel-facil" data-tooltip="Fácil: ejercicio simple; no deberías tener mayores dificultades en resolverlo.">🟢</span> Escribe aquí un ejercicio de nivel fácil.</p>
+          <p>
+            $$
+            	ext{expresión matemática del ejercicio}
+            $$
+          </p>
+        </li>
+
+        <li>
+          <p><span class="nivel nivel-intermedio" data-tooltip="Intermedio: requiere aplicar las definiciones con cuidado y justificar algunos pasos.">🟡</span> Escribe aquí un ejercicio de nivel intermedio.</p>
+
+          <button class="btn-solucion" onclick="toggleSolucionEj2()">Mostrar pauta</button>
+
+          <div class="solucion" id="solucion-ej2">
+            <p>Escribe aquí la pauta o solución del ejercicio 2.</p>
+            <div class="resultado">
+              $$
+              	ext{respuesta final del ejercicio 2}
+              $$
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <p><span class="nivel nivel-dificil" data-tooltip="Difícil: ejercicio desafiante; puede requerir combinar varias ideas y escribir una demostración más elaborada.">🔴</span> Escribe aquí un ejercicio de nivel difícil.</p>
+
+          <button class="btn-solucion" onclick="toggleSolucionEj3()">Mostrar pauta</button>
+
+          <div class="solucion" id="solucion-ej3">
+            <p>Escribe aquí la pauta o solución del ejercicio 3.</p>
+            <div class="resultado">
+              $$
+              	ext{respuesta final del ejercicio 3}
+              $$
+            </div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer>
+    <a href="mailto:contacto@alvaroprofemate.cl">contacto@alvaroprofemate.cl</a>
+  </footer>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function toggleSolucionEjemplo() {
+      const bloque = document.getElementById('solucion-ejemplo');
+      const isVisible = bloque.style.display === 'block';
+      bloque.style.display = isVisible ? 'none' : 'block';
+
+      if (!isVisible && window.MathJax) {
+        MathJax.typesetClear([bloque]);
+        MathJax.typesetPromise([bloque]);
+      }
+    }
+
+    function toggleSolucionEj2() {
+      const bloque = document.getElementById('solucion-ej2');
+      const isVisible = bloque.style.display === 'block';
+      bloque.style.display = isVisible ? 'none' : 'block';
+
+      if (!isVisible && window.MathJax) {
+        MathJax.typesetClear([bloque]);
+        MathJax.typesetPromise([bloque]);
+      }
+    }
+
+    function toggleSolucionEj3() {
+      const bloque = document.getElementById('solucion-ej3');
+      const isVisible = bloque.style.display === 'block';
+      bloque.style.display = isVisible ? 'none' : 'block';
+
+      if (!isVisible && window.MathJax) {
+        MathJax.typesetClear([bloque]);
+        MathJax.typesetPromise([bloque]);
+      }
+    }
+
+    const preguntasVF = {
+      1: {
+        correcta: true,
+        ok: String.raw`Correcto: escribe aquí la retroalimentación para la pregunta 1.`,
+        bad: String.raw`Incorrecto: escribe aquí una explicación breve para corregir la respuesta.`
+      },
+      2: {
+        correcta: false,
+        ok: String.raw`Correcto: escribe aquí la retroalimentación para la pregunta 2.`,
+        bad: String.raw`Incorrecto: escribe aquí una explicación breve para corregir la respuesta.`
+      },
+      3: {
+        correcta: true,
+        ok: String.raw`Correcto: escribe aquí la retroalimentación para la pregunta 3.`,
+        bad: String.raw`Incorrecto: escribe aquí una explicación breve para corregir la respuesta.`
+      }
+    };
+
+    function responderVF(numero, respuestaUsuario) {
+      const pregunta = preguntasVF[numero];
+      const bloque = document.getElementById('retro-vf' + numero);
+      const esCorrecto = respuestaUsuario === pregunta.correcta;
+
+      bloque.style.display = 'block';
+      bloque.className = esCorrecto ? 'retro correcto' : 'retro incorrecto';
+      bloque.innerHTML = esCorrecto
+        ? '<strong>✔</strong> ' + pregunta.ok
+        : '<strong>✘</strong> ' + pregunta.bad;
+
+      if (window.MathJax) {
+        MathJax.typesetClear([bloque]);
+        MathJax.typesetPromise([bloque]);
+      }
+    }
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('progress-bar').style.width = progress + '%';
+    });
+
+
+</script>
+
+</body>
+</html>
