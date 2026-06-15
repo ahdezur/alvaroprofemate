@@ -313,12 +313,12 @@
 
                 <div id="exe-3" class="exercise-content">
                     <h2>Ejercicio 3: El lugar geométrico del Circuncentro</h2>
-                    <p>El triángulo $OBC$ tiene su base fija en el eje $OX$ con $O = (0,0)$ y $B = (a,0)$. El vértice variable $C$ se mueve sobre la recta horizontal $y = c$. Determinar e identificar el lugar geométrico que describe el circuncentro $K(x,y)$ (intersección de las mediatrices del triángulo).</p>
+                    <p>El triángulo $\displaystyle OBC$ tiene su base fija en el eje $\displaystyle OX$ con $\displaystyle O = (0,0)$ y $\displaystyle B = (a,0)$ (con $\displaystyle a>0$). El vértice variable $\displaystyle C$ se mueve sobre la recta horizontal $\displaystyle y = c$ (con $\displaystyle c \neq 0$). Determinar e identificar el lugar geométrico que describe el circuncentro $\displaystyle K(x,y)$ (intersección de las mediatrices del triángulo).</p>
                     
                     <div id="normal-formulas-3" class="formulas-reserva">
-                        <div class="formula-box"><strong>Distancia al cuadrado:</strong> $d^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2$</div>
-                        <div class="formula-box"><strong>Propiedad del Circuncentro:</strong> $d(K,O) = d(K,B) = d(K,C)$</div>
-                        <div class="formula-box"><strong>Parábola ordinaria vertical:</strong> $(x - h)^2 = 4p(y - k)$</div>
+                        <div class="formula-box"><strong>Distancia al cuadrado:</strong> $\displaystyle d^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2$</div>
+                        <div class="formula-box"><strong>Propiedad del Circuncentro:</strong> $\displaystyle d(K,O) = d(K,B) = d(K,C)$</div>
+                        <div class="formula-box"><strong>Ecuación de una recta vertical:</strong> $\displaystyle x = x_0$</div>
                     </div>
 
                     <button class="btn btn-toggle-pauta" onclick="togglePauta(3)">Ver / Ocultar Pauta</button>
@@ -326,24 +326,29 @@
                     <div id="pauta-container-3" class="pauta-container hidden">
                         <h3>Pauta de Resolución - Ejercicio 3</h3>
                         <ol>
-                            <li>Establecemos el vértice dinámico como $C(t,c)$ con parámetro libre $t$.</li>
-                            <li>Por definición, el circuncentro equidista de los puntos. Evaluamos primero $d(K,O)^2 = d(K,B)^2$: <br> $$x^2 + y^2 = (x-a)^2 + y^2 \implies x^2 = x^2 - 2ax + a^2 \implies x = \frac{a}{2}$$</li>
-                            <li>Ahora igualamos la distancia respecto al vértice móvil $C(t,c)$, es decir, $d(K,O)^2 = d(K,C)^2$: <br> $$x^2 + y^2 = (x-t)^2 + (y-c)^2$$</li>
-                            <li>Reemplazamos el valor constante $x = \frac{a}{2}$ y desarrollamos los binomios cuadrados: <br> $$\left(\frac{a}{2}\right)^2 + y^2 = \left(\frac{a}{2}-t\right)^2 + y^2 - 2cy + c^2 \implies 2cy = t^2 - at + c^2$$</li>
-                            <li>Asociando la variable del parámetro en la progresión geométrica del plano, obtenemos la ecuación analítica final: <br> $$x^2 - ax - 2cy + c^2 = 0$$</li>
+                            <li>Establecemos el vértice dinámico como $\displaystyle C(t,c)$ con parámetro libre $\displaystyle t \in \mathbb{R}$.</li>
+                            <li>Por definición, el circuncentro equidista de los tres vértices. Primero igualamos la distancia a los puntos fijos de la base, $\displaystyle d(K,O)^2 = d(K,B)^2$: <br> $$x^2 + y^2 = (x-a)^2 + y^2 \implies x^2 = x^2 - 2ax + a^2 \implies x = \frac{a}{2}$$ Esto demuestra que la coordenada $\displaystyle x$ del circuncentro es constante e igual a la mediatriz de la base.</li>
+                            <li>Ahora igualamos la distancia al origen con la distancia al vértice móvil $\displaystyle C(t,c)$, es decir, $\displaystyle d(K,O)^2 = d(K,C)^2$: <br> $$x^2 + y^2 = (x-t)^2 + (y-c)^2 \implies 0 = -2tx + t^2 - 2cy + c^2$$</li>
+                            <li>Reemplazamos la coordenada constante $\displaystyle x = \frac{a}{2}$ en la ecuación anterior y la reordenamos como una ecuación cuadrática respecto al parámetro libre $\displaystyle t$: <br> $$0 = -2t\left(\frac{a}{2}\right) + t^2 - 2cy + c^2 \implies t^2 - at + (c^2 - 2cy) = 0$$</li>
+                            <li>Dado que el vértice móvil $\displaystyle C(t,c)$ se desplaza por toda la recta horizontal $\displaystyle y = c$, el parámetro $\displaystyle t$ debe ser un número real ($\displaystyle t \in \mathbb{R}$). Por lo tanto, el discriminante ($\displaystyle \Delta$) de esta ecuación cuadrática debe ser mayor o igual a cero para asegurar soluciones reales: <br> $$\Delta = B^2 - 4AC \ge 0 \implies (-a)^2 - 4(1)(c^2 - 2cy) \ge 0 \implies a^2 - 4c^2 + 8cy \ge 0 \implies 8cy \ge 4c^2 - a^2$$ El signo de $\displaystyle 8c$ determina la dirección de la semirrecta al despejar la coordenada $\displaystyle y$:
+                                <ul>
+                                    <li><strong>Caso 1: Si $\displaystyle c > 0$:</strong> El sentido de la desigualdad se mantiene, resultando en la semirrecta hacia arriba: <br> $$y \ge \frac{c}{2} - \frac{a^2}{8c}$$</li>
+                                    <li><strong>Caso 2: Si $\displaystyle c < 0$:</strong> El sentido de la desigualdad se invierte, resultando en la semirrecta hacia abajo: <br> $$y \le \frac{c}{2} - \frac{a^2}{8c}$$</li>
+                                </ul>
+                            </li>
                         </ol>
-                        <p><strong>Conclusión:</strong> Corresponde formalmente a una <strong>parábola vertical</strong> simétrica respecto al eje vertical $x = \frac{a}{2}$.</p>
+                        <p><strong>Conclusión:</strong> El lugar geométrico es una <strong>semirrecta vertical</strong> sobre la recta $\displaystyle x = \frac{a}{2}$, que se extiende hacia arriba si $\displaystyle c > 0$, o hacia abajo si $\displaystyle c < 0$, partiendo en ambos casos desde el punto extremo común $\displaystyle \left(\frac{a}{2}, \frac{c}{2} - \frac{a^2}{8c}\right)$.</p>
                     </div>
                 </div>
 
                 <div id="exe-4" class="exercise-content">
                     <h2>Ejercicio 4: Ángulo/Pendiente constante con extremos fijos</h2>
-                    <p>Un triángulo tiene sus vértices fijos en $A(-a, 0)$ y $B(a, 0)$. El tercer vértice $C(x, y)$ se mueve de modo que el producto de las pendientes de los lados $AC$ y $BC$ es siempre una constante fija $K$ ($K \neq 0$). Determinar el lugar geométrico de $C$ y discutir analíticamente cómo cambia la naturaleza de la curva si $K > 0$ o si $K < 0$.</p>
+                    <p>Un triángulo tiene sus vértices fijos en $\displaystyle A(-a, 0)$ y $\displaystyle B(a, 0)$. El tercer vértice $\displaystyle C(x, y)$ se mueve de modo que el producto de las pendientes de los lados $\displaystyle AC$ y $\displaystyle BC$ es siempre una constante fija $\displaystyle K$ ($\displaystyle K \neq 0$). Determinar el lugar geométrico de $\displaystyle C$ y discutir analíticamente cómo cambia la naturaleza de la curva si $\displaystyle K > 0$ o si $\displaystyle K < 0$.</p>
                     
                     <div id="normal-formulas-4" class="formulas-reserva">
-                        <div class="formula-box"><strong>Cálculo de Pendiente:</strong> $m = \frac{y_2 - y_1}{x_2 - x_1}$</div>
-                        <div class="formula-box"><strong>Elipse Canónica:</strong> $\frac{x^2}{\alpha^2} + \frac{y^2}{\beta^2} = 1 \quad (\text{Signos iguales})$</div>
-                        <div class="formula-box"><strong>Hipérbola Canónica:</strong> $\frac{x^2}{\alpha^2} - \frac{y^2}{\beta^2} = 1 \quad (\text{Signos opuestos})$</div>
+                        <div class="formula-box"><strong>Cálculo de Pendiente:</strong> $\displaystyle m = \frac{y_2 - y_1}{x_2 - x_1}$</div>
+                        <div class="formula-box"><strong>Elipse Canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} + \frac{y^2}{\beta^2} = 1 \quad (\text{Signos iguales})$</div>
+                        <div class="formula-box"><strong>Hipérbola Canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} - \frac{y^2}{\beta^2} = 1 \quad (\text{Signos opuestos})$</div>
                     </div>
 
                     <button class="btn btn-toggle-pauta" onclick="togglePauta(4)">Ver / Ocultar Pauta</button>
@@ -351,16 +356,17 @@
                     <div id="pauta-container-4" class="pauta-container hidden">
                         <h3>Pauta de Resolución - Ejercicio 4</h3>
                         <ol>
-                            <li>Calculamos las pendientes hacia los dos extremos fijos $A$ y $B$: <br> $$m_{AC} = \frac{y - 0}{x - (-a)} = \frac{y}{x+a}, \quad m_{BC} = \frac{y - 0}{x - a} = \frac{y}{x-a}$$</li>
-                            <li>Aplicamos el producto de pendientes determinado por la constante $K$: <br> $$\left(\frac{y}{x+a}\right)\cdot\left(\frac{y}{x-a}\right) = K \implies \frac{y^2}{x^2-a^2} = K$$</li>
-                            <li>Agrupamos términos coordenados: <br> $$y^2 = K(x^2 - a^2) \implies Kx^2 - y^2 = Ka^2$$</li>
-                            <li>Dividimos por $Ka^2$ para normalizar el miembro derecho: <br> $$\frac{x^2}{a^2} - \frac{y^2}{Ka^2} = 1$$</li>
+                            <li>Calculamos las pendientes hacia los dos extremos fijos $\displaystyle A$ y $\displaystyle B$: <br> $$m_{AC} = \frac{y - 0}{x - (-a)} = \frac{y}{x+a}, \quad m_{BC} = \frac{y - 0}{x - a} = \frac{y}{x-a}$$</li>
+                            <li>Aplicamos el producto de pendientes determinado por la constante $\displaystyle K$: <br> $$\left(\frac{y}{x+a}\right)\cdot\left(\frac{y}{x-a}\right) = K \implies \frac{y^2}{x^2-a^2} = K$$</li>
+                            <li>Agrupamos los términos coordenados: <br> $$y^2 = K(x^2 - a^2) \implies Kx^2 - y^2 = Ka^2$$</li>
+                            <li>Dividiendo por $\displaystyle Ka^2$ para obtener la forma canónica: <br> $$\frac{x^2}{a^2} - \frac{y^2}{Ka^2} = 1$$</li>
                         </ol>
                         <h3>Discusión del Parámetro:</h3>
                         <ul>
-                            <li><strong>Si $K < 0$:</strong> Redefiniendo como $K = -k$ (con $k>0$), la ecuación se vuelve $\frac{x^2}{a^2} + \frac{y^2}{ka^2} = 1$. Al ser ambos coeficientes positivos, es una <strong>Elipse</strong>.</li>
-                            <li><strong>Si $K > 0$:</strong> Mantiene la resta estructural de la ecuación estándar. Representa una <strong>Hipérbola</strong>.</li>
+                            <li><strong>Si $\displaystyle K < 0$:</strong> Redefiniendo como $\displaystyle K = -k$ (con $\displaystyle k > 0$), la ecuación se vuelve $\displaystyle \frac{x^2}{a^2} + \frac{y^2}{ka^2} = 1$. Al ser ambos coeficientes positivos, es una <strong>elipse</strong>.</li>
+                            <li><strong>Si $\displaystyle K > 0$:</strong> Se mantiene la resta estructural de la ecuación estándar, por lo que representa una <strong>hipérbola</strong>.</li>
                         </ul>
+                        <p style="margin-top: 15px; font-size: 0.95rem; color: #475569;"><strong>Nota de rigor:</strong> Se deben excluir del lugar geométrico los puntos $\displaystyle A(-a, 0)$ y $\displaystyle B(a, 0)$ dado que en ellos las pendientes $\displaystyle m_{AC}$ y $\displaystyle m_{BC}$ no están definidas.</p>
                     </div>
                 </div>
 
