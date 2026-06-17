@@ -1203,15 +1203,18 @@
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 3: Suma con Raíces</h3>
               <p>Calcular, en función del límite $n$, el valor de la siguiente sumatoria:</p>
               <div class="resultado">
-                $$ \sum_{k=1}^{n} \frac{1}{\sqrt{k(k+1)}} (\sqrt{k+1} + \sqrt{k}) $$
+                $$ \sum_{k=1}^{n} \frac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} $$
               </div>
-              <p><em>Indicación:</em> Racionalizar o descomponer el término general de la suma.</p>
+              <p><em>Indicación:</em> Racionalizar el término general de la suma.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p10')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-sum-p10">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Separar el término general distribuyendo la división:</p>
-                <p>$$ \frac{\sqrt{k+1} + \sqrt{k}}{\sqrt{k}\sqrt{k+1}} = \frac{1}{\sqrt{k}} + \frac{1}{\sqrt{k+1}} $$</p>
-                <p>2. Evaluar el comportamiento de la sumatoria. Si la expresión del enunciado corresponde a una resta telescópica (por ejemplo, racionalizando el recíproco de la suma de raíces), se reduce a una diferencia directa. Verificar si hay un error de signo en el material de origen.</p>
+                <p>1. Racionalizar el factor de raíces multiplicando numerador y denominador por $(\sqrt{k+1} - \sqrt{k})$:</p>
+                <p>$$ \frac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} \cdot \frac{\sqrt{k+1} - \sqrt{k}}{\sqrt{k+1} - \sqrt{k}} = \frac{\sqrt{k+1} - \sqrt{k}}{\sqrt{k}\sqrt{k+1} \cdot 1} $$</p>
+                <p>2. Separar la fracción resultante en dos términos:</p>
+                <p>$$ \frac{\sqrt{k+1}}{\sqrt{k}\sqrt{k+1}} - \frac{\sqrt{k}}{\sqrt{k}\sqrt{k+1}} = \frac{1}{\sqrt{k}} - \frac{1}{\sqrt{k+1}} $$</p>
+                <p>3. Aplicar la propiedad telescópica directa. Al cancelar los términos intermedios, el valor final de la suma es:</p>
+                <p>$$ 1 - \frac{1}{\sqrt{n+1}} $$</p>
               </div>
             </div>
 
