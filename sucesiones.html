@@ -466,6 +466,53 @@
         padding: 20px 15px 15px 0;
       }
     }
+
+    /* Style for detail buttons in cards */
+    .btn-detail {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13.5px;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 12px;
+      text-decoration: none;
+    }
+    .btn-detail:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    .btn-detail:active {
+      transform: translateY(1px);
+    }
+
+    /* Style for detail blocks at the bottom */
+    .detail-block {
+      display: none;
+    }
+    .detail-block.active {
+      display: block;
+      animation: detailFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes detailFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body class="theme-light">
@@ -524,77 +571,21 @@
 
         <div class="journey-grid" id="journey-grid">
           
-          <!-- LEVEL 1: FASE 1 -->
+          <!-- LEVEL 1 -->
           <div class="journey-card" id="node-1">
             <div class="step-marker">1</div>
             <div class="card-header">
               <span class="level-tag">Nivel 1</span>
-              <h3 class="card-title">Fase 1: Domina la intuición visual</h3>
+              <h3 class="card-title">Domina la intuición visual</h3>
               <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
             <div class="card-body">
               <div class="card-inner-content">
-                <p class="card-desc">Comenzamos modelando las sucesiones como funciones aplicadas con dominio en los números naturales: \( a_n: \mathbb{N} \to \mathbb{R} \). Se explora de manera intuitiva y visual cómo se comportan a largo plazo.</p>
-                <p class="card-desc">Clasificamos las sucesiones mediante su comportamiento de llegada en tres grandes categorías:</p>
-                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
-                  <li><strong>Convergentes:</strong> Tienden a estabilizarse en un único valor real fijo.</li>
-                  <li><strong>Divergentes:</strong> Escapan de forma ilimitada hacia el infinito positivo (\(+\infty\)) o negativo (\(-\infty\)).</li>
-                  <li><strong>Oscilantes o No Convergentes:</strong> Alternan valores de forma infinita sin estabilizarse ni escapar ordenadamente.</li>
-                </ul>
+                <p class="card-desc">Modelado de sucesiones como funciones reales de variable natural y clasificación preliminar en convergentes, divergentes y oscilantes.</p>
                 
-                <!-- Plotter Integration space -->
-                <div class="interactive-plotter">
-                  <div class="plotter-title">
-                    <i class="fa-solid fa-chart-line" style="color: var(--accent);"></i>
-                    Visualizador de Convergencia
-                  </div>
-                  
-                  <div class="plotter-controls">
-                    <div class="control-group">
-                      <label class="control-label" for="plotter-preset">Sucesión \( a_n \)</label>
-                      <select id="plotter-preset" class="control-select">
-                        <option value="1/n">\( 1/n \) (Convergente)</option>
-                        <option value="n/n+1">\( n/(n+1) \) (Convergente)</option>
-                        <option value="alt">\( (-1)^n / n \) (Alternante)</option>
-                        <option value="osc">\( (-1)^n \) (Oscilante)</option>
-                        <option value="div">\( n / 15 \) (Divergente)</option>
-                      </select>
-                    </div>
-                    <div class="control-group">
-                      <label class="control-label" for="plotter-eps">Banda de error (\(\varepsilon\))</label>
-                      <div class="slider-container">
-                        <input type="range" id="plotter-eps" min="0.05" max="0.50" step="0.01" value="0.20" class="plotter-slider">
-                        <span id="eps-val" class="slider-val">0.20</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="plotter-controls" style="grid-template-columns: 1fr; margin-bottom: 12px;">
-                    <div class="control-group">
-                      <label class="control-label" for="plotter-n">Términos visibles (\( N \))</label>
-                      <div class="slider-container">
-                        <input type="range" id="plotter-n" min="10" max="40" step="1" value="25" class="plotter-slider">
-                        <span id="n-val" class="slider-val">25</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="plotter-svg-wrapper">
-                    <svg class="plotter-svg" id="plotter-svg">
-                      <!-- Grid and axis elements drawn by JS -->
-                      <g id="plot-grid"></g>
-                      <rect id="eps-rect" fill="rgba(6, 182, 212, 0.12)" />
-                      <line id="eps-upper-line" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3" />
-                      <line id="eps-lower-line" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3" />
-                      <line id="limit-line" stroke="#10b981" stroke-width="1.5" />
-                      <g id="plot-dots"></g>
-                    </svg>
-                  </div>
-                  
-                  <div class="plotter-readout" id="plotter-readout">
-                    Cargando visualización matemática...
-                  </div>
-                </div>
+                <button class="btn-detail" onclick="showLevelDetail(1); event.stopPropagation();">
+                  <span>Ver desarrollo completo</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
                 <div class="pill-container">
                   <span class="pill"><i class="fa-solid fa-eye"></i> Visualización</span>
@@ -605,26 +596,21 @@
             </div>
           </div>
           
-          <!-- LEVEL 2: FASE 2 -->
+          <!-- LEVEL 2 -->
           <div class="journey-card" id="node-2">
             <div class="step-marker">2</div>
             <div class="card-header">
               <span class="level-tag">Nivel 2</span>
-              <h3 class="card-title">Fase 2: Enfréntate al límite formal</h3>
+              <h3 class="card-title">Enfréntate al límite formal</h3>
               <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
             <div class="card-body">
               <div class="card-inner-content">
-                <p class="card-desc">Traducimos la intuición visual a la definición formal clásica usando la métrica del análisis:</p>
-                <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 10px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace;">
-                  \( \forall \varepsilon > 0, \exists N_0 \in \mathbb{N} \text{ tal que } \forall n \ge N_0, |a_n - L| < \varepsilon \)
-                </div>
-                <p class="card-desc">Construimos el concepto mediante bandas de error de radio \(\varepsilon\) alrededor del valor límite \(L\). El índice límite \(N_0\) representa el umbral a partir del cual todos los términos subsecuentes quedan encerrados en dicha banda de forma definitiva.</p>
+                <p class="card-desc">Construcción matemática formal del límite de una sucesión mediante el uso de entornos y bandas de error de radio épsilon.</p>
                 
-                <div class="card-warn">
-                  <i class="fa-solid fa-triangle-exclamation"></i>
-                  <strong>Trampa lógica común:</strong> Negar que una sucesión converja a un valor real \(L\) no significa que escape necesariamente al infinito. La sucesión puede estar perfectamente acotada y, sin embargo, oscilar indefinidamente (por ejemplo, \(a_n = (-1)^n\)).
-                </div>
+                <button class="btn-detail" onclick="showLevelDetail(2); event.stopPropagation();">
+                  <span>Ver desarrollo completo</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
                 <div class="pill-container">
                   <span class="pill"><i class="fa-solid fa-shield-halved"></i> Rigor Formal</span>
@@ -635,27 +621,21 @@
             </div>
           </div>
           
-          <!-- LEVEL 3: FASE 3 -->
+          <!-- LEVEL 3 -->
           <div class="journey-card" id="node-3">
             <div class="step-marker">3</div>
             <div class="card-header">
               <span class="level-tag">Nivel 3</span>
-              <h3 class="card-title">Fase 3: Domina el álgebra de límites</h3>
+              <h3 class="card-title">Domina el álgebra de límites</h3>
               <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
             <div class="card-body">
               <div class="card-inner-content">
-                <p class="card-desc">Exploramos cómo operar aritméticamente con sucesiones a través de sus propiedades algebraicas fundamentales. Si sabemos que \(\lim a_n = A\) y \(\lim b_n = B\), entonces:</p>
-                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
-                  <li><strong>Suma / Resta:</strong> \( \lim (a_n \pm b_n) = A \pm B \)</li>
-                  <li><strong>Producto:</strong> \( \lim (a_n \cdot b_n) = A \cdot B \)</li>
-                  <li><strong>Cociente:</strong> \( \lim (a_n / b_n) = A / B \) (con \(B \ne 0\))</li>
-                </ul>
+                <p class="card-desc">Propiedades algebraicas operativas (suma, producto, cociente) y exigencia de finitud para operar de manera rigurosa.</p>
                 
-                <div class="card-warn">
-                  <i class="fa-solid fa-circle-exclamation"></i>
-                  <strong>Exigencia Crítica:</strong> Estas propiedades aritméticas **solo son válidas** si se ha demostrado previamente que los límites individuales \(A\) y \(B\) existen y son finitos en \(\mathbb{R}\). Operar con límites indeterminados o infinitos sin esta justificación invalida formalmente la prueba.
-                </div>
+                <button class="btn-detail" onclick="showLevelDetail(3); event.stopPropagation();">
+                  <span>Ver desarrollo completo</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
                 <div class="pill-container">
                   <span class="pill"><i class="fa-solid fa-plus-minus"></i> Álgebra de Límites</span>
@@ -666,23 +646,21 @@
             </div>
           </div>
           
-          <!-- LEVEL 4: FASE 4 -->
+          <!-- LEVEL 4 -->
           <div class="journey-card" id="node-4">
             <div class="step-marker">4</div>
             <div class="card-header">
               <span class="level-tag">Nivel 4</span>
-              <h3 class="card-title">Fase 4: Compara y acota sucesiones</h3>
+              <h3 class="card-title">Compara y acota sucesiones</h3>
               <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
             <div class="card-body">
               <div class="card-inner-content">
-                <p class="card-desc">No todas las sucesiones se resuelven mediante álgebra directa. En esta etapa, introducimos herramientas de acotación y comparación para calcular límites indirectamente:</p>
-                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
-                  <li><strong>Teorema del Sándwich (Encaje):</strong> Si \( a_n \le b_n \le c_n \) para todo \( n \ge N_0 \), y sabemos que \(\lim a_n = \lim c_n = L\), entonces necesariamente la sucesión central converge al mismo valor: \(\lim b_n = L\).</li>
-                  <li><strong>Teorema de Nula por Acotada:</strong> Si una sucesión \(a_n\) es infinitesimal (\(\lim a_n = 0\)) y otra sucesión \(b_n\) está acotada (\(|b_n| \le M\)), su producto tiende inevitablemente a cero: \(\lim (a_n \cdot b_n) = 0\).</li>
-                  <li><strong>Relación Cero-Infinito:</strong> Análisis del recíproco de sucesiones divergentes estrictas y su comportamiento asintótico.</li>
-                  <li><strong>Teorema General de Distancia:</strong> Establece la equivalencia de convergencia mediante la distancia métrica: \(\lim a_n = L \iff \lim |a_n - L| = 0\), simplificando demostraciones formales.</li>
-                </ul>
+                <p class="card-desc">Uso de herramientas analíticas de comparación indirecta: Teorema del Sándwich, Nula por Acotada y Teorema de Distancia.</p>
+                
+                <button class="btn-detail" onclick="showLevelDetail(4); event.stopPropagation();">
+                  <span>Ver desarrollo completo</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
                 <div class="pill-container">
                   <span class="pill"><i class="fa-solid fa-compress"></i> Sándwich</span>
@@ -693,23 +671,21 @@
             </div>
           </div>
           
-          <!-- LEVEL 5: FASE 5 -->
+          <!-- LEVEL 5 -->
           <div class="journey-card" id="node-5">
             <div class="step-marker">5</div>
             <div class="card-header">
               <span class="level-tag">Nivel 5</span>
-              <h3 class="card-title">Fase 5: Demuestra la existencia del límite</h3>
+              <h3 class="card-title">Demuestra la existencia del límite</h3>
               <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
             <div class="card-body">
               <div class="card-inner-content">
-                <p class="card-desc">Damos el paso definitivo hacia la abstracción pura. Pasamos de calcular límites numéricos a demostrar la existencia del límite sin calcular su valor de forma directa.</p>
-                <p class="card-desc"><strong>Teorema de la Convergencia Monótona:</strong> Toda sucesión que es monótona (creciente o decreciente) y se encuentra acotada en el sentido de su crecimiento, tiene la garantía matemática de ser convergente. Este teorema descansa sobre el fundamental <strong>Axioma del Supremo</strong> de los números reales.</p>
-                <p class="card-desc">Como aplicación directa de esta teoría, demostramos analíticamente que la sucesión creciente y acotada superiormente:</p>
-                <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 10px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace;">
-                  \( a_n = \left(1 + \frac{1}{n}\right)^n \)
-                </div>
-                <p class="card-desc">es convergente, y definimos su límite como el número trascendente de Euler: \( \lim a_n = e \approx 2.71828 \).</p>
+                <p class="card-desc">Transición a la existencia abstracta mediante el Teorema de Convergencia Monótona, el Axioma del Supremo y el número de Euler.</p>
+                
+                <button class="btn-detail" onclick="showLevelDetail(5); event.stopPropagation();">
+                  <span>Ver desarrollo completo</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
                 <div class="pill-container">
                   <span class="pill"><i class="fa-solid fa-arrow-trend-up"></i> Monotonía</span>
@@ -721,22 +697,21 @@
             </div>
           </div>
           
-          <!-- LEVEL 6: FASE 6 -->
+          <!-- LEVEL 6 -->
           <div class="journey-card" id="node-6">
             <div class="step-marker">6</div>
             <div class="card-header">
               <span class="level-tag">Nivel 6</span>
-              <h3 class="card-title">Fase 6: Profundiza en la topología</h3>
+              <h3 class="card-title">Profundiza en la topología</h3>
               <div class="card-toggle-icon"><i class="fa-solid fa-chevron-down"></i></div>
             </div>
             <div class="card-body">
               <div class="card-inner-content">
-                <p class="card-desc">En el nivel de especialización del curso, abordamos la topología interna de la recta real mediante el comportamiento asintótico complejo:</p>
-                <ul class="card-desc" style="padding-left: 20px; margin-bottom: 15px;">
-                  <li><strong>Subsucesiones y Puntos Límite:</strong> Extracción de términos para estudiar valores de acumulación alternativos.</li>
-                  <li><strong>Teorema de Bolzano-Weierstrass:</strong> Demostramos que toda sucesión infinita y acotada en \(\mathbb{R}\) posee al menos una subsucesión convergente.</li>
-                  <li><strong>Criterio de Convergencia de Cauchy:</strong> Una sucesión converge si y solo si sus términos se agrupan infinitamente entre sí al avanzar el índice: \(\forall \varepsilon > 0, \exists N_0 \text{ tal que } \forall n, m \ge N_0, |a_n - a_m| < \varepsilon\). Esto permite probar convergencia en espacios completos sin conocer a priori el valor del límite.</li>
-                </ul>
+                <p class="card-desc">Análisis avanzado de la recta real mediante subsucesiones, el teorema de Bolzano-Weierstrass y el Criterio de Cauchy.</p>
+                
+                <button class="btn-detail" onclick="showLevelDetail(6); event.stopPropagation();">
+                  <span>Ver desarrollo completo</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
                 <div class="pill-container">
                   <span class="pill"><i class="fa-solid fa-vector-square"></i> Bolzano-Weierstrass</span>
@@ -747,6 +722,181 @@
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN DE DETALLE DE NIVELES -->
+  <section class="details-section" id="details-section" style="padding: 80px 0; background: var(--bg-secondary); border-top: 1px solid var(--border);">
+    <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span class="hero-tag" style="background: rgba(3, 169, 244, 0.1); color: var(--accent); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-book-open"></i> Inmersión Académica
+        </span>
+        <h2 style="font-family: var(--font-title); font-size: 32px; font-weight: 800; margin-top: 15px; color: var(--text-primary);">Contenido Completo del Nivel</h2>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 10px auto 0 auto;">Fórmulas rigurosas, avisos lógicos de error y el visualizador interactivo correspondiente.</p>
+      </div>
+
+      <!-- Detail Block 1 -->
+      <div class="detail-block active" id="detail-1">
+        <div class="detail-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 1: Domina la intuición visual</h3>
+            <span style="background: var(--gradient-accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">Visible</span>
+          </div>
+          <p class="card-desc">Comenzamos modelando las sucesiones como funciones aplicadas con dominio en los números naturales: \( a_n: \mathbb{N} \to \mathbb{R} \). Se explora de manera intuitiva y visual cómo se comportan a largo plazo.</p>
+          <p class="card-desc">Clasificamos las sucesiones mediante su comportamiento de llegada en tres grandes categorías:</p>
+          <ul class="card-desc" style="padding-left: 20px; margin-bottom: 25px;">
+            <li><strong>Convergentes:</strong> Tienden a estabilizarse en un único valor real fijo.</li>
+            <li><strong>Divergentes:</strong> Escapan de forma ilimitada hacia el infinito positivo (\(+\infty\)) o negativo (\(-\infty\)).</li>
+            <li><strong>Oscilantes o No Convergentes:</strong> Alternan valores de forma infinita sin estabilizarse ni escapar ordenadamente.</li>
+          </ul>
+          
+          <!-- Plotter Integration space -->
+          <div class="interactive-plotter" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 25px;">
+            <div class="plotter-title">
+              <i class="fa-solid fa-chart-line" style="color: var(--accent);"></i>
+              Visualizador de Convergencia
+            </div>
+            
+            <div class="plotter-controls">
+              <div class="control-group">
+                <label class="control-label" for="plotter-preset">Sucesión \( a_n \)</label>
+                <select id="plotter-preset" class="control-select">
+                  <option value="1/n">\( 1/n \) (Convergente)</option>
+                  <option value="n/n+1">\( n/(n+1) \) (Convergente)</option>
+                  <option value="alt">\( (-1)^n / n \) (Alternante)</option>
+                  <option value="osc">\( (-1)^n \) (Oscilante)</option>
+                  <option value="div">\( n / 15 \) (Divergente)</option>
+                </select>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="plotter-eps">Banda de error (\(\varepsilon\))</label>
+                <div class="slider-container">
+                  <input type="range" id="plotter-eps" min="0.05" max="0.50" step="0.01" value="0.20" class="plotter-slider">
+                  <span id="eps-val" class="slider-val">0.20</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="plotter-controls" style="grid-template-columns: 1fr; margin-bottom: 12px;">
+              <div class="control-group">
+                <label class="control-label" for="plotter-n">Términos visibles (\( N \))</label>
+                <div class="slider-container">
+                  <input type="range" id="plotter-n" min="10" max="40" step="1" value="25" class="plotter-slider">
+                  <span id="n-val" class="slider-val">25</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="plotter-svg-wrapper">
+              <svg class="plotter-svg" id="plotter-svg">
+                <!-- Grid and axis elements drawn by JS -->
+                <g id="plot-grid"></g>
+                <rect id="eps-rect" fill="rgba(6, 182, 212, 0.12)" />
+                <line id="eps-upper-line" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line id="eps-lower-line" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line id="limit-line" stroke="#10b981" stroke-width="1.5" />
+                <g id="plot-dots"></g>
+              </svg>
+            </div>
+            
+            <div class="plotter-readout" id="plotter-readout">
+              Cargando visualización matemática...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Block 2 -->
+      <div class="detail-block" id="detail-2">
+        <div class="detail-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 2: Enfréntate al límite formal</h3>
+            <span style="background: var(--gradient-accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">Visible</span>
+          </div>
+          <p class="card-desc">Traducimos la intuición visual a la definición formal clásica usando la métrica del análisis:</p>
+          <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 15px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace; font-size: 16px; margin: 20px 0;">
+            \( \forall \varepsilon > 0, \exists N_0 \in \mathbb{N} \text{ tal que } \forall n \ge N_0, |a_n - L| < \varepsilon \)
+          </div>
+          <p class="card-desc">Construimos el concepto mediante bandas de error de radio \(\varepsilon\) alrededor del valor límite \(L\). El índice límite \(N_0\) representa el umbral a partir del cual todos los términos subsecuentes quedan encerrados en dicha banda de forma definitiva.</p>
+          
+          <div class="card-warn" style="margin-top: 20px;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <strong>Trampa lógica común:</strong> Negar que una sucesión converja a un valor real \(L\) no significa que escape necesariamente al infinito. La sucesión puede estar perfectamente acotada y, sin embargo, oscilar indefinidamente (por ejemplo, \(a_n = (-1)^n\)).
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Block 3 -->
+      <div class="detail-block" id="detail-3">
+        <div class="detail-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 3: Domina el álgebra de límites</h3>
+            <span style="background: var(--gradient-accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">Visible</span>
+          </div>
+          <p class="card-desc">Exploramos cómo operar aritméticamente con sucesiones a través de sus propiedades algebraicas fundamentales. Si sabemos que \(\lim a_n = A\) y \(\lim b_n = B\), entonces:</p>
+          <ul class="card-desc" style="padding-left: 20px; margin-bottom: 20px;">
+            <li><strong>Suma / Resta:</strong> \( \lim (a_n \pm b_n) = A \pm B \)</li>
+            <li><strong>Producto:</strong> \( \lim (a_n \cdot b_n) = A \cdot B \)</li>
+            <li><strong>Cociente:</strong> \( \lim (a_n / b_n) = A / B \) (con \(B \ne 0\))</li>
+          </ul>
+          
+          <div class="card-warn">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <strong>Exigencia Crítica:</strong> Estas propiedades aritméticas **solo son válidas** si se ha demostrado previamente que los límites individuales \(A\) y \(B\) existen y son finitos en \(\mathbb{R}\). Operar con límites indeterminados o infinitos sin esta justificación invalida formalmente la prueba.
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Block 4 -->
+      <div class="detail-block" id="detail-4">
+        <div class="detail-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 4: Compara y acota sucesiones</h3>
+            <span style="background: var(--gradient-accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">Visible</span>
+          </div>
+          <p class="card-desc">No todas las sucesiones se resuelven mediante álgebra directa. En esta etapa, introducimos herramientas de acotación y comparación para calcular límites indirectamente:</p>
+          <ul class="card-desc" style="padding-left: 20px; margin-bottom: 20px;">
+            <li><strong>Teorema del Sándwich (Encaje):</strong> Si \( a_n \le b_n \le c_n \) para todo \( n \ge N_0 \), y sabemos que \(\lim a_n = \lim c_n = L\), entonces necesariamente la sucesión central converge al mismo valor: \(\lim b_n = L\).</li>
+            <li><strong>Teorema de Nula por Acotada:</strong> Si una sucesión \(a_n\) es infinitesimal (\(\lim a_n = 0\)) y otra sucesión \(b_n\) está acotada (\(|b_n| \le M\)), su producto tiende inevitablemente a cero: \(\lim (a_n \cdot b_n) = 0\).</li>
+            <li><strong>Relación Cero-Infinito:</strong> Análisis del recíproco de sucesiones divergentes estrictas y su comportamiento asintótico.</li>
+            <li><strong>Teorema General de Distancia:</strong> Establece la equivalencia de convergencia mediante la distancia métrica: \(\lim a_n = L \iff \lim |a_n - L| = 0\), simplificando demostraciones formales.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Detail Block 5 -->
+      <div class="detail-block" id="detail-5">
+        <div class="detail-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 5: Demuestra la existencia del límite</h3>
+            <span style="background: var(--gradient-accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">Visible</span>
+          </div>
+          <p class="card-desc">Damos el paso definitivo hacia la abstracción pura. Pasamos de calcular límites numéricos a demostrar la existencia del límite sin calcular su valor de forma directa.</p>
+          <p class="card-desc"><strong>Teorema de la Convergencia Monótona:</strong> Toda sucesión que es monótona (creciente o decreciente) y se encuentra acotada en el sentido de su crecimiento, tiene la garantía matemática de ser convergente. Este teorema descansa sobre el fundamental <strong>Axioma del Supremo</strong> de los números reales.</p>
+          <p class="card-desc">Como aplicación directa de esta teoría, demostramos analíticamente que la sucesión creciente y acotada superiormente:</p>
+          <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 15px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace; font-size: 16px; margin: 20px 0;">
+            \( a_n = \left(1 + \frac{1}{n}\right)^n \)
+          </div>
+          <p class="card-desc">es convergente, y definimos su límite como el número trascendente de Euler: \( \lim a_n = e \approx 2.71828 \).</p>
+        </div>
+      </div>
+
+      <!-- Detail Block 6 -->
+      <div class="detail-block" id="detail-6">
+        <div class="detail-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+            <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 6: Profundiza en la topología</h3>
+            <span style="background: var(--gradient-accent); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">Visible</span>
+          </div>
+          <p class="card-desc">En el nivel de especialización del curso, abordamos la topología interna de la recta real mediante el comportamiento asintótico complejo:</p>
+          <ul class="card-desc" style="padding-left: 20px; margin-bottom: 20px;">
+            <li><strong>Subsucesiones y Puntos Límite:</strong> Extracción de términos para estudiar valores de acumulación alternativos.</li>
+            <li><strong>Teorema de Bolzano-Weierstrass:</strong> Demostramos que toda sucesión infinita y acotada en \(\mathbb{R}\) posee al menos una subsucesión convergente.</li>
+            <li><strong>Criterio de Convergencia de Cauchy:</strong> Una sucesión converge si y solo si sus términos se agrupan infinitamente entre sí al avanzar el índice: \(\forall \varepsilon > 0, \exists N_0 \text{ tal que } \forall n, m \ge N_0, |a_n - a_m| < \varepsilon\). Esto permite probar convergencia en espacios completos sin conocer a priori el valor del límite.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1202,6 +1352,42 @@
       updatePlot();
       window.addEventListener("resize", updatePlot);
     }
+
+    /* ==========================================================================
+       5. Dynamic Level Details Panel Toggler
+       ========================================================================== */
+    function showLevelDetail(levelNum) {
+      // Hide all detail blocks
+      document.querySelectorAll('.detail-block').forEach(block => {
+        block.classList.remove('active');
+      });
+      // Show target detail block
+      const targetBlock = document.getElementById(`detail-${levelNum}`);
+      if (targetBlock) {
+        targetBlock.classList.add('active');
+      }
+      
+      // Update the MathJax typesetting if MathJax is available
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([targetBlock]);
+      }
+      
+      // Re-initialize the plotter if switching to Nivel 1
+      if (levelNum === 1 && typeof initSequencePlotter === 'function') {
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
+      }
+
+      // Smooth scroll to the details section
+      const detailsSection = document.getElementById('details-section');
+      if (detailsSection) {
+        detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    
+    // Expose to window object
+    window.showLevelDetail = showLevelDetail;
   </script>
 
 </body>
