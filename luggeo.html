@@ -312,13 +312,13 @@
                 </div>
 
                 <div id="exe-3" class="exercise-content">
-                    <h2>Ejercicio 3: El lugar geométrico del Circuncentro</h2>
-                    <p>El triángulo $\displaystyle OBC$ tiene su base fija en el eje $\displaystyle OX$ con $\displaystyle O = (0,0)$ y $\displaystyle B = (a,0)$ (con $\displaystyle a>0$). El vértice variable $\displaystyle C$ se mueve sobre la recta horizontal $\displaystyle y = c$ (con $\displaystyle c \neq 0$). Determinar e identificar el lugar geométrico que describe el circuncentro $\displaystyle K(x,y)$ (intersección de las mediatrices del triángulo).</p>
+                    <h2>Ejercicio 3: El lugar geométrico del Ortocentro</h2>
+                    <p>El triángulo $\displaystyle OBC$ tiene su base fija en el eje $\displaystyle OX$ con $\displaystyle O = (0,0)$ y $\displaystyle B = (a,0)$ (con $\displaystyle a>0$). El vértice variable $\displaystyle C$ se mueve sobre la recta horizontal $\displaystyle y = c$ (con $\displaystyle c \neq 0$). Determinar e identificar el lugar geométrico que describe el ortocentro $\displaystyle H(x,y)$ (intersección de las alturas del triángulo).</p>
                     
                     <div id="normal-formulas-3" class="formulas-reserva">
-                        <div class="formula-box"><strong>Distancia al cuadrado:</strong> $\displaystyle d^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2$</div>
-                        <div class="formula-box"><strong>Propiedad del Circuncentro:</strong> $\displaystyle d(K,O) = d(K,B) = d(K,C)$</div>
-                        <div class="formula-box"><strong>Ecuación de una recta vertical:</strong> $\displaystyle x = x_0$</div>
+                        <div class="formula-box"><strong>Pendiente de un segmento:</strong> $\displaystyle m = \frac{y_2 - y_1}{x_2 - x_1}$</div>
+                        <div class="formula-box"><strong>Condición de perpendicularidad:</strong> $\displaystyle m_1 \cdot m_2 = -1$</div>
+                        <div class="formula-box"><strong>Ecuación punto-pendiente:</strong> $\displaystyle y - y_1 = m(x - x_1)$</div>
                     </div>
 
                     <button class="btn btn-toggle-pauta" onclick="togglePauta(3)">Ver / Ocultar Pauta</button>
@@ -326,18 +326,20 @@
                     <div id="pauta-container-3" class="pauta-container hidden">
                         <h3>Pauta de Resolución - Ejercicio 3</h3>
                         <ol>
-                            <li>Establecemos el vértice dinámico como $\displaystyle C(t,c)$ con parámetro libre $\displaystyle t \in \mathbb{R}$.</li>
-                            <li>Por definición, el circuncentro equidista de los tres vértices. Primero igualamos la distancia a los puntos fijos de la base, $\displaystyle d(K,O)^2 = d(K,B)^2$: <br> $$x^2 + y^2 = (x-a)^2 + y^2 \implies x^2 = x^2 - 2ax + a^2 \implies x = \frac{a}{2}$$ Esto demuestra que la coordenada $\displaystyle x$ del circuncentro es constante e igual a la mediatriz de la base.</li>
-                            <li>Ahora igualamos la distancia al origen con la distancia al vértice móvil $\displaystyle C(t,c)$, es decir, $\displaystyle d(K,O)^2 = d(K,C)^2$: <br> $$x^2 + y^2 = (x-t)^2 + (y-c)^2 \implies 0 = -2tx + t^2 - 2cy + c^2$$</li>
-                            <li>Reemplazamos la coordenada constante $\displaystyle x = \frac{a}{2}$ en la ecuación anterior y la reordenamos como una ecuación cuadrática respecto al parámetro libre $\displaystyle t$: <br> $$0 = -2t\left(\frac{a}{2}\right) + t^2 - 2cy + c^2 \implies t^2 - at + (c^2 - 2cy) = 0$$</li>
-                            <li>Dado que el vértice móvil $\displaystyle C(t,c)$ se desplaza por toda la recta horizontal $\displaystyle y = c$, el parámetro $\displaystyle t$ debe ser un número real ($\displaystyle t \in \mathbb{R}$). Por lo tanto, el discriminante ($\displaystyle \Delta$) de esta ecuación cuadrática debe ser mayor o igual a cero para asegurar soluciones reales: <br> $$\Delta = B^2 - 4AC \ge 0 \implies (-a)^2 - 4(1)(c^2 - 2cy) \ge 0 \implies a^2 - 4c^2 + 8cy \ge 0 \implies 8cy \ge 4c^2 - a^2$$ El signo de $\displaystyle 8c$ determina la dirección de la semirrecta al despejar la coordenada $\displaystyle y$:
+                            <li>Establecemos el vértice variable como $\displaystyle C(t,c)$ con parámetro libre $\displaystyle t \in \mathbb{R}$. Los otros vértices son $\displaystyle O(0,0)$ y $\displaystyle B(a,0)$.</li>
+                            <li><strong>Ecuación de la primera altura (desde $\displaystyle C$):</strong> Como la base $\displaystyle OB$ está sobre el eje $\displaystyle OX$, la altura trazada desde el vértice $\displaystyle C(t,c)$ perpendicular a $\displaystyle OB$ es una recta vertical: <br> $$\displaystyle x = t$$</li>
+                            <li><strong>Ecuación de la segunda altura (desde $\displaystyle B$):</strong> Esta altura pasa por $\displaystyle B(a,0)$ y es perpendicular al lado $\displaystyle OC$.
                                 <ul>
-                                    <li><strong>Caso 1: Si $\displaystyle c > 0$:</strong> El sentido de la desigualdad se mantiene, resultando en la semirrecta hacia arriba: <br> $$y \ge \frac{c}{2} - \frac{a^2}{8c}$$</li>
-                                    <li><strong>Caso 2: Si $\displaystyle c < 0$:</strong> El sentido de la desigualdad se invierte, resultando en la semirrecta hacia abajo: <br> $$y \le \frac{c}{2} - \frac{a^2}{8c}$$</li>
+                                    <li>La pendiente del lado $\displaystyle OC$ es: <br> $$\displaystyle m_{OC} = \frac{c - 0}{t - 0} = \frac{c}{t} \quad (\text{para } t \neq 0)$$</li>
+                                    <li>Por perpendicularidad, la pendiente de la altura es: <br> $$\displaystyle m_2 = -\frac{1}{m_{OC}} = -\frac{t}{c}$$</li>
+                                    <li>Usando la ecuación punto-pendiente con $\displaystyle B(a,0)$: <br> $$\displaystyle y - 0 = -\frac{t}{c}(x - a) \implies y = -\frac{t}{c}(x - a)$$</li>
                                 </ul>
                             </li>
+                            <li><strong>Intersección de las alturas (Ortocentro $\displaystyle H(x,y)$):</strong> Sustituimos la ecuación de la primera altura ($\displaystyle t = x$) en la ecuación de la segunda altura para eliminar el parámetro $\displaystyle t$: <br> $$\displaystyle y = -\frac{x}{c}(x - a)$$</li>
+                            <li><strong>Ecuación del lugar geométrico:</strong> Multiplicando por $\displaystyle c$ y reordenando: <br> $$\displaystyle cy = -x^2 + ax \implies x^2 - ax + cy = 0$$ Completando el cuadrado para $\displaystyle x$: <br> $$\displaystyle \left(x - \frac{a}{2}\right)^2 - \frac{a^2}{4} + cy = 0 \implies \left(x - \frac{a}{2}\right)^2 = -c\left(y - \frac{a^2}{4c}\right)$$</li>
                         </ol>
-                        <p><strong>Conclusión:</strong> El lugar geométrico es una <strong>semirrecta vertical</strong> sobre la recta $\displaystyle x = \frac{a}{2}$, que se extiende hacia arriba si $\displaystyle c > 0$, o hacia abajo si $\displaystyle c < 0$, partiendo en ambos casos desde el punto extremo común $\displaystyle \left(\frac{a}{2}, \frac{c}{2} - \frac{a^2}{8c}\right)$.</p>
+                        <p><strong>Conclusión:</strong> El lugar geométrico descrito por el ortocentro es una <strong>parábola</strong> vertical con vértice en $\displaystyle V\left(\frac{a}{2}, \frac{a^2}{4c}\right)$ y eje de simetría $\displaystyle x = \frac{a}{2}$. La parábola se abre hacia abajo si $\displaystyle c > 0$, o hacia arriba si $\displaystyle c < 0$.</p>
+                        <p style="margin-top: 15px; font-size: 0.95rem; color: #475569;"><strong>Nota de rigor:</strong> Si bien para $\displaystyle t = 0$ la pendiente $\displaystyle m_{OC}$ no está definida, la altura desde $\displaystyle B$ es perpendicular al eje $\displaystyle OY$ (que contiene a $\displaystyle OC$), por lo que es la recta horizontal $\displaystyle y = 0$. La intersección con la altura vertical $\displaystyle x = 0$ es el punto $\displaystyle (0,0)$, el cual satisface la ecuación de la parábola y por lo tanto el lugar geométrico está completo sin exclusiones.</p>
                     </div>
                 </div>
 
