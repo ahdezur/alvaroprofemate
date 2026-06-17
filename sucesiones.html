@@ -546,6 +546,395 @@
     
     .modal-content {
       padding: 40px 30px 30px 30px;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    /* Estilos para el contenido de Nivel 1 */
+    .intro-box {
+      background: rgba(37, 99, 235, 0.05);
+      border-left: 4px solid var(--primary);
+      padding: 18px 20px;
+      border-radius: 4px;
+      margin-bottom: 25px;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .intro-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 30px 0 15px 0;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .note-box {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 4px solid #f59e0b;
+      padding: 15px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+      color: var(--text-secondary);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .type-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 20px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .type-card:hover {
+      transform: translateY(-2px);
+    }
+    .type-card h3 {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+    }
+    .type-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .type-card.conv {
+      border-top: 4px solid #10b981;
+    }
+    .type-card.div {
+      border-top: 4px solid #ef4444;
+    }
+    .type-card.osc {
+      border-top: 4px solid #f59e0b;
+    }
+
+    @media (max-width: 768px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Estilos para el Reto de Clasificación de Sucesiones */
+    .challenge-box {
+      margin-top: 35px;
+      padding: 22px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .challenge-title {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .challenge-subtitle {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin: 0 0 25px 0;
+      line-height: 1.5;
+    }
+    .challenge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .challenge-item {
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .challenge-item.correct {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.02);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.05);
+    }
+    .challenge-item.incorrect {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.02);
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.05);
+    }
+    .challenge-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .challenge-formula {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+    .challenge-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-choice {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+      outline: none;
+    }
+    .btn-choice:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-choice.selected {
+      color: white;
+    }
+    .btn-choice.selected.conv {
+      background: #10b981;
+      border-color: #10b981;
+    }
+    .btn-choice.selected.div {
+      background: #ef4444;
+      border-color: #ef4444;
+    }
+    .btn-choice.selected.osc {
+      background: #f59e0b;
+      border-color: #f59e0b;
+    }
+    .challenge-feedback {
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 12px 14px;
+      border-radius: var(--border-radius-sm);
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .challenge-feedback.correct {
+      display: block;
+      background: rgba(16, 185, 129, 0.06);
+      color: #10b981;
+      border-left: 4px solid #10b981;
+    }
+    .challenge-feedback.incorrect {
+      display: block;
+      background: rgba(239, 68, 68, 0.06);
+      color: #ef4444;
+      border-left: 4px solid #ef4444;
+    }
+    .challenge-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 25px;
+    }
+    .btn-verify-challenge {
+      background: var(--gradient-accent);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--border-radius-sm);
+      font-weight: 700;
+      font-size: 14.5px;
+      cursor: pointer;
+      transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+      font-family: var(--font-body);
+    }
+    .btn-verify-challenge:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-glow);
+    }
+    .btn-verify-challenge:active {
+      transform: translateY(1px);
+    }
+
+    /* Custom Dropdown Styling */
+    .custom-select-wrapper {
+      position: relative;
+      width: 100%;
+      user-select: none;
+    }
+    .custom-select-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 8px 12px;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 14.5px;
+      transition: border-color var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+      min-height: 38px;
+      box-sizing: border-box;
+    }
+    .custom-select-trigger:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
+    }
+    .custom-select-value {
+      display: flex;
+      align-items: center;
+    }
+    .custom-options-container {
+      position: absolute;
+      top: 105%;
+      left: 0;
+      right: 0;
+      background: var(--bg-secondary); /* Solid opaque background */
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      box-shadow: var(--shadow-md);
+      z-index: 100;
+      display: none;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .custom-options-container.open {
+      display: block;
+    }
+    .custom-option {
+      padding: 10px 12px;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: background var(--transition-fast) ease;
+      display: flex;
+      align-items: center;
+    }
+    .custom-option:hover {
+      background: var(--bg-primary); /* Use solid primary background for hover */
+    }
+    .custom-option.selected {
+      background: rgba(6, 182, 212, 0.08);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Estilos para pestañas en el modal de Nivel 2 */
+    .modal-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 25px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 5px;
+      padding-bottom: 4px;
+    }
+    .modal-tabs::-webkit-scrollbar {
+      height: 4px;
+    }
+    .modal-tabs::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    .level-2-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      transition: color var(--transition-fast) ease;
+      font-family: var(--font-title);
+      white-space: nowrap;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .level-2-tab-btn:hover {
+      color: var(--text-primary);
+    }
+    .level-2-tab-btn.active {
+      color: var(--accent);
+    }
+    .level-2-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; /* align with border bottom */
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-accent);
+      border-radius: 2px;
+    }
+    .level-2-tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .level-2-tab-content.active {
+      display: block;
+    }
+    .modal-content p,
+    .modal-content li,
+    .modal-content .card-desc {
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .modal-content .note-box p,
+    .modal-content .note-box li {
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    .def-monospace-math {
+      font-family: monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 140px;
+      display: inline-block;
+    }
+    .grid-2-custom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+      .grid-2-custom {
+        grid-template-columns: 1fr !important;
+      }
     }
   </style>
 </head>
@@ -785,16 +1174,53 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
         <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 1: Domina la intuición visual</h3>
       </div>
-      <p class="card-desc">Comenzamos modelando las sucesiones como funciones aplicadas con dominio en los números naturales: \( a_n: \mathbb{N} \to \mathbb{R} \). Se explora de manera intuitiva y visual cómo se comportan a largo plazo.</p>
-      <p class="card-desc">Clasificamos las sucesiones mediante su comportamiento de llegada en tres grandes categorías:</p>
-      <ul class="card-desc" style="padding-left: 20px; margin-bottom: 25px;">
-        <li><strong>Convergentes:</strong> Tienden a estabilizarse en un único valor real fijo.</li>
-        <li><strong>Divergentes:</strong> Escapan de forma ilimitada hacia el infinito positivo (\(+\infty\)) o negativo (\(-\infty\)).</li>
-        <li><strong>Oscilantes o No Convergentes:</strong> Alternan valores de forma infinita sin estabilizarse ni escapar ordenadamente.</li>
-      </ul>
+      
+      <div class="intro-box">
+        <p>Antes de sumergirnos en fórmulas complejas, necesitamos aprender a <em>ver</em> el infinito. En este nivel descubriremos qué es realmente una sucesión matemática y entrenaremos tu intuición geométrica.</p>
+        <p>Aprenderás a clasificar visualmente su comportamiento: ¿se <strong>estabiliza</strong> en un punto, <strong>escapa</strong> sin control al infinito, o se queda atrapada en un <strong>rebote</strong> eterno? Construye tu base gráfica aquí.</p>
+      </div>
+
+      <!-- Definición Formal -->
+      <h2 class="section-title">1. ¿Qué es exactamente una Sucesión?</h2>
+      <div class="card">
+        <p>En el cálculo continuo estudiabas funciones donde la variable \(x\) podía tomar cualquier valor real (ej. \(x = 1.5\)). Las sucesiones son diferentes: su dominio es discreto.</p>
+        <p>Una <strong>sucesión</strong> es una función cuyo dominio son los <strong>Números Naturales</strong> (\(\mathbb{N}\)) y su recorrido son los Números Reales (\(\mathbb{R}\)).</p>
+        <div style="text-align: center; margin: 2rem 0; font-size: 1.2rem;">
+            \( f: \mathbb{N} \to \mathbb{R} \)
+        </div>
+        <p>Para enfatizar que solo evaluamos en números enteros positivos (\(1, 2, 3, \dots\)), dejamos de usar la notación \(f(x)\) y pasamos a usar subíndices: <strong>\(a_n\)</strong>.</p>
+      </div>
+
+      <!-- Clasificación Moderna -->
+      <h2 class="section-title">2. Clasificación de Comportamientos</h2>
+      
+      <div class="note-box">
+        <strong>⚠️ Nota importante:</strong> Esta clasificación responde a una necesidad puramente <em>intuitiva y visual</em> para ayudarte a construir el concepto de "tendencia". Las palabras que usaremos aquí (estabilizarse, escapar, rebotar) aún no corresponden a una definición formal. La definición matemática rigurosa y exacta la abordaremos detalladamente más adelante (en la Fase 2).
+      </div>
+
+      <p style="margin-bottom: 2rem;">Bajo la convención analítica moderna, el destino de toda sucesión cuando \(n \to \infty\) pertenece estrictamente a una de estas tres familias:</p>
+      
+      <div class="grid-3">
+        <div class="type-card conv">
+          <h3>1. Convergentes</h3>
+          <p>La sucesión se <strong>estabiliza</strong>. Sus términos se acercan cada vez más a un único número real finito, llamado límite \(L\).</p>
+        </div>
+        <div class="type-card div">
+          <h3>2. Divergentes</h3>
+          <p>La sucesión <strong>escapa</strong> sin cota. Sus términos crecen o decrecen infinitamente hacia \(+\infty\) o \(-\infty\).</p>
+        </div>
+        <div class="type-card osc">
+          <h3>3. Oscilantes (No convergente.)</h3>
+          <p>La sucesión <strong>rebota</strong>. No se acerca a un valor único, pero tampoco escapa al infinito; fluctúa eternamente.</p>
+        </div>
+      </div>
+
+      <!-- Laboratorio de Visualización -->
+      <h2 class="section-title">3. Laboratorio de Visualización</h2>
+      <p style="margin-bottom: 2rem;">Experimenta con el visualizador interactivo. Modifica la sucesión \(a_n\), los términos visibles \(N\) y la banda de error \(\varepsilon\) para entrenar tu visión geométrica.</p>
       
       <!-- Plotter Integration space -->
-      <div class="interactive-plotter" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 25px;">
+      <div class="interactive-plotter" style="margin-top: 15px;">
         <div class="plotter-title">
           <i class="fa-solid fa-chart-line" style="color: var(--accent);"></i>
           Visualizador de Convergencia
@@ -802,13 +1228,30 @@
         
         <div class="plotter-controls">
           <div class="control-group">
-            <label class="control-label" for="plotter-preset">Sucesión \( a_n \)</label>
-            <select id="plotter-preset" class="control-select">
-              <option value="1/n">\( 1/n \) (Convergente)</option>
-              <option value="n/n+1">\( n/(n+1) \) (Convergente)</option>
-              <option value="alt">\( (-1)^n / n \) (Alternante)</option>
-              <option value="osc">\( (-1)^n \) (Oscilante)</option>
-              <option value="div">\( n / 15 \) (Divergente)</option>
+            <label class="control-label">Sucesión \( a_n \)</label>
+            
+            <!-- Custom LaTeX Dropdown Select wrapper -->
+            <div class="custom-select-wrapper">
+              <div class="custom-select-trigger">
+                <span class="custom-select-value">\( a_n = \frac{1}{n} \)</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: var(--text-muted);"></i>
+              </div>
+              <div class="custom-options-container">
+                <div class="custom-option selected" data-value="1/n">\( a_n = \frac{1}{n} \)</div>
+                <div class="custom-option" data-value="n/n+1">\( a_n = \frac{n}{n+1} \)</div>
+                <div class="custom-option" data-value="alt">\( a_n = \frac{(-1)^n}{n} \)</div>
+                <div class="custom-option" data-value="osc">\( a_n = (-1)^n \)</div>
+                <div class="custom-option" data-value="div">\( a_n = \frac{n}{15} \)</div>
+              </div>
+            </div>
+
+            <!-- Hidden real select element to sync with existing JS plotter logic -->
+            <select id="plotter-preset" class="control-select" style="display: none;">
+              <option value="1/n">\( 1/n \)</option>
+              <option value="n/n+1">\( n/(n+1) \)</option>
+              <option value="alt">\( (-1)^n / n \)</option>
+              <option value="osc">\( (-1)^n \)</option>
+              <option value="div">\( n / 15 \)</option>
             </select>
           </div>
           <div class="control-group">
@@ -845,23 +1288,285 @@
         <div class="plotter-readout" id="plotter-readout">
           Cargando visualización matemática...
         </div>
-      </div>
-    </div>
+
+        <!-- Reto de Clasificación (dentro del visualizador de convergencia) -->
+        <div class="challenge-box" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; background: transparent; border: none; box-shadow: none; padding-left: 0; padding-right: 0; padding-bottom: 0;">
+          <div class="challenge-title">
+            <i class="fa-solid fa-clipboard-question" style="color: var(--accent);"></i>
+            Reto de Clasificación: Entrena tu Intuición
+          </div>
+          <p class="challenge-subtitle">
+            Utiliza el visualizador anterior para explorar el comportamiento a largo plazo (cuando \(n \to \infty\)) de cada sucesión y clasifícalas en una de las tres familias descritas anteriormente.
+          </p>
+
+          <div class="challenge-list">
+            <!-- Item 1: 1/n -->
+            <div class="challenge-item" data-seq="1/n" data-answer="conv">
+              <div class="challenge-header-row">
+                <div class="challenge-formula">
+                  \( a_n = \frac{1}{n} \)
+                </div>
+                <div class="challenge-buttons">
+                  <button type="button" class="btn-choice" data-val="conv" onclick="selectChoice(this, 'conv')">Convergente</button>
+                  <button type="button" class="btn-choice" data-val="div" onclick="selectChoice(this, 'div')">Divergente</button>
+                  <button type="button" class="btn-choice" data-val="osc" onclick="selectChoice(this, 'osc')">Oscilante</button>
+                </div>
+              </div>
+              <div class="challenge-feedback"></div>
+            </div>
+
+            <!-- Item 2: n/(n+1) -->
+            <div class="challenge-item" data-seq="n/n+1" data-answer="conv">
+              <div class="challenge-header-row">
+                <div class="challenge-formula">
+                  \( a_n = \frac{n}{n+1} \)
+                </div>
+                <div class="challenge-buttons">
+                  <button type="button" class="btn-choice" data-val="conv" onclick="selectChoice(this, 'conv')">Convergente</button>
+                  <button type="button" class="btn-choice" data-val="div" onclick="selectChoice(this, 'div')">Divergente</button>
+                  <button type="button" class="btn-choice" data-val="osc" onclick="selectChoice(this, 'osc')">Oscilante</button>
+                </div>
+              </div>
+              <div class="challenge-feedback"></div>
+            </div>
+
+            <!-- Item 3: (-1)^n / n -->
+            <div class="challenge-item" data-seq="alt" data-answer="conv">
+              <div class="challenge-header-row">
+                <div class="challenge-formula">
+                  \( a_n = \frac{(-1)^n}{n} \)
+                </div>
+                <div class="challenge-buttons">
+                  <button type="button" class="btn-choice" data-val="conv" onclick="selectChoice(this, 'conv')">Convergente</button>
+                  <button type="button" class="btn-choice" data-val="div" onclick="selectChoice(this, 'div')">Divergente</button>
+                  <button type="button" class="btn-choice" data-val="osc" onclick="selectChoice(this, 'osc')">Oscilante</button>
+                </div>
+              </div>
+              <div class="challenge-feedback"></div>
+            </div>
+
+            <!-- Item 4: (-1)^n -->
+            <div class="challenge-item" data-seq="osc" data-answer="osc">
+              <div class="challenge-header-row">
+                <div class="challenge-formula">
+                  \( a_n = (-1)^n \)
+                </div>
+                <div class="challenge-buttons">
+                  <button type="button" class="btn-choice" data-val="conv" onclick="selectChoice(this, 'conv')">Convergente</button>
+                  <button type="button" class="btn-choice" data-val="div" onclick="selectChoice(this, 'div')">Divergente</button>
+                  <button type="button" class="btn-choice" data-val="osc" onclick="selectChoice(this, 'osc')">Oscilante</button>
+                </div>
+              </div>
+              <div class="challenge-feedback"></div>
+            </div>
+
+            <!-- Item 5: n/15 -->
+            <div class="challenge-item" data-seq="div" data-answer="div">
+              <div class="challenge-header-row">
+                <div class="challenge-formula">
+                  \( a_n = \frac{n}{15} \)
+                </div>
+                <div class="challenge-buttons">
+                  <button type="button" class="btn-choice" data-val="conv" onclick="selectChoice(this, 'conv')">Convergente</button>
+                  <button type="button" class="btn-choice" data-val="div" onclick="selectChoice(this, 'div')">Divergente</button>
+                  <button type="button" class="btn-choice" data-val="osc" onclick="selectChoice(this, 'osc')">Oscilante</button>
+                </div>
+              </div>
+              <div class="challenge-feedback"></div>
+            </div>
+          </div>
+
+          <div class="challenge-actions">
+            <button type="button" class="btn-verify-challenge" onclick="verifyChallenge()">Verificar respuestas</button>
+          </div>
+        </div>
+      </div> <!-- Cierre de .interactive-plotter -->
+    </div> <!-- Cierre de #raw-detail-1 -->
 
     <!-- Detail Block 2 -->
     <div id="raw-detail-2">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
         <h3 style="font-family: var(--font-title); font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0;">Nivel 2: Enfréntate al límite formal</h3>
       </div>
-      <p class="card-desc">Traducimos la intuición visual a la definición formal clásica usando la métrica del análisis:</p>
-      <div class="card-desc" style="text-align: center; background: var(--bg-secondary); padding: 15px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace; font-size: 16px; margin: 20px 0;">
-        \( \forall \varepsilon > 0, \exists N_0 \in \mathbb{N} \text{ tal que } \forall n \ge N_0, |a_n - L| < \varepsilon \)
+
+      <!-- Navigation Tabs for Level 2 Content -->
+      <div class="modal-tabs">
+        <button type="button" class="level-2-tab-btn active" onclick="switchLevel2Tab('l2-tab-1', this)">
+          <i class="fa-solid fa-gamepad"></i> 1. El Juego
+        </button>
+        <button type="button" class="level-2-tab-btn" onclick="switchLevel2Tab('l2-tab-2', this)">
+          <i class="fa-solid fa-compass-drafting"></i> 2. Definición Rigurosa
+        </button>
+        <button type="button" class="level-2-tab-btn" onclick="switchLevel2Tab('l2-tab-3', this)">
+          <i class="fa-solid fa-scale-balanced"></i> 3. Propiedad Arquimediana
+        </button>
+        <button type="button" class="level-2-tab-btn" onclick="switchLevel2Tab('l2-tab-4', this)">
+          <i class="fa-solid fa-signature"></i> 4. Ejemplo Guiado
+        </button>
+        <button type="button" class="level-2-tab-btn" onclick="switchLevel2Tab('l2-tab-5', this)">
+          <i class="fa-solid fa-triangle-exclamation"></i> 5. Divergencia y Negación
+        </button>
       </div>
-      <p class="card-desc">Construimos el concepto mediante bandas de error de radio \(\varepsilon\) alrededor del valor límite \(L\). El índice límite \(N_0\) representa el umbral a partir del cual todos los términos subsecuentes quedan encerrados en dicha banda de forma definitiva.</p>
-      
-      <div class="card-warn" style="margin-top: 20px;">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <strong>Trampa lógica común:</strong> Negar que una sucesión converja a un valor real \(L\) no significa que escape necesariamente al infinito. La sucesión puede estar perfectamente acotada y, sin embargo, oscilar indefinidamente (por ejemplo, \(a_n = (-1)^n\)).
+
+      <!-- Tab 1: El Juego -->
+      <div id="l2-tab-1" class="level-2-tab-content active">
+        <div class="intro-box">
+          <p>Ya aprendimos a "ver" el comportamiento de una sucesión. Pero en matemática superior, la intuición visual no es suficiente para demostrar una verdad absoluta; a veces nuestros ojos nos engañan. Necesitamos una herramienta irrefutable que garantice que una sucesión se estabiliza, sin depender de un gráfico. Bienvenido a la definición formal de límite.</p>
+        </div>
+
+        <h2 class="section-title">1. El "Juego" de la Convergencia</h2>
+        <p style="margin-bottom: 1.5rem;">Antes de leer símbolos matemáticos, imagina que tú y yo jugamos un juego para comprobar si una sucesión \(a_n\) realmente se acerca a un límite \(L\):</p>
+        
+        <div class="grid-2-custom">
+          <div class="card" style="border-left: 4px solid var(--primary); margin-bottom: 0;">
+            <h3 style="font-family: var(--font-title); font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--primary);"><i class="fa-solid fa-crosshairs"></i> Tu desafío (El Error \(\varepsilon\))</h3>
+            <p style="color: var(--text-secondary);">Tú me das un margen de error, por ejemplo, \(\varepsilon = 0.01\). Me estás exigiendo: <em>"Demuéstrame que los términos de la sucesión se acercan a \(L\) con un error menor a 0.01"</em>.</p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--accent); margin-bottom: 0;">
+            <h3 style="font-family: var(--font-title); font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-reply"></i> Mi respuesta (El Índice \(N\))</h3>
+            <p style="color: var(--text-secondary);">Para ganar, yo debo encontrar un momento exacto en el tiempo (un índice \(N\)) a partir del cual todos los términos siguientes de la sucesión se quedan atrapados permanentemente dentro de ese margen de error.</p>
+          </div>
+        </div>
+
+        <div class="note-box" style="background: rgba(6, 182, 212, 0.05); border-left: 4px solid var(--accent); color: var(--text-primary); margin-top: 20px;">
+          Si yo puedo ganar este juego sistemáticamente, sin importar qué tan microscópico sea el error \(\varepsilon\) que tú elijas, entonces hemos demostrado que la sucesión converge a \(L\).
+        </div>
+      </div>
+
+      <!-- Tab 2: Definición Rigurosa -->
+      <div id="l2-tab-2" class="level-2-tab-content">
+        <h2 class="section-title">2. La Definición Rigurosa de Convergencia</h2>
+        <p>Ahora sí, traduzcamos las reglas de nuestro juego al lenguaje estricto del Análisis Matemático.</p>
+        <p>Decimos que el límite de una sucesión \(a_n\) es \(L\) (es decir, \(\lim_{n \to \infty} a_n = L\)) si y solo si:</p>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin: 25px 0;">
+          <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-secondary); padding: 12px 18px; border-radius: var(--border-radius-sm); border: 1px solid var(--border);">
+            <span class="def-monospace-math">\(\forall \varepsilon > 0\)</span>
+            <span style="color: var(--text-secondary);">Para todo margen de error épsilon, por más pequeño que sea...</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-secondary); padding: 12px 18px; border-radius: var(--border-radius-sm); border: 1px solid var(--border);">
+            <span class="def-monospace-math">\(\exists N \in \mathbb{N}\)</span>
+            <span style="color: var(--text-secondary);">...existe un índice o "momento de corte" \(N\)...</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-secondary); padding: 12px 18px; border-radius: var(--border-radius-sm); border: 1px solid var(--border);">
+            <span class="def-monospace-math">\(\forall n \ge N\)</span>
+            <span style="color: var(--text-secondary);">...tal que, para todos los términos a partir de ese momento...</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 15px; background: var(--bg-secondary); padding: 12px 18px; border-radius: var(--border-radius-sm); border: 1px solid var(--border);">
+            <span class="def-monospace-math">\(|a_n - L| < \varepsilon\)</span>
+            <span style="color: var(--text-secondary);">...la distancia entre el término de la sucesión y el límite es estrictamente menor que el error.</span>
+          </div>
+        </div>
+
+        <div class="card" style="background: rgba(99, 102, 241, 0.03); border: 1px dashed var(--primary); text-align: center; padding: 25px;">
+          <h3 style="font-family: var(--font-title); font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">Fórmula compacta para Convergencia</h3>
+          <div style="font-size: 1.15rem; margin: 15px 0;">
+            \(\displaystyle \lim_{n \to \infty} a_n = L \iff \forall \varepsilon > 0, \exists N \in \mathbb{N} \text{ tal que } \forall n \ge N, |a_n - L| < \varepsilon\)
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Propiedad Arquimediana -->
+      <div id="l2-tab-3" class="level-2-tab-content">
+        <h2 class="section-title">3. La Pieza Faltante: La Propiedad Arquimediana</h2>
+        <p>Antes de aplicar esta definición, surge una pregunta natural: ¿cómo garantizamos que siempre existirá ese "momento de corte" \(N\)? ¿Qué pasa si el error \(\varepsilon\) es tan increíblemente pequeño que necesitaríamos un \(N\) gigante?</p>
+        <p>Aquí es donde entra al rescate una de las propiedades más importantes de los números reales:</p>
+
+        <div class="card" style="border-left: 4px solid #10b981;">
+          <h3 style="font-family: var(--font-title); font-size: 17px; font-weight: 700; color: #10b981; margin-bottom: 8px;">La Propiedad Arquimediana</h3>
+          <p style="font-weight: 500; color: var(--text-primary); margin-bottom: 8px;">Para cualquier número real \(x > 0\) y cualquier número real \(y\), existe un número natural \(n \in \mathbb{N}\) tal que \(nx > y\).</p>
+          <p style="color: var(--text-secondary); margin-bottom: 0;"><strong>En palabras sencillas:</strong> No importa cuán pequeño sea un paso (\(x\)) ni cuán lejos esté la meta (\(y\)), si das suficientes pasos, eventualmente cruzarás la meta.</p>
+        </div>
+
+        <div class="card" style="background: var(--bg-secondary); border: 1px solid var(--border); margin-top: 20px;">
+          <h4 style="font-family: var(--font-title); font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i> Demostración rápida (por contradicción)
+          </h4>
+          <div style="color: var(--text-secondary);">
+            <p style="margin-bottom: 10px;">Supongamos que esto es falso. Es decir, existe un \(x > 0\) y un \(y\) tal que para todo \(n \in \mathbb{N}\), \(nx \le y\).</p>
+            <p style="margin-bottom: 10px;">Esto significaría que el conjunto de todos los múltiplos \(\{nx : n \in \mathbb{N}\}\) está acotado superiormente por \(y\).</p>
+            <p style="margin-bottom: 10px;">Por el <strong>Axioma del Supremo</strong>, este conjunto debe tener un supremo, digamos \(s\).</p>
+            <p style="margin-bottom: 10px;">Si \(s\) es el supremo, entonces \(s - x\) no puede ser cota superior (es más pequeño). Por lo tanto, debe existir algún múltiplo \(mx\) que supere a \(s - x\):</p>
+            <div style="text-align: center; margin: 12px 0;">
+              \(\displaystyle mx > s - x\)
+            </div>
+            <p style="margin-bottom: 10px;">Sumando \(x\) a ambos lados:</p>
+            <div style="text-align: center; margin: 12px 0;">
+              \(\displaystyle (m+1)x > s\)
+            </div>
+            <p style="margin-bottom: 12px;">¡Pero \((m+1)x\) también es un múltiplo en nuestro conjunto, y es mayor que el supremo \(s\)! Esto es una contradicción. Por lo tanto, la propiedad arquimediana es verdadera. \(\quad\blacksquare\)</p>
+            
+            <div style="background: rgba(245, 158, 11, 0.05); border-left: 3px solid #f59e0b; padding: 10px 12px; border-radius: 4px; color: var(--text-secondary); margin-top: 10px;">
+              <strong>Corolario clave para límites:</strong> Si hacemos \(x=1\), la propiedad nos dice que para cualquier real \(y\), siempre existe un natural \(n > y\). ¡Los naturales no están acotados!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Ejemplo Guiado -->
+      <div id="l2-tab-4" class="level-2-tab-content">
+        <h2 class="section-title">4. Ejemplo Guiado: Demostrando un límite</h2>
+        <p>Vamos a utilizar nuestra definición de convergencia y la Propiedad Arquimediana para demostrar formalmente que el límite de \(a_n = \frac{1}{n}\) es \(0\).</p>
+
+        <div class="grid-2-custom">
+          <div class="card" style="border: 1px solid var(--border); background: var(--bg-secondary); margin-bottom: 0;">
+            <h3 style="font-family: var(--font-title); font-size: 15.5px; font-weight: 700; margin-bottom: 12px; color: #f59e0b;"><i class="fa-solid fa-pen-ruler"></i> El Borrador (Trabajo sucio)</h3>
+            <div style="color: var(--text-secondary);">
+              <p style="margin-bottom: 8px;">Alguien nos reta con un \(\varepsilon > 0\). Tenemos que lograr que la distancia sea menor al error:</p>
+              <div style="text-align: center; margin: 10px 0;">
+                \(\displaystyle \left| \frac{1}{n} - 0 \right| < \varepsilon\)
+              </div>
+              <p style="margin-bottom: 8px;">Como \(n\) es siempre positivo, podemos quitar el valor absoluto: \(\frac{1}{n} < \varepsilon\).</p>
+              <p style="margin-bottom: 8px;">Si despejamos \(n\), obtenemos: \(n > \frac{1}{\varepsilon}\).</p>
+              <p style="margin-bottom: 0;">¡Esa es la clave! Nos dice exactamente dónde debe estar nuestro momento de corte \(N\). Necesitamos un natural \(N\) que sea mayor que el número real \(\frac{1}{\varepsilon}\).</p>
+            </div>
+          </div>
+
+          <div class="card" style="border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.01); margin-bottom: 0;">
+            <h3 style="font-family: var(--font-title); font-size: 15.5px; font-weight: 700; margin-bottom: 12px; color: #10b981;"><i class="fa-solid fa-signature"></i> La Demostración Formal (Examen)</h3>
+            <div style="color: var(--text-secondary);">
+              <p style="margin-bottom: 8px;">Sea \(\varepsilon > 0\). El valor \(\frac{1}{\varepsilon}\) es un número real positivo.</p>
+              <p style="margin-bottom: 8px;">Por la <strong>Propiedad Arquimediana</strong>, garantizamos que existe un número natural \(N\) tal que \(N > \frac{1}{\varepsilon}\).</p>
+              <p style="margin-bottom: 8px;">Entonces, para cualquier \(n \ge N\), se cumple que:</p>
+              <div style="text-align: center; margin: 10px 0; background: var(--bg-secondary); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                \(n \ge N > \frac{1}{\varepsilon} \implies n > \frac{1}{\varepsilon} \implies \frac{1}{n} < \varepsilon\)
+              </div>
+              <p style="margin-bottom: 0;">Por lo tanto, \(\left| \frac{1}{n} - 0 \right| < \varepsilon\). Hemos atrapado la sucesión. \(\quad\blacksquare\)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Divergencia y Negación -->
+      <div id="l2-tab-5" class="level-2-tab-content">
+        <h2 class="section-title">5. La Definición Formal de Divergencia (\(M - N\))</h2>
+        <p>Así como exigimos un error muy pequeño para probar que una sucesión se estabiliza, necesitamos una estructura similar para probar rigurosamente que una sucesión escapa al infinito. En lugar de un error \(\varepsilon\), usaremos una barrera gigantesca \(M\).</p>
+        
+        <div class="note-box" style="background: rgba(99, 102, 241, 0.05); border-left: 4px solid var(--primary); color: var(--text-primary); margin-bottom: 20px;">
+          Decimos que una sucesión diverge a \(+\infty\) si, sin importar qué tan grande sea un número \(M\) que nos desafíen a superar, siempre podemos encontrar un momento de corte \(N\) a partir del cual todos los términos siguientes de la sucesión logran sobrepasar esa barrera \(M\).
+        </div>
+
+        <div class="card" style="background: rgba(239, 68, 68, 0.03); border: 1px dashed rgba(239, 68, 68, 0.4); text-align: center; padding: 20px; margin-bottom: 30px;">
+          <h3 style="font-family: var(--font-title); font-size: 15px; font-weight: 700; color: #ef4444; margin-bottom: 10px;">Fórmula compacta para Divergencia a \(+\infty\)</h3>
+          <div style="font-size: 1.1rem; margin: 10px 0;">
+            \(\displaystyle \lim_{n \to \infty} a_n = +\infty \iff \forall M > 0, \exists N \in \mathbb{N} \text{ tal que } \forall n \ge N, a_n > M\)
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-top: 10px; text-align: left; line-height: 1.5;">
+            <strong>Nota para \(-\infty\):</strong> De manera análoga, la sucesión diverge a \(-\infty\) si para cualquier barrera negativa \(\forall M < 0\), existe un \(N\) tal que \(\forall n \ge N\), todos los términos caen por debajo de la barrera: \(a_n < M\).
+          </p>
+        </div>
+
+        <h2 class="section-title" style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> 6. Trampa Cognitiva: La Negación del Límite</h2>
+        <div class="note-box" style="background: rgba(239, 68, 68, 0.06); border-left: 4px solid #ef4444; color: var(--text-primary); margin-bottom: 0;">
+          <p style="margin-bottom: 10px;"><strong>¿Qué pasa si negamos la convergencia?</strong></p>
+          <p style="margin-bottom: 10px; color: var(--text-secondary);">Un error clásico en los primeros años de universidad es pensar que si una sucesión no converge, entonces obligatoriamente diverge al infinito (\(\lim a_n = \infty\)). <strong>¡Esto es una trampa lógica!</strong></p>
+          <p style="margin-bottom: 10px; color: var(--text-secondary);">Si demostramos que una sucesión no converge, lo único que estamos probando es que no existe un único número real \(L\) al que la sucesión se acerque infinitamente. Bajo nuestra convención moderna, esto abre dos caminos posibles, no uno:</p>
+          <ul style="padding-left: 20px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+            <li><strong>Que escape al infinito (Divergente):</strong> Como \(a_n = n^2\). Sus términos crecen sin límite, superando cualquier barrera \(M\).</li>
+            <li><strong>Que fluctúe eternamente (Oscilante):</strong> Ejemplo: \(a_n = (-1)^n\). Sus términos son \(-1, 1, -1, 1, \dots\) ¿Converge? No, porque si nos exigen un error muy pequeño (ej. \(\varepsilon = 0.5\)), es imposible atrapar a la sucesión alrededor de un solo número; siempre se saldrá rebotando. Sin embargo, tampoco diverge al infinito, ya que siempre está acotada entre -1 y 1 (nunca superaría una barrera \(M=2\)).</li>
+          </ul>
+          <p style="margin-top: 12px; font-weight: bold; margin-bottom: 0;">Lección: Negar la convergencia solo significa falta de estabilización. No asumas un escape al infinito sin analizar la sucesión.</p>
+        </div>
       </div>
     </div>
 
@@ -988,6 +1693,16 @@
     document.addEventListener("DOMContentLoaded", () => {
       initMobileMenu();
       initJourneyConnector();
+
+      // Escape key listener to close active level modal
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          const overlay = document.getElementById("modal-overlay");
+          if (overlay && overlay.classList.contains("active")) {
+            closeLevelModal();
+          }
+        }
+      });
     });
 
     /* ==========================================================================
@@ -1073,10 +1788,63 @@
     }
 
     /* ==========================================================================
+       3.5. Custom Select for LaTeX Options
+       ========================================================================== */
+    function initCustomSelect() {
+      const wrapper = document.querySelector('.custom-select-wrapper');
+      if (!wrapper || wrapper.dataset.initialized === "true") return;
+      wrapper.dataset.initialized = "true";
+      
+      const trigger = wrapper.querySelector('.custom-select-trigger');
+      const container = wrapper.querySelector('.custom-options-container');
+      const options = wrapper.querySelectorAll('.custom-option');
+      const realSelect = document.getElementById('plotter-preset');
+      
+      if (!trigger || !container || !realSelect) return;
+      
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        container.classList.toggle('open');
+      });
+      
+      document.addEventListener('click', () => {
+        container.classList.remove('open');
+      });
+      
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const val = opt.getAttribute('data-value');
+          options.forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          trigger.querySelector('.custom-select-value').innerHTML = opt.innerHTML;
+          container.classList.remove('open');
+          
+          realSelect.value = val;
+          realSelect.dispatchEvent(new Event('change'));
+        });
+      });
+    }
+
+    /* ==========================================================================
        4. Interactive Epsilon-N0 Sequences Plotter (E-learning Engine)
        ========================================================================== */
     function initSequencePlotter() {
-      const presetSelect = document.getElementById("plotter-preset");
+      // Initialize custom LaTeX select dropdown
+      initCustomSelect();
+      
+      // Sync trigger display with active real select option
+      const wrapper = document.querySelector('.custom-select-wrapper');
+      const realSelect = document.getElementById('plotter-preset');
+      if (wrapper && realSelect) {
+        const activeOption = wrapper.querySelector(`.custom-option[data-value="${realSelect.value}"]`);
+        if (activeOption) {
+          wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+          activeOption.classList.add('selected');
+          wrapper.querySelector('.custom-select-value').innerHTML = activeOption.innerHTML;
+        }
+      }
+
+      const presetSelect = realSelect;
       const epsSlider = document.getElementById("plotter-eps");
       const epsValText = document.getElementById("eps-val");
       const nSlider = document.getElementById("plotter-n");
@@ -1149,6 +1917,16 @@
 
         epsValText.textContent = eps.toFixed(2);
         nValText.textContent = N;
+
+        // Show only the challenge item corresponding to the selected preset
+        const items = document.querySelectorAll('.challenge-item');
+        items.forEach(item => {
+          if (item.getAttribute('data-seq') === presetKey) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
 
         // SVG layout configurations
         const svgW = svg.clientWidth || 360;
@@ -1317,9 +2095,9 @@
           readout.innerHTML = info;
         } else {
           if (presetKey === 'osc') {
-            readout.innerHTML = `Sucesión oscilante <span class="highlight">aₙ = (-1)ⁿ</span>.<br>Valores alternan entre -1 y 1.<br><span class="highlight" style="color: #ef4444;">No converge</span>. No existe ningún índice N₀ para ε < 1.0.`;
+            readout.innerHTML = `Sucesión <span class="highlight">aₙ = (-1)ⁿ</span>.<br>Valores alternan entre -1 y 1.`;
           } else {
-            readout.innerHTML = `Sucesión divergente <span class="highlight">aₙ = n/15</span>.<br>Valores escapan al infinito: aₙ → +∞.<br><span class="highlight" style="color: #ef4444;">Sucesión no acotada y divergente</span>.`;
+            readout.innerHTML = `Sucesión <span class="highlight">aₙ = n/15</span>.<br>Valores escapan al infinito: aₙ → +∞.`;
           }
         }
       }
@@ -1333,6 +2111,111 @@
       updatePlot();
       window.addEventListener("resize", updatePlot);
     }
+
+    /* ==========================================================================
+       4.5. Reto de Clasificación de Sucesiones
+       ========================================================================== */
+    function selectChoice(btn, val) {
+      const parentItem = btn.closest('.challenge-item');
+      if (!parentItem) return;
+      
+      const buttons = parentItem.querySelectorAll('.btn-choice');
+      buttons.forEach(b => {
+        b.classList.remove('selected', 'conv', 'div', 'osc');
+      });
+      
+      btn.classList.add('selected', val);
+      
+      parentItem.classList.remove('correct', 'incorrect');
+      const feedback = parentItem.querySelector('.challenge-feedback');
+      if (feedback) {
+        feedback.style.display = 'none';
+        feedback.innerHTML = '';
+      }
+    }
+
+    function verifyChallenge() {
+      const activeItem = Array.from(document.querySelectorAll('.challenge-item')).find(item => item.style.display !== 'none');
+      if (!activeItem) return;
+      
+      const selectedBtn = activeItem.querySelector('.btn-choice.selected');
+      if (!selectedBtn) {
+        alert('Por favor, selecciona una clasificación para la sucesión antes de verificar.');
+        return;
+      }
+      
+      const seq = activeItem.getAttribute('data-seq');
+      const correctAnswer = activeItem.getAttribute('data-answer');
+      const selectedVal = selectedBtn.getAttribute('data-val');
+      const feedback = activeItem.querySelector('.challenge-feedback');
+      
+      const explanations = {
+        '1/n': {
+          conv: '¡Correcto! A medida que \\(n \\to \\infty\\), los términos se acercan cada vez más a \\(0\\). Se estabiliza en \\(L = 0\\), por lo que es una sucesión <strong>Convergente</strong>.',
+          incorrect: 'Inténtalo de nuevo. Si aumentas \\(n\\) en el visualizador, verás que \\(1/n\\) decrece continuamente hacia \\(0\\). Se estabiliza en el valor real finito \\(L = 0\\), lo que la hace <strong>Convergente</strong>.'
+        },
+        'n/n+1': {
+          conv: '¡Excelente! Al avanzar el índice \\(n\\), la fracción se aproxima a \\(1\\) (los términos son \\(1/2, 2/3, 3/4, \\dots\\)). Se estabiliza en \\(L = 1\\), por lo que es <strong>Convergente</strong>.',
+          incorrect: 'Incorrecto. Mira el visualizador: a medida que \\(n\\) crece, los valores se acercan cada vez más a la línea verde en \\(y = 1\\). Se estabiliza en el valor real finito \\(L=1\\), por tanto es <strong>Convergente</strong>.'
+        },
+        'alt': {
+          conv: '¡Muy bien! Los términos rebotan alternadamente entre positivos y negativos, pero su amplitud se reduce rápidamente. Se acercan infinitamente a \\(0\\). Al estabilizarse en \\(L = 0\\), es una sucesión <strong>Convergente</strong>.',
+          incorrect: 'Incorrecto. Aunque tiene un factor alternante \\((-1)^n\\) que la hace rebotar entre positivo y negativo, los términos son cada vez más pequeños en valor absoluto y se aproximan a \\(0\\). Por lo tanto, se estabiliza en \\(L = 0\\), es decir, es <strong>Convergente</strong>.'
+        },
+        'osc': {
+          osc: '¡Exacto! Los términos oscilan alternadamente entre \\(-1\\) y \\(1\\). No se estabilizan en ningún valor único, pero tampoco crecen indefinidamente al infinito. Es una sucesión <strong>Oscilante</strong>.',
+          incorrect: 'Incorrecto. Los términos de la sucesión son \\(-1, 1, -1, 1, \\dots\\). Nunca se concentran alrededor de un único punto (no converge) ni escapan al infinito. Por definición, es <strong>Oscilante</strong>.'
+        },
+        'div': {
+          div: '¡Correcto! Los términos aumentan de forma lineal y constante sin límite. A medida que \\(n \\to \\infty\\), la sucesión crece indefinidamente hacia \\(+\\infty\\), por lo que es <strong>Divergente</strong>.',
+          incorrect: 'Incorrecto. Observa que el gráfico muestra una tendencia lineal ascendente constante. A medida que \\(n\\) avanza, los términos superan cualquier cota superior finita y escapan a \\(+\\infty\\). Por lo tanto, es <strong>Divergente</strong>.'
+        }
+      };
+
+      activeItem.classList.remove('correct', 'incorrect');
+      feedback.classList.remove('correct', 'incorrect');
+      
+      if (selectedVal === correctAnswer) {
+        activeItem.classList.add('correct');
+        feedback.classList.add('correct');
+        feedback.innerHTML = explanations[seq][correctAnswer];
+      } else {
+        activeItem.classList.add('incorrect');
+        feedback.classList.add('incorrect');
+        feedback.innerHTML = explanations[seq].incorrect;
+      }
+      feedback.style.display = 'block';
+      
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+
+    function switchLevel2Tab(tabId, btn) {
+      const contents = document.querySelectorAll('.level-2-tab-content');
+      contents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      const buttons = document.querySelectorAll('.level-2-tab-btn');
+      buttons.forEach(b => {
+        b.classList.remove('active');
+      });
+      
+      const targetContent = document.getElementById(tabId);
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+      btn.classList.add('active');
+      
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([targetContent]);
+      }
+    }
+
+    window.selectChoice = selectChoice;
+    window.verifyChallenge = verifyChallenge;
+    window.switchLevel2Tab = switchLevel2Tab;
 
     /* ==========================================================================
        5. 3D Card Flip and Overlay Modal Control

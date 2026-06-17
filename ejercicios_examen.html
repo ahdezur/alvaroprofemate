@@ -1,0 +1,2503 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preparación Examen - Introducción al Álgebra | AlvaroProfeMate</title>
+  <meta name="description" content="Ejercicios interactivos y resúmenes teóricos para preparar el examen de Introducción al Álgebra. Inducción, Sumatorias, Binomio de Newton, Complejos, Polinomios y Geometría Analítica.">
+
+  <!-- Fuentes Premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    /* VARIABLES REORGANIZADAS CON EL DESIGN SYSTEM DE ALVAROPROFEMATE */
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --primary: #1d4ed8; /* Azul Real de AlvaroProfeMate */
+      --primary-hover: #1e40af;
+      --accent: #06b6d4;  /* Cyan */
+      --border: #e2e8f0;
+      
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      
+      --sol-bg: #f0fdf4;
+      --sol-border: #22c55e;
+      --sol-text: #166534;
+      
+      --formula-bg: #f8fafc;
+      --formula-border: #cbd5e1;
+      
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+      
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --border-radius-sm: 8px;
+      --border-radius-md: 14px;
+      --border-radius-lg: 24px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #090d16;
+      --bg-secondary: #0f172a;
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --primary: #6366f1; /* Indigo */
+      --primary-hover: #4f46e5;
+      --accent: #06b6d4;  /* Cyan */
+      --border: rgba(255, 255, 255, 0.08);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      
+      --sol-bg: #064e3b;
+      --sol-border: #10b981;
+      --sol-text: #ecfdf5;
+      
+      --formula-bg: #0f172a;
+      --formula-border: #475569;
+      
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.65;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* BARRA DE PROGRESO */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(0,0,0,0.05);
+      z-index: 1200;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      transition: width 0.1s ease;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 1.8rem 1.2rem;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-container {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+      flex-shrink: 0;
+    }
+
+    .logo-container svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .brand-title h1 {
+      margin: 0;
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text-primary) 30%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-title p {
+      margin: 2px 0 0 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-toggle-sidebar {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-toggle-sidebar:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Botón Modo Oscuro */
+    .btn-theme {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-theme:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-theme .sun-icon { display: none; }
+    .btn-theme .moon-icon { display: block; }
+    [data-theme="dark"] .btn-theme .sun-icon { display: block; }
+    [data-theme="dark"] .btn-theme .moon-icon { display: none; }
+
+    /* Collapsible Sidebar */
+    .sidebar {
+      position: fixed;
+      left: -280px;
+      top: 0;
+      width: 280px;
+      height: 100%;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1100;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: 1050;
+      display: none;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+      font-family: var(--font-title);
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.8rem 1rem;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+      background: rgba(29, 78, 216, 0.08);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    [data-theme="dark"] .sidebar a:hover, [data-theme="dark"] .sidebar a.active {
+      background: rgba(99, 102, 241, 0.12);
+    }
+
+    /* Navigation Tabs Bar */
+    .tabs-nav-container {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .tabs-nav {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      overflow-x: auto;
+      scrollbar-width: none; /* Firefox */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 1.2rem 1.5rem;
+      font-family: var(--font-title);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 1.5rem;
+      right: 1.5rem;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 99px;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+      flex: 1;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Header: Visiblity Toggles */
+    .tab-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 1.8rem;
+    }
+
+    .btn-toggle-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-toggle-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-toggle-pill.active.teoria-pill {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+    }
+
+    [data-theme="dark"] .btn-toggle-pill.active.teoria-pill {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-toggle-pill.active.ejercicios-pill {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+    }
+
+    /* Content Layout Containers */
+    .teoria-section {
+      margin-bottom: 2.5rem;
+      transition: opacity 0.3s ease, height 0.3s ease;
+    }
+
+    .ejercicios-section {
+      margin-bottom: 2.5rem;
+      transition: opacity 0.3s ease, height 0.3s ease;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 1.6rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card.teoria-card {
+      border-left: 4px solid var(--primary);
+    }
+
+    .card.definicion {
+      border-left: 5px solid var(--primary);
+      background: rgba(29, 78, 216, 0.02);
+    }
+
+    [data-theme="dark"] .card.definicion {
+      background: rgba(99, 102, 241, 0.03);
+    }
+
+    h2 {
+      font-family: var(--font-title);
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1.2rem;
+    }
+
+    h3 {
+      font-family: var(--font-title);
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 1.2rem;
+      padding-left: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .idea-clave {
+      border-left: 4px solid #22c55e;
+      background: rgba(34, 197, 94, 0.06);
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: var(--border-radius-sm);
+    }
+
+    .idea-clave strong {
+      color: #22c55e;
+    }
+
+    .error-comun {
+      border-left: 4px solid #ef4444;
+      background: rgba(239, 68, 68, 0.06);
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0;
+      border-radius: var(--border-radius-sm);
+    }
+
+    .error-comun strong {
+      color: #ef4444;
+    }
+
+    .resultado {
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 1.2rem;
+      background: var(--bg-primary);
+      margin: 1.2rem 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    /* Split Screen Grid */
+    .split-container {
+      display: flex;
+      gap: 0;
+      transition: gap 0.4s ease;
+      position: relative;
+    }
+
+    .split-active.split-container {
+      gap: 1.5rem;
+    }
+
+    .exercise-pane {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      transition: all 0.4s ease;
+    }
+
+    .formula-pane {
+      width: 0;
+      opacity: 0;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid transparent;
+      border-radius: var(--border-radius-md);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: calc(100vh - 120px);
+      position: sticky;
+      top: 100px;
+      align-self: flex-start;
+      box-shadow: none;
+    }
+
+    .split-active .formula-pane {
+      width: 360px;
+      opacity: 1;
+      padding: 1.4rem;
+      border-color: var(--border);
+      box-shadow: var(--shadow);
+      overflow-y: auto;
+    }
+
+    @media (max-width: 900px) {
+      .split-active.split-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .split-active .formula-pane {
+        width: 100%;
+        position: static;
+        max-height: none;
+      }
+    }
+
+    .formula-card {
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 1rem;
+      background: var(--bg-primary);
+    }
+
+    .formula-card h4 {
+      margin: 0 0 8px 0;
+      font-family: var(--font-title);
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    .formula-card-latex {
+      text-align: center;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      margin: 5px 0;
+    }
+
+    /* Solución Colapsable */
+    .solucion {
+      display: none;
+      margin-top: 1.2rem;
+      padding: 1.2rem;
+      background: var(--sol-bg);
+      border: 1px solid var(--sol-border);
+      border-radius: var(--border-radius-sm);
+      color: var(--sol-text);
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .solucion p {
+      color: var(--sol-text);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Botones Resueltos */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--border-radius-sm);
+      border: none;
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .exercises-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Pildoras de Dificultad */
+    .nivel {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.18rem 0.6rem;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .nivel-facil {
+      background: rgba(34, 197, 94, 0.12);
+      color: #166534;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .nivel-intermedio {
+      background: rgba(234, 179, 8, 0.12);
+      color: #854d0e;
+      border: 1px solid rgba(234, 179, 8, 0.25);
+    }
+
+    .nivel-dificil {
+      background: rgba(239, 68, 68, 0.12);
+      color: #991b1b;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    [data-theme="dark"] .nivel-facil {
+      background: rgba(16, 185, 129, 0.15);
+      color: #a7f3d0;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    [data-theme="dark"] .nivel-intermedio {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fde68a;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    [data-theme="dark"] .nivel-dificil {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fecaca;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 1.5rem 1rem;
+      font-size: 0.88rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Diagrama de cónicas */
+    .conic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .conic-type-card {
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      padding: 1rem;
+      background: var(--bg-secondary);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .conic-type-card h4 {
+      margin: 0 0 6px 0;
+      color: var(--primary);
+      font-family: var(--font-title);
+    }
+
+    .conic-type-card code {
+      font-family: monospace;
+      font-size: 0.9rem;
+      background: var(--bg-primary);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de Progreso de Lectura -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar de Navegación -->
+  <div class="sidebar" id="sidebar">
+    <h3>Temas Álgebra</h3>
+    <a href="javascript:void(0)" onclick="switchTab('induccion'); toggleSidebar();" class="sidebar-link active" id="side-induccion">
+      <i class="fa-solid fa-arrows-spin"></i> 1. Inducción
+    </a>
+    <a href="javascript:void(0)" onclick="switchTab('sumatorias'); toggleSidebar();" class="sidebar-link" id="side-sumatorias">
+      <i class="fa-solid fa-sigma"></i> 2. Sumatorias
+    </a>
+    <a href="javascript:void(0)" onclick="switchTab('binomio'); toggleSidebar();" class="sidebar-link" id="side-binomio">
+      <i class="fa-solid fa-superscript"></i> 3. Binomio de Newton
+    </a>
+    <a href="javascript:void(0)" onclick="switchTab('complejos'); toggleSidebar();" class="sidebar-link" id="side-complejos">
+      <i class="fa-solid fa-i"></i> 4. Números Complejos
+    </a>
+    <a href="javascript:void(0)" onclick="switchTab('polinomios'); toggleSidebar();" class="sidebar-link" id="side-polinomios">
+      <i class="fa-solid fa-cubes"></i> 5. Polinomios
+    </a>
+    <a href="javascript:void(0)" onclick="switchTab('geometria'); toggleSidebar();" class="sidebar-link" id="side-geometria">
+      <i class="fa-solid fa-bezier-curve"></i> 6. Geometría Analítica
+    </a>
+  </div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="header-content">
+      <div class="header-left">
+        <!-- Botón Menú Sidebar -->
+        <button class="btn-toggle-sidebar" onclick="toggleSidebar()" aria-label="Abrir Menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        
+        <!-- Logotipo Oficial Álvaro Profemate \sqrt{Á} -->
+        <div class="logo-container">
+          <svg viewBox="0 0 32 32">
+            <path d="M 4,16 L 7,16 L 10,26 L 13,4 L 28,4" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 15,25 L 20.5,14 L 26,25" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="17.5" y1="21.5" x2="23.5" y2="21.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+            <line x1="20.5" y1="11" x2="23" y2="7.5" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        
+        <div class="brand-title">
+          <h1>Introducción al Álgebra</h1>
+          <p>Preparación para Examen Integrado</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Botón Modo Oscuro -->
+        <button class="btn-theme" onclick="toggleTheme()" aria-label="Cambiar Tema">
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pestañas de Navegación Fijas -->
+  <div class="tabs-nav-container">
+    <div class="tabs-nav">
+      <button class="tab-btn active" id="tab-btn-induccion" onclick="switchTab('induccion')">Inducción</button>
+      <button class="tab-btn" id="tab-btn-sumatorias" onclick="switchTab('sumatorias')">Sumatorias</button>
+      <button class="tab-btn" id="tab-btn-binomio" onclick="switchTab('binomio')">Binomio de Newton</button>
+      <button class="tab-btn" id="tab-btn-complejos" onclick="switchTab('complejos')">Números Complejos</button>
+      <button class="tab-btn" id="tab-btn-polinomios" onclick="switchTab('polinomios')">Polinomios</button>
+      <button class="tab-btn" id="tab-btn-geometria" onclick="switchTab('geometria')">Geometría Analítica</button>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <main>
+
+    <!-- ==========================================
+         PESTAÑA 1: INDUCCIÓN
+         ========================================== -->
+    <div class="tab-content active" id="tab-induccion">
+      <!-- Botones de Control de Visibilidad -->
+      <div class="tab-controls">
+        <button class="btn-toggle-pill active teoria-pill" onclick="toggleSection('induccion', 'teoria')">
+          <i class="fa-solid fa-book-open"></i> <span>Ocultar Teoría</span>
+        </button>
+        <button class="btn-toggle-pill active ejercicios-pill" onclick="toggleSection('induccion', 'ejercicios')">
+          <i class="fa-solid fa-pencil"></i> <span>Ocultar Ejercicios</span>
+        </button>
+      </div>
+
+      <!-- Sección Teoría -->
+      <div class="teoria-section" id="teoria-induccion">
+        <div class="card teoria-card">
+          <h2>1. Principio de Inducción Matemática</h2>
+          <p>La **inducción matemática** es un método de demostración riguroso que se utiliza para probar la veracidad de proposiciones matemáticas formuladas en términos de variables enteras positivas (generalmente llamadas $n \in \mathbb{N}$). Representa el análogo algebraico de una fila infinita de fichas de dominó cayendo secuencialmente.</p>
+        </div>
+
+        <div class="card definicion">
+          <h3>El Primer Principio de Inducción</h3>
+          <p>Sea $P(n)$ una proposición formulada para números naturales $n$. Decimos que $P(n)$ es verdadera para todo $n \in \mathbb{N}$ si se cumplen las dos siguientes condiciones:</p>
+          <ol>
+            <li><strong>Paso Base:</strong> La proposición es verdadera para el primer caso natural: $P(1)$ es verdadera.</li>
+            <li><strong>Paso Inductivo:</strong> Suponiendo que la proposición es válida para un número natural arbitrario $k$ (llamada <em>Hipótesis Inductiva</em>), se demuestra que la proposición también se cumple para el término sucesor $k+1$ (llamada <em>Tesis Inductiva</em>).</li>
+          </ol>
+          <div class="resultado">
+            $$ P(1) \quad \land \quad (\forall k \ge 1, \, P(k) \implies P(k+1)) \implies \forall n \in \mathbb{N}, \, P(n) $$
+          </div>
+        </div>
+
+        <div class="card definicion">
+          <h3>El Segundo Principio de Inducción (Inducción Fuerte)</h3>
+          <p>En problemas más complejos, la validez del caso $k+1$ no depende únicamente de la verdad en el paso inmediato anterior $k$, sino de **todos** los términos previos. Su formulación lógica establece:</p>
+          <ol>
+            <li><strong>Paso Base:</strong> Se verifica que $P(n_0)$ es verdadera para el valor inicial $n_0$.</li>
+            <li><strong>Paso Inductivo:</strong> Se asume como hipótesis que la proposición es verdadera para todo índice $k$ tal que $n_0 \le k < n$. Bajo este supuesto, se demuestra que la proposición se cumple para $P(n)$.</li>
+          </ol>
+        </div>
+
+        <div class="card teoria-card">
+          <h3>Sucesiones y Progresiones</h3>
+          <p>Una sucesión discreta posee comportamientos recurrentes. Dos progresiones algebraicas de suma importancia en el curso de Introducción al Álgebra son:</p>
+          <ul>
+            <li><strong>Progresión Aritmética (PA):</strong> Cada término se obtiene sumando una diferencia constante $d$ al término anterior.
+              <div class="resultado">
+                Término general: $a_n = a_1 + (n-1)d \qquad $ Suma acumulada: $S_n = \frac{n}{2}(a_1 + a_n)$
+              </div>
+            </li>
+            <li><strong>Progresión Geométrica (PG):</strong> Cada término se obtiene multiplicando una razón constante $r$ por el término anterior.
+              <div class="resultado">
+                Término general: $a_n = a_1 \cdot r^{n-1} \qquad $ Suma acumulada: $S_n = a_1 \frac{r^n - 1}{r - 1} \quad (r \ne 1)$
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sección Ejercicios con Split Screen -->
+      <div class="ejercicios-section" id="ejercicios-induccion">
+        <div class="exercises-header">
+          <h2>Ejercicios de Práctica - Inducción</h2>
+          <button class="btn btn-outline" onclick="toggleSplit('induccion')" id="split-btn-induccion">
+            <i class="fa-solid fa-columns"></i> <span>Dividir Pantalla</span>
+          </button>
+        </div>
+
+        <div class="split-container" id="split-container-induccion">
+          <!-- Ejercicios (Columna Izquierda) -->
+          <div class="exercise-pane">
+            
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 1: Desigualdad Cuadrática</h3>
+              <p>Probar usando inducción que para todo natural $n \ge 1$ se cumple que:</p>
+              <div class="resultado">
+                $$ 1 + \frac{1}{4} + \frac{1}{9} + \dots + \frac{1}{n^2} \le 2 - \frac{1}{n} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p1')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p1">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base:</strong> Comprobar para $n = 1$: $1 \le 2 - 1 = 1$, lo cual se cumple.</p>
+                <p>2. <strong>Hipótesis Inductiva (HI):</strong> Asumir que la proposición es válida para $n = k \ge 1$:</p>
+                <p>$$ 1 + \frac{1}{4} + \frac{1}{9} + \dots + \frac{1}{k^2} \le 2 - \frac{1}{k} $$</p>
+                <p>3. <strong>Paso Inductivo:</strong> Sumar $\frac{1}{(k+1)^2}$ a ambos lados de la hipótesis y demostrar que:</p>
+                <p>$$ 2 - \frac{1}{k} + \frac{1}{(k+1)^2} \le 2 - \frac{1}{k+1} $$</p>
+                <p>Esto se reduce algebraicamente a demostrar que $\frac{1}{(k+1)^2} \le \frac{1}{k} - \frac{1}{k+1} = \frac{1}{k(k+1)}$, lo cual es cierto para todo $k \ge 1$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 2: Desigualdad con Raíces</h3>
+              <p>Demostrar por inducción que para todo natural $n \ge 1$ se cumple la siguiente desigualdad:</p>
+              <div class="resultado">
+                $$ 1 + \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{3}} + \dots + \frac{1}{\sqrt{n}} \ge 2(\sqrt{n+1} - 1) $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p2')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p2">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base:</strong> Verificar el caso $n=1$. Se tiene $1 \ge 2(\sqrt{2}-1) \approx 0.828$. Se cumple.</p>
+                <p>2. <strong>Hipótesis Inductiva:</strong> Asumir que la suma hasta el término $k$ cumple la desigualdad.</p>
+                <p>3. <strong>Paso Inductivo:</strong> Sumar $\frac{1}{\sqrt{k+1}}$ a ambos lados de la hipótesis y demostrar que la nueva expresión es mayor o igual a $2(\sqrt{k+2}-1)$. Se simplifica al probar que $2\sqrt{k+1} + \frac{1}{\sqrt{k+1}} \ge 2\sqrt{k+2}$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 3: Divisibilidad por 24</h3>
+              <p>Probar que para todo natural $n \ge 1$ la siguiente expresión es divisible por 24:</p>
+              <div class="resultado">
+                $$ 2 \cdot 7^n + 3 \cdot 5^n - 5 $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p3')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p3">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base:</strong> Probar para $n = 1$: $2(7) + 3(5) - 5 = 14 + 15 - 5 = 24$. Se cumple.</p>
+                <p>2. <strong>Hipótesis Inductiva:</strong> Asumir que $2 \cdot 7^k + 3 \cdot 5^k - 5 = 24\lambda$ con $\lambda \in \mathbb{Z}$.</p>
+                <p>3. <strong>Paso Inductivo:</strong> Evaluar la expresión en $k+1$: $2 \cdot 7^{k+1} + 3 \cdot 5^{k+1} - 5$. Reescribir $7^{k+1} = 7 \cdot 7^k$ y $5^{k+1} = 5 \cdot 5^k$, forzar la hipótesis y demostrar que el término restante es divisible por 24.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 4: Productoria Polinomial</h3>
+              <p>Demostrar usando inducción que para todo natural $n \ge 1$ y $x \ne 1$ se cumple:</p>
+              <div class="resultado">
+                $$ (1+x)(1+x^2)(1+x^{2^2})(1+x^{2^3})\dots(1+x^{2^{n-1}}) = \frac{x^{2^n}-1}{x-1} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p4')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p4">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base:</strong> Para $n=1$, el lado izquierdo es $(1+x)$ y el derecho es $\frac{x^2-1}{x-1} = x+1$. Se cumple.</p>
+                <p>2. <strong>Hipótesis Inductiva:</strong> Asumir la fórmula correcta para $n=k$.</p>
+                <p>3. <strong>Paso Inductivo:</strong> Multiplicar el producto obtenido por el término $(k+1)$-ésimo, que es $(1+x^{2^k})$. Desarrollar usando diferencia de cuadrados en el numerador del lado derecho para llegar a la tesis para $n=k+1$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 5: Suma con Exponenciales</h3>
+              <p>Demostrar usando inducción que para todo natural $n \ge 1$ se tiene:</p>
+              <div class="resultado">
+                $$ 1^2 \cdot 2 + 2^2 \cdot 2^2 + 3^2 \cdot 2^3 + \dots + n^2 \cdot 2^n = 2^{n+1}(n^2 - 2n + 3) - 6 $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p5')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p5">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base:</strong> Probar para $n=1$: L.I. $= 1^2 \cdot 2 = 2$. L.D. $= 2^2(1 - 2 + 3) - 6 = 8 - 6 = 2$. Se cumple.</p>
+                <p>2. <strong>Hipótesis Inductiva:</strong> Asumir la validez para $n=k$.</p>
+                <p>3. <strong>Paso Inductivo:</strong> Sumar $(k+1)^2 \cdot 2^{k+1}$ a ambos lados de la hipótesis, factorizar el término común $2^{k+1}$ y reorganizar algebraicamente para obtener la tesis evaluada en $k+1$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 6: Progresión de Productos</h3>
+              <p>Ocupando sumas notables conocidas, encontrar una fórmula cerrada para la siguiente suma y demostrarla por inducción para todo $n \ge 1$:</p>
+              <div class="resultado">
+                $$ 1 \cdot 2 + 2 \cdot 3 + 3 \cdot 4 + \dots + (n-1)n $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p8')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p8">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Obtención de la fórmula:</strong> Expresar el término general como $k(k-1) = k^2 - k$. Aplicando las sumas notables conocidas, demostrar que la fórmula cerrada es: $$\frac{(n-1)n(n+1)}{3}$$</p>
+                <p>2. <strong>Demostración:</strong> El paso base para $n=1$ arroja $0 = 0$ (o $1 \cdot 2 = 2$ si se inicia en $n=2$). En el paso inductivo, sumar el término $n(n+1)$ al resultado de la hipótesis y verificar la tesis.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 7: Equivalencia de Sumatorias</h3>
+              <p>Demostrar por inducción que para cada natural $n \ge 1$ se cumple que:</p>
+              <div class="resultado">
+                $$ \sum_{k=n+1}^{2n} \frac{1}{k} = \sum_{k=1}^{2n} \frac{(-1)^{k+1}}{k} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p11b')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p11b">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base ($n=1$):</strong> El L.I. es $\sum_{k=2}^2 \frac{1}{k} = \frac{1}{2}$. El L.D. es $\sum_{k=1}^2 \frac{(-1)^{k+1}}{k} = 1 - \frac{1}{2} = \frac{1}{2}$. Se cumple.</p>
+                <p>2. <strong>Paso Inductivo:</strong> Al pasar de $k$ a $k+1$, analizar la variación en ambos lados. El L.I. pierde el término $\frac{1}{k+1}$ y gana $\frac{1}{2k+1} + \frac{1}{2k+2}$. El L.D. gana los términos $\frac{1}{2k+1} - \frac{1}{2k+2}$. Mostrar que ambas variaciones son iguales.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 8: Acotación de Suma</h3>
+              <p>Demostrar por inducción que para todo natural $n \ge 1$ se tiene la siguiente cota:</p>
+              <div class="resultado">
+                $$ \sum_{k=1}^{n+1} \frac{1}{n+k} \le \frac{5}{6} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p15')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-ind-p15">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. <strong>Paso Base ($n=1$):</strong> La suma es $\frac{1}{2} + \frac{1}{3} = \frac{5}{6}$, lo cual cumple con la igualdad límite.</p>
+                <p>2. <strong>Paso Inductivo:</strong> Escribir el término para $n=k+1$ y restarle el término para $n=k$. Mostrar que la diferencia es negativa para todo $k \ge 1$ (es decir, la suma es decreciente con respecto a $n$), lo que asegura que siempre será menor o igual a $\frac{5}{6}$.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Fórmulas Claves (Columna Derecha - Sticky) -->
+          <div class="formula-pane">
+            <h3 style="color: var(--primary); margin: 0 0 10px 0;"><i class="fa-solid fa-square-root-variable"></i> Fórmulas de Apoyo</h3>
+            
+            <div class="formula-card">
+              <h4>Inducción Simple</h4>
+              <div class="formula-card-latex">
+                \( P(1) \land [P(k) \implies P(k+1)] \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Paso base para $n=1$, paso inductivo asumiendo $n=k$.</p>
+            </div>
+
+            <div class="formula-card">
+              <h4>Progresión Aritmética (PA)</h4>
+              <div class="formula-card-latex">
+                \( a_n = a_1 + (n-1)d \)
+              </div>
+              <div class="formula-card-latex" style="margin-top: 5px;">
+                \( S_n = \frac{n(a_1 + a_n)}{2} \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">$d$: diferencia común de la suma consecutiva.</p>
+            </div>
+
+            <div class="formula-card">
+              <h4>Progresión Geométrica (PG)</h4>
+              <div class="formula-card-latex">
+                \( a_n = a_1 r^{n-1} \)
+              </div>
+              <div class="formula-card-latex" style="margin-top: 5px;">
+                \( S_n = a_1 \frac{r^n - 1}{r - 1} \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">$r$: razón geométrica constante ($r \ne 1$).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 2: SUMATORIAS
+         ========================================== -->
+    <div class="tab-content" id="tab-sumatorias">
+      <!-- Botones de Control de Visibilidad -->
+      <div class="tab-controls">
+        <button class="btn-toggle-pill active teoria-pill" onclick="toggleSection('sumatorias', 'teoria')">
+          <i class="fa-solid fa-book-open"></i> <span>Ocultar Teoría</span>
+        </button>
+        <button class="btn-toggle-pill active ejercicios-pill" onclick="toggleSection('sumatorias', 'ejercicios')">
+          <i class="fa-solid fa-pencil"></i> <span>Ocultar Ejercicios</span>
+        </button>
+      </div>
+
+      <!-- Sección Teoría -->
+      <div class="teoria-section" id="teoria-sumatorias">
+        <div class="card teoria-card">
+          <h2>2. Definición y Propiedades de Sumatoria</h2>
+          <p>La notación de **sumatoria** (letra griega sigma mayúscula $\sum$) es un operador algebraico compacto utilizado para representar sumas con un número finito o infinito de términos indexados.</p>
+          <div class="resultado">
+            $$ \sum_{i=m}^n a_i = a_m + a_{m+1} + a_{m+2} + \dots + a_n $$
+          </div>
+        </div>
+
+        <div class="card definicion">
+          <h3>Propiedades Fundamentales</h3>
+          <ul>
+            <li><strong>Propiedad de Linealidad:</strong> Permite separar sumas y extraer constantes multiplicativas:
+              <div class="resultado">
+                $$ \sum_{i=1}^n (c \cdot a_i + d \cdot b_i) = c \sum_{i=1}^n a_i + d \sum_{i=1}^n b_i $$
+              </div>
+            </li>
+            <li><strong>Propiedad de Cambio de Índice:</strong> Modifica los límites superior e inferior de la suma aplicando un desfase de forma coherente en el argumento interno:
+              <div class="resultado">
+                $$ \sum_{i=m}^n a_i = \sum_{j=m+k}^{n+k} a_{j-k} $$
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card definicion">
+          <h3>La Propiedad Telescópica</h3>
+          <p>Es una de las propiedades más poderosas en el cálculo de sumatorias algebraicas. Permite cancelar de forma sucesiva todos los términos intermedios de la suma, dejando únicamente el término final evaluado en el límite superior y el término inicial evaluado en el límite inferior:</p>
+          <div class="resultado">
+            $$ \sum_{i=1}^n (a_{i+1} - a_i) = a_{n+1} - a_1 $$
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Ejercicios con Split Screen -->
+      <div class="ejercicios-section" id="ejercicios-sumatorias">
+        <div class="exercises-header">
+          <h2>Ejercicios de Práctica - Sumatorias</h2>
+          <button class="btn btn-outline" onclick="toggleSplit('sumatorias')" id="split-btn-sumatorias">
+            <i class="fa-solid fa-columns"></i> <span>Dividir Pantalla</span>
+          </button>
+        </div>
+
+        <div class="split-container" id="split-container-sumatorias">
+          <!-- Ejercicios (Columna Izquierda) -->
+          <div class="exercise-pane">
+            
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 1: Telescópica Logarítmica</h3>
+              <p>Calcular el valor general de la siguiente suma para $1 \le n \le m$:</p>
+              <div class="resultado">
+                $$ \sum_{k=n}^{m} \log\left(1 + \frac{1}{k}\right) $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p9a')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-sum-p9a">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Notar que el término general se puede escribir como:</p>
+                <p>$$ \log\left(\frac{k+1}{k}\right) = \log(k+1) - \log(k) $$</p>
+                <p>2. Aplicar propiedad telescópica directa. Los términos intermedios se cancelarán consecutivamente.</p>
+                <p>3. El resultado final simplificado es: $\log(m+1) - \log(n) = \log\left(\frac{m+1}{n}\right)$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 2: Fracciones con Factoriales</h3>
+              <p>Calcular para todo $n \ge 1$ la siguiente suma:</p>
+              <div class="resultado">
+                $$ \sum_{k=1}^{n-1} \frac{1}{k!(n-k)!} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p9b')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-sum-p9b">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Multiplicar y dividir la suma por $n!$.</p>
+                <p>2. Identificar el término interior como el coeficiente binomial: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.</p>
+                <p>3. Recordar la suma notable binomial $\sum_{k=0}^{n} \binom{n}{k} = 2^n$. Excluir los términos extremos $k=0$ y $k=n$ para obtener el resultado de la sumatoria interna.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 3: Suma con Raíces</h3>
+              <p>Calcular, en función del límite $n$, el valor de la siguiente sumatoria:</p>
+              <div class="resultado">
+                $$ \sum_{k=1}^{n} \frac{1}{\sqrt{k(k+1)}} (\sqrt{k+1} + \sqrt{k}) $$
+              </div>
+              <p><em>Indicación:</em> Racionalizar o descomponer el término general de la suma.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p10')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-sum-p10">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Separar el término general distribuyendo la división:</p>
+                <p>$$ \frac{\sqrt{k+1} + \sqrt{k}}{\sqrt{k}\sqrt{k+1}} = \frac{1}{\sqrt{k}} + \frac{1}{\sqrt{k+1}} $$</p>
+                <p>2. Evaluar el comportamiento de la sumatoria. Si la expresión del enunciado corresponde a una resta telescópica (por ejemplo, racionalizando el recíproco de la suma de raíces), se reduce a una diferencia directa. Verificar si hay un error de signo en el material de origen.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Suma Geométrica Directa</h3>
+              <p>Sean $x, y \in \mathbb{R} \setminus \{0\}$ tales que $x \ne y$. Probar, sin usar inducción, que para todo $n \ge 1$ se cumple que:</p>
+              <div class="resultado">
+                $$ \sum_{i=0}^{n-1} x^{n-1-i} y^i = \frac{x^n - y^n}{x - y} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p11a')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-sum-p11a">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Definir $S = \sum_{i=0}^{n-1} x^{n-1-i} y^i$.</p>
+                <p>2. Multiplicar toda la expresión por $(x-y)$ distribuyendo los términos $xS - yS$.</p>
+                <p>3. Observar la cancelación telescópica masiva de los términos intermedios para llegar a $x^n - y^n$, y luego despejar $S$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 5: Varianza Estadística</h3>
+              <p>Dada la definición de la media aritmética de $n$ datos $\mu = \frac{x_1 + x_2 + \dots + x_n}{n}$, demostrar que:</p>
+              <div class="resultado">
+                $$ \frac{1}{n} \sum_{k=1}^{n} (x_k - \mu)^2 = \frac{1}{n} \left(\sum_{k=1}^{n} x_k^2\right) - \mu^2 $$
+              </div>
+              <p><em>Observación:</em> En estadística, este valor corresponde a la fórmula de la varianza poblacional $\sigma^2$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p14')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-sum-p14">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Expandir el término cuadrático interior: $(x_k - \mu)^2 = x_k^2 - 2\mu x_k + \mu^2$.</p>
+                <p>2. Separar la sumatoria en tres términos individuales aprovechando la linealidad.</p>
+                <p>3. Recordar que $\sum_{k=1}^n x_k = n\mu$ y que la constante $\sum_{k=1}^n \mu^2 = n\mu^2$. Simplificar algebraicamente.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Fórmulas Claves (Columna Derecha - Sticky) -->
+          <div class="formula-pane">
+            <h3 style="color: var(--primary); margin: 0 0 10px 0;"><i class="fa-solid fa-square-root-variable"></i> Fórmulas de Apoyo</h3>
+            
+            <div class="formula-card">
+              <h4>Suma Lineal</h4>
+              <div class="formula-card-latex">
+                \( \sum_{i=1}^n i = \frac{n(n+1)}{2} \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Suma de Cuadrados</h4>
+              <div class="formula-card-latex">
+                \( \sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6} \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Suma de Cubos</h4>
+              <div class="formula-card-latex">
+                \( \sum_{i=1}^n i^3 = \left[ \frac{n(n+1)}{2} \right]^2 \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Propiedad Telescópica</h4>
+              <div class="formula-card-latex">
+                \( \sum_{i=1}^n (a_{i+1} - a_i) = a_{n+1} - a_1 \)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 3: BINOMIO DE NEWTON
+         ========================================== -->
+    <div class="tab-content" id="tab-binomio">
+      <!-- Botones de Control de Visibilidad -->
+      <div class="tab-controls">
+        <button class="btn-toggle-pill active teoria-pill" onclick="toggleSection('binomio', 'teoria')">
+          <i class="fa-solid fa-book-open"></i> <span>Ocultar Teoría</span>
+        </button>
+        <button class="btn-toggle-pill active ejercicios-pill" onclick="toggleSection('binomio', 'ejercicios')">
+          <i class="fa-solid fa-pencil"></i> <span>Ocultar Ejercicios</span>
+        </button>
+      </div>
+
+      <!-- Sección Teoría -->
+      <div class="teoria-section" id="teoria-binomio">
+        <div class="card teoria-card">
+          <h2>3. Triángulo y Binomio de Newton</h2>
+          <p>El **Teorema del Binomio** nos entrega el desarrollo algebraico de la potencia entera de una suma binómica $(a+b)^n$. La estructura de sus coeficientes numéricos se deduce combinatoriamente mediante los coeficientes binomiales.</p>
+        </div>
+
+        <div class="card definicion">
+          <h3>El Coeficiente Binomial</h3>
+          <p>Representa el número de formas en que se pueden elegir $k$ elementos a partir de un conjunto total de $n$ elementos sin importar el orden:</p>
+          <div class="resultado">
+            $$ \binom{n}{k} = \frac{n!}{k!(n-k)!} $$
+          </div>
+          <p><strong>Propiedades Claves:</strong></p>
+          <ul>
+            <li><strong>Identidad de Simetría:</strong> $\binom{n}{k} = \binom{n}{n-k}$</li>
+            <li><strong>Identidad de Pascal (Triángulo):</strong> $\binom{n}{k} + \binom{n}{k-1} = \binom{n+1}{k}$</li>
+          </ul>
+        </div>
+
+        <div class="card definicion">
+          <h3>Fórmula General de Newton</h3>
+          <p>La expansión binomial de la potencia $n$-ésima de la suma de dos variables $a$ y $b$ se enuncia formalmente como:</p>
+          <div class="resultado">
+            $$ (a+b)^n = \sum_{k=0}^n \binom{n}{k} a^{n-k} b^k $$
+          </div>
+          <p><strong>Fórmula del término general ($T_{k+1}$):</strong> El término de la posición $k+1$ en la sumatoria de expansión está dado por:</p>
+          <div class="resultado">
+            $$ T_{k+1} = \binom{n}{k} a^{n-k} b^k $$
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Ejercicios con Split Screen -->
+      <div class="ejercicios-section" id="ejercicios-binomio">
+        <div class="exercises-header">
+          <h2>Ejercicios de Práctica - Binomio de Newton</h2>
+          <button class="btn btn-outline" onclick="toggleSplit('binomio')" id="split-btn-binomio">
+            <i class="fa-solid fa-columns"></i> <span>Dividir Pantalla</span>
+          </button>
+        </div>
+
+        <div class="split-container" id="split-container-binomio">
+          <!-- Ejercicios (Columna Izquierda) -->
+          <div class="exercise-pane">
+            
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 1: Suma Binomial Cuadrática</h3>
+              <p>Probar, sin usar inducción, que para todo $n \ge 1$ se cumple que:</p>
+              <div class="resultado">
+                $$ \sum_{k=2}^{n+1} \binom{k}{2} = \binom{n+2}{3} $$
+              </div>
+              <p><em>Indicación:</em> Recordar que $\sum_{k=0}^{m}k^2 = \frac{m(m+1)(2m+1)}{6}$ y notar que $k^2 = k(k-1) + k$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p6')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-bin-p6">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Escribir el coeficiente binomial explícitamente: $\binom{k}{2} = \frac{k(k-1)}{2}$.</p>
+                <p>2. Aplicar el operador de sumatoria a $\frac{1}{2}(k^2 - k)$ y utilizar las fórmulas de sumas notables para resolver algebraicamente.</p>
+                <p>3. Alternativamente, utilizar la identidad de Pascal reescrita como $\binom{k}{2} = \binom{k+1}{3} - \binom{k}{3}$ y resolver mediante suma telescópica directa.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 2: Suma de Pesos Cuadráticos</h3>
+              <p>Sean $n \in \mathbb{N}$ y $p, q$ números reales no negativos tales que $p + q = 1$. Calcular el valor de la siguiente suma:</p>
+              <div class="resultado">
+                $$ \sum_{k=0}^{n} \binom{n}{k} p^k q^{n-k} k^2 $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p7')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-bin-p7">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Utilizar la descomposición del índice cuadrático: $k^2 = k(k-1) + k$.</p>
+                <p>2. Separar en dos sumatorias. Para los términos con coeficientes de selección, aplicar las propiedades factoriales:</p>
+                <p>$$ k\binom{n}{k} = n\binom{n-1}{k-1} \quad \text{y} \quad k(k-1)\binom{n}{k} = n(n-1)\binom{n-2}{k-2} $$</p>
+                <p>3. Factorizar potencias de $p$ para aplicar la suma del binomio $(p+q)^{n-1}$ y $(p+q)^{n-2}$. El resultado final es $n(n-1)p^2 + np = n^2p^2 + npq$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 3: Suma Alternada Binomial</h3>
+              <p>Probar, sin usar inducción, que para todo $n \ge 1$ se cumple que:</p>
+              <div class="resultado">
+                $$ \sum_{k=0}^{n-1} (-1)^k \binom{n}{k+1} = 1 $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p12')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-bin-p12">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Realizar un cambio de índice $j = k+1$. La suma se convierte en $\sum_{j=1}^{n} (-1)^{j-1}\binom{n}{j}$.</p>
+                <p>2. Notar que por el Teorema del Binomio: $$ 0 = (1 - 1)^n = \sum_{j=0}^{n} \binom{n}{j} (-1)^j = \binom{n}{0} + \sum_{j=1}^{n} \binom{n}{j} (-1)^j $$</p>
+                <p>3. Como $\binom{n}{0} = 1$, despejar la sumatoria para igualarla a 1.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Sumatoria de Raíces Irracionales</h3>
+              <p>Probar la validez del siguiente valor numérico utilizando propiedades de expansión binomial o geométricas:</p>
+              <div class="resultado">
+                $$ \sum_{k=0}^{7} \left[(\sqrt{3})^{7-k} (\sqrt{2})^k\right] = 65(\sqrt{2} + \sqrt{3}) $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p13a')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-bin-p13a">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Considerar que la sumatoria corresponde a una progresión geométrica finita de primer término $a_1 = (\sqrt{3})^7$ y razón común $r = \frac{\sqrt{2}}{\sqrt{3}}$.</p>
+                <p>2. Aplicar la fórmula de la suma $S_n = a_1 \frac{r^8 - 1}{r - 1}$.</p>
+                <p>3. Racionalizar el denominador multiplicando por el término conjugado para simplificar la expresión irracional.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 5: Suma Ponderada de Coeficientes</h3>
+              <p>Calcular en función del natural $n$ el valor de la siguiente sumatoria:</p>
+              <div class="resultado">
+                $$ \sum_{k=0}^{n} k 7^k \binom{n}{k} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p13b')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-bin-p13b">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Usar la identidad combinatoria $k \binom{n}{k} = n \binom{n-1}{k-1}$.</p>
+                <p>2. Extraer el factor $n$ y un factor 7 del término general de la sumatoria.</p>
+                <p>3. Aplicar el cambio de índice $j = k-1$ para identificar la sumatoria restante con la expansión binomial de $(7 + 1)^{n-1}$. El resultado es $7n \cdot 8^{n-1}$.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Fórmulas Claves (Columna Derecha - Sticky) -->
+          <div class="formula-pane">
+            <h3 style="color: var(--primary); margin: 0 0 10px 0;"><i class="fa-solid fa-square-root-variable"></i> Fórmulas de Apoyo</h3>
+            
+            <div class="formula-card">
+              <h4>Fórmula del Coeficiente</h4>
+              <div class="formula-card-latex">
+                \( \binom{n}{k} = \frac{n!}{k!(n-k)!} \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Desarrollo del Binomio</h4>
+              <div class="formula-card-latex">
+                \( (a+b)^n = \sum_{k=0}^n \binom{n}{k} a^{n-k} b^k \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Término General</h4>
+              <div class="formula-card-latex">
+                \( T_{k+1} = \binom{n}{k} a^{n-k} b^k \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">El índice $k$ varía desde $0$ hasta $n$.</p>
+            </div>
+
+            <div class="formula-card">
+              <h4>Identidad de Pascal</h4>
+              <div class="formula-card-latex">
+                \( \binom{n}{k} + \binom{n}{k-1} = \binom{n+1}{k} \)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 4: NÚMEROS COMPLEJOS
+         ========================================== -->
+    <div class="tab-content" id="tab-complejos">
+      <!-- Botones de Control de Visibilidad -->
+      <div class="tab-controls">
+        <button class="btn-toggle-pill active teoria-pill" onclick="toggleSection('complejos', 'teoria')">
+          <i class="fa-solid fa-book-open"></i> <span>Ocultar Teoría</span>
+        </button>
+        <button class="btn-toggle-pill active ejercicios-pill" onclick="toggleSection('complejos', 'ejercicios')">
+          <i class="fa-solid fa-pencil"></i> <span>Ocultar Ejercicios</span>
+        </button>
+      </div>
+
+      <!-- Sección Teoría -->
+      <div class="teoria-section" id="teoria-complejos">
+        <div class="card teoria-card">
+          <h2>4. El Plano Complejo y sus Formas de Expresión</h2>
+          <p>Un **número complejo** $z$ es un par ordenado de números reales que extiende los números reales para permitir soluciones a ecuaciones de la forma $x^2 + 1 = 0$. Introducimos la constante imaginaria $i$ de tal forma que $i^2 = -1$.</p>
+        </div>
+
+        <div class="card definicion">
+          <h3>Forma Rectangular y Operaciones Básicas</h3>
+          <p>Expresión en componentes Cartesianas:</p>
+          <div class="resultado">
+            $$ z = a + bi \qquad \text{donde } a, b \in \mathbb{R} $$
+          </div>
+          <p><strong>Módulo e Identidades del Conjugado:</strong></p>
+          <ul>
+            <li><strong>Conjugado ($\bar{z}$):</strong> Se obtiene invirtiendo el signo de la parte imaginaria: $\bar{z} = a - bi$.</li>
+            <li><strong>Módulo ($|z|$):</strong> Distancia euclidiana del complejo al origen del plano: $|z| = \sqrt{a^2 + b^2}$.</li>
+            <li><strong>Propiedad fundamental:</strong> $z \cdot \bar{z} = (a+bi)(a-bi) = a^2 + b^2 = |z|^2$.</li>
+          </ul>
+        </div>
+
+        <div class="card definicion">
+          <h3>Forma Polar, Trigonométrica y Exponencial</h3>
+          <p>Representa al número complejo mediante coordenadas polares radiales y angulares:</p>
+          <div class="resultado">
+            $$ z = r(\cos \theta + i \sin \theta) = r e^{i\theta} $$
+          </div>
+          <p>Donde $r = |z|$ es el módulo, y $\theta = \arg(z)$ es el ángulo medido respecto al eje real positivo. 
+          Conversión: $a = r\cos\theta, \, b = r\sin\theta$ y $\tan\theta = b/a$ (cuidando el cuadrante).</p>
+        </div>
+
+        <div class="card definicion">
+          <h3>Fórmula de De Moivre y Raíces Complejas</h3>
+          <p>Para elevar un número complejo a una potencia natural $n$, su forma polar resulta sumamente eficiente:</p>
+          <div class="resultado">
+            $$ z^n = [r(\cos\theta + i\sin\theta)]^n = r^n (\cos(n\theta) + i\sin(n\theta)) $$
+          </div>
+          <p><strong>Raíces $n$-ésimas de un número complejo:</strong> Para encontrar las soluciones a la ecuación $w^n = z$, existen exactamente $n$ raíces distintas dadas por:</p>
+          <div class="resultado">
+            $$ w_k = \sqrt[n]{r} \left( \cos \frac{\theta + 2k\pi}{n} + i \sin \frac{\theta + 2k\pi}{n} \right) \qquad \text{para } k = 0, 1, \dots, n-1 $$
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Ejercicios con Split Screen -->
+      <div class="ejercicios-section" id="ejercicios-complejos">
+        <div class="exercises-header">
+          <h2>Ejercicios de Práctica - Números Complejos</h2>
+          <button class="btn btn-outline" onclick="toggleSplit('complejos')" id="split-btn-complejos">
+            <i class="fa-solid fa-columns"></i> <span>Dividir Pantalla</span>
+          </button>
+        </div>
+
+        <div class="split-container" id="split-container-complejos">
+          <!-- Ejercicios (Columna Izquierda) -->
+          <div class="exercise-pane">
+            
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 1: Potencia de Cociente Complejo</h3>
+              <p>Calcular el valor del siguiente número complejo en su forma rectangular:</p>
+              <div class="resultado">
+                $$ \left( \frac{1 + i\sqrt{3}}{1 - i} \right)^{40} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p16')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p16">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Convertir el numerador $1 + i\sqrt{3}$ a su representación polar: $2 e^{i\pi/3}$.</p>
+                <p>2. Convertir el denominador $1 - i$ a su representación polar: $\sqrt{2} e^{-i\pi/4}$.</p>
+                <p>3. Dividir los módulos y restar los argumentos en forma polar. Elevar el resultado polar a la potencia 40 utilizando la fórmula de De Moivre.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 2: Raíces Cuadradas de -i</h3>
+              <p>Calcular las raíces de la ecuación compleja $z^2 = -i$ y expresarlas en su forma rectangular $a + ib$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p17')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p17">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Representar $-i$ en forma polar: módulo $r=1$ y ángulo $\theta = -\frac{\pi}{2}$ o $\frac{3\pi}{2}$.</p>
+                <p>2. Aplicar la fórmula general para raíces de orden $n=2$ con $k=0, 1$.</p>
+                <p>3. Convertir de regreso a forma cartesiana usando los valores trigonométricos de $3\pi/4$ y $7\pi/4$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 3: Identidad Trigonométrica Compleja</h3>
+              <p>Sea $z \in \mathbb{C}$ tal que $z + \frac{1}{z} = 2\cos(\alpha)$ para $\alpha \in \mathbb{R}$. Calcular los valores de $z$ y demostrar que para todo natural $n$ se cumple:</p>
+              <div class="resultado">
+                $$ z^n + \frac{1}{z^n} = 2\cos(n\alpha) $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p18')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p18">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Transformar la ecuación original en una cuadrática de la forma $z^2 - 2\cos(\alpha)z + 1 = 0$.</p>
+                <p>2. Resolver utilizando la fórmula de la ecuación cuadrática para demostrar que $z = e^{\pm i\alpha}$.</p>
+                <p>3. Utilizar la identidad de Euler y la fórmula de De Moivre para elevar $z^n$ y sumar su inverso recíproco, anulando las partes imaginarias.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Suma Real de Complejos</h3>
+              <p>Demostrar que para todo número natural $n \in \mathbb{N}$ se cumple que el siguiente número es real:</p>
+              <div class="resultado">
+                $$ (1 - i)^n + (1 + i)^n \in \mathbb{R} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p19')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p19">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Identificar que los números base $z = 1 + i$ y $w = 1 - i$ son conjugados entre sí: $w = \bar{z}$.</p>
+                <p>2. Por propiedades del conjugado, $(1-i)^n = \overline{(1+i)^n}$.</p>
+                <p>3. Recordar que la suma de cualquier complejo con su propio conjugado es igual a dos veces su parte real, que es estrictamente un número real ($v + \bar{v} = 2\text{Re}(v)$).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 5: Operaciones con Complejos</h3>
+              <p>Expresar de la forma rectangular $a + ib$ los siguientes números complejos:</p>
+              <div class="resultado">
+                $$ u = (1 - i)^4 (1 + i)^4 \qquad \text{y} \qquad v = 1 + i + \frac{i - 1}{i + |1 - i|^2} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p20')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p20">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Para $u$, asociar los términos de la base usando propiedades de la potencia: $[(1-i)(1+i)]^4$. Desarrollar el producto de conjugados.</p>
+                <p>2. Para $v$, calcular primero el módulo al cuadrado en el denominador: $|1-i|^2 = 2$. Luego simplificar el cociente multiplicando por el conjugado del denominador.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 6: Suma de Raíces de la Unidad</h3>
+              <p>Demostrar las siguientes proposiciones sobre raíces en $\mathbb{C}$:</p>
+              <ul>
+                <li>(a) Demostrar que la suma de las raíces $n$-ésimas de la unidad es igual a cero.</li>
+                <li>(b) Demostrar que las raíces $n$-ésimas de cualquier complejo $z \in \mathbb{C}$ son el producto de una raíz particular $z_0$ por las raíces $n$-ésimas de la unidad.</li>
+                <li>(c) Concluir que la suma de las raíces $n$-ésimas de cualquier complejo es igual a cero.</li>
+              </ul>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p21')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p21">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Para (a), representar las raíces como potencias de $\omega = e^{i 2\pi/n}$ y aplicar la fórmula de la suma de una progresión geométrica de razón $\omega \ne 1$.</p>
+                <p>2. Para (b), si $w^n = z$ y $z_0^n = z$, dividir ambas ecuaciones para mostrar que $(w/z_0)^n = 1$, concluyendo que $w/z_0$ es raíz de la unidad.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 7: Propiedad de Módulo Unitario</h3>
+              <p>Sean $a \in \mathbb{R}$, $n \in \mathbb{N}$ y los complejos $z_1, z_2, \dots, z_n$ tales que $|z_i| = 1$ para todo $i$. Demostrar la implicación:</p>
+              <div class="resultado">
+                $$ \sum_{i=1}^{n} z_i = a \implies \sum_{i=1}^{n} \frac{1}{z_i} = a $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p22')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p22">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Aprovechar que $|z_i|^2 = z_i \cdot \bar{z}_i = 1$ para justificar que $\frac{1}{z_i} = \bar{z}_i$.</p>
+                <p>2. Aplicar el operador de conjugación a toda la suma original: $\sum \bar{z}_i = \overline{\sum z_i} = \bar{a}$.</p>
+                <p>3. Concluir usando la condición de que $a$ es real ($a = \bar{a}$).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 8: Lugar Geométrico Lineal</h3>
+              <p>Considere $z \in \mathbb{C}$. Demostrar que:</p>
+              <div class="resultado">
+                $$ |z + i| = |z - i| \iff z \in \mathbb{R} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p23')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p23">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Representar $z = x + iy$ con $x, y \in \mathbb{R}$.</p>
+                <p>2. Escribir los módulos como distancias cartesianas: $x^2 + (y+1)^2 = x^2 + (y-1)^2$.</p>
+                <p>3. Desarrollar algebraicamente y simplificar los términos para concluir que $y = 0$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 9: Identidades con Raíz Séptima</h3>
+              <p>Sea $\alpha$ una raíz séptima de la unidad distinta de 1. Demostrar que:</p>
+              <ul>
+                <li>(a) $1 + \alpha + \alpha^2 + \alpha^3 + \alpha^4 + \alpha^5 + \alpha^6 = 0$</li>
+                <li>(b) $\frac{\alpha}{1 + \alpha^2} + \frac{\alpha^2}{1 + \alpha^4} + \frac{\alpha^3}{1 + \alpha^6} = -2$</li>
+              </ul>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p24')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p24">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Para (a), notar que es la suma geométrica de razón $\alpha$ con $\alpha^7=1$.</p>
+                <p>2. Para (b), sumar las fracciones buscando un denominador común, y usar relaciones de simetría de las potencias de la raíz séptima de la unidad ($\alpha^k = \alpha^{k \pmod 7}$).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 10: Transformación de Möbius</h3>
+              <p>Sea $z \in \mathbb{C}$ tal que $|z| < 1$. Demostrar que se cumple la siguiente desigualdad para la parte real:</p>
+              <div class="resultado">
+                $$ \text{Re}\left( \frac{1 + z}{1 - z} \right) > 0 $$
+              </div>
+              <p><em>Indicación:</em> Defina $\omega = \frac{1+z}{1-z}$ y calcule la suma $\omega + \bar{\omega}$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p25')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p25">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Calcular $\omega + \bar{\omega} = \frac{1+z}{1-z} + \frac{1+\bar{z}}{1-\bar{z}}$.</p>
+                <p>2. Sumar algebraicamente y simplificar el numerador para demostrar que $\text{Re}(\omega) = \frac{1 - |z|^2}{|1 - z|^2}$.</p>
+                <p>3. Argumentar la positividad de la parte real basándose en la condición $|z| < 1$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 11: Desigualdad del Módulo</h3>
+              <p>Sean $z_1, z_2 \in \mathbb{C}$. Demostrar las siguientes afirmaciones:</p>
+              <ul>
+                <li>(a) $|1 - z_2 \bar{z}_1|^2 - |z_1 - z_2|^2 = (1 - |z_1|^2)(1 - |z_2|^2)$</li>
+                <li>(b) Deducir que si $|z_1| < 1$ y $|z_2| < 1$, entonces se cumple: $$\frac{|z_1 - z_2|}{|1 - z_2 \bar{z}_1|} < 1$$</li>
+              </ul>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p26')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-com-p26">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Para (a), expandir los módulos usando $|w|^2 = w \cdot \bar{w}$ en ambos términos del L.I. y verificar la equivalencia algebraica.</p>
+                <p>2. Para (b), notar que los términos en el lado derecho de (a) son positivos, por lo que el L.I. es mayor que 0, lo cual implica que $|z_1 - z_2|^2 < |1 - z_2 \bar{z}_1|^2$.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Fórmulas Claves (Columna Derecha - Sticky) -->
+          <div class="formula-pane">
+            <h3 style="color: var(--primary); margin: 0 0 10px 0;"><i class="fa-solid fa-square-root-variable"></i> Fórmulas de Apoyo</h3>
+            
+            <div class="formula-card">
+              <h4>Módulo e Identidades</h4>
+              <div class="formula-card-latex">
+                \( |z| = \sqrt{a^2 + b^2} \)
+              </div>
+              <div class="formula-card-latex" style="margin-top: 5px;">
+                \( z \cdot \bar{z} = |z|^2 \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Fórmula de De Moivre</h4>
+              <div class="formula-card-latex">
+                \( z^n = r^n [\cos(n\theta) + i\sin(n\theta)] \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Raíces Complejas</h4>
+              <div class="formula-card-latex" style="font-size:0.88rem;">
+                \( w_k = \sqrt[n]{r} \left[ \cos\phi_k + i\sin\phi_k \right] \)
+              </div>
+              <div class="formula-card-latex" style="font-size:0.88rem; margin-top: 5px;">
+                \( \phi_k = \frac{\theta + 2k\pi}{n} \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">$k = 0, 1, \dots, n-1$</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 5: POLINOMIOS
+         ========================================== -->
+    <div class="tab-content" id="tab-polinomios">
+      <!-- Botones de Control de Visibilidad -->
+      <div class="tab-controls">
+        <button class="btn-toggle-pill active teoria-pill" onclick="toggleSection('polinomios', 'teoria')">
+          <i class="fa-solid fa-book-open"></i> <span>Ocultar Teoría</span>
+        </button>
+        <button class="btn-toggle-pill active ejercicios-pill" onclick="toggleSection('polinomios', 'ejercicios')">
+          <i class="fa-solid fa-pencil"></i> <span>Ocultar Ejercicios</span>
+        </button>
+      </div>
+
+      <!-- Sección Teoría -->
+      <div class="teoria-section" id="teoria-polinomios">
+        <div class="card teoria-card">
+          <h2>5. Álgebra de Polinomios</h2>
+          <p>Un **polinomio** de variable única con coeficientes complejos es una expresión de la forma $p(x) = a_n x^n + a_{n-1} x^{n-1} + \dots + a_1 x + a_0$. El estudio de sus factores y raíces estructura gran parte del álgebra clásica.</p>
+        </div>
+
+        <div class="card definicion">
+          <h3>Algoritmo de la División y Teorema del Resto</h3>
+          <ul>
+            <li><strong>Algoritmo de la División:</strong> Para cualesquiera dos polinomios $p(x)$ y $d(x)$ (con $d(x) \ne 0$), existen únicos polinomios de cociente $q(x)$ y resto $r(x)$ tales que:
+              <div class="resultado">
+                $$ p(x) = q(x)d(x) + r(x) \qquad \text{donde } \deg(r) < \deg(d) \text{ o } r(x) = 0 $$
+              </div>
+            </li>
+            <li><strong>Teorema del Resto:</strong> El resto de la división de un polinomio $p(x)$ por el divisor lineal $(x - c)$ es idéntico a evaluar la función en el punto $c$:
+              <div class="resultado">
+                $$ \text{Resto} = p(c) $$
+              </div>
+            </li>
+            <li><strong>Teorema del Factor:</strong> Un valor $c$ es raíz de $p(x) \iff (x - c)$ es un factor lineal del polinomio.</li>
+          </ul>
+        </div>
+
+        <div class="card definicion">
+          <h3>Teorema Fundamental del Álgebra y Raíces Conjugadas</h3>
+          <p>Establece las bases analíticas de factorización polinomial:</p>
+          <ul>
+            <li><strong>Teorema Fundamental (TFA):</strong> Todo polinomio de grado $n \ge 1$ con coeficientes complejos posee exactamente $n$ raíces complejas, contando multiplicidades.</li>
+            <li><strong>Teorema de las Raíces Complejas Conjugadas:</strong> Si un polinomio $p(x)$ tiene coeficientes **estrictamente reales**, y $z = a+bi$ es una raíz compleja de la ecuación, su conjugado $\bar{z} = a-bi$ es también una raíz de $p(x)$.</li>
+          </ul>
+        </div>
+
+        <div class="card definicion">
+          <h3>Criterio de las Raíces Racionales</h3>
+          <p>Para un polinomio $p(x) = a_n x^n + \dots + a_0$ con coeficientes enteros, cualquier raíz racional de la forma $x = \frac{p}{q}$ (reducida a su mínima expresión) debe cumplir con:</p>
+          <div class="resultado">
+            $p$ es un divisor entero del término independiente $a_0$ $\quad \land \quad$ $q$ es un divisor entero del coeficiente principal $a_n$.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Ejercicios con Split Screen -->
+      <div class="ejercicios-section" id="ejercicios-polinomios">
+        <div class="exercises-header">
+          <h2>Ejercicios de Práctica - Polinomios</h2>
+          <button class="btn btn-outline" onclick="toggleSplit('polinomios')" id="split-btn-polinomios">
+            <i class="fa-solid fa-columns"></i> <span>Dividir Pantalla</span>
+          </button>
+        </div>
+
+        <div class="split-container" id="split-container-polinomios">
+          <!-- Ejercicios (Columna Izquierda) -->
+          <div class="exercise-pane">
+            
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 1: Raíces de Polinomio Cuártico</h3>
+              <p>Sabiendo que el polinomio $p(z) = z^4 - 4z^3 + 10z^2 - 12z + 8$ posee únicamente raíces complejas y que una de ellas tiene módulo 2, encuentre todas las raíces de $p(z)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p27')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p27">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Sea $z_1 = a + ib$ la raíz de módulo 2, entonces $a^2 + b^2 = 4$.</p>
+                <p>2. Al ser reales los coeficientes del polinomio, su conjugado $z_2 = a - ib$ es también raíz. El factor común cuadrático correspondiente es $(z - z_1)(z - \bar{z}_1) = z^2 - 2az + 4$.</p>
+                <p>3. Realizar división polinómica de $p(z)$ por $(z^2 - 2az + 4)$ y buscar que el resto sea idénticamente cero para determinar $a$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 2: Determinación de Coeficientes</h3>
+              <p>Considere el polinomio a coeficientes reales $p(x) = x^3 + ax^2 + bx + c$. Sea $r(x)$ el resto de la división de $p(x)$ por $(x-1)$. Si $r(4) = 0$ y $x=i$ es una raíz de $p(x)$, calcular las constantes $a, b, c$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p28')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p28">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Dado que $x=i$ es raíz, entonces $x=-i$ también es raíz. Por ende, el polinomio es divisible por $(x^2+1)$.</p>
+                <p>2. El resto $r(x)$ de dividir por el término lineal $(x-1)$ es un valor constante (grado 0). Al indicar que $r(4)=0$, se tiene que el resto constante es 0, por lo que $p(1) = 0$.</p>
+                <p>3. Escribir $p(x) = (x^2+1)(x-k)$ y resolver usando $p(1) = 0$ para hallar la raíz real $k$ y expandir.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 3: Raíces de Ecuación Cúbica</h3>
+              <p>Sabiendo que la ecuación cúbica $z^3 - 9z^2 + 33z = 65$ admite una solución en $\mathbb{C} \setminus \mathbb{R}$ de módulo $\sqrt{13}$, determinar todas las soluciones complejas de la ecuación.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p29')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p29">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Escribir la ecuación en su forma estándar $z^3 - 9z^2 + 33z - 65 = 0$.</p>
+                <p>2. Utilizar el Teorema de Raíces Racionales con los divisores de 65 ($\pm 1, \pm 5, \pm 13, \pm 65$) para encontrar la solución real. Evaluando se obtiene que $z=5$ es raíz.</p>
+                <p>3. Dividir el polinomio por $(z-5)$ para obtener la ecuación cuadrática restante y resolver para hallar las dos raíces complejas de módulo $\sqrt{13}$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 4: Restos Generalizados</h3>
+              <p>Sean $p(x)$ un polinomio a coeficientes complejos tal que $\deg(p) \ge 4$ y las constantes reales $a, b, c$ con $b \ne 0$. Se sabe que:</p>
+              <ul>
+                <li>(i) El resto de dividir $p(x)$ por $(x^2 - b^2)$ es $cx$.</li>
+                <li>(ii) El resto $r(x)$ de dividir $p(x)$ por $(x^2 - b^2)(x - a)$ es mónico de grado $n$.</li>
+              </ul>
+              <p>Determinar:<br>(a) Calcular los valores de $p(b)$ y $p(-b)$.<br>(b) Justificar por qué $\deg(r) \le 2$.<br>(c) Determinar los posibles restos $r(x)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p30')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p30">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Para (a), usar el algoritmo de división: $p(x) = q(x)(x^2-b^2) + cx$, evaluar en $x=\pm b$.</p>
+                <p>2. Para (b), notar que el divisor $(x^2-b^2)(x-a)$ es de grado 3, por lo que el resto $r(x)$ debe tener grado menor o igual a 2.</p>
+                <p>3. Para (c), escribir $r(x) = Ax^2 + Bx + C$ (o mónico: $x^2 + Bx + C$ si es de grado 2) y plantear las condiciones de evaluación basadas en $p(b)$, $p(-b)$ y $p(a)$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 5: Cambio de Variable en Raíces</h3>
+              <p>Resolver las siguientes preguntas:</p>
+              <ul>
+                <li>(a) Se sabe que $1+i$ es raíz de $p(x) = x^4 + x^3 + x^2 - 4x + 10$. Determinar sus restantes raíces.</li>
+                <li>(b) Considere el polinomio $p(x) = a_0 x^n + \dots + a_n$. Probar que las raíces de $g(x) = a_0 \mu^n x^n + a_1 \mu^{n-1} x^{n-1} + \dots + a_n$ están dadas por $y_i = \frac{x_i}{\mu}$ para $\mu \ne 0$.</li>
+                <li>(c) Usando las partes anteriores, determinar las raíces del polinomio: $$ 16x^4 + 8x^3 + 4x^2 - 8x + 10 = 0 $$</li>
+              </ul>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p31')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p31">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Para (a), dividir el polinomio por $(x^2 - 2x + 2)$ para hallar la ecuación cuadrática de las raíces restantes.</p>
+                <p>2. Para (b), hacer el cambio de variable $y = \mu x$ en la estructura general del polinomio.</p>
+                <p>3. Para (c), notar que este polinomio coincide con la forma $g(x)$ del polinomio en (a) para un valor particular de $\mu = 2$. Aplicar el resultado de (b) dividiendo las raíces de (a) por 2.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 6: Raíces Simétricas Cúbicas</h3>
+              <p>Encontrar las 3 raíces del polinomio $p(x) = 2x^3 - x^2 - 18x + 9$, sabiendo que dos de sus raíces satisfacen $\alpha_1 + \alpha_2 = 0$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p32')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p32">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Por las relaciones de Cardano-Vieta, la suma de las raíces del polinomio es $\alpha_1 + \alpha_2 + \alpha_3 = -\frac{a_2}{a_3} = \frac{1}{2}$.</p>
+                <p>2. Como $\alpha_1 + \alpha_2 = 0$, se tiene directamente que $\alpha_3 = \frac{1}{2}$.</p>
+                <p>3. Dividir $p(x)$ por $(x - 1/2)$ para resolver la cuadrática restante $2x^2 - 18 = 0$, hallando las raíces simétricas $\pm 3$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 7: Construcción Cúbica</h3>
+              <p>Determinar un polinomio real de grado 3 que admita como raíces a $0$ y $2$, tal que los restos de dividirlo por $(x-1)$ y $(x-3)$ sean iguales.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p33')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p33">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Plantear el polinomio como $p(x) = x(x-2)(ax + b)$ puesto que 0 y 2 son raíces.</p>
+                <p>2. Por el Teorema del Resto, las condiciones implican que $p(1) = p(3)$.</p>
+                <p>3. Evaluar y resolver el sistema de ecuaciones para determinar los coeficientes de escala.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 8: Resto del Producto</h3>
+              <p>Sea $p(x)$ un polinomio con $\deg(p) \ge 3$. Se sabe que los restos de dividir $p(x)$ por $(x-1)$, $(x-2)$ y $(x-3)$ son 3, 5 y 7 respectivamente. Calcular el resto de dividir $p(x)$ por el polinomio cuadrático/cúbico producto $(x-1)(x-2)(x-3)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p34')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p34">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Escribir la relación de división: $p(x) = q(x)(x-1)(x-2)(x-3) + R(x)$, donde el resto general $R(x)$ tiene a lo sumo grado 2: $R(x) = Ax^2 + Bx + C$.</p>
+                <p>2. Evaluar la ecuación en $x=1, 2, 3$ para plantear el sistema lineal:</p>
+                <p>$$ R(1) = 3, \quad R(2) = 5, \quad R(3) = 7 $$</p>
+                <p>3. Resolver el sistema para hallar los coeficientes del resto (notar que los puntos son colineales, por lo que el resto será lineal: $R(x) = 2x + 1$).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 9: Raíz Real en Polinomio Complejo</h3>
+              <p>Sabiendo que el polinomio $p(z) = 2z^3 - (5+6i)z^2 + 9iz - 3i + 1$ tiene una raíz real $a$, determinar alguna de las raíces de $p(z)$.</p>
+              <p><em>Indicación:</em> Estudiar la parte real e imaginaria de $p(a)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p35')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p35">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Como $a \in \mathbb{R}$ es raíz, se cumple que $p(a) = 0$. Separar la parte real y la parte imaginaria de la ecuación evaluada en $a$:</p>
+                <p>$$ \text{Re}(p(a)) = 2a^3 - 5a^2 + 1 = 0 $$</p>
+                <p>$$ \text{Im}(p(a)) = -6a^2 + 9a - 3 = 0 $$</p>
+                <p>2. Resolver la ecuación cuadrática de la parte imaginaria para encontrar los candidatos de la raíz real $a$ y verificar cuál de ellos satisface la parte real. Encontrar $a=1$ (o $a=1/2$).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 10: Raíces Unitarias Conjugadas</h3>
+              <p>Sea $p(x)$ un polinomio mónico de grado 2 con coeficientes reales. Demostrar la siguiente equivalencia:</p>
+              <div class="resultado">
+                $$ p(x) \text{ tiene una raíz en } \mathbb{C} \setminus \mathbb{R} \text{ de módulo } 1 \iff p(x) = x^2 + \alpha x + 1 \quad \text{con } \alpha \in (-2, 2) $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p36')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p36">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Si las raíces son complejas y conjugadas $z, \bar{z}$ de módulo 1, entonces $z = e^{i\theta}$ y $\bar{z} = e^{-i\theta}$.</p>
+                <p>2. Reconstruir el polinomio usando relaciones de Cardano-Vieta: el producto de las raíces es $z \cdot \bar{z} = |z|^2 = 1$. La suma es $z + \bar{z} = 2\cos\theta = -\alpha$.</p>
+                <p>3. Justificar el intervalo de $\alpha$ basándose en la acotación de la función coseno para raíces no reales ($\theta \ne 0, \pi$).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 11: Factorización de Grado 5</h3>
+              <p>Determinar todas las raíces del polinomio $p(x) = x^5 - 2x^4 - x + 2$ y factorícelo tanto en el anillo $\mathbb{C}[x]$ como en $\mathbb{R}[x]$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p37')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p37">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Factorizar por agrupación de términos: $p(x) = x^4(x-2) - (x-2) = (x^4 - 1)(x-2)$.</p>
+                <p>2. Descomponer el factor de grado 4 usando diferencia de cuadrados sucesiva: $(x^2-1)(x^2+1)(x-2) = (x-1)(x+1)(x^2+1)(x-2)$. Esta es la factorización en $\mathbb{R}[x]$.</p>
+                <p>3. Factorizar el término complejo cuadrático $(x^2+1) = (x-i)(x+i)$ para obtener la factorización en $\mathbb{C}[x]$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 12: Resto de Lagrange</h3>
+              <p>Sea $p(x)$ un polinomio que satisface $p(a) = a$, $p(b) = b$ y $p(c) = c$ para tres números reales distintos $a, b, c$. Determinar el resto de la división de $p(x)$ por el divisor cúbico $(x-a)(x-b)(x-c)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p38')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-pol-p38">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Plantear la división como $p(x) = q(x)(x-a)(x-b)(x-c) + r(x)$, donde $r(x) = Ax^2 + Bx + C$.</p>
+                <p>2. Las condiciones dadas significan que $r(a) = a$, $r(b) = b$, y $r(c) = c$.</p>
+                <p>3. Argumentar que un polinomio de grado menor o igual a 2 que coincide en 3 puntos distintos con la recta $y = x$ debe ser idénticamente la función identidad, por lo tanto $r(x) = x$.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Fórmulas Claves (Columna Derecha - Sticky) -->
+          <div class="formula-pane">
+            <h3 style="color: var(--primary); margin: 0 0 10px 0;"><i class="fa-solid fa-square-root-variable"></i> Fórmulas de Apoyo</h3>
+            
+            <div class="formula-card">
+              <h4>Algoritmo de División</h4>
+              <div class="formula-card-latex">
+                \( p(x) = q(x)d(x) + r(x) \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">donde $\deg(r) < \deg(d)$.</p>
+            </div>
+
+            <div class="formula-card">
+              <h4>Teorema del Resto</h4>
+              <div class="formula-card-latex">
+                \( \text{Resto de } \frac{p(x)}{x-c} = p(c) \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Criterio Racional</h4>
+              <div class="formula-card-latex">
+                \( x = \frac{p}{q} \implies p | a_0 \land q | a_n \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Relaciones de Cardano-Vieta</h4>
+              <p style="font-size:0.85rem; margin-bottom:5px;">Para $ax^2 + bx + c = 0$:</p>
+              <div class="formula-card-latex">
+                \( x_1 + x_2 = -\frac{b}{a} \)
+              </div>
+              <div class="formula-card-latex" style="margin-top:4px;">
+                \( x_1 \cdot x_2 = \frac{c}{a} \)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PESTAÑA 6: GEOMETRÍA ANALÍTICA
+         ========================================== -->
+    <div class="tab-content" id="tab-geometria">
+      <!-- Botones de Control de Visibilidad -->
+      <div class="tab-controls">
+        <button class="btn-toggle-pill active teoria-pill" onclick="toggleSection('geometria', 'teoria')">
+          <i class="fa-solid fa-book-open"></i> <span>Ocultar Teoría</span>
+        </button>
+        <button class="btn-toggle-pill active ejercicios-pill" onclick="toggleSection('geometria', 'ejercicios')">
+          <i class="fa-solid fa-pencil"></i> <span>Ocultar Ejercicios</span>
+        </button>
+      </div>
+
+      <!-- Sección Teoría -->
+      <div class="teoria-section" id="teoria-geometria">
+        <div class="card teoria-card">
+          <h2>6. Lugares Geométricos y Secciones Cónicas</h2>
+          <p>Un **lugar geométrico** es el conjunto de puntos del plano euclidiano $\mathbb{R}^2$ que satisfacen una condición geométrica particular expresada en forma de ecuación cartesiana. Las curvas más relevantes en el curso son las secciones cónicas.</p>
+        </div>
+
+        <div class="card definicion">
+          <h3>La Recta y la Circunferencia</h3>
+          <ul>
+            <li><strong>La Recta:</strong> Ecuación punto-pendiente dada por la pendiente $m$ y un punto de paso $P(x_0, y_0)$:
+              <div class="resultado">
+                $$ y - y_0 = m(x - x_0) \qquad \text{o ecuación general: } Ax + By + C = 0 $$
+              </div>
+            </li>
+            <li><strong>La Circunferencia:</strong> Lugar geométrico de puntos a distancia constante (radio $R$) de un centro fijo $C(h, k)$:
+              <div class="resultado">
+                $$ (x - h)^2 + (y - k)^2 = R^2 $$
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card definicion">
+          <h3>Secciones Cónicas Canónicas</h3>
+          <p>Las tres cónicas clásicas con ejes paralelos a los ejes cartesianos se clasifican mediante sus ecuaciones estándar y sus parámetros focales:</p>
+          
+          <div class="conic-grid">
+            <div class="conic-type-card">
+              <h4>Parábola</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje focal vertical:</p>
+              <code>(x-h)² = 4p(y-k)</code><br>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Vértice $(h,k)$, foco a distancia $p$ sobre el eje.</p>
+            </div>
+            
+            <div class="conic-type-card">
+              <h4>Elipse</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje mayor horizontal:</p>
+              <code>(x-h)²/a² + (y-k)²/b² = 1</code><br>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $a^2 = b^2 + c^2$, con $a > b$.</p>
+            </div>
+            
+            <div class="conic-type-card">
+              <h4>Hipérbola</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje transverso horizontal:</p>
+              <code>(x-h)²/a² - (y-k)²/b² = 1</code><br>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $c^2 = a^2 + b^2$. Asíntotas: $y-k = \pm \frac{b}{a}(x-h)$.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Ejercicios con Split Screen -->
+      <div class="ejercicios-section" id="ejercicios-geometria">
+        <div class="exercises-header">
+          <h2>Ejercicios de Práctica - Geometría</h2>
+          <button class="btn btn-outline" onclick="toggleSplit('geometria')" id="split-btn-geometria">
+            <i class="fa-solid fa-columns"></i> <span>Dividir Pantalla</span>
+          </button>
+        </div>
+
+        <div class="split-container" id="split-container-geometria">
+          <!-- Ejercicios (Columna Izquierda) -->
+          <div class="exercise-pane">
+            
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 1: Circunferencia Tangente a los Ejes</h3>
+              <p>Hallar la ecuación de la circunferencia que es tangente a ambos ejes coordenados y pasa por el punto $(2, 1)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p39')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p39">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Al ser tangente a los ejes coordenados en el primer cuadrante (puesto que pasa por $(2,1)$), su centro es $C(R, R)$ y su radio es $R$.</p>
+                <p>2. Escribir la ecuación cartesiana: $(x - R)^2 + (y - R)^2 = R^2$.</p>
+                <p>3. Evaluar en el punto de paso $(2, 1)$ para formar una ecuación cuadrática en $R$ y hallar los dos radios posibles.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 2: Recta Tangente a la Circunferencia</h3>
+              <p>Hallar la ecuación de la recta que pasa por el punto exterior $(11, 4)$ y es tangente a la circunferencia de ecuación:</p>
+              <div class="resultado">
+                $$ x^2 + y^2 - 8x - 6y = 0 $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p40')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p40">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Completar cuadrados para encontrar el centro $C(4, 3)$ y el radio $R = 5$ de la circunferencia.</p>
+                <p>2. Plantear la ecuación de la recta como un haz que pasa por el punto: $y - 4 = m(x - 11) \implies mx - y + (4 - 11m) = 0$.</p>
+                <p>3. Imponer la condición de tangencia: la distancia del centro $C(4, 3)$ a la recta debe ser igual al radio $R = 5$. Resolver para $m$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 3: Intersección Perpendicular</h3>
+              <p>Dos rectas variables $L_1$ y $L_2$ que pasan respectivamente por los puntos fijos $A(0, 0)$ y $B(1, 0)$ se cortan perpendicularmente en el punto $P$. Determinar el lugar geométrico que describe el punto $P$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p41')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p41">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Sea $P(x, y)$ el punto de intersección variable.</p>
+                <p>2. Plantear la pendiente de $L_1$ (pasa por $A$ y $P$): $m_1 = y/x$. Plantear la pendiente de $L_2$ (pasa por $B$ y $P$): $m_2 = y/(x-1)$.</p>
+                <p>3. Por perpendicularidad, imponer la relación $m_1 \cdot m_2 = -1 \implies \frac{y^2}{x(x-1)} = -1$. Reducir algebraicamente para identificar la ecuación de una circunferencia.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 4: Distancia e Identificación</h3>
+              <p>Determinar el lugar geométrico de los puntos $P(x,y)$ tales que su distancia al eje de las ordenadas (eje Y) es igual a la mitad de la longitud del segmento tangente trazado desde $P$ a la circunferencia de ecuación $x^2 + y^2 = r^2$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p42')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p42">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. La distancia de $P(x,y)$ al eje Y es $|x|$.</p>
+                <p>2. La longitud del segmento tangente $T$ desde $P$ a la circunferencia cumple la relación pitagórica con el radio: $T^2 = d(P, C)^2 - r^2 = x^2 + y^2 - r^2$.</p>
+                <p>3. Plantear la ecuación $|x| = \frac{1}{2} \sqrt{x^2 + y^2 - r^2}$. Elevar al cuadrado y simplificar los términos cuadráticos.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 5: Tangente e Intersección</h3>
+              <p>Por un punto $P(x_0, y_0)$ cualquiera de la circunferencia $x^2 + y^2 = r^2$ se traza la recta tangente $L$. Esta recta corta a las verticales que pasan por $A(-r, 0)$ y $B(r, 0)$ en los puntos $C$ y $D$ respectivamente. Determinar el lugar geométrico de la intersección de las rectas $\overline{AD}$ y $\overline{BC}$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p43')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p43">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Escribir la ecuación de la tangente en $P$: $x x_0 + y y_0 = r^2$.</p>
+                <p>2. Evaluar la recta en $x = -r$ para hallar las coordenadas de $C(-r, y_C)$ y en $x = r$ para hallar $D(r, y_D)$.</p>
+                <p>3. Encontrar las ecuaciones de las rectas $\overline{AD}$ y $\overline{BC}$ y hallar el punto de intersección $I(x, y)$ eliminando los parámetros variables de $x_0$ e $y_0$. El resultado es una elipse.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 6: Tangente a la Parábola</h3>
+              <p>La recta $L$ tangente a la parábola de ecuación $y^2 = 4px$ por el punto $P(x_0, y_0)$ corta al eje Y en $B$, a la directriz en $C$, y a la recta vertical que pasa por el foco en $A$. Demostrar:</p>
+              <ul>
+                <li>(a) $\overline{AF} = \overline{CF}$ (donde $F$ es el foco de la parábola).</li>
+                <li>(b) Demostrar que el segmento $\overline{FB}$ es perpendicular a la recta tangente $L$.</li>
+              </ul>
+              <p><em>Indicación:</em> La recta tangente a la parábola $y^2 = 4px$ en $P(x_0, y_0)$ tiene ecuación $y y_0 = 2p(x + x_0)$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p44')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p44">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Determinar los puntos notables: el foco es $F(p, 0)$, la directriz es $x = -p$.</p>
+                <p>2. Encontrar $B$ (intersección con $x=0$), $C$ (intersección con $x=-p$) y $A$ (intersección con $x=p$) a partir de la ecuación de la tangente.</p>
+                <p>3. Calcular las distancias y los productos de pendientes para probar la perpendicularidad.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 7: Cuerdas Perpendiculares y Razón Focal</h3>
+              <p>Por el vértice $O$ de la parábola $y^2 = 4px$ se trazan dos rectas perpendiculares que cortan a la parábola en $P$ (de coordenadas positivas) y $Q$ respectivamente. Si el segmento $\overline{PQ}$ corta al eje X en el punto $R$, demostrar que el foco $F$ divide al segmento $\overline{OR}$ en la razón $1:3$ realizando lo siguiente:</p>
+              <ul>
+                <li>(a) Si la recta $OP$ tiene pendiente $m$, expresar las coordenadas de $P$ y $Q$ en función de $m$.</li>
+                <li>(b) Encontrar la ecuación de la recta que contiene al trazo $\overline{PQ}$ en términos de $m$.</li>
+                <li>(c) Calcular las coordenadas del punto $R$ y verificar que $\frac{\overline{OF}}{\overline{FR}} = \frac{1}{3}$.</li>
+              </ul>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p45')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p45">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Las rectas son $y = mx$ y $y = -\frac{1}{m}x$. Intersectar con $y^2 = 4px$ para obtener $P\left(\frac{4p}{m^2}, \frac{4p}{m}\right)$ y $Q(4p m^2, -4p m)$.</p>
+                <p>2. Hallar la ecuación de la recta que une $P$ y $Q$.</p>
+                <p>3. Evaluar $y=0$ en la recta $\overline{PQ}$ para determinar que las coordenadas de $R$ son $(4p, 0)$. Como $F(p,0)$, la razón se calcula directamente.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 8: Intersección con el Foco</h3>
+              <p>Un punto $A$ cuya proyección sobre el eje Y es $B$ se mueve sobre la parábola de ecuación $y^2 = 4px$. Determinar el lugar geométrico de la intersección de las rectas $\overline{OA}$ y $\overline{BF}$, siendo $O$ el origen del sistema de coordenadas y $F$ el foco de la parábola.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p46')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p46">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Representar $A(x_0, y_0)$ con $y_0^2 = 4p x_0$. Entonces la proyección es $B(0, y_0)$ y el foco es $F(p, 0)$.</p>
+                <p>2. Escribir las ecuaciones de la recta $\overline{OA}: y = \frac{y_0}{x_0} x$ y de la recta $\overline{BF}: y - y_0 = -\frac{y_0}{p} x$.</p>
+                <p>3. Hallar el punto de intersección $P(x,y)$ y eliminar los parámetros $x_0, y_0$ usando la ecuación de la parábola.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 9: Punto Medio de Cuerdas de la Parábola</h3>
+              <p>Por el vértice $O$ de la parábola $y^2 = 4px$ se traza una cuerda variable que intersecta a la parábola en el punto $B$. Determinar el lugar geométrico que describe el punto medio del segmento $\overline{OB}$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p47')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p47">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Sea $B(x_0, y_0)$ tal que $y_0^2 = 4p x_0$.</p>
+                <p>2. Las coordenadas del punto medio $M(x, y)$ son $x = x_0/2$ y $y = y_0/2$.</p>
+                <p>3. Despejar $x_0 = 2x$ e $y_0 = 2y$ y sustituir en la ecuación de la parábola para hallar la nueva ecuación del lugar geométrico.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 10: Área de Rectángulo Inscrito en Elipse</h3>
+              <p>Considere la elipse de ecuación $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$. La recta $y = \frac{b}{a} x$ intersecta a la elipse en los puntos $P$ y $R$, donde $P$ posee coordenadas positivas. Determinar el área del rectángulo inscrito en la elipse que tiene al segmento $\overline{PR}$ como diagonal y cuyos lados son paralelos a los ejes coordenados.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p48')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p48">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Encontrar las coordenadas de $P(x_0, y_0)$ intersectando la recta con la ecuación de la elipse.</p>
+                <p>2. Al ser los lados paralelos a los ejes cartesianos, el área del rectángulo inscrito con diagonal de $P(x_0, y_0)$ a $R(-x_0, -y_0)$ está dada por $A = (2x_0)(2y_0) = 4 x_0 y_0$.</p>
+                <p>3. Evaluar algebraicamente para obtener el área final en términos de los parámetros $a$ y $b$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 11: Cuerdas desde el Vértice de la Elipse</h3>
+              <p>Determinar el lugar geométrico de los puntos medios de todas las cuerdas de una elipse de ecuación $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ que pasan por uno de sus vértices cartesianos.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p49')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p49">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Elegir un vértice particular de la elipse, por ejemplo $V(a, 0)$.</p>
+                <p>2. Sea $Q(x_0, y_0)$ un punto sobre la elipse. El punto medio $M(x, y)$ del segmento $\overline{VQ}$ tiene coordenadas $x = \frac{x_0 + a}{2}$ y $y = \frac{y_0}{2}$.</p>
+                <p>3. Despejar $x_0$ e $y_0$ en términos de $x, y$ e insertarlos en la ecuación de la elipse para obtener la ecuación homotética resultante.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 12: Intersección con Foco de la Elipse</h3>
+              <p>Considere la elipse de ecuación $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ y un punto $Q$ sobre su directriz. El segmento $\overline{QO}$ (donde $O$ es el origen) intersecta a la elipse en el punto $P$. Demostrar que la recta que pasa por $Q$ y que es perpendicular a la recta tangente a la elipse en el punto $P$ corta al eje X exactamente en el foco de la elipse.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p50')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p50">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. La directriz de la elipse es la recta $x = a^2/c$ (donde $c = \sqrt{a^2 - b^2}$). Las coordenadas del punto $Q$ son $(a^2/c, y_0)$.</p>
+                <p>2. Encontrar la recta tangente en $P$: $\frac{x x_p}{a^2} + \frac{y y_p}{b^2} = 1$.</p>
+                <p>3. Encontrar la pendiente de la recta perpendicular, plantear su ecuación pasando por $Q$ y determinar su intersección con $y=0$ para probar que el corte es en $x = c$ (foco).</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 13: Segmentos Paralelos en la Hipérbola</h3>
+              <p>Considere un punto $P$ sobre la hipérbola de ecuación $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$. Sean $A$ y $B$ los puntos de intersección de la recta paralela al eje X que pasa por $P$ con las asíntotas de la hipérbola. Demostrar que se cumple la siguiente relación de distancias:</p>
+              <div class="resultado">
+                $$ \overline{AP} \cdot \overline{BP} = a^2 $$
+              </div>
+              <p>Analice el caso análogo si la recta paralela trazada por $P$ fuera paralela al eje Y.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p51')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p51">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Las asíntotas son $y = \pm \frac{b}{a} x$. Sea $P(x_p, y_p)$ tal que $\frac{x_p^2}{a^2} - \frac{y_p^2}{b^2} = 1$.</p>
+                <p>2. La recta horizontal es $y = y_p$. Los puntos de intersección con las asíntotas son $A(-a y_p/b, y_p)$ y $B(a y_p/b, y_p)$.</p>
+                <p>3. Calcular las distancias $\overline{AP} = |x_p + a y_p/b|$ y $\overline{BP} = |x_p - a y_p/b|$. Multiplicar las distancias y usar la ecuación de la hipérbola para simplificar.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 14: Excentricidad de la Hipérbola</h3>
+              <p>Encontrar la excentricidad de una hipérbola en la que la distancia entre sus focos es el doble de la distancia entre sus directrices.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p52')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p52">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. La distancia entre los focos es $2c$. La distancia entre las directrices es $2 \frac{a^2}{c}$.</p>
+                <p>2. Plantear la relación matemática dada: $2c = 2 \left(2 \frac{a^2}{c}\right) \implies c^2 = 2a^2$.</p>
+                <p>3. Recordar que la excentricidad se define como $e = c/a$. Sustituir y calcular el valor numérico.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 15: Hipérbola Equilátera y Circunferencia</h3>
+              <p>Considere la hipérbola equilátera $x^2 - y^2 = a^2$. Probar que cualquier circunferencia con centro en la hipérbola y que es tangente al eje Y corta al eje X en dos puntos cuya distancia mutua es igual a $2a$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p53')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p53">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Sea el centro de la circunferencia $C(x_0, y_0)$ sobre la hipérbola ($x_0^2 - y_0^2 = a^2$).</p>
+                <p>2. Al ser tangente al eje Y, su radio es $R = |x_0|$. La ecuación de la circunferencia es $(x - x_0)^2 + (y - y_0)^2 = x_0^2$.</p>
+                <p>3. Encontrar las intersecciones con el eje X ($y=0$), calcular las dos soluciones para $x$ y evaluar su diferencia para demostrar que la distancia es $2a$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 16: Área de Triángulo Asintótico</h3>
+              <p>Desde un punto cualquiera $P(x_0, y_0)$ de la hipérbola de ecuación $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$ se traza una recta tangente que corta a las asíntotas en los puntos $S$ y $T$. Demostrar que el área del triángulo $OST$ formado por la tangente con las asíntotas es constante y vale $ab$.</p>
+              <p><em>Indicación:</em> La ecuación de la recta tangente en el punto $P(x_0, y_0)$ está dada por $\frac{x x_0}{a^2} - \frac{y y_0}{b^2} = 1$.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p54')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p54">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Plantear las ecuaciones de las asíntotas $y = \pm \frac{b}{a} x$.</p>
+                <p>2. Hallar los puntos de intersección $S$ y $T$ resolviendo los sistemas formados por la tangente y cada una de las asíntotas.</p>
+                <p>3. Calcular el área del triángulo usando la fórmula del determinante de vértices $O(0,0)$, $S$ y $T$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 17: Lugar Geométrico de Puntos Medios</h3>
+              <p>Considere la hipérbola de ecuación $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$. Encontrar el lugar geométrico que describen los puntos medios de todos los segmentos $\overline{VQ}$, donde $V$ es el vértice izquierdo de la hipérbola y $Q$ es un punto móvil sobre ella.</p>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p55')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-geo-p55">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. El vértice izquierdo de la hipérbola tiene coordenadas $V(-a, 0)$.</p>
+                <p>2. Sea $Q(x_0, y_0)$ un punto variable sobre la hipérbola. El punto medio $M(x, y)$ tiene coordenadas $x = \frac{x_0 - a}{2}$ y $y = y_0/2$.</p>
+                <p>3. Despejar $x_0 = 2x + a$ e $y_0 = 2y$ y sustituir en la ecuación de la hipérbola original para obtener la ecuación del nuevo lugar geométrico.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Fórmulas Claves (Columna Derecha - Sticky) -->
+          <div class="formula-pane">
+            <h3 style="color: var(--primary); margin: 0 0 10px 0;"><i class="fa-solid fa-square-root-variable"></i> Fórmulas de Apoyo</h3>
+            
+            <div class="formula-card">
+              <h4>La Recta</h4>
+              <div class="formula-card-latex">
+                \( y - y_0 = m(x-x_0) \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Circunferencia</h4>
+              <div class="formula-card-latex">
+                \( (x-h)^2 + (y-k)^2 = R^2 \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Elipse Horizontal</h4>
+              <div class="formula-card-latex">
+                \( \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1 \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Relación focal: $a^2 = b^2 + c^2$</p>
+            </div>
+
+            <div class="formula-card">
+              <h4>Hipérbola Horizontal</h4>
+              <div class="formula-card-latex">
+                \( \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 \)
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Asíntotas: $y-k = \pm \frac{b}{a}(x-h)$</p>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Relación focal: $c^2 = a^2 + b^2$</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>Desarrollado para la preparación académica en Introducción al Álgebra.</p>
+    <p>&copy; 2026 <a href="mailto:contacto@alvaroprofemate.cl">AlvaroProfeMate.cl</a>. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // =========================================
+    // 1. MANEJO DE LA COLLAPSIBLE SIDEBAR
+    // =========================================
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    }
+
+    // =========================================
+    // 2. MANEJO DE PESTAÑAS (TABS)
+    // =========================================
+    function switchTab(tabId) {
+      // Ocultar todos los contenidos de pestaña
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+
+      // Desactivar todos los botones de pestaña
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Desactivar todos los enlaces en el sidebar
+      const sideLinks = document.querySelectorAll('.sidebar-link');
+      sideLinks.forEach(link => link.classList.remove('active'));
+
+      // Mostrar el contenido activo y marcar botón activo
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+      document.getElementById(`tab-btn-${tabId}`).classList.add('active');
+      
+      const sideLink = document.getElementById(`side-${tabId}`);
+      if (sideLink) sideLink.classList.add('active');
+
+      // Resetear posición de scroll y barra de progreso al cambiar de tema
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Forzar renderizado asíncrono de fórmulas LaTeX de la pestaña revelada
+      setTimeout(() => {
+        if (window.MathJax) {
+          const target = document.getElementById(`tab-${tabId}`);
+          MathJax.typesetClear([target]);
+          MathJax.typesetPromise([target]);
+        }
+      }, 50);
+    }
+
+    // =========================================
+    // 3. TOGGLE DE VISIBILIDAD DE SECCIONES
+    // =========================================
+    function toggleSection(tabId, sectionType) {
+      const targetSection = document.getElementById(`${sectionType}-${tabId}`);
+      const btn = document.querySelector(`#tab-${tabId} .${sectionType}-pill`);
+      const span = btn.querySelector('span');
+      const icon = btn.querySelector('i');
+      
+      const isVisible = targetSection.style.display !== 'none';
+      
+      if (isVisible) {
+        targetSection.style.display = 'none';
+        btn.classList.remove('active');
+        if (sectionType === 'teoria') {
+          span.textContent = 'Mostrar Teoría';
+          icon.className = 'fa-solid fa-book';
+        } else {
+          span.textContent = 'Mostrar Ejercicios';
+          icon.className = 'fa-solid fa-pencil-alt';
+        }
+      } else {
+        targetSection.style.display = 'block';
+        btn.classList.add('active');
+        if (sectionType === 'teoria') {
+          span.textContent = 'Ocultar Teoría';
+          icon.className = 'fa-solid fa-book-open';
+        } else {
+          span.textContent = 'Ocultar Ejercicios';
+          icon.className = 'fa-solid fa-pencil';
+        }
+        
+        // Recalcular fórmulas si se hace visible
+        if (window.MathJax) {
+          MathJax.typesetPromise([targetSection]);
+        }
+      }
+    }
+
+    // =========================================
+    // 4. PANTALLA DIVIDIDA (SPLIT SCREEN)
+    // =========================================
+    function toggleSplit(tabId) {
+      const container = document.getElementById(`split-container-${tabId}`);
+      const btn = document.getElementById(`split-btn-${tabId}`);
+      const isSplit = container.classList.toggle('split-active');
+      
+      if (isSplit) {
+        btn.classList.remove('btn-outline');
+        btn.classList.add('btn-accent');
+        btn.querySelector('span').textContent = 'Ocultar Fórmulas';
+      } else {
+        btn.classList.remove('btn-accent');
+        btn.classList.add('btn-outline');
+        btn.querySelector('span').textContent = 'Dividir Pantalla';
+      }
+    }
+
+    // =========================================
+    // 5. MOSTRAR/OCULTAR SOLUCIÓN DE EJERCICIO
+    // =========================================
+    function toggleSolucion(solucionId) {
+      const bloque = document.getElementById(solucionId);
+      const isVisible = bloque.style.display === 'block';
+      
+      bloque.style.display = isVisible ? 'none' : 'block';
+      
+      if (!isVisible && window.MathJax) {
+        MathJax.typesetClear([bloque]);
+        MathJax.typesetPromise([bloque]);
+      }
+    }
+
+    // =========================================
+    // 6. LÓGICA DE TEMA (LIGHT/DARK)
+    // =========================================
+    function toggleTheme() {
+      const htmlElement = document.documentElement;
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme_examen', newTheme);
+    }
+    
+    // Inicializar tema guardado al cargar
+    const savedTheme = localStorage.getItem('theme_examen') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // =========================================
+    // 7. BARRA DE PROGRESO DE LECTURA (SCROLL)
+    // =========================================
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('progress-bar').style.width = progress + '%';
+    });
+  </script>
+</body>
+</html>
