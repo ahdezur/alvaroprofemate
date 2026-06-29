@@ -74,6 +74,7 @@ function initNavigation() {
    ========================================================================== */
 function initTestimonialSlider() {
   const track = document.getElementById("testimonial-track");
+  if (!track) return;
   const dots = document.querySelectorAll(".slider-dot");
   let currentIndex = 0;
   let autoPlayTimer;
