@@ -227,7 +227,7 @@ function initContactForm() {
   const form = document.getElementById("landing-contact-form");
   if (!form) return;
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     
     const name = document.getElementById("name").value;
@@ -236,15 +236,32 @@ function initContactForm() {
     const subject = document.getElementById("subject").value;
     const message = document.getElementById("message").value;
 
-    // Simular envío exitoso con un modal o alerta elegante
     const btn = form.querySelector("button[type='submit']");
     const originalText = btn.innerHTML;
     
     btn.disabled = true;
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Enviando...`;
 
-    setTimeout(() => {
-      // Reemplazar formulario temporalmente con un mensaje de éxito premium
+    try {
+      let apiActive = false;
+      try {
+        apiActive = await DB.isApiAvailable();
+      } catch (err) {}
+
+      if (apiActive) {
+        const response = await fetch(`${CONFIG.API_URL}?type=contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, university, subject, message })
+        });
+        if (!response.ok) throw new Error("Error en el servidor");
+      } else {
+        console.log("%c[SIMULACIÓN CONTACTO - OFFLINE]", "background: #10b981; color: white; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+        console.log(`Para: contacto@alvaroprofemate.cl\nDe: ${email}\nNombre: ${name}\nUniversidad: ${university}\nAsunto: ${subject}\nMensaje: ${message}`);
+        await new Promise(r => setTimeout(r, 1000));
+      }
+
+      // Reemplazar formulario con mensaje de éxito premium
       const formContainer = form.parentElement;
       formContainer.innerHTML = `
         <div style="text-align: center; padding: 45px 20px; color: var(--text-primary);">
@@ -256,7 +273,12 @@ function initContactForm() {
           <button class="btn btn-secondary" onclick="window.location.reload();">Enviar otro mensaje</button>
         </div>
       `;
-    }, 1500);
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un problema al enviar tu mensaje. Por favor, intenta de nuevo o escríbenos directamente a contacto@alvaroprofemate.cl.");
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
   });
 }
 

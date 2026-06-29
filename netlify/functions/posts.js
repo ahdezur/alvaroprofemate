@@ -514,6 +514,85 @@ exports.handler = async (event, context) => {
           };
       }
     }
+    
+    if (type === "contact") {
+      if (httpMethod !== "POST") {
+        return {
+          statusCode: 405,
+          headers: CORS_HEADERS,
+          body: JSON.stringify({ error: "Método no permitido. Use POST." })
+        };
+      }
+
+      const bodyContact = JSON.parse(event.body);
+      const { name, email, university, subject, message } = bodyContact;
+
+      if (!name || !email || !subject || !message) {
+        return {
+          statusCode: 400,
+          headers: CORS_HEADERS,
+          body: JSON.stringify({ error: "Faltan campos obligatorios" })
+        };
+      }
+
+      const emailHtmlDocente = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
+          <div style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Nuevo Mensaje de Contacto</h1>
+          </div>
+          <div style="padding: 25px; line-height: 1.6;">
+            <p>Has recibido un nuevo mensaje desde el formulario de tu sitio web:</p>
+            
+            <div style="background-color: #f8fafc; border-left: 4px solid #4f46e5; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
+              <p style="margin: 5px 0;"><strong>Nombre:</strong> ${name}</p>
+              <p style="margin: 5px 0;"><strong>Correo:</strong> ${email}</p>
+              <p style="margin: 5px 0;"><strong>Universidad:</strong> ${university || 'No especificada'}</p>
+              <p style="margin: 5px 0;"><strong>Asignatura:</strong> ${subject}</p>
+            </div>
+            
+            <p><strong>Mensaje:</strong></p>
+            <p style="background-color: #f1f5f9; padding: 15px; border-radius: 4px; font-style: italic;">${message.replace(/\n/g, '<br>')}</p>
+          </div>
+        </div>
+      `;
+
+      const emailHtmlEstudiante = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
+          <div style="background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: 700;">¡Recibimos tu Consulta!</h1>
+          </div>
+          <div style="padding: 25px; line-height: 1.6;">
+            <p>Hola <strong>${name}</strong>,</p>
+            <p>He recibido correctamente tu mensaje de consulta sobre <strong>${subject}</strong> desde el sitio web.</p>
+            <p>Me pondré en contacto contigo a este correo a la brevedad posible para responder tus dudas y coordinar apoyo.</p>
+            <p>¡Gracias por escribir!</p>
+            
+            <p style="margin-top: 30px; font-size: 13px; color: #64748b;">
+              Atentamente,<br>
+              <strong>Álvaro Hernández, PhD</strong><br>
+              Álvaro Hernández ProfeMate (contacto@alvaroprofemate.cl)
+            </p>
+          </div>
+          <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 8px 8px;">
+            © 2026 Álvaro Hernández Profemate. Todos los derechos reservados.
+          </div>
+        </div>
+      `;
+
+      try {
+        const recipient = process.env.SMTP_USER || "contacto@alvaroprofemate.cl";
+        await sendEmail(recipient, `[Contacto Web] Mensaje de ${name} - ${subject}`, emailHtmlDocente);
+        await sendEmail(email, `Hemos recibido tu consulta: ${subject} - AlvaroProfeMate`, emailHtmlEstudiante);
+      } catch (emailErr) {
+        console.error("Error al enviar correos de contacto:", emailErr);
+      }
+
+      return {
+        statusCode: 200,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({ success: true, message: "Mensaje procesado con éxito" })
+      };
+    }
 
     switch (httpMethod) {
       case "GET":
