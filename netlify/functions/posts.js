@@ -224,6 +224,9 @@ async function sendEmail(to, subject, html) {
     auth: {
       user,
       pass
+    },
+    tls: {
+      rejectUnauthorized: false
     }
   });
 
