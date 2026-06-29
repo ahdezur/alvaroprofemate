@@ -599,6 +599,8 @@
       border-radius: var(--border-radius-sm);
       padding: 1rem;
       background: var(--bg-primary);
+      height: 190px;
+      overflow: hidden;
     }
 
     .formula-card h4 {
@@ -788,6 +790,17 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
+
+    .conic-equation-latex {
+      font-size: 1.05rem;
+      background: var(--bg-primary);
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      margin: 8px auto;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+    }
   </style>
 </head>
 <body>
@@ -915,22 +928,7 @@
           </ol>
         </div>
 
-        <div class="card teoria-card">
-          <h3>Sucesiones y Progresiones</h3>
-          <p>Una sucesión discreta posee comportamientos recurrentes. Dos progresiones algebraicas de suma importancia en el curso de Introducción al Álgebra son:</p>
-          <ul>
-            <li><strong>Progresión Aritmética (PA):</strong> Cada término se obtiene sumando una diferencia constante $d$ al término anterior.
-              <div class="resultado">
-                Término general: $a_n = a_1 + (n-1)d \qquad $ Suma acumulada: $S_n = \frac{n}{2}(a_1 + a_n)$
-              </div>
-            </li>
-            <li><strong>Progresión Geométrica (PG):</strong> Cada término se obtiene multiplicando una razón constante $r$ por el término anterior.
-              <div class="resultado">
-                Término general: $a_n = a_1 \cdot r^{n-1} \qquad $ Suma acumulada: $S_n = a_1 \frac{r^n - 1}{r - 1} \quad (r \ne 1)$
-              </div>
-            </li>
-          </ul>
-        </div>
+
       </div>
 
       <!-- Sección Ejercicios con Split Screen -->
@@ -1153,6 +1151,23 @@
             $$ \sum_{i=1}^n (a_{i+1} - a_i) = a_{n+1} - a_1 $$
           </div>
         </div>
+
+        <div class="card teoria-card">
+          <h3>Sucesiones y Progresiones</h3>
+          <p>Una sucesión discreta posee comportamientos recurrentes. Dos progresiones algebraicas de suma importancia en el curso de Introducción al Álgebra son:</p>
+          <ul>
+            <li><strong>Progresión Aritmética (PA):</strong> Cada término se obtiene sumando una diferencia constante $d$ al término anterior.
+              <div class="resultado">
+                Término general: $a_n = a_1 + (n-1)d \qquad $ Suma acumulada: $S_n = \frac{n}{2}(a_1 + a_n)$
+              </div>
+            </li>
+            <li><strong>Progresión Geométrica (PG):</strong> Cada término se obtiene multiplicando una razón constante $r$ por el término anterior.
+              <div class="resultado">
+                Término general: $a_n = a_1 \cdot r^{n-1} \qquad $ Suma acumulada: $S_n = a_1 \frac{r^n - 1}{r - 1} \quad (r \ne 1)$
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- Sección Ejercicios con Split Screen -->
@@ -1185,22 +1200,7 @@
             </div>
 
             <div class="card">
-              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 2: Fracciones con Factoriales</h3>
-              <p>Calcular para todo $n \ge 1$ la siguiente suma:</p>
-              <div class="resultado">
-                $$ \sum_{k=1}^{n-1} \frac{1}{k!(n-k)!} $$
-              </div>
-              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p9b')">Ver Indicación / Pauta</button>
-              <div class="solucion" id="sol-sum-p9b">
-                <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Multiplicar y dividir la suma por $n!$.</p>
-                <p>2. Identificar el término interior como el coeficiente binomial: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.</p>
-                <p>3. Recordar la suma notable binomial $\sum_{k=0}^{n} \binom{n}{k} = 2^n$. Excluir los términos extremos $k=0$ y $k=n$ para obtener el resultado de la sumatoria interna.</p>
-              </div>
-            </div>
-
-            <div class="card">
-              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 3: Suma con Raíces</h3>
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 2: Suma con Raíces</h3>
               <p>Calcular, en función del límite $n$, el valor de la siguiente sumatoria:</p>
               <div class="resultado">
                 $$ \sum_{k=1}^{n} \frac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} $$
@@ -1219,7 +1219,7 @@
             </div>
 
             <div class="card">
-              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Suma Geométrica Directa</h3>
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 3: Suma Geométrica Directa</h3>
               <p>Sean $x, y \in \mathbb{R} \setminus \{0\}$ tales que $x \ne y$. Probar, sin usar inducción, que para todo $n \ge 1$ se cumple que:</p>
               <div class="resultado">
                 $$ \sum_{i=0}^{n-1} x^{n-1-i} y^i = \frac{x^n - y^n}{x - y} $$
@@ -1234,7 +1234,7 @@
             </div>
 
             <div class="card">
-              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 5: Varianza Estadística</h3>
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Varianza Estadística</h3>
               <p>Dada la definición de la media aritmética de $n$ datos $\mu = \frac{x_1 + x_2 + \dots + x_n}{n}$, demostrar que:</p>
               <div class="resultado">
                 $$ \frac{1}{n} \sum_{k=1}^{n} (x_k - \mu)^2 = \frac{1}{n} \left(\sum_{k=1}^{n} x_k^2\right) - \mu^2 $$
@@ -1246,6 +1246,21 @@
                 <p>1. Expandir el término cuadrático interior: $(x_k - \mu)^2 = x_k^2 - 2\mu x_k + \mu^2$.</p>
                 <p>2. Separar la sumatoria en tres términos individuales aprovechando la linealidad.</p>
                 <p>3. Recordar que $\sum_{k=1}^n x_k = n\mu$ y que la constante $\sum_{k=1}^n \mu^2 = n\mu^2$. Simplificar algebraicamente.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 5: Sumatoria de Raíces Irracionales</h3>
+              <p>Probar la validez del siguiente valor numérico utilizando propiedades de expansión binomial o geométricas:</p>
+              <div class="resultado">
+                $$ \sum_{k=0}^{7} \left[(\sqrt{3})^{7-k} (\sqrt{2})^k\right] = 65(\sqrt{2} + \sqrt{3}) $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p13a')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-sum-p13a">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Considerar que la sumatoria corresponde a una progresión geométrica finita de primer término $a_1 = (\sqrt{3})^7$ y razón común $r = \frac{\sqrt{2}}{\sqrt{3}}$.</p>
+                <p>2. Aplicar la fórmula de la suma $S_n = a_1 \frac{r^8 - 1}{r - 1}$.</p>
+                <p>3. Racionalizar el denominador multiplicando por el término conjugado para simplificar la expresión irracional.</p>
               </div>
             </div>
 
@@ -1395,22 +1410,7 @@
             </div>
 
             <div class="card">
-              <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Sumatoria de Raíces Irracionales</h3>
-              <p>Probar la validez del siguiente valor numérico utilizando propiedades de expansión binomial o geométricas:</p>
-              <div class="resultado">
-                $$ \sum_{k=0}^{7} \left[(\sqrt{3})^{7-k} (\sqrt{2})^k\right] = 65(\sqrt{2} + \sqrt{3}) $$
-              </div>
-              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p13a')">Ver Indicación / Pauta</button>
-              <div class="solucion" id="sol-bin-p13a">
-                <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Considerar que la sumatoria corresponde a una progresión geométrica finita de primer término $a_1 = (\sqrt{3})^7$ y razón común $r = \frac{\sqrt{2}}{\sqrt{3}}$.</p>
-                <p>2. Aplicar la fórmula de la suma $S_n = a_1 \frac{r^8 - 1}{r - 1}$.</p>
-                <p>3. Racionalizar el denominador multiplicando por el término conjugado para simplificar la expresión irracional.</p>
-              </div>
-            </div>
-
-            <div class="card">
-              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 5: Suma Ponderada de Coeficientes</h3>
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 4: Suma Ponderada de Coeficientes</h3>
               <p>Calcular en función del natural $n$ el valor de la siguiente sumatoria:</p>
               <div class="resultado">
                 $$ \sum_{k=0}^{n} k 7^k \binom{n}{k} $$
@@ -1421,6 +1421,21 @@
                 <p>1. Usar la identidad combinatoria $k \binom{n}{k} = n \binom{n-1}{k-1}$.</p>
                 <p>2. Extraer el factor $n$ y un factor 7 del término general de la sumatoria.</p>
                 <p>3. Aplicar el cambio de índice $j = k-1$ para identificar la sumatoria restante con la expansión binomial de $(7 + 1)^{n-1}$. El resultado es $7n \cdot 8^{n-1}$.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 5: Fracciones con Factoriales</h3>
+              <p>Calcular la siguiente suma donde $n \ge 1$:</p>
+              <div class="resultado">
+                $$ \sum_{k=1}^{n-1} \frac{1}{k!(n-k)!} $$
+              </div>
+              <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p9b')">Ver Indicación / Pauta</button>
+              <div class="solucion" id="sol-bin-p9b">
+                <p><strong>Indicación / Pauta:</strong></p>
+                <p>1. Multiplicar y dividir la suma por $n!$.</p>
+                <p>2. Identificar el término interior como el coeficiente binomial: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.</p>
+                <p>3. Recordar la suma notable binomial $\sum_{k=0}^{n} \binom{n}{k} = 2^n$. Excluir los términos extremos $k=0$ y $k=n$ para obtener el resultado de la sumatoria interna.</p>
               </div>
             </div>
 
@@ -1504,8 +1519,32 @@
           <div class="resultado">
             $$ z = r(\cos \theta + i \sin \theta) = r e^{i\theta} $$
           </div>
-          <p>Donde $r = |z|$ es el módulo, y $\theta = \arg(z)$ es el ángulo medido respecto al eje real positivo. 
-          Conversión: $a = r\cos\theta, \, b = r\sin\theta$ y $\tan\theta = b/a$ (cuidando el cuadrante).</p>
+          <p>Donde $r = |z| = \sqrt{a^2 + b^2}$ es el módulo, y $\theta = \arg(z)$ es el ángulo (o argumento) medido respecto al eje real positivo. Su valor se calcula según el cuadrante del plano complejo mediante las siguientes fórmulas:</p>
+          
+          <p><strong>Argumento Principal \(\theta \in (-\pi, \pi]\):</strong></p>
+          <div class="resultado">
+            $$ \theta = \begin{cases} 
+              \arctan\left(\frac{b}{a}\right) & \text{si } a > 0 \quad (\text{Cuadrantes I y IV}) \\ 
+              \arctan\left(\frac{b}{a}\right) + \pi & \text{si } a < 0 \text{ y } b \ge 0 \quad (\text{Cuadrante II}) \\ 
+              \arctan\left(\frac{b}{a}\right) - \pi & \text{si } a < 0 \text{ y } b < 0 \quad (\text{Cuadrante III}) \\ 
+              \frac{\pi}{2} & \text{si } a = 0 \text{ y } b > 0 \quad (\text{Eje imaginario positivo}) \\ 
+              -\frac{\pi}{2} & \text{si } a = 0 \text{ y } b < 0 \quad (\text{Eje imaginario negativo}) \\
+              \text{Indefinido} & \text{si } a = 0 \text{ y } b = 0 \quad (\text{Origen})
+            \end{cases} $$
+          </div>
+
+          <p><strong>Argumento en el intervalo \(\theta \in [0, 2\pi)\):</strong></p>
+          <div class="resultado">
+            $$ \theta = \begin{cases} 
+              \arctan\left(\frac{b}{a}\right) & \text{si } a > 0 \text{ y } b \ge 0 \quad (\text{Cuadrante I}) \\ 
+              \arctan\left(\frac{b}{a}\right) + \pi & \text{si } a < 0 \quad (\text{Cuadrantes II y III}) \\ 
+              \arctan\left(\frac{b}{a}\right) + 2\pi & \text{si } a > 0 \text{ y } b < 0 \quad (\text{Cuadrante IV}) \\ 
+              \frac{\pi}{2} & \text{si } a = 0 \text{ y } b > 0 \quad (\text{Eje imaginario positivo}) \\ 
+              \frac{3\pi}{2} & \text{si } a = 0 \text{ y } b < 0 \quad (\text{Eje imaginario negativo}) \\
+              \text{Indefinido} & \text{si } a = 0 \text{ y } b = 0 \quad (\text{Origen})
+            \end{cases} $$
+          </div>
+          <p>Conversión de regreso a coordenadas rectangulares: $a = r\cos\theta$ y $b = r\sin\theta$.</p>
         </div>
 
         <div class="card definicion">
@@ -1710,6 +1749,19 @@
               </div>
               <div class="formula-card-latex" style="margin-top: 5px;">
                 \( z \cdot \bar{z} = |z|^2 \)
+              </div>
+            </div>
+
+            <div class="formula-card">
+              <h4>Argumento \(\theta\) (Principal)</h4>
+              <div class="formula-card-latex" style="font-size:0.72rem; line-height: 1.1; margin: 0;">
+                \( \theta = \begin{cases} 
+                  \arctan(b/a) & \text{si } a > 0 \\ 
+                  \arctan(b/a) + \pi & \text{si } a < 0, b \ge 0 \\ 
+                  \arctan(b/a) - \pi & \text{si } a < 0, b < 0 \\ 
+                  \pi/2 & \text{si } a = 0, b > 0 \\ 
+                  -\pi/2 & \text{si } a = 0, b < 0 
+                \end{cases} \)
               </div>
             </div>
 
@@ -2052,21 +2104,27 @@
             <div class="conic-type-card">
               <h4>Parábola</h4>
               <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje focal vertical:</p>
-              <code>(x-h)² = 4p(y-k)</code><br>
+              <div class="conic-equation-latex">
+                \( (x-h)^2 = 4p(y-k) \)
+              </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Vértice $(h,k)$, foco a distancia $p$ sobre el eje.</p>
             </div>
             
             <div class="conic-type-card">
               <h4>Elipse</h4>
               <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje mayor horizontal:</p>
-              <code>(x-h)²/a² + (y-k)²/b² = 1</code><br>
+              <div class="conic-equation-latex">
+                \( \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1 \)
+              </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $a^2 = b^2 + c^2$, con $a > b$.</p>
             </div>
             
             <div class="conic-type-card">
               <h4>Hipérbola</h4>
               <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje transverso horizontal:</p>
-              <code>(x-h)²/a² - (y-k)²/b² = 1</code><br>
+              <div class="conic-equation-latex">
+                \( \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 \)
+              </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $c^2 = a^2 + b^2$. Asíntotas: $y-k = \pm \frac{b}{a}(x-h)$.</p>
             </div>
           </div>

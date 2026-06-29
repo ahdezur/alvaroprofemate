@@ -71,6 +71,9 @@
         <li class="admin-menu-item" id="menu-editor" data-section="editor">
           <i class="fa-solid fa-pen-to-square"></i> Nueva Lectura
         </li>
+        <li class="admin-menu-item" id="menu-settings" data-section="settings">
+          <i class="fa-solid fa-calendar-days"></i> Gestión Agenda
+        </li>
         <li class="admin-menu-item" id="btn-logout" style="margin-top: 40px; color: #ef4444;">
           <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión
         </li>
@@ -223,6 +226,130 @@
             <div class="editor-actions">
               <button type="button" class="btn btn-secondary" id="btn-cancel-edit"><i class="fa-solid fa-ban"></i> Cancelar</button>
               <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Publicación</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- SECTION: SETTINGS (Agenda Management) -->
+      <section class="admin-section" id="section-settings">
+        <!-- Sub-tabs within settings -->
+        <div class="tab-controls" style="margin-bottom: 20px;">
+          <button type="button" class="btn-toggle-pill active" id="subtab-btn-bookings" onclick="switchSettingsSubTab('bookings')">
+            <i class="fa-solid fa-calendar-check"></i> Reservas Recibidas
+          </button>
+          <button type="button" class="btn-toggle-pill" id="subtab-btn-availability" onclick="switchSettingsSubTab('availability')">
+            <i class="fa-solid fa-clock"></i> Disponibilidad Semanal
+          </button>
+        </div>
+
+        <!-- Sub-section: Bookings List -->
+        <div class="settings-sub-section active" id="settings-sub-bookings">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+            <h3 style="font-size: 18px; margin: 0;"><i class="fa-solid fa-clipboard-list"></i> Reservas de Clases</h3>
+            <button type="button" class="btn btn-secondary" id="btn-trigger-cron-simulation" style="font-size: 12.5px; padding: 6px 12px; border: 1px dashed var(--accent); color: var(--accent); background: rgba(6, 182, 212, 0.05); cursor: pointer; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-clock-rotate-left"></i> Simular Recordatorios (10m)
+            </button>
+          </div>
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Estudiante</th>
+                  <th>Contacto</th>
+                  <th>Fecha y Hora</th>
+                  <th>Asignatura</th>
+                  <th>Mensaje</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="bookings-table-body">
+                <tr>
+                  <td colspan="7" style="text-align: center; color: var(--text-muted);">Cargando reservas...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sub-section: Availability Configuration -->
+        <div class="settings-sub-section" id="settings-sub-availability" style="display: none;">
+          <h3 style="font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-gears"></i> Disponibilidad Horaria Semanal</h3>
+          <form id="availability-form" class="editor-form" style="padding: 20px;">
+            <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 20px;">
+              Configura los días y rangos horarios en los que estás disponible para realizar clases. El sistema generará bloques de reserva automáticos omitiendo las horas ocupadas.
+            </p>
+            
+            <div class="form-group" style="margin-bottom: 25px;">
+              <label for="avail-slot-duration" class="form-label">Duración Predeterminada por Clase</label>
+              <select id="avail-slot-duration" class="form-control" style="max-width: 300px;" required>
+                <option value="45">45 Minutos</option>
+                <option value="60" selected>60 Minutos (1 Hora)</option>
+                <option value="90">90 Minutos (1.5 Horas)</option>
+                <option value="120">120 Minutos (2 Horas)</option>
+              </select>
+            </div>
+
+            <div class="availability-days-grid">
+              <table class="admin-table" style="background: transparent; border: none; box-shadow: none;">
+                <thead>
+                  <tr style="background: rgba(255,255,255,0.02);">
+                    <th>Día</th>
+                    <th>¿Habilitado?</th>
+                    <th>Hora de Inicio</th>
+                    <th>Hora de Fin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-day="1">
+                    <td><strong>Lunes</strong></td>
+                    <td><input type="checkbox" class="day-active-check" checked></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="18:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                  <tr data-day="2">
+                    <td><strong>Martes</strong></td>
+                    <td><input type="checkbox" class="day-active-check" checked></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="18:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                  <tr data-day="3">
+                    <td><strong>Miércoles</strong></td>
+                    <td><input type="checkbox" class="day-active-check" checked></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="18:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                  <tr data-day="4">
+                    <td><strong>Jueves</strong></td>
+                    <td><input type="checkbox" class="day-active-check" checked></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="18:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                  <tr data-day="5">
+                    <td><strong>Viernes</strong></td>
+                    <td><input type="checkbox" class="day-active-check" checked></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="18:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                  <tr data-day="6">
+                    <td><strong>Sábado</strong></td>
+                    <td><input type="checkbox" class="day-active-check"></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="14:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                  <tr data-day="0">
+                    <td><strong>Domingo</strong></td>
+                    <td><input type="checkbox" class="day-active-check"></td>
+                    <td><input type="time" class="day-start-input form-control" value="09:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                    <td><input type="time" class="day-end-input form-control" value="14:00" style="padding: 5px; font-size:13px; max-width: 120px;"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="margin-top: 25px; text-align: right;">
+              <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar Disponibilidad</button>
             </div>
           </form>
         </div>

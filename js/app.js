@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
   initCalculatorModal();
   initHeroMathAnimation();
+  initCalendar();
+  initBookingFormSubmit();
 });
 
 /* ==========================================================================
@@ -230,6 +232,7 @@ function initContactForm() {
     
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
+    const university = document.getElementById("university").value;
     const subject = document.getElementById("subject").value;
     const message = document.getElementById("message").value;
 
@@ -249,7 +252,7 @@ function initContactForm() {
             <i class="fa-solid fa-check"></i>
           </div>
           <h3 style="font-family: var(--font-title); font-size: 24px; margin-bottom: 12px;">¡Mensaje Enviado con Éxito!</h3>
-          <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 30px; line-height: 1.6;">Gracias, <strong>${escapeHtml(name)}</strong>. He recibido tu consulta sobre <strong>${escapeHtml(subject)}</strong> y te responderé a <strong>${escapeHtml(email)}</strong> a la brevedad posible.</p>
+          <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 30px; line-height: 1.6;">Gracias, <strong>${escapeHtml(name)}</strong> (estudiante de <strong>${escapeHtml(university)}</strong>). He recibido tu consulta sobre <strong>${escapeHtml(subject)}</strong> y te responderé a <strong>${escapeHtml(email)}</strong> a la brevedad posible.</p>
           <button class="btn btn-secondary" onclick="window.location.reload();">Enviar otro mensaje</button>
         </div>
       `;
@@ -452,7 +455,7 @@ function initHeroMathAnimation() {
     for (let i = 0; i < N; i++) {
       const x = a + i * ancho;
       const y = f_integral(x);
-      const altura = 130 - y;
+      const altura = Math.max(0, 130 - y);
       sumaAreas += altura * ancho;
 
       const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -633,4 +636,330 @@ function initHeroMathAnimation() {
   // Inicializar estado inicial
   changeState(0);
   requestAnimationFrame(loop);
+}
+
+/* ==========================================================================
+   Sistema de Reservas y Agenda Personalizado (Estudiante)
+   ========================================================================== */
+let calendarState = {
+  currentDate: new Date(),
+  selectedDate: null,
+  availability: [],
+  bookings: []
+};
+
+// Nombres de meses en español
+const MONTH_NAMES = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+
+// Inicializar el calendario
+async function initCalendar() {
+  const grid = document.getElementById("calendar-days-grid");
+  if (!grid) return; // No estamos en la página principal
+
+  try {
+    // 1. Obtener la disponibilidad configurada por el profesor
+    calendarState.availability = await DB.getAvailability();
+
+    // 2. Escuchadores de navegación de meses
+    document.getElementById("prev-month-btn").addEventListener("click", () => {
+      calendarState.currentDate.setMonth(calendarState.currentDate.getMonth() - 1);
+      renderMonthCalendar();
+    });
+
+    document.getElementById("next-month-btn").addEventListener("click", () => {
+      calendarState.currentDate.setMonth(calendarState.currentDate.getMonth() + 1);
+      renderMonthCalendar();
+    });
+
+    // 3. Renderizar el calendario inicial
+    renderMonthCalendar();
+
+  } catch (error) {
+    console.error("Error al inicializar el calendario:", error);
+  }
+}
+
+// Renderizar días del mes en la cuadrícula
+function renderMonthCalendar() {
+  const grid = document.getElementById("calendar-days-grid");
+  const monthYearLabel = document.getElementById("calendar-month-year");
+  
+  if (!grid || !monthYearLabel) return;
+
+  const year = calendarState.currentDate.getFullYear();
+  const month = calendarState.currentDate.getMonth();
+
+  monthYearLabel.textContent = `${MONTH_NAMES[month]} ${year}`;
+  grid.innerHTML = "";
+
+  // Primer día de la semana para el mes (0: Domingo, 1: Lunes, etc.)
+  const firstDayIndex = new Date(year, month, 1).getDay();
+  // Cantidad de días en el mes
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  // Fecha de hoy para deshabilitar días pasados
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  // Inyectar espacios vacíos antes del primer día del mes
+  for (let i = 0; i < firstDayIndex; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.className = "calendar-day empty";
+    grid.appendChild(emptyCell);
+  }
+
+  // Inyectar los días reales del mes
+  for (let day = 1; day <= totalDays; day++) {
+    const dayBtn = document.createElement("div");
+    dayBtn.className = "calendar-day";
+    dayBtn.textContent = day;
+
+    const cellDate = new Date(year, month, day);
+    cellDate.setHours(0,0,0,0);
+
+    const dayOfWeek = cellDate.getDay();
+    const isToday = cellDate.getTime() === today.getTime();
+    
+    if (isToday) {
+      dayBtn.classList.add("today");
+    }
+
+    // Verificar si el día está en el pasado
+    const isPast = cellDate.getTime() < today.getTime();
+
+    // Buscar si el día de la semana está activo en la disponibilidad
+    const dayConfig = calendarState.availability.find(a => a.dayOfWeek === dayOfWeek);
+    const hasAvail = dayConfig && dayConfig.isActive;
+
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const isSelected = calendarState.selectedDate === dateStr;
+
+    if (isPast) {
+      dayBtn.classList.add("disabled");
+    } else if (hasAvail) {
+      dayBtn.classList.add("available");
+      if (isSelected) {
+        dayBtn.classList.add("selected");
+      }
+      
+      // Manejar click en día disponible
+      dayBtn.onclick = () => {
+        // Remover clase seleccionada previa de los demás días
+        document.querySelectorAll(".calendar-day.selected").forEach(el => el.classList.remove("selected"));
+        dayBtn.classList.add("selected");
+        calendarState.selectedDate = dateStr;
+        loadHourlySlots(dateStr, dayOfWeek, dayConfig);
+      };
+    } else {
+      dayBtn.classList.add("disabled");
+    }
+
+    grid.appendChild(dayBtn);
+  }
+}
+
+// Cargar y mostrar bloques horarios de un día seleccionado
+async function loadHourlySlots(dateStr, dayOfWeek, dayConfig) {
+  const label = document.getElementById("selected-day-label");
+  const container = document.getElementById("slots-container");
+  
+  if (!label || !container) return;
+
+  // Dar formato bonito a la cabecera
+  const options = { weekday: 'long', day: 'numeric', month: 'long' };
+  const dateObj = new Date(dateStr + 'T00:00:00');
+  label.textContent = `Horas para el ${dateObj.toLocaleDateString('es-ES', options)}`;
+
+  container.innerHTML = `
+    <p style="text-align:center; color:var(--text-muted); padding:30px 0;">
+      <i class="fa-solid fa-spinner fa-spin"></i> Buscando horas disponibles...
+    </p>
+  `;
+
+  try {
+    // 1. Obtener las reservas existentes de la base de datos para ese día
+    const bookings = await DB.getBookings(dateStr);
+
+    // 2. Generar todos los bloques teóricos según hora inicio/fin y duración
+    const slots = generateTimeSlots(dayConfig.startTime, dayConfig.endTime, dayConfig.slotDuration);
+
+    if (slots.length === 0) {
+      container.innerHTML = `
+        <p style="color:var(--text-muted); font-size:13.5px; text-align:center; padding: 30px 0;">
+          No hay bloques configurados para este día.
+        </p>
+      `;
+      return;
+    }
+
+    // 3. Renderizar los bloques cruzándolos con reservas ocupadas
+    container.innerHTML = "";
+    slots.forEach(time => {
+      const isBooked = bookings.some(b => b.time === time);
+      
+      const slotBtn = document.createElement("button");
+      slotBtn.type = "button";
+      slotBtn.className = "slot-btn";
+      
+      if (isBooked) {
+        slotBtn.classList.add("booked");
+        slotBtn.disabled = true;
+        slotBtn.innerHTML = `
+          <span><i class="fa-regular fa-clock"></i> ${time}</span>
+          <span class="slot-status booked-status">Ocupado</span>
+        `;
+      } else {
+        slotBtn.innerHTML = `
+          <span><i class="fa-regular fa-clock"></i> ${time}</span>
+          <span class="slot-status available">Disponible</span>
+        `;
+        slotBtn.onclick = () => openBookingModal(dateStr, time);
+      }
+      
+      container.appendChild(slotBtn);
+    });
+
+  } catch (error) {
+    console.error("Error al cargar horas disponibles:", error);
+    container.innerHTML = `
+      <p style="color:#ef4444; font-size:13.5px; text-align:center; padding: 20px 0;">
+        Error al consultar la disponibilidad. Por favor intenta de nuevo.
+      </p>
+    `;
+  }
+}
+
+// Generador de bloques horarios en base a rango y duración
+function generateTimeSlots(startTime, endTime, duration) {
+  const slots = [];
+  let [startHour, startMin] = startTime.split(':').map(Number);
+  const [endHour, endMin] = endTime.split(':').map(Number);
+
+  let currentTotalMin = startHour * 60 + startMin;
+  const endTotalMin = endHour * 60 + endMin;
+
+  while (currentTotalMin + duration <= endTotalMin) {
+    const h = Math.floor(currentTotalMin / 60);
+    const m = currentTotalMin % 60;
+    const timeString = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    slots.push(timeString);
+    currentTotalMin += duration;
+  }
+
+  return slots;
+}
+
+// Abrir modal de agendamiento
+function openBookingModal(dateStr, timeStr) {
+  const modal = document.getElementById("booking-modal");
+  const summaryDate = document.getElementById("summary-date");
+  const summaryTime = document.getElementById("summary-time");
+  
+  const dateField = document.getElementById("booking-field-date");
+  const timeField = document.getElementById("booking-field-time");
+
+  if (!modal || !summaryDate || !summaryTime) return;
+
+  dateField.value = dateStr;
+  timeField.value = timeStr;
+
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  const dateObj = new Date(dateStr + 'T00:00:00');
+  
+  summaryDate.textContent = dateObj.toLocaleDateString('es-ES', options);
+  summaryTime.textContent = `${timeStr} (Duración de la consulta según programa)`;
+
+  // Abrir modal
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  // Botones de cierre
+  const closeModal = () => {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+    document.getElementById("booking-form-submit").reset();
+  };
+
+  document.getElementById("close-booking-modal").onclick = closeModal;
+  document.getElementById("btn-cancel-booking").onclick = closeModal;
+  
+  modal.onclick = (e) => {
+    if (e.target === modal) closeModal();
+  };
+
+  // Cerrar con Escape
+  document.addEventListener("keydown", function escClose(e) {
+    if (e.key === "Escape") {
+      closeModal();
+      document.removeEventListener("keydown", escClose);
+    }
+  });
+}
+
+// Evento submit de agendamiento
+function initBookingFormSubmit() {
+  const form = document.getElementById("booking-form-submit");
+  if (!form) return;
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button[type='submit']");
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Agendando...`;
+
+    const dateStr = document.getElementById("booking-field-date").value;
+    const timeStr = document.getElementById("booking-field-time").value;
+    const name = document.getElementById("booking-name").value;
+    const email = document.getElementById("booking-email").value;
+    const university = document.getElementById("booking-university").value;
+    const subject = document.getElementById("booking-subject").value;
+    const message = document.getElementById("booking-message").value;
+
+    const bookingData = {
+      date: dateStr,
+      time: timeStr,
+      name,
+      email,
+      university,
+      subject,
+      message,
+      status: "pendiente"
+    };
+
+    try {
+      await DB.createBooking(bookingData);
+      
+      // Cerrar modal
+      const modal = document.getElementById("booking-modal");
+      modal.style.display = "none";
+      document.body.style.overflow = "";
+
+      // Mostrar mensaje de éxito en la columna de slots
+      const container = document.getElementById("slots-container");
+      container.innerHTML = `
+        <div style="text-align: center; padding: 25px 10px; color: var(--text-primary); animation: modalEnter 0.4s ease;">
+          <div style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; color: #10b981; font-size: 24px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <h4 style="font-family: var(--font-title); font-size: 18px; margin-bottom: 8px; color:#10b981;">¡Reserva Solicitada!</h4>
+          <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 15px;">
+            Tu hora para el <strong>${formatDate(dateStr)}</strong> a las <strong>${timeStr} hrs</strong> ha sido registrada. Te enviaré un correo a <strong>${escapeHtml(email)}</strong> para confirmar la sesión.
+          </p>
+          <button type="button" class="btn btn-secondary" style="font-size:12px; padding: 6px 12px;" onclick="window.location.reload();">Entendido</button>
+        </div>
+      `;
+
+      // Refrescar calendario para inhabilitar ese bloque
+      renderMonthCalendar();
+
+    } catch (error) {
+      alert("Hubo un error al registrar la reserva. Intenta de nuevo.");
+      console.error(error);
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-check"></i> Reservar Sesión`;
+    }
+  };
 }

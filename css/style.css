@@ -1618,3 +1618,281 @@ textarea.form-control {
     font-size: 24px;
   }
 }
+
+/* ==========================================================================
+   SISTEMA DE AGENDA Y RESERVAS PERSONALIZADO
+   ========================================================================== */
+.booking-calendar-wrapper {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  margin-top: 30px;
+}
+
+@media (max-width: 900px) {
+  .booking-calendar-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.booking-calendar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
+  padding: 25px;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+  font-family: var(--font-title);
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.calendar-nav-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.calendar-nav-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.calendar-days-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.calendar-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14.5px;
+  color: var(--text-muted);
+  border-radius: 50%;
+  cursor: default;
+  user-select: none;
+  transition: var(--transition-fast);
+}
+
+.calendar-day.empty {
+  visibility: hidden;
+}
+
+.calendar-day.disabled {
+  color: rgba(255, 255, 255, 0.15);
+  cursor: not-allowed;
+}
+
+.calendar-day.available {
+  color: var(--accent);
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px dashed rgba(6, 182, 212, 0.4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.calendar-day.available:hover {
+  background: var(--accent);
+  color: #000000;
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+}
+
+.calendar-day.selected {
+  background: var(--primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 12px var(--primary-glow);
+  font-weight: 700;
+}
+
+.calendar-day.today {
+  border: 1px solid var(--text-primary);
+}
+
+/* Slots card */
+.booking-slots-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
+  padding: 25px;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-slots-card h3 {
+  font-family: var(--font-title);
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.slots-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.slot-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-fast);
+}
+
+.slot-btn:hover:not(.booked) {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--primary);
+  padding-left: 18px;
+}
+
+.slot-btn .slot-status {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.slot-btn .slot-status.available {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent);
+}
+
+.slot-btn.booked {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(255,255,255,0.01);
+}
+
+.slot-btn .slot-status.booked-status {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+/* Modal de Reserva */
+.booking-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.booking-modal-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
+  max-width: 550px;
+  width: 100%;
+  padding: 30px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  animation: modalEnter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalEnter {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.booking-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 15px;
+}
+
+.booking-modal-header h3 {
+  font-family: var(--font-title);
+  color: var(--accent);
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.booking-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 28px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.booking-modal-close:hover {
+  color: var(--text-primary);
+}
+
+.booking-details-summary {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-sm);
+  padding: 15px;
+  margin-bottom: 25px;
+}
+
+.booking-details-summary p {
+  margin: 5px 0;
+  font-size: 14.5px;
+}
+
+.booking-details-summary strong {
+  color: var(--text-muted);
+}

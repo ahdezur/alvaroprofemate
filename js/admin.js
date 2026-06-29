@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initDashboardNavigation();
   initWysiwygEditor();
   initPostFormSubmit();
+  initAvailabilityFormSubmit();
+  initCronSimulationButton();
 });
 
 /* ==========================================================================
@@ -123,6 +125,10 @@ function initDashboardNavigation() {
       } else if (sectionId === "editor") {
         sectionTitle.textContent = "Redactor de Contenido";
         resetEditorForm(); // Limpiar por si estaba en modo edición
+      } else if (sectionId === "settings") {
+        sectionTitle.textContent = "Gestión de Agenda y Reservas";
+        renderBookingsTable();
+        loadAvailabilityForm();
       }
     });
   });
@@ -416,6 +422,291 @@ function resetEditorForm() {
   editorVisual.innerHTML = "<p>Comienza a escribir tu lectura aquí...</p>";
   editorCode.value = "";
   document.getElementById("editor-title-label").innerHTML = `<i class="fa-solid fa-file-pen"></i> Escribir Nueva Lectura`;
+}
+
+/* ==========================================================================
+   Gestión de Agenda: Reservas y Disponibilidad
+   ========================================================================== */
+// Switch interno entre pestañas de agenda
+window.switchSettingsSubTab = function(subTab) {
+  const tabBookingsBtn = document.getElementById("subtab-btn-bookings");
+  const tabAvailabilityBtn = document.getElementById("subtab-btn-availability");
+  const sectionBookings = document.getElementById("settings-sub-bookings");
+  const sectionAvailability = document.getElementById("settings-sub-availability");
+
+  if (subTab === "bookings") {
+    tabBookingsBtn.classList.add("active");
+    tabAvailabilityBtn.classList.remove("active");
+    sectionBookings.style.display = "block";
+    sectionAvailability.style.display = "none";
+    renderBookingsTable();
+  } else {
+    tabBookingsBtn.classList.remove("active");
+    tabAvailabilityBtn.classList.add("active");
+    sectionBookings.style.display = "none";
+    sectionAvailability.style.display = "block";
+    loadAvailabilityForm();
+  }
+};
+
+// Renderizar tabla de reservas
+async function renderBookingsTable() {
+  const tbody = document.getElementById("bookings-table-body");
+  try {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; color: var(--text-muted);">
+          <i class="fa-solid fa-spinner fa-spin"></i> Cargando reservas...
+        </td>
+      </tr>
+    `;
+
+    const bookings = await DB.getBookings();
+
+    if (bookings.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px 0;">
+            No hay reservas registradas en este momento.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = "";
+    bookings.forEach(booking => {
+      const tr = document.createElement("tr");
+
+      // Clases para badge de estado
+      let badgeClass = "table-tag";
+      let statusLabel = booking.status.toUpperCase();
+      if (booking.status === "pendiente") {
+        badgeClass += " tag-pending";
+      } else if (booking.status === "confirmada") {
+        badgeClass += " tag-confirmed";
+      } else if (booking.status === "cancelada") {
+        badgeClass += " tag-canceled";
+      }
+
+      // Estilos en línea directos para los badges de reserva
+      const badgeStyle = booking.status === "pendiente" ? "background: rgba(245, 158, 11, 0.15); color: #f59e0b;" :
+                          booking.status === "confirmada" ? "background: rgba(16, 185, 129, 0.15); color: #10b981;" :
+                          "background: rgba(239, 68, 68, 0.15); color: #ef4444;";
+
+      // Formatear fecha
+      const dateFormatted = formatDate(booking.date);
+
+      // Botones de acción según el estado
+      let actionButtons = "";
+      if (booking.status === "pendiente") {
+        actionButtons = `
+          <button class="btn-icon btn-confirm" data-id="${booking.id}" title="Confirmar Reserva" style="color: #10b981; background:none; border:none; cursor:pointer; font-size:15px;"><i class="fa-solid fa-circle-check"></i></button>
+          <button class="btn-icon btn-cancel" data-id="${booking.id}" title="Cancelar Reserva" style="color: #ef4444; background:none; border:none; cursor:pointer; font-size:15px;"><i class="fa-solid fa-circle-xmark"></i></button>
+        `;
+      } else if (booking.status === "confirmada") {
+        actionButtons = `
+          <button class="btn-icon btn-cancel" data-id="${booking.id}" title="Cancelar Reserva" style="color: #ef4444; background:none; border:none; cursor:pointer; font-size:15px;"><i class="fa-solid fa-circle-xmark"></i></button>
+        `;
+      } else if (booking.status === "cancelada") {
+        actionButtons = `
+          <button class="btn-icon btn-confirm" data-id="${booking.id}" title="Confirmar/Reactivar Reserva" style="color: #10b981; background:none; border:none; cursor:pointer; font-size:15px;"><i class="fa-solid fa-circle-check"></i></button>
+        `;
+      }
+
+      // Agregar botón de eliminar en cualquier estado
+      actionButtons += `
+        <button class="btn-icon btn-delete-booking" data-id="${booking.id}" title="Eliminar del Registro" style="color: var(--text-muted); background:none; border:none; cursor:pointer; font-size:15px; margin-left: 5px;"><i class="fa-solid fa-trash-can"></i></button>
+      `;
+
+      tr.innerHTML = `
+        <td>
+          <strong style="color: var(--text-primary); font-size:14.5px;">${escapeHtml(booking.name)}</strong>
+          ${booking.university ? `<br><small style="color: var(--text-muted); font-size: 11.5px; font-weight: 500;"><i class="fa-solid fa-university"></i> ${escapeHtml(booking.university)}</small>` : ''}
+        </td>
+        <td><a href="mailto:${escapeHtml(booking.email)}" style="color: var(--accent); text-decoration: none; font-size:13px;">${escapeHtml(booking.email)}</a></td>
+        <td><span style="font-size:13.5px; white-space: nowrap;">${dateFormatted}</span><br><span style="font-size: 12px; color: var(--text-muted); font-weight: 600;"><i class="fa-regular fa-clock"></i> ${booking.time}</span></td>
+        <td><span class="table-tag">${escapeHtml(booking.subject)}</span></td>
+        <td><div style="max-width: 180px; max-height: 50px; overflow-y: auto; font-size: 12.5px; color: var(--text-muted);" title="${escapeHtml(booking.message || '')}">${escapeHtml(booking.message || '-')}</div></td>
+        <td><span class="${badgeClass}" style="${badgeStyle}">${statusLabel}</span></td>
+        <td>
+          <div class="action-btns" style="display:flex; gap: 4px;">
+            ${actionButtons}
+          </div>
+        </td>
+      `;
+
+      // Handlers de eventos
+      const confirmBtn = tr.querySelector(".btn-confirm");
+      if (confirmBtn) {
+        confirmBtn.onclick = () => updateBookingStatusHandler(booking.id, "confirmada");
+      }
+
+      const cancelBtn = tr.querySelector(".btn-cancel");
+      if (cancelBtn) {
+        cancelBtn.onclick = () => updateBookingStatusHandler(booking.id, "cancelada");
+      }
+
+      tr.querySelector(".btn-delete-booking").onclick = () => deleteBookingHandler(booking.id);
+
+      tbody.appendChild(tr);
+    });
+
+  } catch (error) {
+    console.error("Error cargando reservas:", error);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; color: #ef4444;">
+          Error al cargar las reservas desde la base de datos.
+        </td>
+      </tr>
+    `;
+  }
+}
+
+// Cambiar estado de reserva
+async function updateBookingStatusHandler(id, status) {
+  try {
+    await DB.updateBookingStatus(id, status);
+    renderBookingsTable();
+  } catch (error) {
+    alert("Error al actualizar el estado de la reserva.");
+    console.error(error);
+  }
+}
+
+// Eliminar reserva
+async function deleteBookingHandler(id) {
+  if (confirm("¿Estás seguro de que deseas eliminar permanentemente esta reserva del registro?")) {
+    try {
+      await DB.deleteBooking(id);
+      renderBookingsTable();
+    } catch (error) {
+      alert("Error al eliminar la reserva.");
+      console.error(error);
+    }
+  }
+}
+
+// Cargar disponibilidad en el formulario
+async function loadAvailabilityForm() {
+  try {
+    const availability = await DB.getAvailability();
+    if (!availability || availability.length === 0) return;
+
+    // Configurar duración global basándonos en el primer día
+    document.getElementById("avail-slot-duration").value = availability[0].slotDuration || 60;
+
+    // Configurar cada fila de día
+    availability.forEach(day => {
+      const row = document.querySelector(`.availability-days-grid tbody tr[data-day="${day.dayOfWeek}"]`);
+      if (row) {
+        row.querySelector(".day-active-check").checked = day.isActive;
+        row.querySelector(".day-start-input").value = day.startTime;
+        row.querySelector(".day-end-input").value = day.endTime;
+      }
+    });
+  } catch (error) {
+    console.error("Error al cargar disponibilidad:", error);
+  }
+}
+
+// Guardar disponibilidad semanal
+function initAvailabilityFormSubmit() {
+  const form = document.getElementById("availability-form");
+  if (!form) return;
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const saveBtn = form.querySelector("button[type='submit']");
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Guardando...`;
+
+    try {
+      const slotDuration = parseInt(document.getElementById("avail-slot-duration").value, 10);
+      const rows = document.querySelectorAll(".availability-days-grid tbody tr");
+      const availabilityList = [];
+
+      rows.forEach(row => {
+        const dayOfWeek = parseInt(row.getAttribute("data-day"), 10);
+        const isActive = row.querySelector(".day-active-check").checked;
+        const startTime = row.querySelector(".day-start-input").value;
+        const endTime = row.querySelector(".day-end-input").value;
+
+        availabilityList.push({
+          dayOfWeek,
+          isActive,
+          startTime,
+          endTime,
+          slotDuration
+        });
+      });
+
+      await DB.updateAvailability(availabilityList);
+      alert("¡Disponibilidad guardada exitosamente!");
+      loadAvailabilityForm();
+    } catch (error) {
+      alert("Error al guardar la disponibilidad horaria.");
+      console.error(error);
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Guardar Disponibilidad`;
+    }
+  };
+}
+
+// Simulación local del cron job de recordatorios
+function initCronSimulationButton() {
+  const btn = document.getElementById("btn-trigger-cron-simulation");
+  if (!btn) return;
+
+  btn.onclick = () => {
+    const bookingsStr = localStorage.getItem("alvaro_profemate_bookings");
+    if (!bookingsStr) {
+      alert("No hay reservas guardadas localmente.");
+      return;
+    }
+
+    const bookings = JSON.parse(bookingsStr);
+    
+    // Obtener fecha actual local Santiago (YYYY-MM-DD)
+    const formatterDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Santiago', year: 'numeric', month: '2-digit', day: '2-digit' });
+    const todayStr = formatterDate.format(new Date());
+
+    // Obtener hora actual local Santiago en minutos
+    const formatterTime = new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', hour12: false });
+    const timeStr = formatterTime.format(new Date());
+    const [nowH, nowM] = timeStr.split(':').map(Number);
+    const nowInMinutes = nowH * 60 + nowM;
+
+    let sentCount = 0;
+    const updatedBookings = bookings.map(b => {
+      // Cruzamos si el agendamiento es hoy, confirmado y no tiene recordatorio enviado
+      if (b.date === todayStr && b.status === "confirmada" && !b.reminderSent && !b.reminder_sent) {
+        const [bH, bM] = b.time.split(':').map(Number);
+        const bookingInMinutes = bH * 60 + bM;
+        const diff = bookingInMinutes - nowInMinutes;
+        
+        // Si comienza en los próximos 15 minutos (y no más antiguo de -5 mins)
+        if (diff >= -5 && diff <= 15) {
+          sentCount++;
+          console.log("%c[SIMULACIÓN CORREO - RECORDATORIO (10 MIN)]", "background: #f59e0b; color: black; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+          console.log(`Para: ${b.email}\nAsunto: Recordatorio: Tu consulta comienza en 10 minutos 🚀\nDetalles: Estudiante: ${b.name}, Asignatura: ${b.subject}, Hora: ${b.time} hrs`);
+          
+          return { ...b, reminderSent: true, reminder_sent: true };
+        }
+      }
+      return b;
+    });
+
+    if (sentCount > 0) {
+      localStorage.setItem("alvaro_profemate_bookings", JSON.stringify(updatedBookings));
+      alert(`¡Simulación exitosa! Se enviaron ${sentCount} recordatorios.\n\nRevisa la consola del navegador (F12) para ver el contenido simulado del correo.`);
+      renderBookingsTable();
+    } else {
+      alert(`No se encontraron consultas para el día de hoy (${todayStr}) que comiencen en los próximos 15 minutos, estén confirmadas y no hayan recibido recordatorio anteriormente.`);
+    }
+  };
 }
 
 /* ==========================================================================

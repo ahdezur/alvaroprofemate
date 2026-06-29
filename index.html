@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Álvaro Hernández – Profesor de Matemáticas</title>
-  <meta name="description" content="Clases particulares universitarias y escolares de Cálculo, Álgebra, Ecuaciones Diferenciales y más. Modalidad online, presencial y sincrónica.">
+  <meta name="description" content="Horarios de consulta universitarios y escolares de Cálculo, Álgebra, Ecuaciones Diferenciales y más. Modalidad 100% online y sincrónica.">
   <link rel="stylesheet" href="css/style.css">
   <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -44,8 +44,8 @@
       <li><a href="#" class="nav-link active">Inicio</a></li>
       <li><a href="#materias" class="nav-link">Materias</a></li>
       <li><a href="#sobre-mi" class="nav-link">Sobre Mí</a></li>
-      <li><a href="#modalidades" class="nav-link">Planes y Clases</a></li>
       <li><a href="#blog" class="nav-link">Lecturas</a></li>
+      <li><a href="#agenda" class="nav-link">Agenda</a></li>
       <li><a href="#contacto" class="nav-link">Contacto</a></li>
     </ul>
     <div class="menu-toggle" id="menu-toggle">
@@ -61,7 +61,7 @@
         <h1 class="hero-title">Domina las Matemáticas a Nivel <span>Universitario</span></h1>
         <p class="hero-desc">Recursos avanzados e interactivos para Álgebra, Álgebra Lineal, Cálculo diferencial e integral, Ecuaciones Diferenciales Ordinarias. Aprende con un académico universitario con amplia experiencia pedagógica</p>
         <div class="hero-btns">
-          <a href="#contacto" class="btn btn-primary"><i class="fa-regular fa-calendar-check"></i> Agendar Clase</a>
+          <a href="#agenda" class="btn btn-primary"><i class="fa-regular fa-calendar-check"></i> Horarios de Consulta</a>
           <a href="#materias" class="btn btn-secondary">Explorar Materias</a>
           <a href="#" class="btn btn-secondary" id="btn-calculadora"><i class="fa-solid fa-calculator"></i> Calculadora de notas</a>
         </div>
@@ -176,7 +176,12 @@
         <a href="limites-laterales.html" class="subject-card">
           <div class="subject-icon"><i class="fa-solid fa-plus-minus"></i></div>
           <h3 class="subject-title">Introducción al Cálculo</h3>
-          <p class="subject-desc">Fundamentos matemáticos, funciones, límites y continuidad. La base crítica para toda la matemática superior.</p>
+          <p class="subject-desc">Fundamentos matemáticos, funciones, límites, continuidad, sucesiones. La base crítica para toda la matemática superior.</p>
+        </a>
+        <a href="ejercicios_examen.html" class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+          <h3 class="subject-title">Introducción al Álgebra</h3>
+          <p class="subject-desc">Fundamentos algebraicos, inducción, sumatorias, binomio de newton, números complejos, polinomios y geometría analítica.</p>
         </a>
         <div class="subject-card">
           <div class="subject-icon"><i class="fa-solid fa-chart-line"></i></div>
@@ -189,18 +194,18 @@
           <p class="subject-desc">La integral definida, técnicas de integración, áreas, volúmenes e integrales impropias. Estrategias efectivas de resolución.</p>
         </a>
         <div class="subject-card">
-          <div class="subject-icon"><i class="fa-solid fa-layer-group"></i></div>
-          <h3 class="subject-title">Cálculo Multivariable</h3>
-          <p class="subject-desc">Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas de Green, Stokes y Gauss.</p>
-        </div>
-        <div class="subject-card">
           <div class="subject-icon"><i class="fa-solid fa-border-all"></i></div>
           <h3 class="subject-title">Álgebra Lineal</h3>
           <p class="subject-desc">Matrices, sistemas de ecuaciones, espacios vectoriales, transformaciones lineales, autovalores y autovectores.</p>
         </div>
         <div class="subject-card">
+          <div class="subject-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <h3 class="subject-title">Cálculo Multivariable</h3>
+          <p class="subject-desc">Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas de Green, Stokes y Gauss.</p>
+        </div>
+        <div class="subject-card">
           <div class="subject-icon"><i class="fa-solid fa-bezier-curve"></i></div>
-          <h3 class="subject-title">Ecuaciones Diferenciales</h3>
+          <h3 class="subject-title">Ecuaciones Diferenciales Ordinarias</h3>
           <p class="subject-desc">Ecuaciones diferenciales ordinarias de primer y segundo orden, transformada de Laplace y modelación matemática.</p>
         </div>
         <div class="subject-card">
@@ -208,16 +213,6 @@
           <h3 class="subject-title">Cálculo Avanzado</h3>
           <p class="subject-desc">Series de Fourier, variables complejas, análisis vectorial avanzado y aplicaciones avanzadas de ingeniería.</p>
         </div>
-        <div class="subject-card">
-          <div class="subject-icon"><i class="fa-solid fa-square-root-variable"></i></div>
-          <h3 class="subject-title">Álgebra</h3>
-          <p class="subject-desc">Fundamentos algebraicos, inducción, sumatorias, números complejos, polinomios y sistemas lineales fundamentales.</p>
-        </div>
-        <a href="sucesiones.html" class="subject-card">
-          <div class="subject-icon"><i class="fa-solid fa-route"></i></div>
-          <h3 class="subject-title">Análisis Matemático</h3>
-          <p class="subject-desc">Ruta interactiva sobre Sucesiones Reales. Domina la convergencia formal mediante límites, bandas de error \(\varepsilon\) y topología.</p>
-        </a>
       </div>
     </div>
   </section>
@@ -227,9 +222,9 @@
     <div class="container about-grid">
       <div class="about-details">
         <span class="section-tag">Sobre Mí</span>
-        <h2 class="section-title">Dr. Álvaro Hernández</h2>
+        <h2 class="section-title">Álvaro Hernández, PhD</h2>
         <p>Docente universitario apasionado por la enseñanza y el aprendizaje efectivo de las matemáticas. Mi enfoque pedagógico se centra en construir intuición, reducir la abstracción innecesaria y guiar al estudiante de manera estructurada hacia la resolución autónoma de problemas complejos.</p>
-        <p>Investigador en el área de Educación Matemática, donde me he adjudicado dos proyectos de investigación como investigador principal, además de varios proyectos de innovación docente enfocados en mejorar la comprensión del cálculo a nivel de pregrado.</p>
+        <p><strong>Innovador en metodologías de enseñanza</strong>, dedicado al diseño de entornos interactivos y dinámicos para el aprendizaje. He liderado múltiples proyectos de innovación docente orientados a transformar la enseñanza tradicional del cálculo y el álgebra, integrando herramientas virtuales que facilitan el autoaprendizaje y construyen una sólida base conceptual a nivel de pregrado universitario.</p>
         <p>De trato amable, perseverante y profundamente comprometido con el desarrollo académico de mis estudiantes, adaptando las explicaciones al ritmo y necesidades individuales.</p>
         
         <div class="degree-box">
@@ -239,10 +234,10 @@
       </div>
       <div style="display: flex; flex-direction: column; gap: 20px;">
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius-md); padding: 30px; position: relative;">
-          <h3 style="font-size: 20px; margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-microscope"></i> Investigación y Proyectos</h3>
+          <h3 style="font-size: 20px; margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-lightbulb"></i> Innovación y Docencia</h3>
           <ul style="padding-left: 20px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
-            <li>Investigador Principal en proyectos de innovación metodológica universitaria.</li>
-            <li>Publicaciones enfocadas en la didáctica del Cálculo y el Álgebra.</li>
+            <li>Líder en proyectos de innovación metodológica y docente universitaria.</li>
+            <li>Creador de recursos y material docente de apoyo, con foco en el desarrollo autónomo de guías y talleres prácticos paso a paso.</li>
             <li>Diseño de entornos virtuales de aprendizaje y herramientas de auto-aprendizaje guiado.</li>
           </ul>
         </div>
@@ -250,52 +245,9 @@
           <h3 style="font-size: 20px; margin-bottom: 15px; color: var(--primary);"><i class="fa-solid fa-chalkboard-user"></i> Experiencia Docente</h3>
           <ul style="padding-left: 20px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
             <li>Cátedras universitarias en carreras de Ingeniería, Ciencias y Pedagogía.</li>
-            <li>Más de 10 años impartiendo asesorías personalizadas en ramos de alta exigencia.</li>
+            <li>Más de 10 años resolviendo consultas y guiando a estudiantes en ramos de alta exigencia.</li>
             <li>Creador de guías, talleres de nivelación y material de estudio interactivo.</li>
           </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODALIDADES/PLANES SECTION -->
-  <section id="modalidades">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Modalidades</span>
-        <h2 class="section-title">Formatos de Clases Disponibles</h2>
-        <p class="section-subtitle">Opciones flexibles que se adaptan a tu horario, ubicación y método preferido de aprendizaje.</p>
-      </div>
-
-      <div class="modalities-grid">
-        <!-- Clases Online -->
-        <div class="modality-card">
-          <div class="modality-icon"><i class="fa-solid fa-laptop"></i></div>
-          <h3 class="modality-title">Clases Online</h3>
-          <p class="modality-desc">Sesiones interactivas en vivo por Zoom mediante pizarra digital de alta precisión. Ideal para consultas puntuales, revisión de guías y explicaciones personalizadas sin salir de casa.</p>
-          <div class="modality-footer">
-            <a href="#contacto" class="btn btn-secondary">Consultar Disponibilidad</a>
-          </div>
-        </div>
-
-        <!-- Clases Sincrónicas -->
-        <div class="modality-card highlight">
-          <div class="modality-icon"><i class="fa-solid fa-circle-play"></i></div>
-          <h3 class="modality-title">Clases Sincrónicas</h3>
-          <p class="modality-desc">Modalidad realizada dentro de un Entorno Virtual de Aprendizaje (EVA) personalizado. Incluye acceso a clases grabadas completas, material de estudio complementario y evaluaciones de autodiagnóstico.</p>
-          <div class="modality-footer">
-            <a href="#contacto" class="btn btn-primary">Ver Planes Disponibles</a>
-          </div>
-        </div>
-
-        <!-- Clases Presenciales -->
-        <div class="modality-card">
-          <div class="modality-icon"><i class="fa-solid fa-users"></i></div>
-          <h3 class="modality-title">Clases Presenciales</h3>
-          <p class="modality-desc">Clases tradicionales cara a cara en un lugar conveniente a convenir. Perfecto para sesiones intensivas de una hora cronológica con foco en el desarrollo detallado de problemas.</p>
-          <div class="modality-footer">
-            <a href="#contacto" class="btn btn-secondary">Coordinar Lugar</a>
-          </div>
         </div>
       </div>
     </div>
@@ -321,48 +273,104 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS SECTION -->
-  <section id="testimonios">
+  <!-- AGENDA / BOOKING CALENDAR SECTION -->
+  <section id="agenda" style="background-color: var(--bg-primary); border-top: 1px solid var(--border); padding: 80px 0;">
     <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Testimonios</span>
-        <h2 class="section-title">Lo que dicen mis estudiantes</h2>
-        <p class="section-subtitle">La opinión de quienes han logrado superar sus ramos de matemática universitaria.</p>
-      </div>
+      <span class="section-tag" style="display: block; text-align: center; margin: 0 auto 10px auto;">Reserva de Horarios</span>
+      <h2 class="section-title" style="text-align: center; margin-bottom: 10px;">Reserva tu Horario de Consulta</h2>
+      <p style="text-align: center; max-width: 600px; margin: 0 auto 40px auto; color: var(--text-muted);">
+        Selecciona un día en el calendario interactivo para ver los bloques horarios libres disponibles.
+      </p>
 
-      <div class="testimonial-slider-container">
-        <div class="testimonial-track" id="testimonial-track">
-          <!-- Slide 1 -->
-          <div class="testimonial-slide">
-            <div style="font-size: 28px; color: var(--accent); margin-bottom: 20px;"><i class="fa-solid fa-quote-left"></i></div>
-            <p class="testimonial-quote">"Excelente profesor. Su método de enseñanza para Cálculo Integral me ayudó a comprender los conceptos más abstractos que no entendía en la cátedra universitaria. Logré aprobar sin problemas."</p>
-            <div class="testimonial-author">Carlos M.</div>
-            <div class="testimonial-role">Estudiante de Plan Común de Ingeniería</div>
+      <div class="booking-calendar-wrapper">
+        <!-- Calendar Grid Column -->
+        <div class="booking-calendar-card">
+          <div class="calendar-header">
+            <button type="button" class="calendar-nav-btn" id="prev-month-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <h3 id="calendar-month-year">Junio 2026</h3>
+            <button type="button" class="calendar-nav-btn" id="next-month-btn"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
-          <!-- Slide 2 -->
-          <div class="testimonial-slide">
-            <div style="font-size: 28px; color: var(--accent); margin-bottom: 20px;"><i class="fa-solid fa-quote-left"></i></div>
-            <p class="testimonial-quote">"El doctor Álvaro tiene una paciencia increíble y una excelente llegada con los alumnos. Sus tutorías presenciales de Álgebra Lineal fueron la clave para salvar el semestre de forma exitosa."</p>
-            <div class="testimonial-author">Valentina R.</div>
-            <div class="testimonial-role">Estudiante de Licenciatura en Ciencias</div>
+          <div class="calendar-days-week">
+            <span>Do</span><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span>
           </div>
-          <!-- Slide 3 -->
-          <div class="testimonial-slide">
-            <div style="font-size: 28px; color: var(--accent); margin-bottom: 20px;"><i class="fa-solid fa-quote-left"></i></div>
-            <p class="testimonial-quote">"La plataforma virtual y la calidad de las clases grabadas de Ecuaciones Diferenciales son espectaculares. Ideal para mí que tengo que trabajar y estudiar al mismo tiempo."</p>
-            <div class="testimonial-author">Andrés G.</div>
-            <div class="testimonial-role">Estudiante de Ingeniería Civil Industrial</div>
+          <div class="calendar-days-grid" id="calendar-days-grid">
+            <!-- Rendered dynamically -->
           </div>
         </div>
 
-        <div class="slider-controls" id="slider-controls">
-          <button class="slider-dot active" data-index="0"></button>
-          <button class="slider-dot" data-index="1"></button>
-          <button class="slider-dot" data-index="2"></button>
+        <!-- Hourly Slots Column -->
+        <div class="booking-slots-card" id="booking-slots-card">
+          <h3 id="selected-day-label">Selecciona un día</h3>
+          <div class="slots-container" id="slots-container">
+            <p style="color: var(--text-muted); font-size:14px; text-align:center; padding: 40px 0;">
+              Por favor, selecciona un día habilitado del calendario (marcados en azul) para ver las horas de tutoría disponibles.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- MODAL DE RESERVA -->
+  <div class="booking-modal-wrapper" id="booking-modal" style="display: none;">
+    <div class="booking-modal-card">
+      <div class="booking-modal-header">
+        <h3><i class="fa-regular fa-calendar-check"></i> Confirmar Reserva</h3>
+        <button type="button" class="booking-modal-close" id="close-booking-modal">&times;</button>
+      </div>
+      
+      <div class="booking-details-summary">
+        <p><strong>Fecha:</strong> <span id="summary-date">Lunes, 29 de Junio</span></p>
+        <p><strong>Hora:</strong> <span id="summary-time">10:00 - 11:00</span></p>
+      </div>
+
+      <form id="booking-form-submit">
+        <input type="hidden" id="booking-field-date" value="">
+        <input type="hidden" id="booking-field-time" value="">
+        
+        <div class="form-group-row" style="margin-bottom:15px;">
+          <div class="form-group" style="flex:1;">
+            <label for="booking-name" class="form-label">Nombre Completo</label>
+            <input type="text" id="booking-name" class="form-control" placeholder="Ej. Juan Pérez" required style="width:100%;">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label for="booking-email" class="form-label">Correo Electrónico</label>
+            <input type="email" id="booking-email" class="form-control" placeholder="Ej. juan@correo.com" required style="width:100%;">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:15px;">
+          <label for="booking-university" class="form-label">Universidad en la que estudias</label>
+          <input type="text" id="booking-university" class="form-control" placeholder="Ej. Universidad de Chile, PUC, etc." required style="width:100%;">
+        </div>
+
+        <div class="form-group" style="margin-bottom:15px;">
+          <label for="booking-subject" class="form-label">Asignatura de Interés</label>
+          <select id="booking-subject" class="form-control" required style="width:100%;">
+            <option value="" disabled selected>Selecciona tu ramo...</option>
+            <option value="Introducción al Cálculo">Introducción al Cálculo</option>
+            <option value="Introducción al Álgebra">Introducción al Álgebra</option>
+            <option value="Cálculo Diferencial">Cálculo Diferencial</option>
+            <option value="Cálculo Integral">Cálculo Integral</option>
+            <option value="Álgebra Lineal">Álgebra Lineal</option>
+            <option value="Cálculo Multivariable">Cálculo Multivariable</option>
+            <option value="Ecuaciones Diferenciales Ordinarias">Ecuaciones Diferenciales Ordinarias</option>
+            <option value="Cálculo Avanzado">Cálculo Avanzado</option>
+            <option value="Otro / Consulta General">Otro / Consulta General</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label for="booking-message" class="form-label">Detalles o Temas a Tratar (Opcional)</label>
+          <textarea id="booking-message" class="form-control" placeholder="Describe de forma general los contenidos que te gustaría revisar..." style="width:100%; height:80px;"></textarea>
+        </div>
+
+        <div style="text-align: right; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-booking" style="margin-right: 10px;">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Reservar Sesión</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- CONTACT SECTION -->
   <section id="contacto" style="background-color: var(--bg-secondary);">
@@ -370,7 +378,7 @@
       <div>
         <span class="section-tag">Contacto</span>
         <h2 class="section-title">¿Listo para mejorar tu rendimiento?</h2>
-        <p style="color: var(--text-muted); margin-bottom: 35px; font-size: 16px;">Agenda una sesión de asesoría, realiza consultas de disponibilidad o solicita información detallada sobre los programas de tutorías sincrónicas.</p>
+        <p style="color: var(--text-muted); margin-bottom: 35px; font-size: 16px;">Reserva un horario de consulta, realiza preguntas sobre disponibilidad o solicita información detallada sobre los programas de tutorías sincrónicas.</p>
         
         <div class="contact-info-cards">
           <div class="contact-info-card">
@@ -383,16 +391,15 @@
           <div class="contact-info-card">
             <div class="contact-info-icon"><i class="fa-solid fa-graduation-cap"></i></div>
             <div>
-              <h4 class="contact-info-title">Modalidad de Clases</h4>
-              <p class="contact-info-value">Online (Zoom/EVA), Presencial (Santiago de Chile)</p>
+              <h4 class="contact-info-title">Modalidad de Atención</h4>
+              <p class="contact-info-value">100% Online (Zoom / Entorno Virtual EVA)</p>
             </div>
           </div>
         </div>
 
         <div style="margin-top: 40px;">
-          <!-- Enlace de Google Calendar especificado por el usuario -->
-          <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ07V3i4gFumvgb_c603GopIVSnUy_eNFcPQn0YXyc4FmLUhj3jwjKyTSOsBPiLIG8NIY_ZJhD2v?gv=true" target="_blank" class="btn btn-primary" style="padding: 15px 35px; font-size: 16px;">
-            <i class="fa-solid fa-calendar-days"></i> Agendar Hora en Google Calendar
+          <a href="#agenda" class="btn btn-primary" style="padding: 15px 35px; font-size: 16px;">
+            <i class="fa-solid fa-calendar-days"></i> Reservar Horario de Consulta
           </a>
         </div>
       </div>
@@ -410,16 +417,22 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="university" class="form-label">Universidad en la que estudias</label>
+            <input type="text" id="university" name="university" class="form-control" placeholder="Ej. Universidad de Chile, PUC, etc." required>
+          </div>
+          <div class="form-group">
             <label for="subject" class="form-label">Asignatura de Interés</label>
             <select id="subject" name="subject" class="form-control" required>
               <option value="" disabled selected>Selecciona una opción...</option>
               <option value="Introducción al Cálculo">Introducción al Cálculo</option>
+              <option value="Introducción al Álgebra">Introducción al Álgebra</option>
               <option value="Cálculo Diferencial">Cálculo Diferencial</option>
               <option value="Cálculo Integral">Cálculo Integral</option>
-              <option value="Cálculo Multivariable">Cálculo Multivariable / Avanzado</option>
               <option value="Álgebra Lineal">Álgebra Lineal</option>
-              <option value="Ecuaciones Diferenciales">Ecuaciones Diferenciales</option>
-              <option value="Otro / Consulta general">Otro / Consulta general</option>
+              <option value="Cálculo Multivariable">Cálculo Multivariable</option>
+              <option value="Ecuaciones Diferenciales Ordinarias">Ecuaciones Diferenciales Ordinarias</option>
+              <option value="Cálculo Avanzado">Cálculo Avanzado</option>
+              <option value="Otro / Consulta General">Otro / Consulta General</option>
             </select>
           </div>
           <div class="form-group">
@@ -456,7 +469,6 @@
             <li><a href="#">Inicio</a></li>
             <li><a href="#materias">Materias</a></li>
             <li><a href="#sobre-mi">Sobre Mí</a></li>
-            <li><a href="#modalidades">Planes</a></li>
             <li><a href="#blog">Lecturas</a></li>
           </ul>
         </div>
@@ -464,7 +476,7 @@
           <h4>Contacto</h4>
           <ul>
             <li>contacto@alvaroprofemate.cl</li>
-            <li><a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ07V3i4gFumvgb_c603GopIVSnUy_eNFcPQn0YXyc4FmLUhj3jwjKyTSOsBPiLIG8NIY_ZJhD2v?gv=true" target="_blank">Agenda Virtual</a></li>
+            <li><a href="#agenda">Agenda Virtual</a></li>
           </ul>
         </div>
       </div>

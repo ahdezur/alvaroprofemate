@@ -105,6 +105,13 @@ const DB = {
   // Comprobar dinámicamente si la API Serverless está en ejecución y disponible
   async isApiAvailable() {
     if (this._apiAvailable !== null) return this._apiAvailable;
+    
+    // Evitar llamadas fetch relativas si la página se abre mediante file://
+    if (window.location.protocol === "file:" || window.location.href.startsWith("file:")) {
+      this._apiAvailable = false;
+      return false;
+    }
+
     try {
       const response = await fetch(CONFIG.API_URL, { method: "GET" });
       // Si retorna 404 significa que la URL no existe (servidor estático sin funciones de Netlify)
@@ -283,6 +290,203 @@ const DB = {
     const posts = this._getLocalPosts();
     const filtered = posts.filter(p => p.id !== id);
     localStorage.setItem("alvaro_profemate_posts", JSON.stringify(filtered));
+    return true;
+  },
+
+  // --- MÉTODOS DE DISPONIBILIDAD ---
+  async getAvailability() {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
+      try {
+        const response = await fetch(`${CONFIG.API_URL}?type=availability`, { method: "GET" });
+        if (!response.ok) throw new Error("Error en API al obtener disponibilidad");
+        return await response.json();
+      } catch (error) {
+        console.warn("Fallo de conexión a la API, usando LocalStorage para disponibilidad:", error);
+        return this._getLocalAvailability();
+      }
+    } else {
+      return this._getLocalAvailability();
+    }
+  },
+
+  async updateAvailability(availabilityData) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
+      try {
+        const response = await fetch(`${CONFIG.API_URL}?type=availability`, {
+          method: "POST",
+          headers: this._getAuthHeaders(),
+          body: JSON.stringify(availabilityData)
+        });
+        if (!response.ok) throw new Error("Error en API al actualizar disponibilidad");
+        return await response.json();
+      } catch (error) {
+        console.warn("Fallo de conexión a la API, usando LocalStorage para disponibilidad:", error);
+        return this._updateLocalAvailability(availabilityData);
+      }
+    } else {
+      return this._updateLocalAvailability(availabilityData);
+    }
+  },
+
+  // --- MÉTODOS DE RESERVAS (BOOKINGS) ---
+  async getBookings(dateParam = null) {
+    const apiActive = await this.isApiAvailable();
+    let url = `${CONFIG.API_URL}?type=bookings`;
+    if (dateParam) {
+      url += `&date=${dateParam}`;
+    }
+    if (apiActive) {
+      try {
+        const response = await fetch(url, { method: "GET" });
+        if (!response.ok) throw new Error("Error en API al obtener reservas");
+        return await response.json();
+      } catch (error) {
+        console.warn("Fallo de conexión a la API, usando LocalStorage para reservas:", error);
+        return this._getLocalBookings(dateParam);
+      }
+    } else {
+      return this._getLocalBookings(dateParam);
+    }
+  },
+
+  async createBooking(bookingData) {
+    const apiActive = await this.isApiAvailable();
+    const newBooking = {
+      ...bookingData,
+      id: bookingData.id || Date.now().toString(),
+      status: bookingData.status || "pendiente"
+    };
+    if (apiActive) {
+      try {
+        const response = await fetch(`${CONFIG.API_URL}?type=bookings`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newBooking)
+        });
+        if (!response.ok) throw new Error("Error en API al guardar reserva");
+        return await response.json();
+      } catch (error) {
+        console.warn("Fallo de conexión a la API, guardando reserva en LocalStorage:", error);
+        return this._createLocalBooking(newBooking);
+      }
+    } else {
+      return this._createLocalBooking(newBooking);
+    }
+  },
+
+  async updateBookingStatus(id, status) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
+      try {
+        const response = await fetch(`${CONFIG.API_URL}?type=bookings&id=${id}`, {
+          method: "PATCH",
+          headers: this._getAuthHeaders(),
+          body: JSON.stringify({ status })
+        });
+        if (!response.ok) throw new Error("Error en API al actualizar reserva");
+        return await response.json();
+      } catch (error) {
+        console.warn("Fallo de conexión a la API, actualizando reserva en LocalStorage:", error);
+        return this._updateLocalBookingStatus(id, status);
+      }
+    } else {
+      return this._updateLocalBookingStatus(id, status);
+    }
+  },
+
+  async deleteBooking(id) {
+    const apiActive = await this.isApiAvailable();
+    if (apiActive) {
+      try {
+        const response = await fetch(`${CONFIG.API_URL}?type=bookings&id=${id}`, {
+          method: "DELETE",
+          headers: this._getAuthHeaders()
+        });
+        if (!response.ok) throw new Error("Error en API al eliminar reserva");
+        return await response.json();
+      } catch (error) {
+        console.warn("Fallo de conexión a la API, eliminando reserva en LocalStorage:", error);
+        return this._deleteLocalBooking(id);
+      }
+    } else {
+      return this._deleteLocalBooking(id);
+    }
+  },
+
+  // --- MÉTODOS PRIVADOS LOCALSTORAGE ---
+  _getLocalAvailability() {
+    let avail = localStorage.getItem("alvaro_profemate_availability");
+    if (!avail) {
+      const defaultAvail = [
+        { dayOfWeek: 0, isActive: false, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
+        { dayOfWeek: 1, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
+        { dayOfWeek: 2, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
+        { dayOfWeek: 3, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
+        { dayOfWeek: 4, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
+        { dayOfWeek: 5, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
+        { dayOfWeek: 6, isActive: false, startTime: '09:00', endTime: '18:00', slotDuration: 60 }
+      ];
+      localStorage.setItem("alvaro_profemate_availability", JSON.stringify(defaultAvail));
+      return defaultAvail;
+    }
+    return JSON.parse(avail);
+  },
+
+  _updateLocalAvailability(data) {
+    const list = Array.isArray(data) ? data : [data];
+    const current = this._getLocalAvailability();
+    for (const item of list) {
+      const idx = current.findIndex(d => d.dayOfWeek === item.dayOfWeek);
+      if (idx !== -1) {
+        current[idx] = { ...current[idx], ...item };
+      }
+    }
+    localStorage.setItem("alvaro_profemate_availability", JSON.stringify(current));
+    return current;
+  },
+
+  _getLocalBookings(dateParam = null) {
+    let bookings = localStorage.getItem("alvaro_profemate_bookings");
+    if (!bookings) {
+      localStorage.setItem("alvaro_profemate_bookings", JSON.stringify([]));
+      return [];
+    }
+    const list = JSON.parse(bookings);
+    if (dateParam) {
+      return list.filter(b => b.date === dateParam && b.status !== 'cancelada').sort((a, b) => a.time.localeCompare(b.time));
+    }
+    return list.sort((a, b) => b.date.localeCompare(a.date) || b.time.localeCompare(a.time));
+  },
+
+  _createLocalBooking(booking) {
+    const list = this._getLocalBookings();
+    const newBooking = { ...booking, reminder_sent: false, reminderSent: false };
+    list.push(newBooking);
+    localStorage.setItem("alvaro_profemate_bookings", JSON.stringify(list));
+    
+    console.log("%c[SIMULACIÓN CORREO - CONFIRMACIÓN]", "background: #6366f1; color: white; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+    console.log(`Para: ${newBooking.email}\nAsunto: ¡Tu clase ha sido reservada! - AlvaroProfeMate\nDetalles: Estudiante: ${newBooking.name}, Asignatura: ${newBooking.subject}, Fecha: ${newBooking.date}, Hora: ${newBooking.time} hrs`);
+    
+    return newBooking;
+  },
+
+  _updateLocalBookingStatus(id, status) {
+    const list = this._getLocalBookings();
+    const idx = list.findIndex(b => b.id === id);
+    if (idx !== -1) {
+      list[idx].status = status;
+      localStorage.setItem("alvaro_profemate_bookings", JSON.stringify(list));
+      return list[idx];
+    }
+    return null;
+  },
+
+  _deleteLocalBooking(id) {
+    const list = this._getLocalBookings();
+    const filtered = list.filter(b => b.id !== id);
+    localStorage.setItem("alvaro_profemate_bookings", JSON.stringify(filtered));
     return true;
   }
 };

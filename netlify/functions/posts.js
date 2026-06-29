@@ -1,4 +1,5 @@
 const { Client } = require('pg');
+const nodemailer = require('nodemailer');
 
 // Publicaciones por defecto para poblar la base de datos al inicio
 const DEFAULT_POSTS = [
@@ -121,7 +122,7 @@ function getPgClient() {
   });
 }
 
-// Inicializar la base de datos (Crear tabla y sembrar datos si es necesario)
+// Inicializar la base de datos (Crear tablas y sembrar datos si es necesario)
 async function initDatabase(client) {
   await client.query(`
     CREATE TABLE IF NOT EXISTS posts (
@@ -133,6 +134,37 @@ async function initDatabase(client) {
       read_time VARCHAR(50),
       date VARCHAR(50) NOT NULL
     );
+  `);
+
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS availability (
+      day_of_week INT PRIMARY KEY,
+      is_active BOOLEAN NOT NULL DEFAULT FALSE,
+      start_time VARCHAR(5) NOT NULL DEFAULT '09:00',
+      end_time VARCHAR(5) NOT NULL DEFAULT '18:00',
+      slot_duration INT NOT NULL DEFAULT 60
+    );
+  `);
+
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS bookings (
+      id VARCHAR(50) PRIMARY KEY,
+      date VARCHAR(10) NOT NULL,
+      time VARCHAR(5) NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      subject VARCHAR(255) NOT NULL,
+      message TEXT,
+      status VARCHAR(50) NOT NULL DEFAULT 'pendiente'
+    );
+  `);
+
+  await client.query(`
+    ALTER TABLE bookings ADD COLUMN IF NOT EXISTS reminder_sent BOOLEAN DEFAULT FALSE;
+  `);
+
+  await client.query(`
+    ALTER TABLE bookings ADD COLUMN IF NOT EXISTS university VARCHAR(255);
   `);
 
   const res = await client.query("SELECT COUNT(*) FROM posts");
@@ -156,6 +188,97 @@ async function initDatabase(client) {
     }
     console.log("Base de datos sembrada con los artículos iniciales.");
   }
+
+  const availRes = await client.query("SELECT COUNT(*) FROM availability");
+  const availCount = parseInt(availRes.rows[0].count, 10);
+  if (availCount === 0) {
+    const insertAvail = `
+      INSERT INTO availability (day_of_week, is_active, start_time, end_time, slot_duration)
+      VALUES ($1, $2, $3, $4, $5)
+    `;
+    for (let i = 0; i < 7; i++) {
+      const isActive = i >= 1 && i <= 5; // Activo de Lunes (1) a Viernes (5)
+      await client.query(insertAvail, [i, isActive, '09:00', '18:00', 60]);
+    }
+    console.log("Disponibilidad por defecto sembrada.");
+  }
+}
+
+// Función para enviar correos usando Nodemailer SMTP
+async function sendEmail(to, subject, html) {
+  const host = process.env.SMTP_HOST;
+  const port = process.env.SMTP_PORT || 465;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  if (!host || !user || !pass) {
+    console.warn("SMTP no configurado en variables de entorno. Las variables SMTP_HOST, SMTP_USER, SMTP_PASS no están definidas.");
+    console.log(`[SIMULACIÓN SMTP] Para: ${to}\nAsunto: ${subject}\nContenido HTML:\n${html}`);
+    return { simulated: true };
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port: parseInt(port, 10),
+    secure: parseInt(port, 10) === 465,
+    auth: {
+      user,
+      pass
+    }
+  });
+
+  const mailOptions = {
+    from: `"Álvaro Hernández - ProfeMate" <${user}>`,
+    to,
+    subject,
+    html
+  };
+
+  return await transporter.sendMail(mailOptions);
+}
+
+// Plantilla HTML para correo de confirmación
+function getConfirmationEmailTemplate(name, date, time, subject, university) {
+  // Traducir formato de fecha YYYY-MM-DD a un formato en español legible
+  let readableDate = date;
+  try {
+    const parts = date.split('-');
+    if (parts.length === 3) {
+      const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      readableDate = dObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+  } catch (e) {
+    console.warn("Error formateando fecha del correo:", e);
+  }
+
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
+      <div style="background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700;">¡Consulta Reservada con Éxito!</h1>
+      </div>
+      <div style="padding: 25px; line-height: 1.6;">
+        <p>Hola <strong>${name}</strong>,</p>
+        <p>Tu solicitud de reserva para coordinar una sesión de consulta ha sido recibida correctamente en nuestro sistema.</p>
+        
+        <div style="background-color: #f8fafc; border-left: 4px solid #6366f1; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
+          <h3 style="margin-top: 0; color: #6366f1; font-size: 16px;">Detalles de la Reserva:</h3>
+          <p style="margin: 5px 0;"><strong>Asignatura:</strong> ${subject}</p>
+          ${university ? `<p style="margin: 5px 0;"><strong>Universidad:</strong> ${university}</p>` : ''}
+          <p style="margin: 5px 0;"><strong>Fecha:</strong> ${readableDate}</p>
+          <p style="margin: 5px 0;"><strong>Hora:</strong> ${time} hrs</p>
+        </div>
+
+        <p>Próximamente me pondré en contacto contigo a través de este correo para coordinar los detalles de pago y enviarte las instrucciones con el enlace de conexión (Zoom/Teams).</p>
+        
+        <p style="margin-top: 30px; font-size: 13px; color: #64748b;">
+          Si tienes alguna duda antes de la consulta, puedes responder directamente a este correo (contacto@alvaroprofemate.cl).
+        </p>
+      </div>
+      <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 8px 8px;">
+        © 2026 Álvaro Hernández Profemate. Todos los derechos reservados.
+      </div>
+    </div>
+  `;
 }
 
 // Validar credenciales de administración (Basic Auth)
@@ -199,6 +322,198 @@ exports.handler = async (event, context) => {
     const httpMethod = event.httpMethod;
     const queryParams = event.queryStringParameters || {};
     const id = queryParams.id;
+    const type = queryParams.type;
+
+    if (type === "availability") {
+      switch (httpMethod) {
+        case "GET":
+          const res = await client.query("SELECT * FROM availability ORDER BY day_of_week");
+          const availability = res.rows.map(row => ({
+            dayOfWeek: row.day_of_week,
+            isActive: row.is_active,
+            startTime: row.start_time,
+            endTime: row.end_time,
+            slotDuration: row.slot_duration
+          }));
+          return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+            body: JSON.stringify(availability)
+          };
+        case "POST":
+        case "PATCH":
+          if (!isAuthorized(event)) {
+            return {
+              statusCode: 401,
+              headers: CORS_HEADERS,
+              body: JSON.stringify({ error: "No autorizado" })
+            };
+          }
+          const bodyAvail = JSON.parse(event.body);
+          const availList = Array.isArray(bodyAvail) ? bodyAvail : [bodyAvail];
+          for (const day of availList) {
+            await client.query(
+              "UPDATE availability SET is_active = $1, start_time = $2, end_time = $3, slot_duration = $4 WHERE day_of_week = $5",
+              [day.isActive, day.startTime, day.endTime, day.slotDuration, day.dayOfWeek]
+            );
+          }
+          return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({ success: true, message: "Disponibilidad actualizada" })
+          };
+        default:
+          return {
+            statusCode: 405,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({ error: `Método ${httpMethod} no permitido para availability` })
+          };
+      }
+    }
+
+    if (type === "bookings") {
+      switch (httpMethod) {
+        case "GET":
+          const dateParam = queryParams.date;
+          let query = "SELECT * FROM bookings ORDER BY date DESC, time DESC";
+          let values = [];
+          if (dateParam) {
+            query = "SELECT * FROM bookings WHERE date = $1 AND status != 'cancelada' ORDER BY time ASC";
+            values = [dateParam];
+          }
+          const res = await client.query(query, values);
+          const bookings = res.rows.map(row => ({
+            id: row.id,
+            date: row.date,
+            time: row.time,
+            name: row.name,
+            email: row.email,
+            subject: row.subject,
+            message: row.message,
+            status: row.status
+          }));
+          return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+            body: JSON.stringify(bookings)
+          };
+        case "POST":
+          const bodyBooking = JSON.parse(event.body);
+          const bookingId = bodyBooking.id || Date.now().toString();
+          const bookingStatus = bodyBooking.status || 'pendiente';
+          const insertQuery = `
+            INSERT INTO bookings (id, date, time, name, email, subject, message, status, university)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING *
+          `;
+          const insertRes = await client.query(insertQuery, [
+            bookingId,
+            bodyBooking.date,
+            bodyBooking.time,
+            bodyBooking.name,
+            bodyBooking.email,
+            bodyBooking.subject,
+            bodyBooking.message || '',
+            bookingStatus,
+            bodyBooking.university || ''
+          ]);
+          const inserted = insertRes.rows[0];
+
+          // Enviar correo de confirmación de forma asíncrona
+          try {
+            const emailHtml = getConfirmationEmailTemplate(inserted.name, inserted.date, inserted.time, inserted.subject, inserted.university);
+            await sendEmail(inserted.email, "¡Tu horario de consulta ha sido reservado! - AlvaroProfeMate", emailHtml);
+          } catch (emailErr) {
+            console.error("Error al enviar el correo de confirmación:", emailErr);
+          }
+
+          return {
+            statusCode: 201,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({
+              id: inserted.id,
+              date: inserted.date,
+              time: inserted.time,
+              name: inserted.name,
+              email: inserted.email,
+              subject: inserted.subject,
+              message: inserted.message,
+              status: inserted.status,
+              university: inserted.university
+            })
+          };
+        case "PATCH":
+          if (!isAuthorized(event)) {
+            return {
+              statusCode: 401,
+              headers: CORS_HEADERS,
+              body: JSON.stringify({ error: "No autorizado" })
+            };
+          }
+          if (!id) {
+            return {
+              statusCode: 400,
+              headers: CORS_HEADERS,
+              body: JSON.stringify({ error: "Falta el ID de la reserva" })
+            };
+          }
+          const patchBooking = JSON.parse(event.body);
+          const updateRes = await client.query(
+            "UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *",
+            [patchBooking.status, id]
+          );
+          if (updateRes.rows.length === 0) {
+            return {
+              statusCode: 404,
+              headers: CORS_HEADERS,
+              body: JSON.stringify({ error: "Reserva no encontrada" })
+            };
+          }
+          const updated = updateRes.rows[0];
+          return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({
+              id: updated.id,
+              date: updated.date,
+              time: updated.time,
+              name: updated.name,
+              email: updated.email,
+              subject: updated.subject,
+              message: updated.message,
+              status: updated.status,
+              university: updated.university
+            })
+          };
+        case "DELETE":
+          if (!isAuthorized(event)) {
+            return {
+              statusCode: 401,
+              headers: CORS_HEADERS,
+              body: JSON.stringify({ error: "No autorizado" })
+            };
+          }
+          if (!id) {
+            return {
+              statusCode: 400,
+              headers: CORS_HEADERS,
+              body: JSON.stringify({ error: "Falta el ID de la reserva" })
+            };
+          }
+          await client.query("DELETE FROM bookings WHERE id = $1", [id]);
+          return {
+            statusCode: 200,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({ success: true, message: "Reserva eliminada" })
+          };
+        default:
+          return {
+            statusCode: 405,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({ error: `Método ${httpMethod} no permitido para bookings` })
+          };
+      }
+    }
 
     switch (httpMethod) {
       case "GET":
