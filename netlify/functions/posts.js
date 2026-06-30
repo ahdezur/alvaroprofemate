@@ -167,6 +167,18 @@ async function initDatabase(client) {
     ALTER TABLE bookings ADD COLUMN IF NOT EXISTS university VARCHAR(255);
   `);
 
+  await client.query(`
+    ALTER TABLE availability ADD COLUMN IF NOT EXISTS is_active_2 BOOLEAN NOT NULL DEFAULT FALSE;
+  `);
+
+  await client.query(`
+    ALTER TABLE availability ADD COLUMN IF NOT EXISTS start_time_2 VARCHAR(5) NOT NULL DEFAULT '14:00';
+  `);
+
+  await client.query(`
+    ALTER TABLE availability ADD COLUMN IF NOT EXISTS end_time_2 VARCHAR(5) NOT NULL DEFAULT '18:00';
+  `);
+
   const res = await client.query("SELECT COUNT(*) FROM posts");
   const count = parseInt(res.rows[0].count, 10);
 
@@ -193,12 +205,12 @@ async function initDatabase(client) {
   const availCount = parseInt(availRes.rows[0].count, 10);
   if (availCount === 0) {
     const insertAvail = `
-      INSERT INTO availability (day_of_week, is_active, start_time, end_time, slot_duration)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO availability (day_of_week, is_active, start_time, end_time, slot_duration, is_active_2, start_time_2, end_time_2)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     `;
     for (let i = 0; i < 7; i++) {
       const isActive = i >= 1 && i <= 5; // Activo de Lunes (1) a Viernes (5)
-      await client.query(insertAvail, [i, isActive, '09:00', '18:00', 60]);
+      await client.query(insertAvail, [i, isActive, '09:00', '13:00', 60, isActive, '14:00', '18:00']);
     }
     console.log("Disponibilidad por defecto sembrada.");
   }
@@ -284,6 +296,45 @@ function getConfirmationEmailTemplate(name, date, time, subject, university) {
   `;
 }
 
+function getNewBookingAdminEmailTemplate(name, email, university, date, time, subject, message) {
+  let readableDate = date;
+  try {
+    const parts = date.split('-');
+    if (parts.length === 3) {
+      const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      readableDate = dObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
+      <div style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 700;">Nueva Solicitud de Consulta</h1>
+      </div>
+      <div style="padding: 25px; line-height: 1.6;">
+        <p>Hola Álvaro, has recibido una nueva solicitud de horario de consulta:</p>
+        
+        <div style="background-color: #f8fafc; border-left: 4px solid #4f46e5; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
+          <p style="margin: 5px 0;"><strong>Estudiante:</strong> ${name}</p>
+          <p style="margin: 5px 0;"><strong>Correo:</strong> ${email}</p>
+          <p style="margin: 5px 0;"><strong>Universidad:</strong> ${university || 'No especificada'}</p>
+          <p style="margin: 5px 0;"><strong>Asignatura:</strong> ${subject}</p>
+          <p style="margin: 5px 0;"><strong>Fecha:</strong> ${readableDate}</p>
+          <p style="margin: 5px 0;"><strong>Hora:</strong> ${time} hrs</p>
+        </div>
+        \${message ? \`<p><strong>Mensaje del alumno:</strong></p><p style="background-color: #f1f5f9; padding: 10px; border-radius: 4px; font-style: italic;">\${message.replace(/\\n/g, '<br>')}</p>\` : ''}
+        
+        <p style="margin-top: 25px;">Puedes gestionar esta reserva ingresando a tu <a href="https://alvaroprofemate.netlify.app/admin.html" style="color: #4f46e5; text-decoration: underline;">Panel de Administración</a>.</p>
+      </div>
+      <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 8px 8px;">
+        © 2026 Álvaro Hernández Profemate. Todos los derechos reservados.
+      </div>
+    </div>
+  `;
+}
+
 // Validar credenciales de administración (Basic Auth)
 function isAuthorized(event) {
   const authHeader = event.headers.authorization || event.headers.Authorization;
@@ -336,7 +387,10 @@ exports.handler = async (event, context) => {
             isActive: row.is_active,
             startTime: row.start_time,
             endTime: row.end_time,
-            slotDuration: row.slot_duration
+            slotDuration: row.slot_duration,
+            isActive2: row.is_active_2,
+            startTime2: row.start_time_2,
+            endTime2: row.end_time_2
           }));
           return {
             statusCode: 200,
@@ -356,8 +410,15 @@ exports.handler = async (event, context) => {
           const availList = Array.isArray(bodyAvail) ? bodyAvail : [bodyAvail];
           for (const day of availList) {
             await client.query(
-              "UPDATE availability SET is_active = $1, start_time = $2, end_time = $3, slot_duration = $4 WHERE day_of_week = $5",
-              [day.isActive, day.startTime, day.endTime, day.slotDuration, day.dayOfWeek]
+              `UPDATE availability 
+               SET is_active = $1, start_time = $2, end_time = $3, slot_duration = $4,
+                   is_active_2 = $5, start_time_2 = $6, end_time_2 = $7
+               WHERE day_of_week = $8`,
+              [
+                day.isActive, day.startTime, day.endTime, day.slotDuration,
+                day.isActive2, day.startTime2, day.endTime2,
+                day.dayOfWeek
+              ]
             );
           }
           return {
@@ -426,8 +487,12 @@ exports.handler = async (event, context) => {
           try {
             const emailHtml = getConfirmationEmailTemplate(inserted.name, inserted.date, inserted.time, inserted.subject, inserted.university);
             await sendEmail(inserted.email, "¡Tu horario de consulta ha sido reservado! - AlvaroProfeMate", emailHtml);
+
+            // Enviar correo de aviso al profesor (Álvaro)
+            const adminEmailHtml = getNewBookingAdminEmailTemplate(inserted.name, inserted.email, inserted.university, inserted.date, inserted.time, inserted.subject, inserted.message);
+            await sendEmail(process.env.SMTP_USER || "contacto@alvaroprofemate.cl", `Nueva Solicitud de Consulta: ${inserted.name} (${inserted.subject})`, adminEmailHtml);
           } catch (emailErr) {
-            console.error("Error al enviar el correo de confirmación:", emailErr);
+            console.error("Error al enviar los correos de confirmación / aviso:", emailErr);
           }
 
           return {

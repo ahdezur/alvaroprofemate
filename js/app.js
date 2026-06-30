@@ -753,9 +753,9 @@ function renderMonthCalendar() {
     // Verificar si el día está en el pasado
     const isPast = cellDate.getTime() < today.getTime();
 
-    // Buscar si el día de la semana está activo en la disponibilidad
+    // Buscar si el día de la semana está activo en la disponibilidad (cualquiera de los dos bloques)
     const dayConfig = calendarState.availability.find(a => a.dayOfWeek === dayOfWeek);
-    const hasAvail = dayConfig && dayConfig.isActive;
+    const hasAvail = dayConfig && (dayConfig.isActive || dayConfig.isActive2);
 
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const isSelected = calendarState.selectedDate === dateStr;
@@ -806,8 +806,14 @@ async function loadHourlySlots(dateStr, dayOfWeek, dayConfig) {
     // 1. Obtener las reservas existentes de la base de datos para ese día
     const bookings = await DB.getBookings(dateStr);
 
-    // 2. Generar todos los bloques teóricos según hora inicio/fin y duración
-    const slots = generateTimeSlots(dayConfig.startTime, dayConfig.endTime, dayConfig.slotDuration);
+    // 2. Generar todos los bloques teóricos según hora inicio/fin y duración de ambos tramos
+    let slots = [];
+    if (dayConfig.isActive) {
+      slots = slots.concat(generateTimeSlots(dayConfig.startTime, dayConfig.endTime, dayConfig.slotDuration));
+    }
+    if (dayConfig.isActive2) {
+      slots = slots.concat(generateTimeSlots(dayConfig.startTime2, dayConfig.endTime2, dayConfig.slotDuration));
+    }
 
     if (slots.length === 0) {
       container.innerHTML = `

@@ -604,6 +604,9 @@ async function loadAvailabilityForm() {
         row.querySelector(".day-active-check").checked = day.isActive;
         row.querySelector(".day-start-input").value = day.startTime;
         row.querySelector(".day-end-input").value = day.endTime;
+        row.querySelector(".day-active-check-2").checked = day.isActive2 || false;
+        row.querySelector(".day-start-input-2").value = day.startTime2 || "14:00";
+        row.querySelector(".day-end-input-2").value = day.endTime2 || "18:00";
       }
     });
   } catch (error) {
@@ -632,12 +635,18 @@ function initAvailabilityFormSubmit() {
         const isActive = row.querySelector(".day-active-check").checked;
         const startTime = row.querySelector(".day-start-input").value;
         const endTime = row.querySelector(".day-end-input").value;
+        const isActive2 = row.querySelector(".day-active-check-2").checked;
+        const startTime2 = row.querySelector(".day-start-input-2").value;
+        const endTime2 = row.querySelector(".day-end-input-2").value;
 
         availabilityList.push({
           dayOfWeek,
           isActive,
           startTime,
           endTime,
+          isActive2,
+          startTime2,
+          endTime2,
           slotDuration
         });
       });
@@ -690,8 +699,11 @@ function initCronSimulationButton() {
         // Si comienza en los próximos 15 minutos (y no más antiguo de -5 mins)
         if (diff >= -5 && diff <= 15) {
           sentCount++;
-          console.log("%c[SIMULACIÓN CORREO - RECORDATORIO (10 MIN)]", "background: #f59e0b; color: black; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+          console.log("%c[SIMULACIÓN CORREO - RECORDATORIO ALUMNO (10 MIN)]", "background: #f59e0b; color: black; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
           console.log(`Para: ${b.email}\nAsunto: Recordatorio: Tu consulta comienza en 10 minutos 🚀\nDetalles: Estudiante: ${b.name}, Asignatura: ${b.subject}, Hora: ${b.time} hrs`);
+          
+          console.log("%c[SIMULACIÓN CORREO - RECORDATORIO PROFESOR (10 MIN)]", "background: #ef4444; color: white; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+          console.log(`Para: contacto@alvaroprofemate.cl\nAsunto: Recordatorio: Consulta con ${b.name} en 10 minutos 🚀\nDetalles: Estudiante: ${b.name}, Asignatura: ${b.subject}, Hora: ${b.time} hrs`);
           
           return { ...b, reminderSent: true, reminder_sent: true };
         }

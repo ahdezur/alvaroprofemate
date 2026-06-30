@@ -420,13 +420,13 @@ const DB = {
     let avail = localStorage.getItem("alvaro_profemate_availability");
     if (!avail) {
       const defaultAvail = [
-        { dayOfWeek: 0, isActive: false, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
-        { dayOfWeek: 1, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
-        { dayOfWeek: 2, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
-        { dayOfWeek: 3, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
-        { dayOfWeek: 4, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
-        { dayOfWeek: 5, isActive: true, startTime: '09:00', endTime: '18:00', slotDuration: 60 },
-        { dayOfWeek: 6, isActive: false, startTime: '09:00', endTime: '18:00', slotDuration: 60 }
+        { dayOfWeek: 0, isActive: false, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: false, startTime2: '14:00', endTime2: '18:00' },
+        { dayOfWeek: 1, isActive: true, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: true, startTime2: '14:00', endTime2: '18:00' },
+        { dayOfWeek: 2, isActive: true, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: true, startTime2: '14:00', endTime2: '18:00' },
+        { dayOfWeek: 3, isActive: true, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: true, startTime2: '14:00', endTime2: '18:00' },
+        { dayOfWeek: 4, isActive: true, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: true, startTime2: '14:00', endTime2: '18:00' },
+        { dayOfWeek: 5, isActive: true, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: true, startTime2: '14:00', endTime2: '18:00' },
+        { dayOfWeek: 6, isActive: false, startTime: '09:00', endTime: '13:00', slotDuration: 60, isActive2: false, startTime2: '14:00', endTime2: '18:00' }
       ];
       localStorage.setItem("alvaro_profemate_availability", JSON.stringify(defaultAvail));
       return defaultAvail;
@@ -466,8 +466,11 @@ const DB = {
     list.push(newBooking);
     localStorage.setItem("alvaro_profemate_bookings", JSON.stringify(list));
     
-    console.log("%c[SIMULACIÓN CORREO - CONFIRMACIÓN]", "background: #6366f1; color: white; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+    console.log("%c[SIMULACIÓN CORREO - CONFIRMACIÓN ALUMNO]", "background: #6366f1; color: white; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
     console.log(`Para: ${newBooking.email}\nAsunto: ¡Tu clase ha sido reservada! - AlvaroProfeMate\nDetalles: Estudiante: ${newBooking.name}, Asignatura: ${newBooking.subject}, Fecha: ${newBooking.date}, Hora: ${newBooking.time} hrs`);
+    
+    console.log("%c[SIMULACIÓN CORREO - AVISO PROFESOR]", "background: #4f46e5; color: white; padding: 3px 6px; border-radius: 3px; font-weight: bold;");
+    console.log(`Para: contacto@alvaroprofemate.cl\nAsunto: Nueva Solicitud de Consulta: ${newBooking.name} (${newBooking.subject})\nDetalles: Estudiante: ${newBooking.name}, Universidad: ${newBooking.university || 'No especificada'}, Asignatura: ${newBooking.subject}, Fecha: ${newBooking.date}, Hora: ${newBooking.time} hrs`);
     
     return newBooking;
   },

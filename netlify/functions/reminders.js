@@ -87,6 +87,44 @@ function getReminderEmailTemplate(name, date, time, subject) {
   `;
 }
 
+function getReminderAdminEmailTemplate(name, date, time, subject) {
+  let readableDate = date;
+  try {
+    const parts = date.split('-');
+    if (parts.length === 3) {
+      const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      readableDate = dObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
+      <div style="background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Recordatorio: Consulta por Comenzar</h1>
+      </div>
+      <div style="padding: 25px; line-height: 1.6;">
+        <p>Hola <strong>Álvaro</strong>,</p>
+        <p>Te recordamos que tienes una sesión de consulta que comienza en <strong>10 minutos</strong>:</p>
+        
+        <div style="background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
+          <h3 style="margin-top: 0; color: #d97706; font-size: 16px;">Detalles de la Cita:</h3>
+          <p style="margin: 5px 0;"><strong>Estudiante:</strong> ${name}</p>
+          <p style="margin: 5px 0;"><strong>Asignatura:</strong> ${subject}</p>
+          <p style="margin: 5px 0;"><strong>Fecha:</strong> ${readableDate}</p>
+          <p style="margin: 5px 0;"><strong>Hora de Inicio:</strong> ${time} hrs</p>
+        </div>
+
+        <p>Por favor, conéctate puntualmente utilizando el enlace de conexión acordado con el alumno.</p>
+      </div>
+      <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 8px 8px;">
+        © 2026 Álvaro Hernández Profemate. Todos los derechos reservados.
+      </div>
+    </div>
+  `;
+}
+
 const handler = async (event, context) => {
   console.log("Iniciando cron de recordatorios de agendamiento...");
   
@@ -141,6 +179,10 @@ const handler = async (event, context) => {
       const emailHtml = getReminderEmailTemplate(booking.name, booking.date, booking.time, booking.subject);
       await sendEmail(booking.email, "Recordatorio: Tu consulta comienza en 10 minutos 🚀", emailHtml);
       
+      // Enviar recordatorio al profesor (Álvaro)
+      const adminEmailHtml = getReminderAdminEmailTemplate(booking.name, booking.date, booking.time, booking.subject);
+      await sendEmail(process.env.SMTP_USER || "contacto@alvaroprofemate.cl", `Recordatorio: Consulta con ${booking.name} en 10 minutos 🚀`, adminEmailHtml);
+
       // Marcar recordatorio como enviado en la base de datos
       await client.query("UPDATE bookings SET reminder_sent = TRUE WHERE id = $1", [booking.id]);
     }
