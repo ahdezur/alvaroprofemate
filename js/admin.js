@@ -1,6 +1,7 @@
 // Lógica de Autenticación, Dashboard y Editor WYSIWYG para el Admin Panel
 
 document.addEventListener("DOMContentLoaded", () => {
+  populateTimeDropdowns();
   checkSession();
   initDashboardNavigation();
   initWysiwygEditor();
@@ -739,4 +740,29 @@ function formatDate(dateStr) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   const date = new Date(dateStr + 'T00:00:00'); // Evitar desajustes horarios
   return date.toLocaleDateString('es-ES', options);
+}
+
+// Rellenar dinámicamente los selectores de tiempo en formato de 24 horas (desde las 07:00 a las 22:00 en pasos de 30 mins)
+function populateTimeDropdowns() {
+  const dropdowns = document.querySelectorAll(".day-start-input, .day-end-input, .day-start-input-2, .day-end-input-2");
+  dropdowns.forEach(select => {
+    select.innerHTML = "";
+    for (let h = 7; h <= 22; h++) {
+      const hourStr = String(h).padStart(2, '0');
+      
+      // Opción :00
+      const opt1 = document.createElement("option");
+      opt1.value = `${hourStr}:00`;
+      opt1.textContent = `${hourStr}:00`;
+      select.appendChild(opt1);
+      
+      // Opción :30
+      if (h < 22) {
+        const opt2 = document.createElement("option");
+        opt2.value = `${hourStr}:30`;
+        opt2.textContent = `${hourStr}:30`;
+        select.appendChild(opt2);
+      }
+    }
+  });
 }
