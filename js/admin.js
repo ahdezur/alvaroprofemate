@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPostFormSubmit();
   initAvailabilityFormSubmit();
   initCronSimulationButton();
+  initCoursesManager();
 });
 
 /* ==========================================================================
@@ -126,6 +127,9 @@ function initDashboardNavigation() {
       } else if (sectionId === "editor") {
         sectionTitle.textContent = "Redactor de Contenido";
         resetEditorForm(); // Limpiar por si estaba en modo edición
+      } else if (sectionId === "courses") {
+        sectionTitle.textContent = "Gestión de Cursos y Contenido RAM";
+        loadCoursesManager();
       } else if (sectionId === "settings") {
         sectionTitle.textContent = "Gestión de Agenda y Reservas";
         renderBookingsTable();
@@ -765,4 +769,871 @@ function populateTimeDropdowns() {
       }
     }
   });
+}
+
+/* ==========================================================================
+   Gestión de Cursos y Contenido RAM
+   ========================================================================== */
+function showCustomConfirm(title, message, yesLabel = "Sí", noLabel = "No") {
+  return new Promise((resolve) => {
+    const modalContainer = document.createElement("div");
+    modalContainer.className = "custom-modal-overlay";
+    modalContainer.innerHTML = `
+      <div class="custom-modal-box">
+        <div class="custom-modal-header"><i class="fa-solid fa-circle-question" style="color: #06b6d4; margin-right: 6px;"></i> ${title}</div>
+        <div class="custom-modal-body" style="white-space: pre-line;">${message}</div>
+        <div class="custom-modal-actions">
+          <button class="btn btn-secondary btn-no" style="font-size:12.5px; padding: 6px 12px;">${noLabel}</button>
+          <button class="btn btn-primary btn-yes" style="font-size:12.5px; padding: 6px 12px; background: #06b6d4; border-color: #06b6d4;">${yesLabel}</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalContainer);
+
+    setTimeout(() => modalContainer.classList.add("modal-active"), 10);
+
+    const close = (result) => {
+      modalContainer.classList.remove("modal-active");
+      setTimeout(() => {
+        if (modalContainer.parentNode) {
+          document.body.removeChild(modalContainer);
+        }
+        resolve(result);
+      }, 200);
+    };
+
+    modalContainer.querySelector(".btn-yes").onclick = () => close(true);
+    modalContainer.querySelector(".btn-no").onclick = () => close(false);
+  });
+}
+
+function showCustomPrompt(title, message, defaultValue = "") {
+  return new Promise((resolve) => {
+    const modalContainer = document.createElement("div");
+    modalContainer.className = "custom-modal-overlay";
+    modalContainer.innerHTML = `
+      <div class="custom-modal-box">
+        <div class="custom-modal-header"><i class="fa-solid fa-pen-to-square" style="color: #06b6d4; margin-right: 6px;"></i> ${title}</div>
+        <div class="custom-modal-body">
+          <p style="margin-bottom: 12px; font-size: 13px; line-height: 1.5; white-space: pre-line;">${message}</p>
+          <input type="text" class="form-control prompt-input" value="${defaultValue}" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px;">
+        </div>
+        <div class="custom-modal-actions">
+          <button class="btn btn-secondary btn-cancel" style="font-size:12.5px; padding: 6px 12px;">Cancelar</button>
+          <button class="btn btn-primary btn-ok" style="font-size:12.5px; padding: 6px 12px; background: #06b6d4; border-color: #06b6d4;">Aceptar</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalContainer);
+
+    const input = modalContainer.querySelector(".prompt-input");
+    input.focus();
+    input.select();
+
+    input.onkeydown = (e) => {
+      if (e.key === "Enter") {
+        close(input.value);
+      } else if (e.key === "Escape") {
+        close(null);
+      }
+    };
+
+    setTimeout(() => modalContainer.classList.add("modal-active"), 10);
+
+    const close = (result) => {
+      modalContainer.classList.remove("modal-active");
+      setTimeout(() => {
+        if (modalContainer.parentNode) {
+          document.body.removeChild(modalContainer);
+        }
+        resolve(result);
+      }, 200);
+    };
+
+    modalContainer.querySelector(".btn-ok").onclick = () => close(input.value);
+    modalContainer.querySelector(".btn-cancel").onclick = () => close(null);
+  });
+}
+
+function showExerciseModal(exerciseData = null) {
+  return new Promise((resolve) => {
+    const isEdit = !!exerciseData;
+    const title = isEdit ? "Editar Ejercicio" : "Nuevo Ejercicio";
+    const data = exerciseData || { title: "", level: "resuelto", statement: "", solution: "" };
+
+    const modalContainer = document.createElement("div");
+    modalContainer.className = "custom-modal-overlay";
+    modalContainer.innerHTML = `
+      <div class="custom-modal-box" style="max-width: 550px;">
+        <div class="custom-modal-header"><i class="fa-solid fa-circle-question" style="color: #06b6d4; margin-right: 6px;"></i> ${title}</div>
+        <div class="custom-modal-body" style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Título del Ejercicio:</label>
+            <input type="text" id="modal-ex-title" class="form-control" value="${escapeHtml(data.title)}" placeholder="Ej: Curvas de nivel elípticas" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px;">
+          </div>
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Nivel de Dificultad:</label>
+            <select id="modal-ex-level" class="form-control" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px;">
+              <option value="resuelto" ${data.level === 'resuelto' ? 'selected' : ''}>Ejercicio Resuelto</option>
+              <option value="nivel-1" ${data.level === 'nivel-1' ? 'selected' : ''}>Nivel 1: Mecánico</option>
+              <option value="nivel-2" ${data.level === 'nivel-2' ? 'selected' : ''}>Nivel 2: Analítico</option>
+              <option value="nivel-3" ${data.level === 'nivel-3' ? 'selected' : ''}>Nivel 3: Ingeniería</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Enunciado del Ejercicio (admite LaTeX $...$):</label>
+            <textarea id="modal-ex-statement" class="form-control" style="width: 100%; min-height: 90px; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px; font-family:var(--font-body); resize:vertical;">${escapeHtml(data.statement)}</textarea>
+          </div>
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Indicación / Pauta de Resolución (admite HTML y LaTeX):</label>
+            <textarea id="modal-ex-solution" class="form-control" style="width: 100%; min-height: 120px; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px; font-family:var(--font-body); resize:vertical;">${escapeHtml(data.solution)}</textarea>
+          </div>
+        </div>
+        <div class="custom-modal-actions" style="margin-top: 20px;">
+          <button class="btn btn-secondary btn-cancel" style="font-size:12.5px; padding: 6px 12px;">Cancelar</button>
+          <button class="btn btn-primary btn-save" style="font-size:12.5px; padding: 6px 12px; background: #06b6d4; border-color: #06b6d4;">Aceptar</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalContainer);
+
+    setTimeout(() => modalContainer.classList.add("modal-active"), 10);
+
+    const close = (result) => {
+      modalContainer.classList.remove("modal-active");
+      setTimeout(() => {
+        if (modalContainer.parentNode) {
+          document.body.removeChild(modalContainer);
+        }
+        resolve(result);
+      }, 200);
+    };
+
+    modalContainer.querySelector(".btn-save").onclick = () => {
+      const valTitle = modalContainer.querySelector("#modal-ex-title").value.trim();
+      const valLevel = modalContainer.querySelector("#modal-ex-level").value;
+      const valStatement = modalContainer.querySelector("#modal-ex-statement").value.trim();
+      const valSolution = modalContainer.querySelector("#modal-ex-solution").value.trim();
+
+      if (!valTitle || !valStatement) {
+        alert("El título y el enunciado son obligatorios.");
+        return;
+      }
+
+      close({
+        title: valTitle,
+        level: valLevel,
+        statement: valStatement,
+        solution: valSolution
+      });
+    };
+    modalContainer.querySelector(".btn-cancel").onclick = () => close(null);
+  });
+}
+
+function showFormulaModal(formulaData = null) {
+  return new Promise((resolve) => {
+    const isEdit = !!formulaData;
+    const title = isEdit ? "Editar Fórmula" : "Nueva Fórmula";
+    const data = formulaData || { title: "", latex: "", description: "" };
+
+    const modalContainer = document.createElement("div");
+    modalContainer.className = "custom-modal-overlay";
+    modalContainer.innerHTML = `
+      <div class="custom-modal-box" style="max-width: 500px;">
+        <div class="custom-modal-header"><i class="fa-solid fa-calculator" style="color: #06b6d4; margin-right: 6px;"></i> ${title}</div>
+        <div class="custom-modal-body" style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Título de la Fórmula:</label>
+            <input type="text" id="modal-form-title" class="form-control" value="${escapeHtml(data.title)}" placeholder="Ej: Ecuación de la Elipse" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px;">
+          </div>
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Expresión LaTeX (sin los delimitadores \\( y \\)):</label>
+            <input type="text" id="modal-form-latex" class="form-control" value="${escapeHtml(data.latex)}" placeholder="Ej: \\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; font-family: monospace; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 6px;">
+          </div>
+          <div>
+            <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Descripción / Contexto (admite LaTeX $...$):</label>
+            <textarea id="modal-form-desc" class="form-control" style="width: 100%; min-height: 80px; box-sizing: border-box; padding: 8px; font-size:13px; background: #0f172a; color: #f8fafc; border: 1px solid #334155; border-radius: 6px; font-family:var(--font-body); resize:vertical;">${escapeHtml(data.description)}</textarea>
+          </div>
+        </div>
+        <div class="custom-modal-actions" style="margin-top: 20px;">
+          <button class="btn btn-secondary btn-cancel" style="font-size:12.5px; padding: 6px 12px;">Cancelar</button>
+          <button class="btn btn-primary btn-save" style="font-size:12.5px; padding: 6px 12px; background: #06b6d4; border-color: #06b6d4;">Aceptar</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalContainer);
+
+    setTimeout(() => modalContainer.classList.add("modal-active"), 10);
+
+    const close = (result) => {
+      modalContainer.classList.remove("modal-active");
+      setTimeout(() => {
+        if (modalContainer.parentNode) {
+          document.body.removeChild(modalContainer);
+        }
+        resolve(result);
+      }, 200);
+    };
+
+    modalContainer.querySelector(".btn-save").onclick = () => {
+      const valTitle = modalContainer.querySelector("#modal-form-title").value.trim();
+      const valLatex = modalContainer.querySelector("#modal-form-latex").value.trim();
+      const valDesc = modalContainer.querySelector("#modal-form-desc").value.trim();
+
+      if (!valTitle || !valLatex) {
+        alert("El título y la expresión LaTeX son obligatorios.");
+        return;
+      }
+
+      close({
+        title: valTitle,
+        latex: valLatex,
+        description: valDesc
+      });
+    };
+    modalContainer.querySelector(".btn-cancel").onclick = () => close(null);
+  });
+}
+
+function renderStructuredManager(tabName) {
+  const visual = document.querySelector(".wysiwyg-container");
+  const structured = document.getElementById("course-structured-container");
+  if (!visual || !structured) return;
+
+  if (tabName === "exercises" || tabName === "formulas") {
+    visual.style.display = "none";
+    structured.style.display = "block";
+
+    const titleEl = document.getElementById("structured-title");
+    const addEl = document.getElementById("btn-structured-add-label");
+    if (tabName === "exercises") {
+      titleEl.innerHTML = `<i class="fa-solid fa-list-check" style="color: var(--accent);"></i> Gestor de Ejercicios`;
+      addEl.textContent = "Añadir Ejercicio";
+    } else {
+      titleEl.innerHTML = `<i class="fa-solid fa-calculator" style="color: var(--accent);"></i> Gestor de Fórmulas de Apoyo`;
+      addEl.textContent = "Añadir Fórmula";
+    }
+
+    renderStructuredItems(tabName);
+  } else {
+    visual.style.display = "block";
+    structured.style.display = "none";
+  }
+}
+
+function getStructuredItems(tabName) {
+  let raw = "";
+  if (tabName === "exercises") raw = activeChapterData.contentExercises || "";
+  else raw = activeChapterData.contentFormulas || "";
+
+  try {
+    if (raw.trim().startsWith("[")) {
+      return JSON.parse(raw);
+    }
+  } catch (e) {
+    console.warn("No se pudo parsear como JSON, convirtiendo...", e);
+  }
+  return [];
+}
+
+function renderStructuredItems(tabName) {
+  const container = document.getElementById("structured-items-list");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const items = getStructuredItems(tabName);
+
+  if (items.length === 0) {
+    container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 13px;">No hay ${tabName === 'exercises' ? 'ejercicios' : 'fórmulas'} guardadas. Pulsa en el botón superior para añadir.</p>`;
+    return;
+  }
+
+  items.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.style.display = "flex";
+    card.style.alignItems = "center";
+    card.style.justifyContent = "space-between";
+    card.style.padding = "12px 16px";
+    card.style.background = "rgba(255, 255, 255, 0.02)";
+    card.style.border = "1px solid var(--border)";
+    card.style.borderRadius = "8px";
+    card.style.gap = "15px";
+
+    let previewHtml = "";
+    if (tabName === "exercises") {
+      let levelLabel = "Resuelto";
+      if (item.level === "nivel-1") levelLabel = "Nivel 1";
+      else if (item.level === "nivel-2") levelLabel = "Nivel 2";
+      else if (item.level === "nivel-3") levelLabel = "Nivel 3";
+      previewHtml = `
+        <div>
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <span style="font-weight:600; font-size:13.5px; color:var(--text-primary);">${index + 1}. ${escapeHtml(item.title)}</span>
+            <span class="badge-nivel ${item.level}" style="font-size:9px; padding:2px 6px;">${levelLabel}</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin: 4px 0 0 0; max-width: 380px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(item.statement)}</p>
+        </div>
+      `;
+    } else {
+      previewHtml = `
+        <div>
+          <span style="font-weight:600; font-size:13.5px; color:var(--text-primary);">${escapeHtml(item.title)}</span>
+          <div style="font-family: monospace; font-size: 12px; color: #38bdf8; margin-top:2px;">${escapeHtml(item.latex)}</div>
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div style="flex: 1;">
+        ${previewHtml}
+      </div>
+      <div style="display:flex; gap: 6px; flex-shrink: 0;">
+        <button type="button" class="btn-icon btn-move-up" title="Mover Arriba" style="padding: 4px 8px; font-size:11px; background:none; border:none; color:var(--text-muted); cursor:pointer;"><i class="fa-solid fa-arrow-up"></i></button>
+        <button type="button" class="btn-icon btn-move-down" title="Mover Abajo" style="padding: 4px 8px; font-size:11px; background:none; border:none; color:var(--text-muted); cursor:pointer;"><i class="fa-solid fa-arrow-down"></i></button>
+        <button type="button" class="btn-icon btn-edit-item" style="padding: 4px 8px; font-size:11px; background:none; border:none; color:var(--accent); cursor:pointer;"><i class="fa-solid fa-pencil"></i></button>
+        <button type="button" class="btn-icon btn-delete-item" style="padding: 4px 8px; font-size:11px; background:none; border:none; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    `;
+
+    if (index === 0) card.querySelector(".btn-move-up").style.opacity = "0.3";
+    if (index === items.length - 1) card.querySelector(".btn-move-down").style.opacity = "0.3";
+
+    card.querySelector(".btn-move-up").onclick = () => {
+      if (index === 0) return;
+      swapItems(tabName, index, index - 1);
+    };
+    card.querySelector(".btn-move-down").onclick = () => {
+      if (index === items.length - 1) return;
+      swapItems(tabName, index, index + 1);
+    };
+    card.querySelector(".btn-edit-item").onclick = async () => {
+      if (tabName === "exercises") {
+        const res = await showExerciseModal(item);
+        if (res) {
+          updateItem(tabName, index, res);
+        }
+      } else {
+        const res = await showFormulaModal(item);
+        if (res) {
+          updateItem(tabName, index, res);
+        }
+      }
+    };
+    card.querySelector(".btn-delete-item").onclick = async () => {
+      const confirmDelete = await showCustomConfirm(
+        tabName === "exercises" ? "Eliminar Ejercicio" : "Eliminar Fórmula",
+        `¿Estás seguro de que deseas eliminar este elemento?`,
+        "Eliminar",
+        "Cancelar"
+      );
+      if (confirmDelete) {
+        deleteItem(tabName, index);
+      }
+    };
+
+    container.appendChild(card);
+  });
+}
+
+function swapItems(tabName, idx1, idx2) {
+  const items = getStructuredItems(tabName);
+  const temp = items[idx1];
+  items[idx1] = items[idx2];
+  items[idx2] = temp;
+  saveStructuredItems(tabName, items);
+  renderStructuredItems(tabName);
+}
+
+function updateItem(tabName, index, updatedItem) {
+  const items = getStructuredItems(tabName);
+  items[index] = updatedItem;
+  saveStructuredItems(tabName, items);
+  renderStructuredItems(tabName);
+}
+
+function deleteItem(tabName, index) {
+  const items = getStructuredItems(tabName);
+  items.splice(index, 1);
+  saveStructuredItems(tabName, items);
+  renderStructuredItems(tabName);
+}
+
+function saveStructuredItems(tabName, items) {
+  const val = JSON.stringify(items);
+  if (tabName === "exercises") {
+    activeChapterData.contentExercises = val;
+  } else {
+    activeChapterData.contentFormulas = val;
+  }
+}
+
+let activeChapterData = null;
+let activeEditorTab = "motivation"; // Pestaña por defecto
+
+function initCoursesManager() {
+  const editorTabButtons = document.querySelectorAll(".editor-tab-btn");
+  
+  // Alternar pestañas en el editor de capítulos
+  editorTabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const nextTab = btn.getAttribute("data-tab");
+      if (nextTab === activeEditorTab) return;
+      
+      saveCurrentEditorTabContentToMemory();
+      editorTabButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      // Mostrar u ocultar el editor estructurado
+      renderStructuredManager(nextTab);
+      
+      loadContentToEditorForTab(nextTab);
+    });
+  });
+
+  // Botón: Añadir Unidad
+  const btnAddUnit = document.getElementById("btn-add-unit");
+  if (btnAddUnit) {
+    btnAddUnit.onclick = async () => {
+      const courseId = document.getElementById("course-selector").value;
+      const title = await showCustomPrompt("Nueva Unidad", "Título de la nueva unidad:");
+      if (!title) return;
+      const indexStr = await showCustomPrompt("Nueva Unidad", "Número o índice de la unidad (ej: 1 o 2):");
+      if (!indexStr) return;
+      
+      const newUnit = {
+        courseId: courseId,
+        unitIndex: parseInt(indexStr, 10) || 1,
+        title: title,
+        isLocked: false
+      };
+
+      const res = await DB.saveUnit(newUnit);
+      if (res.success) {
+        alert("¡Unidad creada!");
+        renderCourseTree(courseId);
+      }
+    };
+  }
+
+  // Botón: Añadir Capítulo
+  const btnAddChapter = document.getElementById("btn-add-chapter");
+  if (btnAddChapter) {
+    btnAddChapter.onclick = async () => {
+      const courseId = document.getElementById("course-selector").value;
+      const struct = await DB.getCourseStructure(courseId);
+      if (!struct.units || struct.units.length === 0) {
+        alert("Debes crear al menos una unidad primero.");
+        return;
+      }
+
+      let promptText = "Selecciona el número de la unidad a la que deseas añadir el capítulo:\n";
+      struct.units.forEach((u, i) => {
+        promptText += `${i + 1}. Unidad ${u.unitIndex}: ${u.title}\n`;
+      });
+      
+      const choice = await showCustomPrompt("Añadir Capítulo", promptText);
+      if (!choice) return;
+      
+      const idx = parseInt(choice, 10) - 1;
+      if (isNaN(idx) || idx < 0 || idx >= struct.units.length) {
+        alert("Opción no válida.");
+        return;
+      }
+
+      const targetUnit = struct.units[idx];
+      const chapterIndex = await showCustomPrompt("Añadir Capítulo", "Índice del capítulo (ej: 1.2 o 2.1):");
+      if (!chapterIndex) return;
+      const title = await showCustomPrompt("Añadir Capítulo", "Título del capítulo:");
+      if (!title) return;
+
+      const newChapter = {
+        unitId: targetUnit.id,
+        chapterIndex: chapterIndex,
+        title: title,
+        isCompleted: false,
+        isLocked: false,
+        contentMotivation: "",
+        contentTheory: "",
+        contentApplication: "",
+        contentExercises: "",
+        contentFormulas: ""
+      };
+
+      const res = await DB.saveChapter(newChapter);
+      if (res.success) {
+        alert("¡Capítulo creado!");
+        renderCourseTree(courseId);
+      }
+    };
+  }
+
+  // Botón: Guardar Capítulo
+  const btnSaveChapter = document.getElementById("btn-save-chapter");
+  if (btnSaveChapter) {
+    btnSaveChapter.onclick = async () => {
+      if (!activeChapterData) return;
+
+      saveCurrentEditorTabContentToMemory();
+
+      activeChapterData.title = document.getElementById("editor-chapter-title").value;
+      activeChapterData.chapterIndex = document.getElementById("editor-chapter-index").value;
+      activeChapterData.isCompleted = document.getElementById("editor-chapter-completed").checked;
+      activeChapterData.isLocked = document.getElementById("editor-chapter-locked").checked;
+
+      if (!activeChapterData.title || !activeChapterData.chapterIndex) {
+        alert("Por favor completa el título y el índice del capítulo.");
+        return;
+      }
+
+      const res = await DB.saveChapter(activeChapterData);
+      if (res.success) {
+        alert("¡Capítulo guardado exitosamente!");
+        renderCourseTree(document.getElementById("course-selector").value);
+      }
+    };
+  }
+
+  // Botón: Descartar cambios
+  const btnDiscardChapter = document.getElementById("btn-discard-chapter");
+  if (btnDiscardChapter) {
+    btnDiscardChapter.onclick = async () => {
+      const confirmDiscard = await showCustomConfirm("Descartar Cambios", "¿Estás seguro de que deseas descartar los cambios sin guardar?", "Sí, descartar", "No, cancelar");
+      if (confirmDiscard) {
+        const courseId = document.getElementById("course-selector").value;
+        const index = document.getElementById("editor-chapter-index").value;
+        loadChapterIntoEditor(courseId, index);
+      }
+    };
+  }
+
+  // Botón: Eliminar Capítulo
+  const btnDeleteChapter = document.getElementById("btn-delete-chapter");
+  if (btnDeleteChapter) {
+    btnDeleteChapter.onclick = async () => {
+      if (!activeChapterData || !activeChapterData.id) return;
+      const confirmDelete = await showCustomConfirm("Eliminar Capítulo", "¿Estás seguro de que deseas eliminar este capítulo? Esta acción no se puede deshacer.", "Sí, eliminar", "No, cancelar");
+      if (confirmDelete) {
+        const res = await DB.deleteChapter(activeChapterData.id);
+        if (res.success) {
+          alert("Capítulo eliminado.");
+          const courseId = document.getElementById("course-selector").value;
+          renderCourseTree(courseId);
+          document.getElementById("chapter-editor-workspace").style.display = "none";
+          document.getElementById("chapter-editor-welcome").style.display = "flex";
+        }
+      }
+    };
+  }
+
+  // Botón: Añadir estructurado (Ejercicios o Fórmulas)
+  const btnStructuredAdd = document.getElementById("btn-structured-add");
+  if (btnStructuredAdd) {
+    btnStructuredAdd.onclick = async () => {
+      if (activeEditorTab === "exercises") {
+        const res = await showExerciseModal();
+        if (res) {
+          const items = getStructuredItems("exercises");
+          items.push(res);
+          saveStructuredItems("exercises", items);
+          renderStructuredItems("exercises");
+        }
+      } else if (activeEditorTab === "formulas") {
+        const res = await showFormulaModal();
+        if (res) {
+          const items = getStructuredItems("formulas");
+          items.push(res);
+          saveStructuredItems("formulas", items);
+          renderStructuredItems("formulas");
+        }
+      }
+    };
+  }
+
+  initCourseWysiwygEditor();
+}
+
+async function loadCoursesManager() {
+  const courseSelector = document.getElementById("course-selector");
+  if (!courseSelector) return;
+
+  const welcome = document.getElementById("chapter-editor-welcome");
+  const workspace = document.getElementById("chapter-editor-workspace");
+  if (welcome) welcome.style.display = "flex";
+  if (workspace) workspace.style.display = "none";
+
+  const courses = await DB.getCourses();
+  courseSelector.innerHTML = "";
+  courses.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = c.title;
+    courseSelector.appendChild(opt);
+  });
+
+  courseSelector.onchange = () => {
+    renderCourseTree(courseSelector.value);
+    if (welcome) welcome.style.display = "flex";
+    if (workspace) workspace.style.display = "none";
+  };
+
+  if (courses.length > 0) {
+    courseSelector.value = courses[0].id;
+    renderCourseTree(courses[0].id);
+  }
+}
+
+async function renderCourseTree(courseId) {
+  const treeContainer = document.getElementById("course-tree-container");
+  if (!treeContainer) return;
+
+  treeContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-top:30px;"><i class="fa-solid fa-spinner fa-spin"></i> Cargando árbol...</p>';
+
+  const data = await DB.getCourseStructure(courseId);
+  if (data.error) {
+    treeContainer.innerHTML = `<p style="text-align: center; color: #ef4444; margin-top:30px;">${data.error}</p>`;
+    return;
+  }
+
+  treeContainer.innerHTML = "";
+  const treeList = document.createElement("ul");
+  treeList.className = "tree-list";
+
+  data.units.forEach(unit => {
+    const unitLi = document.createElement("li");
+    unitLi.className = "tree-node";
+    
+    unitLi.innerHTML = `
+      <div class="tree-node-title" data-unit-id="${unit.id}">
+        <span>
+          <i class="fa-solid fa-folder-open" style="color: var(--accent); margin-right: 6px;"></i>
+          Unidad ${unit.unitIndex}: <strong>${escapeHtml(unit.title)}</strong>
+          ${unit.isLocked ? ' <i class="fa-solid fa-lock" style="font-size: 11px; color: var(--text-muted);"></i>' : ''}
+        </span>
+        <div style="display:flex; gap: 6px;">
+          <button class="btn-icon btn-edit-unit" title="Editar Unidad" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><i class="fa-solid fa-pencil" style="font-size:11px;"></i></button>
+          <button class="btn-icon btn-delete-unit" title="Eliminar Unidad" style="background:none; border:none; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-trash" style="font-size:11px;"></i></button>
+        </div>
+      </div>
+    `;
+
+    const chapList = document.createElement("ul");
+    chapList.className = "tree-chapter-list";
+
+    unit.chapters.forEach(ch => {
+      const chLi = document.createElement("li");
+      chLi.className = "tree-chapter-item";
+      chLi.setAttribute("data-chapter-index", ch.chapterIndex);
+      chLi.setAttribute("data-chapter-id", ch.id);
+
+      chLi.innerHTML = `
+        <span class="chapter-node-click" style="flex:1;">
+          <i class="fa-regular fa-file-lines" style="margin-right: 6px; color: #10b981;"></i>
+          Cap ${ch.chapterIndex}: ${escapeHtml(ch.title)}
+          ${ch.isCompleted ? ' <span style="color:#10b981; font-weight:bold; font-size:11px;">(Completado)</span>' : ''}
+          ${ch.isLocked ? ' <i class="fa-solid fa-lock" style="font-size: 10px; color: var(--text-muted);"></i>' : ''}
+        </span>
+        <i class="fa-solid fa-angle-right" style="font-size: 10px; color: var(--text-muted);"></i>
+      `;
+
+      chLi.querySelector(".chapter-node-click").onclick = (e) => {
+        e.stopPropagation();
+        document.querySelectorAll(".tree-chapter-item").forEach(item => item.classList.remove("active-chapter"));
+        chLi.classList.add("active-chapter");
+        loadChapterIntoEditor(courseId, ch.chapterIndex);
+      };
+
+      chapList.appendChild(chLi);
+    });
+
+    unitLi.appendChild(chapList);
+
+    unitLi.querySelector(".btn-edit-unit").onclick = (e) => {
+      e.stopPropagation();
+      editUnitHandler(unit, courseId);
+    };
+
+    unitLi.querySelector(".btn-delete-unit").onclick = (e) => {
+      e.stopPropagation();
+      deleteUnitHandler(unit.id, courseId);
+    };
+
+    treeList.appendChild(unitLi);
+  });
+
+  treeContainer.appendChild(treeList);
+}
+
+async function editUnitHandler(unit, courseId) {
+  const newTitle = await showCustomPrompt("Editar Unidad", "Título de la Unidad:", unit.title);
+  if (newTitle === null) return;
+  const newIndexStr = await showCustomPrompt("Editar Unidad", "Índice o número de la Unidad:", unit.unitIndex);
+  if (newIndexStr === null) return;
+  const isLocked = await showCustomConfirm("Bloquear Unidad", "¿Deseas bloquear esta unidad?", "Sí", "No");
+  
+  const updated = {
+    id: unit.id,
+    courseId: courseId || unit.courseId || unit.course_id,
+    unitIndex: parseInt(newIndexStr, 10) || unit.unitIndex,
+    title: newTitle,
+    isLocked: isLocked
+  };
+
+  const res = await DB.saveUnit(updated);
+  if (res.success) {
+    alert("¡Unidad guardada!");
+    renderCourseTree(document.getElementById("course-selector").value);
+  }
+}
+
+async function deleteUnitHandler(id, courseId) {
+  const confirmDelete = await showCustomConfirm("Eliminar Unidad", "¿Estás seguro de que deseas eliminar esta unidad? Esto eliminará todos los capítulos que contiene.", "Sí, eliminar", "No, cancelar");
+  if (confirmDelete) {
+    const res = await DB.deleteUnit(id);
+    if (res.success) {
+      alert("Unidad eliminada.");
+      renderCourseTree(courseId);
+      document.getElementById("chapter-editor-workspace").style.display = "none";
+      document.getElementById("chapter-editor-welcome").style.display = "flex";
+    }
+  }
+}
+
+async function loadChapterIntoEditor(courseId, chapterIndex) {
+  const workspace = document.getElementById("chapter-editor-workspace");
+  const welcome = document.getElementById("chapter-editor-welcome");
+  
+  workspace.style.display = "none";
+  welcome.style.display = "none";
+
+  const ch = await DB.getChapterContent(courseId, chapterIndex);
+  if (ch.error) {
+    alert("Error al cargar el contenido del capítulo");
+    welcome.style.display = "flex";
+    return;
+  }
+
+  activeChapterData = ch;
+
+  document.getElementById("editor-chapter-id").value = ch.id || "";
+  document.getElementById("editor-chapter-title").value = ch.title || "";
+  document.getElementById("editor-chapter-index").value = ch.chapterIndex || "";
+  document.getElementById("editor-chapter-completed").checked = ch.isCompleted || false;
+  document.getElementById("editor-chapter-locked").checked = ch.isLocked || false;
+
+  document.getElementById("workspace-chapter-title").textContent = `Editar Capítulo ${ch.chapterIndex}`;
+  document.getElementById("workspace-unit-title").textContent = ch.title;
+
+  const tabButtons = document.querySelectorAll(".editor-tab-btn");
+  tabButtons.forEach(btn => btn.classList.remove("active"));
+  const motBtn = Array.from(tabButtons).find(btn => btn.getAttribute("data-tab") === "motivation");
+  if (motBtn) motBtn.classList.add("active");
+
+  const htmlBtn = document.getElementById("course-btn-html-mode");
+  if (htmlBtn.classList.contains("active")) {
+    htmlBtn.classList.remove("active");
+    document.getElementById("course-editor-code").style.display = "none";
+    document.getElementById("course-editor-visual").style.display = "block";
+  }
+
+  loadContentToEditorForTab("motivation");
+  renderStructuredManager("motivation");
+
+  workspace.style.display = "block";
+}
+
+function saveCurrentEditorTabContentToMemory() {
+  if (!activeChapterData) return;
+  const editorVisual = document.getElementById("course-editor-visual");
+  const editorCode = document.getElementById("course-editor-code");
+  const htmlBtn = document.getElementById("course-btn-html-mode");
+  
+  if (activeEditorTab === "motivation" || activeEditorTab === "theory" || activeEditorTab === "application") {
+    let content = "";
+    if (htmlBtn.classList.contains("active")) {
+      content = editorCode.value;
+    } else {
+      content = editorVisual.innerHTML;
+    }
+
+    if (activeEditorTab === "motivation") activeChapterData.contentMotivation = content;
+    else if (activeEditorTab === "theory") activeChapterData.contentTheory = content;
+    else if (activeEditorTab === "application") activeChapterData.contentApplication = content;
+  }
+}
+
+function loadContentToEditorForTab(tabName) {
+  activeEditorTab = tabName;
+  const editorVisual = document.getElementById("course-editor-visual");
+  const editorCode = document.getElementById("course-editor-code");
+  const htmlBtn = document.getElementById("course-btn-html-mode");
+  
+  if (tabName === "exercises" || tabName === "formulas") {
+    return;
+  }
+
+  let content = "";
+  if (tabName === "motivation") content = activeChapterData.contentMotivation || "";
+  else if (tabName === "theory") content = activeChapterData.contentTheory || "";
+  else if (tabName === "application") content = activeChapterData.contentApplication || "";
+
+  if (htmlBtn.classList.contains("active")) {
+    editorCode.value = content;
+    editorVisual.innerHTML = content;
+  } else {
+    editorVisual.innerHTML = content;
+    editorCode.value = content;
+  }
+}
+
+function initCourseWysiwygEditor() {
+  const editorVisual = document.getElementById("course-editor-visual");
+  const editorCode = document.getElementById("course-editor-code");
+  const btnHtmlMode = document.getElementById("course-btn-html-mode");
+  const toolbarButtons = document.querySelectorAll(".course-toolbar-btn");
+
+  toolbarButtons.forEach(btn => {
+    if (btn.id === "course-btn-html-mode") return;
+
+    btn.addEventListener("click", () => {
+      if (btnHtmlMode.classList.contains("active")) return;
+
+      const cmd = btn.getAttribute("data-cmd");
+      const val = btn.getAttribute("data-val");
+
+      if (cmd === "createLink") {
+        showCustomPrompt("Insertar Enlace", "Introduce el enlace URL:", "https://").then(url => {
+          if (url && url !== "https://") {
+            document.execCommand(cmd, false, url);
+          }
+        });
+      } else if (cmd === "insertImage") {
+        showCustomPrompt("Insertar Imagen", "Introduce la URL de la imagen:", "https://").then(url => {
+          if (url && url !== "https://") {
+            document.execCommand(cmd, false, url);
+          }
+        });
+      } else {
+        document.execCommand(cmd, false, val || null);
+      }
+      
+      editorVisual.focus();
+    });
+  });
+
+  btnHtmlMode.onclick = () => {
+    const isCodeActive = btnHtmlMode.classList.toggle("active");
+
+    if (isCodeActive) {
+      editorCode.value = editorVisual.innerHTML;
+      editorVisual.style.display = "none";
+      editorCode.style.display = "block";
+      editorCode.focus();
+    } else {
+      editorVisual.innerHTML = editorCode.value;
+      editorCode.style.display = "none";
+      editorVisual.style.display = "block";
+      editorVisual.focus();
+    }
+  };
 }

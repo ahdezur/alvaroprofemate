@@ -1,0 +1,111 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{tcolorbox}
+
+\title{\textbf{Series de Potencias}\\ \large Guía de Aprendizaje - Proyecto Educación}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Motivación (El Gatillador Cognitivo)}
+\textbf{El misterio de la calculadora:}\\
+Alguna vez te has preguntado: \textit{¿Cómo sabe una calculadora cuánto vale $\sin(2)$ o $e^{1.5}$?} La realidad es que el procesador de tu computadora o calculadora es ``tonto''; solo sabe hacer cuatro cosas: sumar, restar, multiplicar y dividir. No tiene idea de lo que es un seno, un coseno o un logaritmo.
+
+¿Cómo lo logra entonces? Aquí entra la magia: \textbf{podemos disfrazar funciones complejas como polinomios infinitos}. Una Serie de Potencias es exactamente eso: un polinomio infinitamente largo que nos permite calcular funciones imposibles utilizando únicamente sumas y multiplicaciones. Es el puente definitivo entre el álgebra básica y el cálculo avanzado.
+
+\section{Definición y Teoría (Rigor)}
+
+\subsection*{Definición Formal}
+Una serie de potencias centrada en $x = a$ es una serie infinita de la forma:
+\[ f(x) = \sum_{n=0}^{\infty} c_n (x - a)^n = c_0 + c_1(x-a) + c_2(x-a)^2 + c_3(x-a)^3 + \dots \]
+Donde $x$ es una variable y los $c_n$ son constantes llamadas coeficientes de la serie.
+
+\subsection*{Conceptos y Propiedades Claves}
+\begin{itemize}
+    \item \textbf{Radio de Convergencia ($R$):} Es la distancia desde el centro $a$ hasta donde la serie converge (donde ``funciona'' y no se va al infinito).
+    \item \textbf{Intervalo de Convergencia:} Es el conjunto de todos los valores de $x$ para los cuales la serie converge. Siempre tiene la forma $(a-R, a+R)$, pero ¡atención!, los extremos pueden o no estar incluidos.
+    \item \textbf{Idea Clave:} Una serie de potencias es, en esencia, una función $f(x)$ cuyo dominio es exactamente su intervalo de convergencia. Fuera de ese intervalo, la serie ``explota'' (diverge).
+\end{itemize}
+
+\subsection*{Teorema Fundamental (Criterio de la Razón para el Radio)}
+Para encontrar el radio de convergencia $R$, utilizamos el Criterio de la Razón (o D'Alembert). Exigimos que para el término general $u_n = c_n(x-a)^n$:
+\[ \lim_{n \to \infty} \left| \frac{u_{n+1}}{u_n} \right| < 1 \]
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Error Común (¡Trampa Cognitiva!)]
+\textit{Olvidar los bordes:} Muchos estudiantes encuentran el radio $R$, arman el intervalo abierto $(a-R, a+R)$ y terminan el ejercicio. \textbf{Error.} El Criterio de la Razón no entrega información cuando el límite es exactamente $1$. Siempre, sin excepción, \textbf{debes evaluar los extremos del intervalo por separado} reemplazando esos valores de $x$ en la serie original.
+\end{tcolorbox}
+
+\section{Aplicación y Práctica (Evaluación Formativa Rápida)}
+
+\subsection*{Verdadero y Falso}
+\begin{enumerate}
+    \item ( ) Si una serie de potencias centrada en $x=0$ converge en $x=4$, entonces está garantizado que converge en $x=-3$.
+    \\ \textit{Retroalimentación:} \textbf{Verdadero.} Si converge en $4$, su radio es al menos $R=4$. Como el centro es $0$, el intervalo seguro cubre desde $(-4, 4)$. Como $-3$ está dentro, converge.
+    \item ( ) El intervalo de convergencia siempre es abierto en ambos extremos.
+    \\ \textit{Retroalimentación:} \textbf{Falso.} Dependiendo de la serie, puede incluir uno, ambos o ninguno de los extremos. Hay que probarlos manualmente.
+\end{enumerate}
+
+\subsection*{Pregunta de Selección Múltiple}
+¿Cuál es el centro de la serie de potencias $\sum_{n=1}^{\infty} \frac{(-1)^n (x+5)^n}{n!}$?
+\begin{itemize}
+    \item[A)] $x = 1$
+    \item[B)] $x = 0$
+    \item[C)] $x = 5$
+    \item[D)] $x = -5$
+\end{itemize}
+\textit{Respuesta correcta: D. (Recuerda que la forma es $(x-a)^n$, por lo que $(x+5)$ significa $a = -5$).}
+
+\section{Ejercicios Resueltos y Propuestos}
+
+\subsection*{Ejercicio 1 (Resuelto) - El clásico de examen}
+\textbf{Enunciado:} Determine el radio y el intervalo de convergencia de la serie $\sum_{n=1}^{\infty} \frac{x^n}{n}$.\\
+\textbf{Solución:}
+\begin{enumerate}
+    \item Aplicamos el Criterio de la Razón:
+    \[ \lim_{n \to \infty} \left| \frac{x^{n+1}/(n+1)}{x^n/n} \right| = \lim_{n \to \infty} \left| x \frac{n}{n+1} \right| = |x| \]
+    \item Para converger, exigimos $|x| < 1$. Por lo tanto, el Radio de Convergencia es $R = 1$.
+    \item El intervalo preliminar es $(-1, 1)$. Ahora evaluamos los extremos:
+    \begin{itemize}
+        \item Si $x = 1$: Obtenemos $\sum \frac{1}{n}$, que es la Serie Armónica (Diverge).
+        \item Si $x = -1$: Obtenemos $\sum \frac{(-1)^n}{n}$, que es la Serie Armónica Alternada (Converge por Leibniz).
+    \end{itemize}
+    \item \textbf{Respuesta Final:} El intervalo de convergencia es $[-1, 1)$.
+\end{enumerate}
+
+\subsection*{Ejercicio 2 (Propuesto) - Desplazando el centro}
+\textbf{Enunciado:} Encuentre el radio y el intervalo de convergencia para $\sum_{n=0}^{\infty} \frac{(x-3)^n}{2^n (n+1)}$.\\
+\textbf{Indicación para el alumno:} Fíjate que el centro no es cero, es $a=3$. Aplica el Criterio de la Razón, el radio te dará $R=2$. No olvides revisar con mucho cuidado qué ocurre en los extremos $x=1$ y $x=5$.
+
+\subsection*{Ejercicio 3 (Resuelto) - Construcción a partir de Geométricas}
+\textbf{Enunciado:} Encuentre una serie de potencias para la función $f(x) = \frac{1}{1+x^2}$ y determine su intervalo de convergencia.\\
+\textbf{Solución:}
+\begin{enumerate}
+    \item Sabemos que la serie geométrica base es $\frac{1}{1-r} = \sum_{n=0}^{\infty} r^n$ para $|r| < 1$.
+    \item Reescribimos nuestra función para que coincida con el molde: $\frac{1}{1 - (-x^2)}$.
+    \item Reemplazamos $r = -x^2$ en la serie geométrica:
+    \[ \sum_{n=0}^{\infty} (-x^2)^n = \sum_{n=0}^{\infty} (-1)^n x^{2n} \]
+    \item Esta serie converge cuando $|-x^2| < 1$, es decir, $|x| < 1$. Su intervalo es $(-1, 1)$.
+\end{enumerate}
+
+\section{Fórmulas Claves (Para el formulario del alumno)}
+\begin{itemize}
+    \item \textbf{Forma General:} $\sum_{n=0}^{\infty} c_n (x-a)^n$
+    \item \textbf{Cálculo del Radio de Convergencia:}
+    \[ R = \lim_{n \to \infty} \left| \frac{c_n}{c_{n+1}} \right| \]
+    \textit{(Nota: se invierten los términos respecto a la razón habitual si solo tomas los coeficientes $c_n$).}
+    \item \textbf{La Piedra Rosetta (Serie Geométrica Clave):}
+    \[ \frac{1}{1-x} = 1 + x + x^2 + x^3 + \dots = \sum_{n=0}^{\infty} x^n \quad \text{válida para } |x| < 1 \]
+\end{itemize}
+
+\vfill
+\begin{center}
+    \textit{Nota: En la versión web, aquí se debe incrustar el simulador interactivo (LlmGeneratedComponent) para visualizar las aproximaciones con el Polinomio de Taylor.}
+\end{center}
+
+\end{document}

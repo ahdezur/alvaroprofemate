@@ -1766,11 +1766,28 @@ textarea.form-control {
 
 .slots-container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 10px;
-  max-height: 320px;
+  max-height: 340px;
   overflow-y: auto;
-  padding-right: 5px;
+  padding-right: 8px;
+}
+
+/* Barra deslizadora visible y estilizada para los horarios */
+.slots-container::-webkit-scrollbar {
+  width: 6px;
+  display: block;
+}
+.slots-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 3px;
+}
+.slots-container::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.3); /* Color cyan translúcido */
+  border-radius: 3px;
+}
+.slots-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.6);
 }
 
 .slot-btn {

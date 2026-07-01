@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cálculo Vectorial Multivariable - Plataforma RAM</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='fav-grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23fav-grad)'/%3E%3Cpath d='M 4,16 L 7,16 L 10,26 L 13,4 L 28,4' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M 15,25 L 20.5,14 L 26,25' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='17.5' y1='21.5' x2='23.5' y2='21.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='20.5' y1='11' x2='23' y2='7.5' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Configuración de MathJax para Fórmulas LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        ignoreHtmlClass: 'tex2jax_ignore',
+        processHtmlClass: 'tex2jax_process'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* ==========================================================================
+       1. VARIABLES DEL SISTEMA DE DISEÑO (TEMA CLARO POR DEFECTO / TEMA OSCURO)
+       ========================================================================== */
+    :root {
+      /* Colores base - Tema Claro */
+      --bg-primary: hsl(210, 40%, 98%);
+      --bg-sidebar: hsl(210, 30%, 95%);
+      --bg-card: hsl(0, 0%, 100%);
+      --bg-code: hsl(210, 20%, 94%);
+      
+      --text-primary: hsl(222, 47%, 11%);
+      --text-secondary: hsl(217, 19%, 35%);
+      --text-muted: hsl(215, 16%, 47%);
+      --border-color: hsl(214, 32%, 91%);
+      
+      --accent-color: hsl(220, 95%, 50%);
+      --accent-hover: hsl(220, 95%, 42%);
+      --accent-bg: hsl(220, 95%, 96%);
+      
+      --success: hsl(142, 76%, 36%);
+      --success-bg: hsl(142, 70%, 95%);
+      --success-border: hsl(142, 60%, 80%);
+      
+      --error: hsl(346, 84%, 48%);
+      --error-bg: hsl(346, 80%, 96%);
+      --error-border: hsl(346, 70%, 85%);
+
+      /* Cajas de Estilo RAM (Colores con alto contraste) */
+      --ram-motivacion-bg: hsl(45, 100%, 96%);
+      --ram-motivacion-border: hsl(40, 95%, 45%);
+      --ram-motivacion-text: hsl(35, 90%, 20%);
+      
+      --ram-teoria-bg: hsl(210, 90%, 96%);
+      --ram-teoria-border: hsl(210, 95%, 45%);
+      --ram-teoria-text: hsl(210, 90%, 20%);
+      
+      --ram-choque-bg: hsl(12, 100%, 96%);
+      --ram-choque-border: hsl(12, 90%, 50%);
+      --ram-choque-text: hsl(12, 90%, 20%);
+      
+      --ram-aplicacion-bg: hsl(150, 70%, 95%);
+      --ram-aplicacion-border: hsl(150, 80%, 30%);
+      --ram-aplicacion-text: hsl(150, 90%, 15%);
+      
+      --ram-ejercicios-bg: hsl(262, 80%, 97%);
+      --ram-ejercicios-border: hsl(262, 80%, 50%);
+      --ram-ejercicios-text: hsl(262, 80%, 20%);
+
+      --ram-teorema-bg: hsl(270, 90%, 97%);
+      --ram-teorema-border: hsl(270, 95%, 45%);
+      --ram-teorema-text: hsl(270, 90%, 20%);
+      
+      --ram-propiedades-bg: hsl(180, 80%, 96%);
+      --ram-propiedades-border: hsl(180, 90%, 40%);
+      --ram-propiedades-text: hsl(180, 90%, 15%);
+      
+      --ram-idea-bg: hsl(140, 80%, 96%);
+      --ram-idea-border: hsl(140, 85%, 35%);
+      --ram-idea-text: hsl(140, 90%, 15%);
+
+      /* Sombras y Bordes */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+      --font-code: 'Fira Code', monospace;
+
+      --sidebar-width: 320px;
+      --transition-speed: 0.3s;
+    }
+
+    [data-theme="dark"] {
+      /* Colores base - Tema Oscuro */
+      --bg-primary: hsl(222, 25%, 8%);
+      --bg-sidebar: hsl(222, 25%, 6%);
+      --bg-card: hsl(222, 20%, 12%);
+      --bg-code: hsl(222, 20%, 18%);
+      
+      --text-primary: hsl(210, 40%, 98%);
+      --text-secondary: hsl(215, 20%, 75%);
+      --text-muted: hsl(215, 15%, 55%);
+      --border-color: hsl(222, 15%, 18%);
+      
+      --accent-color: hsl(217, 91%, 60%);
+      --accent-hover: hsl(217, 91%, 68%);
+      --accent-bg: hsl(217, 91%, 15%);
+      
+      --success: hsl(142, 70%, 45%);
+      --success-bg: hsl(142, 60%, 10%);
+      --success-border: hsl(142, 50%, 20%);
+      
+      --error: hsl(346, 80%, 55%);
+      --error-bg: hsl(346, 70%, 12%);
+      --error-border: hsl(346, 50%, 22%);
+
+      /* Cajas de Estilo RAM en Tema Oscuro */
+      --ram-motivacion-bg: hsl(40, 40%, 11%);
+      --ram-motivacion-border: hsl(40, 80%, 50%);
+      --ram-motivacion-text: hsl(40, 90%, 85%);
+      
+      --ram-teoria-bg: hsl(210, 40%, 11%);
+      --ram-teoria-border: hsl(210, 80%, 50%);
+      --ram-teoria-text: hsl(210, 90%, 85%);
+      
+      --ram-choque-bg: hsl(12, 40%, 11%);
+      --ram-choque-border: hsl(12, 80%, 55%);
+      --ram-choque-text: hsl(12, 90%, 85%);
+      
+      --ram-aplicacion-bg: hsl(150, 30%, 10%);
+      --ram-aplicacion-border: hsl(150, 70%, 40%);
+      --ram-aplicacion-text: hsl(150, 80%, 85%);
+      
+      --ram-ejercicios-bg: hsl(262, 40%, 11%);
+      --ram-ejercicios-border: hsl(262, 70%, 55%);
+      --ram-ejercicios-text: hsl(262, 90%, 85%);
+
+      --ram-teorema-bg: hsl(270, 30%, 11%);
+      --ram-teorema-border: hsl(270, 80%, 55%);
+      --ram-teorema-text: hsl(270, 90%, 85%);
+      
+      --ram-propiedades-bg: hsl(180, 35%, 10%);
+      --ram-propiedades-border: hsl(180, 75%, 45%);
+      --ram-propiedades-text: hsl(180, 90%, 85%);
+      
+      --ram-idea-bg: hsl(140, 30%, 10%);
+      --ram-idea-border: hsl(140, 70%, 45%);
+      --ram-idea-text: hsl(140, 90%, 85%);
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ==========================================================================
+       2. ESTILOS GENERALES Y LAYOUT
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      line-height: 1.6;
+    }
+
+    /* Contenedor principal del Shell */
+    .shell-container {
+      display: flex;
+      width: 100%;
+      position: relative;
+    }
+
+    /* ==========================================================================
+       3. NAVEGACIÓN LATERAL (SIDEBAR ACCORDION)
+       ========================================================================== */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 100;
+      transition: background-color var(--transition-speed), border-color var(--transition-speed), transform var(--transition-speed);
+    }
+
+    /* Ocultamiento y Colapso de la Barra Lateral */
+    .sidebar-collapsed .sidebar {
+      transform: translateX(-100%);
+    }
+
+    .sidebar-collapsed .main-content {
+      margin-left: 0;
+    }
+
+    .sidebar-collapsed #sidebar-show-btn {
+      display: flex !important;
+    }
+
+
+    /* Cabecera del Sidebar */
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .brand-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-color), hsl(270, 90%, 50%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    /* Selector de Tema */
+    .theme-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--transition-speed);
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: var(--border-color);
+    }
+
+    /* Indicador de progreso general del curso */
+    .progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar-bg {
+      height: 6px;
+      background-color: var(--border-color);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 33%; /* Representa 1 de 3 capítulos completados */
+      background-color: var(--success);
+      border-radius: 3px;
+      transition: width var(--transition-speed) ease;
+    }
+
+    /* Menú Acordeón de Unidades */
+    .sidebar-menu {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Estilo de Unidad (Accordion Item) */
+    .unit-accordion {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-card);
+      overflow: hidden;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .unit-accordion.active-unit {
+      border-color: var(--accent-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Unidad Bloqueada Estilos */
+    .unit-accordion.unit-locked {
+      opacity: 0.65;
+      background-color: transparent;
+    }
+
+    .unit-header-btn {
+      width: 100%;
+      padding: 16px;
+      background: transparent;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color var(--transition-speed);
+    }
+
+    .unit-header-btn:hover:not(.locked-trigger) {
+      background-color: var(--bg-primary);
+    }
+
+    .unit-header-btn.locked-trigger {
+      cursor: not-allowed;
+    }
+
+    .unit-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      pointer-events: none;
+    }
+
+    .unit-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .unit-accordion.active-unit .unit-tag {
+      color: var(--accent-color);
+    }
+
+    .unit-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .unit-icon-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chevron-icon {
+      transition: transform var(--transition-speed) ease;
+      color: var(--text-muted);
+    }
+
+    .unit-accordion.expanded .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Contenedor Dinámico para Expandir/Colapsar (CSS Grid Trick para smooth slide) */
+    .chapter-list-wrapper {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .unit-accordion.expanded .chapter-list-wrapper {
+      grid-template-rows: 1fr;
+    }
+
+    .chapter-list {
+      min-height: 0;
+      border-top: 1px solid var(--border-color);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Enlaces a los Capítulos */
+    .chapter-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-speed) ease;
+      position: relative;
+    }
+
+    /* Estado: Completado */
+    .chapter-item.completed {
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .status-badge.completed-badge {
+      color: var(--success);
+    }
+
+    /* Estado: Activo */
+    .chapter-item.active {
+      background-color: var(--accent-bg);
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .chapter-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 15%;
+      height: 70%;
+      width: 4px;
+      background-color: var(--accent-color);
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Estado: Bloqueado */
+    .chapter-item.locked {
+      color: var(--text-muted);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .chapter-item.locked:hover {
+      background: transparent !important;
+    }
+
+    .chapter-item:hover:not(.locked):not(.active) {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       4. ÁREA CENTRAL DE RENDERIZADO (CONTENIDO DINÁMICO)
+       ========================================================================== */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left var(--transition-speed);
+    }
+
+    /* Barra Superior (Top Navigation) */
+    .top-navbar {
+      height: 70px;
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      transition: background-color var(--transition-speed), border-color var(--transition-speed);
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .breadcrumb-separator {
+      color: var(--border-color);
+    }
+
+    .breadcrumb-active {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Contenedor del Artículo de Contenido */
+    .content-viewport {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px 80px 24px;
+      transition: max-width 0.4s ease;
+    }
+
+    .content-viewport.viewport-wide {
+      max-width: 1400px;
+    }
+
+    /* Estilos Tipográficos del Contenido */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      color: var(--text-primary);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      letter-spacing: -0.75px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-top: 2.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-top: 1.75rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       5. CAJAS DE ESTILO INSTRUCCIONAL (MODELO RAM)
+       ========================================================================== */
+    .caja-ram {
+      border-left: 5px solid transparent;
+      padding: 20px;
+      border-radius: 4px var(--radius-md) var(--radius-md) 4px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 16px;
+      transition: background-color var(--transition-speed);
+    }
+
+    .caja-ram-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .caja-ram-body {
+      flex: 1;
+    }
+
+    .caja-ram-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* Caja de Motivación (Motivación, Reflexión) */
+    .caja-motivacion {
+      background-color: var(--ram-motivacion-bg);
+      border-left-color: var(--ram-motivacion-border);
+      color: var(--ram-motivacion-text);
+    }
+
+    .caja-motivacion .caja-ram-title {
+      color: var(--ram-motivacion-border);
+    }
+
+    .caja-motivacion p {
+      color: var(--ram-motivacion-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Definiciones y Teoría (Definición Formal, Teoremas) */
+    .caja-teoria, .caja-definicion {
+      background-color: var(--ram-teoria-bg);
+      border-left-color: var(--ram-teoria-border);
+      color: var(--ram-teoria-text);
+    }
+
+    .caja-teoria .caja-ram-title, .caja-definicion .caja-ram-title {
+      color: var(--ram-teoria-border);
+    }
+
+    .caja-teoria p, .caja-definicion p {
+      color: var(--ram-teoria-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Choque Cognitivo (Errores Comunes, Advertencias) */
+    .caja-choque-cognitivo, .error-comun {
+      background-color: var(--ram-choque-bg);
+      border-left-color: var(--ram-choque-border);
+      color: var(--ram-choque-text);
+    }
+
+    .caja-choque-cognitivo .caja-ram-title, .error-comun .caja-ram-title {
+      color: var(--ram-choque-border);
+    }
+
+    .caja-choque-cognitivo p, .error-comun p {
+      color: var(--ram-choque-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Aplicación (Ingeniería del mundo real) */
+    .caja-aplicacion {
+      background-color: var(--ram-aplicacion-bg);
+      border-left-color: var(--ram-aplicacion-border);
+      color: var(--ram-aplicacion-text);
+    }
+
+    .caja-aplicacion .caja-ram-title {
+      color: var(--ram-aplicacion-border);
+    }
+
+    .caja-aplicacion p {
+      color: var(--ram-aplicacion-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Ejercicios (Práctica y Desafíos) */
+    .caja-ejercicios {
+      background-color: var(--ram-ejercicios-bg);
+      border-left-color: var(--ram-ejercicios-border);
+      color: var(--ram-ejercicios-text);
+    }
+
+    .caja-ejercicios .caja-ram-title {
+      color: var(--ram-ejercicios-border);
+    }
+
+    .caja-ejercicios p {
+      color: var(--ram-ejercicios-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Teorema (Enunciados formales de teoremas) */
+    .caja-teorema {
+      background-color: var(--ram-teorema-bg);
+      border-left-color: var(--ram-teorema-border);
+      color: var(--ram-teorema-text);
+    }
+    .caja-teorema .caja-ram-title {
+      color: var(--ram-teorema-border);
+    }
+    .caja-teorema p {
+      color: var(--ram-teorema-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Propiedades (Propiedades de operadores, identidades) */
+    .caja-propiedades {
+      background-color: var(--ram-propiedades-bg);
+      border-left-color: var(--ram-propiedades-border);
+      color: var(--ram-propiedades-text);
+    }
+    .caja-propiedades .caja-ram-title {
+      color: var(--ram-propiedades-border);
+    }
+    .caja-propiedades p {
+      color: var(--ram-propiedades-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Ideas Clave / Pregunta Guía */
+    .caja-idea, .caja-pregunta-guia {
+      background-color: var(--ram-idea-bg);
+      border-left-color: var(--ram-idea-border);
+      color: var(--ram-idea-text);
+    }
+    .caja-idea .caja-ram-title, .caja-pregunta-guia .caja-ram-title {
+      color: var(--ram-idea-border);
+    }
+    .caja-idea p, .caja-pregunta-guia p {
+      color: var(--ram-idea-text);
+      opacity: 0.9;
+    }
+
+    /* ==========================================================================
+       6. COMPONENTES INTERACTIVOS (PLANTILLAS JS)
+       ========================================================================== */
+    
+    /* A. Caja de Indicación / Tip */
+    .caja-indicacion {
+      background-color: var(--bg-card);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .caja-indicacion-icon {
+      font-size: 1.25rem;
+      color: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .caja-indicacion-content {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .caja-indicacion-content strong {
+      color: var(--text-primary);
+    }
+
+    /* B. Evaluación Formativa Rápida */
+    .evaluacion-formativa {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-speed);
+    }
+
+    .eval-pregunta {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      display: flex;
+      gap: 8px;
+    }
+
+    .eval-opciones {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Botones de Opción */
+    .opcion-btn {
+      width: 100%;
+      padding: 14px 18px;
+      text-align: left;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .opcion-btn:hover:not(:disabled) {
+      border-color: var(--accent-color);
+      background-color: var(--accent-bg);
+      color: var(--accent-color);
+    }
+
+    .opcion-btn.selected {
+      border-color: var(--accent-color);
+      background-color: var(--accent-bg);
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    /* Feedback de opción individual */
+    .opcion-btn.correct-choice {
+      border-color: var(--success);
+      background-color: var(--success-bg);
+      color: var(--success);
+    }
+
+    .opcion-btn.incorrect-choice {
+      border-color: var(--error);
+      background-color: var(--error-bg);
+      color: var(--error);
+    }
+
+    /* Caja de Feedback General Desplegable */
+    .feedback-contenedor {
+      margin-top: 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      /* Animación simple */
+      animation: slideDown 0.3s ease-out forwards;
+    }
+
+    .feedback-contenedor.hidden {
+      display: none;
+    }
+
+    .feedback-contenedor.correcto {
+      background-color: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success);
+    }
+
+    .feedback-contenedor.incorrecto {
+      background-color: var(--error-bg);
+      border-color: var(--error-border);
+      color: var(--error);
+    }
+
+    .feedback-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .feedback-texto strong {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    /* C. Ejercicios Resueltos (Acordeones nativos <details>) */
+    .ejercicio-resuelto {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      margin: 16px 0;
+      overflow: hidden;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .ejercicio-resuelto[open] {
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent-color);
+    }
+
+    .ejercicio-summary {
+      padding: 18px 20px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none; /* Ocultar marcador nativo */
+      user-select: none;
+      color: var(--text-primary);
+    }
+
+    /* Ocultar marcador nativo en WebKit */
+    .ejercicio-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .ejercicio-summary:hover {
+      background-color: var(--bg-primary);
+    }
+
+    /* Flecha personalizada */
+    .acordeon-icon-indicator {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: transform var(--transition-speed) ease;
+    }
+
+    .ejercicio-resuelto[open] .acordeon-icon-indicator {
+      transform: rotate(180deg);
+      color: var(--accent-color);
+    }
+
+    .ejercicio-contenido {
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+    }
+
+    /* D. Ejercicios Propuestos (Andamiaje en 3 Niveles) */
+    .ejercicio-propuesto {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 16px 0;
+      position: relative;
+    }
+
+    .ejercicio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ejercicio-titulo-prop {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .ejercicio-enunciado {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    /* Badges de Niveles */
+    .badge-nivel {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nivel-1 {
+      background-color: hsl(200, 95%, 90%);
+      color: hsl(200, 95%, 30%);
+    }
+    
+    [data-theme="dark"] .nivel-1 {
+      background-color: hsl(200, 95%, 15%);
+      color: hsl(200, 95%, 80%);
+    }
+
+    .nivel-2 {
+      background-color: hsl(270, 90%, 92%);
+      color: hsl(270, 90%, 35%);
+    }
+
+    [data-theme="dark"] .nivel-2 {
+      background-color: hsl(270, 90%, 18%);
+      color: hsl(270, 90%, 80%);
+    }
+
+    .nivel-3 {
+      background-color: hsl(150, 80%, 90%);
+      color: hsl(150, 80%, 25%);
+    }
+
+    [data-theme="dark"] .nivel-3 {
+      background-color: hsl(150, 80%, 12%);
+      color: hsl(150, 80%, 80%);
+    }
+
+    /* Botón Ver Respuesta / Pista */
+    .btn-pista {
+      background-color: transparent;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pista:hover {
+      background-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .pista-contenido {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-primary);
+      border-left: 3px solid var(--accent-color);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      animation: slideDown 0.25s ease-out forwards;
+    }
+
+    .pista-contenido.hidden {
+      display: none;
+    }
+
+    /* ==========================================================================
+       7. MULTIMEDIA PLACEHOLDERS
+       ========================================================================== */
+    
+    /* Video Placeholder */
+    .video-placeholder {
+      background: linear-gradient(135deg, hsl(220, 20%, 15%), hsl(220, 25%, 8%));
+      color: #fff;
+      border-radius: var(--radius-lg);
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 24px 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .video-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.4) 100%);
+    }
+
+    .video-play-btn {
+      width: 64px;
+      height: 64px;
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 2;
+    }
+
+    .video-placeholder:hover .video-play-btn {
+      transform: scale(1.1);
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      box-shadow: 0 0 20px var(--accent-color);
+    }
+
+    .video-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .video-meta {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      z-index: 2;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Laboratorio 3D Placeholder */
+    #laboratorio-visualizacion {
+      background: linear-gradient(135deg, hsl(230, 20%, 97%), hsl(230, 20%, 93%));
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      min-height: 350px;
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    [data-theme="dark"] #laboratorio-visualizacion {
+      background: linear-gradient(135deg, hsl(220, 25%, 12%), hsl(220, 25%, 9%));
+    }
+
+    /* Elementos decorativos simulando gráfica 3D */
+    .lab-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(128, 128, 128, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(128, 128, 128, 0.08) 1px, transparent 1px);
+      background-size: 20px 20px;
+      background-position: center;
+    }
+
+    .lab-vector-art {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+      z-index: 2;
+      opacity: 0.7;
+    }
+
+    .lab-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .lab-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 450px;
+      margin-bottom: 20px;
+      z-index: 2;
+    }
+
+    .btn-launch-lab {
+      background-color: var(--accent-color);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+      z-index: 2;
+    }
+
+    .btn-launch-lab:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================================================
+       8. ANIMACIONES Y MEDIA QUERIES
+       ========================================================================== */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Adaptabilidad Móvil */
+    @media (max-width: 992px) {
+      :root {
+        --sidebar-width: 280px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .top-navbar {
+        padding: 0 20px;
+      }
+
+      .content-viewport {
+        padding: 24px 16px;
+      }
+    }
+
+    /* ==========================================================================
+       9. PESTAÑAS DE ENFOQUE RAM
+       ========================================================================== */
+    .ram-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      position: sticky;
+      top: 70px; /* Justo debajo de la barra superior */
+      background-color: var(--bg-primary);
+      padding: 12px 0;
+      z-index: 80;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+      transition: background-color var(--transition-speed), border-color var(--transition-speed);
+    }
+
+    .ram-tab-btn {
+      flex: 1;
+      max-width: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ram-tab-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+
+    /* Estados Activos de Pestañas (Colores RAM) */
+    .ram-tab-btn[data-tab="motivacion"].active {
+      background-color: var(--ram-motivacion-bg);
+      border-color: var(--ram-motivacion-border);
+      color: var(--ram-motivacion-text);
+      box-shadow: 0 4px 12px hsl(40, 95%, 90%);
+    }
+    [data-theme="dark"] .ram-tab-btn[data-tab="motivacion"].active {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .ram-tab-btn[data-tab="teoria"].active {
+      background-color: var(--ram-teoria-bg);
+      border-color: var(--ram-teoria-border);
+      color: var(--ram-teoria-text);
+      box-shadow: 0 4px 12px hsl(210, 95%, 90%);
+    }
+    [data-theme="dark"] .ram-tab-btn[data-tab="teoria"].active {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .ram-tab-btn[data-tab="aplicacion"].active {
+      background-color: var(--ram-aplicacion-bg);
+      border-color: var(--ram-aplicacion-border);
+      color: var(--ram-aplicacion-text);
+      box-shadow: 0 4px 12px hsl(150, 95%, 88%);
+    }
+    [data-theme="dark"] .ram-tab-btn[data-tab="aplicacion"].active {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .ram-tab-btn[data-tab="ejercicios"].active {
+      background-color: var(--ram-ejercicios-bg);
+      border-color: var(--ram-ejercicios-border);
+      color: var(--ram-ejercicios-text);
+      box-shadow: 0 4px 12px hsl(262, 95%, 90%);
+    }
+    [data-theme="dark"] .ram-tab-btn[data-tab="ejercicios"].active {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .ram-tab-btn .tab-icon {
+      font-size: 1.15rem;
+    }
+
+    /* Secciones de Contenido RAM */
+    .ram-section {
+      display: none;
+      animation: fadeInSection 0.4s ease-out forwards;
+    }
+
+    .ram-section.active-section {
+      display: block;
+    }
+
+    @keyframes fadeInSection {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .ram-tabs {
+        flex-direction: column;
+        gap: 8px;
+        position: static;
+        padding: 8px 0;
+      }
+      .ram-tab-btn {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    /* ==========================================================================
+       10. PANTALLA DIVIDIDA (SPLIT SCREEN) Y FÓRMULAS DE APOYO
+       ========================================================================== */
+    .split-container {
+      display: flex;
+      gap: 0;
+      transition: gap 0.4s ease;
+      position: relative;
+      width: 100%;
+    }
+
+    .split-active.split-container {
+      gap: 24px;
+    }
+
+    .exercise-pane {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.4s ease;
+    }
+
+    .formula-pane {
+      width: 0;
+      opacity: 0;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: calc(100vh - 120px);
+      position: sticky;
+      top: 100px;
+      align-self: flex-start;
+      box-shadow: none;
+    }
+
+    .split-active .formula-pane {
+      width: 340px;
+      opacity: 1;
+      padding: 24px;
+      border-color: var(--border-color);
+      box-shadow: var(--shadow-md);
+      overflow-y: auto;
+    }
+
+    .formula-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--bg-primary);
+      transition: border-color var(--transition-speed), background-color var(--transition-speed);
+    }
+
+    .formula-card h4 {
+      margin: 0 0 8px 0;
+      font-family: var(--font-display);
+      color: var(--accent-color);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .formula-card-latex {
+      text-align: center;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      margin: 8px 0;
+      padding: 6px;
+      background-color: var(--bg-card);
+      border-radius: var(--radius-sm);
+    }
+
+    @media (max-width: 992px) {
+      .split-active.split-container {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .split-active .formula-pane {
+        width: 100%;
+        position: static;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="shell-container">
+    
+    <!-- ==========================================================================
+         SIDEBAR: HOJA DE RUTA LATERAL (ACORDEÓN INTERACTIVO)
+         ========================================================================== -->
+    <nav class="sidebar" aria-label="Hoja de Ruta del Curso">
+      
+      <div class="sidebar-header">
+        <div class="brand-area">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <svg width="24" height="24" viewBox="0 0 32 32" style="display: block; border-radius: 6px; flex-shrink: 0;">
+              <defs>
+                <linearGradient id="logo-grad-sidebar" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="#6366f1"/>
+                </linearGradient>
+              </defs>
+              <rect width="32" height="32" rx="8" fill="url(#logo-grad-sidebar)"/>
+              <path d="M 4,16 L 7,16 L 10,26 L 13,4 L 28,4" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 15,25 L 20.5,14 L 26,25" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="17.5" y1="21.5" x2="23.5" y2="21.5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="20.5" y1="11" x2="23" y2="7.5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="brand-title">Cálculo Vectorial</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Alternar tema claro/oscuro">
+              <!-- Icono Sol (Defecto) -->
+              <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+              </svg>
+            </button>
+            <button class="theme-toggle-btn" id="sidebar-collapse-btn" aria-label="Ocultar barra lateral" title="Ocultar menú">
+              <!-- Icono de Contraer Barra (Panel con flecha izquierda) -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+                <path d="M16 15l-3-3 3-3"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Indicador de Progreso del Curso -->
+        <div class="progress-container">
+          <div class="progress-text">
+            <span>Progreso de la Hoja de Ruta</span>
+            <span id="progress-percentage">33%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menú de Unidades y Capítulos (Acordeones) -->
+      <div class="sidebar-menu" id="sidebar-menu-container">
+        <!-- Generado dinámicamente -->
+      </div>
+    </nav>
+
+    <!-- ==========================================================================
+         MAIN CONTENT: ÁREA CENTRAL DE RENDERIZADO
+         ========================================================================== -->
+    <main class="main-content">
+      
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="theme-toggle-btn" id="sidebar-show-btn" aria-label="Mostrar barra lateral" title="Mostrar menú" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+              <path d="M12 9l3 3-3 3"></path>
+            </svg>
+          </button>
+          
+          <div class="breadcrumb" aria-label="Ruta de navegación" id="course-breadcrumbs">
+            <!-- Carga dinámica -->
+          </div>
+        </div>
+        <div class="top-actions"></div>
+      </header>
+
+      <!-- Viewport del artículo -->
+      <article class="content-viewport">
+        
+        <!-- CONTENEDOR DINÁMICO: ÁREA DE INYECCIÓN DE CONTENIDOS -->
+        <div id="contenido-dinamico" class="tex2jax_process">
+          <!-- Carga dinámica desde js/course.js -->
+          <div style="text-align: center; padding: 50px 0; color: var(--text-muted);">
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 30px; margin-bottom: 15px; color: var(--accent-color);"></i>
+            <p>Cargando contenidos del curso...</p>
+          </div>
+        </div>
+
+      </article>
+
+    </main>
+
+  </div>
+
+  <!-- Javascript Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/course.js"></script>
+</body>
+</html>

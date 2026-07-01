@@ -71,6 +71,9 @@
         <li class="admin-menu-item" id="menu-editor" data-section="editor">
           <i class="fa-solid fa-pen-to-square"></i> Nueva Lectura
         </li>
+        <li class="admin-menu-item" id="menu-courses" data-section="courses">
+          <i class="fa-solid fa-graduation-cap"></i> Gestión Cursos
+        </li>
         <li class="admin-menu-item" id="menu-settings" data-section="settings">
           <i class="fa-solid fa-calendar-days"></i> Gestión Agenda
         </li>
@@ -381,6 +384,311 @@
             </div>
           </form>
         </div>
+      </section>
+
+      <!-- SECTION: COURSES (Gestión de Cursos) -->
+      <section class="admin-section" id="section-courses">
+        <style>
+          .courses-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            margin-top: 20px;
+          }
+          .courses-tree-pane {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+          }
+          .courses-editor-pane {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-md);
+            padding: 25px;
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+            display: none;
+          }
+          .tree-list {
+            list-style: none;
+            padding-left: 0;
+          }
+          .tree-node {
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            padding: 5px;
+          }
+          .tree-node-title {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: var(--border-radius-sm);
+            font-size: 13.5px;
+          }
+          .tree-node-title:hover {
+            background: rgba(255,255,255,0.05);
+          }
+          .tree-chapter-list {
+            list-style: none;
+            padding-left: 15px;
+            margin-top: 6px;
+            border-left: 1px dashed var(--border);
+            margin-left: 10px;
+          }
+          .tree-chapter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 8px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 4px;
+            font-size: 12.5px;
+            cursor: pointer;
+          }
+          .tree-chapter-item:hover {
+            background: rgba(6, 182, 212, 0.08);
+          }
+          .tree-chapter-item.active-chapter {
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-weight: bold;
+          }
+          .editor-tab-nav {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+          }
+          .editor-tab-btn {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+          }
+          .editor-tab-btn:hover {
+            background: rgba(255,255,255,0.02);
+            color: var(--text-primary);
+          }
+          .editor-tab-btn.active {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            color: var(--accent);
+          }
+          .course-actions {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+          /* Estilos del Modal Personalizado Premium */
+          .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+          }
+          .custom-modal-overlay.modal-active {
+            opacity: 1;
+          }
+          .custom-modal-box {
+            background-color: var(--bg-card, #1e293b);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-md, 12px);
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            transform: scale(0.95);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            color: var(--text-primary);
+          }
+          .custom-modal-overlay.modal-active .custom-modal-box {
+            transform: scale(1);
+          }
+          .custom-modal-header {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+          }
+          .custom-modal-body {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.5;
+          }
+          .custom-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+          }
+        </style>
+
+        <div class="courses-layout">
+          <!-- ÁRBOL DEL CURSO (Columna Izquierda) -->
+          <div class="courses-tree-pane">
+            <label class="form-label" for="course-selector" style="font-weight:600;"><i class="fa-solid fa-graduation-cap"></i> Curso Activo</label>
+            <select id="course-selector" class="form-control" style="width: 100%; margin-bottom: 20px;">
+              <!-- Cargado dinámicamente -->
+            </select>
+
+            <div id="course-tree-container">
+              <!-- Árbol de Unidades y Capítulos -->
+              <p style="text-align: center; color: var(--text-muted); margin-top: 30px;">Cargando estructura...</p>
+            </div>
+
+            <div class="course-actions">
+              <button class="btn btn-secondary" id="btn-add-unit" style="width: 100%; text-align: left; font-size:12.5px;">
+                <i class="fa-solid fa-plus"></i> Añadir Unidad
+              </button>
+              <button class="btn btn-secondary" id="btn-add-chapter" style="width: 100%; text-align: left; font-size:12.5px;">
+                <i class="fa-solid fa-file-circle-plus"></i> Añadir Capítulo
+              </button>
+            </div>
+          </div>
+
+          <!-- EDITOR DE CAPÍTULO (Columna Derecha) -->
+          <div class="courses-editor-pane" id="chapter-editor-workspace">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+              <div>
+                <h3 id="workspace-chapter-title" style="margin: 0; font-size: 18px;">Editar Capítulo</h3>
+                <span id="workspace-unit-title" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">Unidad</span>
+              </div>
+              <button class="btn btn-danger" id="btn-delete-chapter" style="padding: 6px 12px; font-size: 12px; background:#ef4444; border:none; color:white; border-radius:4px; cursor:pointer;">
+                <i class="fa-solid fa-trash-can"></i> Eliminar Capítulo
+              </button>
+            </div>
+
+            <input type="hidden" id="editor-chapter-id" value="">
+            <input type="hidden" id="editor-unit-id" value="">
+
+            <div class="form-group-row" style="margin-bottom: 20px; display:flex; gap:15px;">
+              <div class="form-group" style="flex: 2;">
+                <label class="form-label" for="editor-chapter-title">Título del Capítulo</label>
+                <input type="text" id="editor-chapter-title" class="form-control" style="width: 100%;" required>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="editor-chapter-index">Índice (ej: 1.1)</label>
+                <input type="text" id="editor-chapter-index" class="form-control" style="width: 100%;" required>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 20px; margin-bottom: 25px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: var(--border-radius-sm); border: 1px dashed var(--border);">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500; cursor: pointer;">
+                <input type="checkbox" id="editor-chapter-completed" style="cursor: pointer;"> Capítulo Completado
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500; cursor: pointer;">
+                <input type="checkbox" id="editor-chapter-locked" style="cursor: pointer;"> Capítulo Bloqueado (Candado)
+              </label>
+            </div>
+
+            <!-- Selector de Pestaña del Editor -->
+            <label class="form-label"><i class="fa-solid fa-list-check"></i> Seleccionar Sección a Editar</label>
+            <nav class="editor-tab-nav">
+              <button class="editor-tab-btn active" data-tab="motivation">
+                <span>💡</span> Motivación
+              </button>
+              <button class="editor-tab-btn" data-tab="theory">
+                <span>📐</span> Definiciones y Teoría
+              </button>
+              <button class="editor-tab-btn" data-tab="application">
+                <span>🚀</span> Aplicación y Práctica
+              </button>
+              <button class="editor-tab-btn" data-tab="exercises">
+                <span>📝</span> Ejercicios
+              </button>
+              <button class="editor-tab-btn" data-tab="formulas">
+                <span>📊</span> Fórmulas de Apoyo
+              </button>
+            </nav>
+
+            <!-- WYSIWYG Editor Workspace -->
+            <div class="wysiwyg-container" style="margin-top: 15px; border-radius: var(--border-radius-sm); overflow: hidden; border: 1px solid var(--border);">
+              <!-- Toolbar -->
+              <div class="wysiwyg-toolbar" style="display: flex; gap: 4px; padding: 8px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); flex-wrap: wrap;">
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="bold" title="Negrita"><i class="fa-solid fa-bold"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="italic" title="Cursiva"><i class="fa-solid fa-italic"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="underline" title="Subrayado"><i class="fa-solid fa-underline"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="insertUnorderedList" title="Lista Viñetas"><i class="fa-solid fa-list-ul"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="insertOrderedList" title="Lista Numerada"><i class="fa-solid fa-list-ol"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="createLink" title="Enlace"><i class="fa-solid fa-link"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="insertImage" title="Imagen"><i class="fa-solid fa-image"></i></button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="formatBlock" data-val="h3" title="Encabezado 3" style="font-family: monospace; font-size:11px; font-weight:bold;">H3</button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" data-cmd="formatBlock" data-val="p" title="Párrafo" style="font-family: monospace; font-size:11px; font-weight:bold;">P</button>
+                <button type="button" class="toolbar-btn course-toolbar-btn" id="course-btn-html-mode" title="Ver Código HTML" style="margin-left: auto; color: var(--accent); background:none; border:none; cursor:pointer;"><i class="fa-solid fa-code"></i> HTML</button>
+              </div>
+
+              <!-- Content Areas -->
+              <div class="wysiwyg-editor-wrapper" style="padding: 15px; min-height: 250px; background: rgba(0,0,0,0.1);">
+                <div id="course-editor-visual" class="wysiwyg-editor" contenteditable="true" style="outline: none; min-height: 230px; font-family: var(--font-body); font-size:14.5px; line-height: 1.6;"></div>
+                <textarea id="course-editor-code" class="wysiwyg-code-editor" style="display: none; width: 100%; min-height: 230px; background: #0f172a; color: #38bdf8; border: none; outline: none; font-family: var(--font-code); font-size: 13px; padding: 10px; resize: vertical;" placeholder="Pega tu código HTML libre aquí..."></textarea>
+              </div>
+            </div>
+
+            <!-- Structured Builder for Exercises and Formulas -->
+            <div id="course-structured-container" style="display: none; margin-top: 15px; border-radius: var(--border-radius-sm); border: 1px solid var(--border); background: rgba(0,0,0,0.1); padding: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="structured-title" style="margin: 0; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px;">Gestor</h3>
+                <button type="button" class="btn" id="btn-structured-add" style="padding: 6px 12px; font-size:12.5px; background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent); cursor: pointer; border-radius: var(--border-radius-sm);">
+                  <i class="fa-solid fa-plus"></i> <span id="btn-structured-add-label">Añadir</span>
+                </button>
+              </div>
+              <div id="structured-items-list" style="display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 5px;">
+                <!-- Lista de Ejercicios o Fórmulas -->
+              </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: right; display: flex; justify-content: flex-end; gap: 15px;">
+              <button class="btn btn-secondary" id="btn-discard-chapter" style="padding: 10px 20px;">
+                Descartar
+              </button>
+              <button class="btn btn-primary" id="btn-save-chapter" style="padding: 10px 24px;">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar Capítulo
+              </button>
+            </div>
+          </div>
+
+          <!-- PANTALLA VACÍA DE BIENVENIDA -->
+          <div class="courses-editor-pane" id="chapter-editor-welcome" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+            <div style="font-size: 50px; color: var(--border); margin-bottom: 20px;"><i class="fa-solid fa-file-lines"></i></div>
+            <h3 style="margin-top: 0;">Editor de Curso</h3>
+            <p style="color: var(--text-muted); max-width: 400px; font-size:13.5px;">Selecciona un capítulo del árbol jerárquico a la izquierda para comenzar a editar su contenido o añade uno nuevo.</p>
+          </div>
+        </div>
+      </section>
       </section>
     </main>
   </div>

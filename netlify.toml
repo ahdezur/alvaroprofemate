@@ -12,3 +12,13 @@
   from = "/api/posts/*"
   to = "/.netlify/functions/posts"
   status = 200
+
+[[redirects]]
+  from = "/api/courses"
+  to = "/.netlify/functions/courses"
+  status = 200
+
+[[redirects]]
+  from = "/api/courses/*"
+  to = "/.netlify/functions/courses"
+  status = 200
