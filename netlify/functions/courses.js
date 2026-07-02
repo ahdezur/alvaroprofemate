@@ -80,11 +80,16 @@ async function initDatabase(client) {
     );
   `);
 
-  // Verificar si calculo-multivariable está sembrado (o si no hay cursos sembrados)
+  // Verificar si calculo-multivariable, Series de Potencias y Polinomios están sembrados
   const checkRes = await client.query("SELECT COUNT(*) FROM courses WHERE id = 'calculo-multivariable'");
-  const hasMultivariable = parseInt(checkRes.rows[0].count, 10) > 0;
+  const checkSeries = await client.query("SELECT COUNT(*) FROM chapters WHERE title = 'Series de Potencias'");
+  const checkPolinomios = await client.query("SELECT COUNT(*) FROM chapters WHERE title = 'Polinomios'");
 
-  if (!hasMultivariable) {
+  const hasMultivariable = parseInt(checkRes.rows[0].count, 10) > 0;
+  const hasSeries = parseInt(checkSeries.rows[0].count, 10) > 0;
+  const hasPolinomios = parseInt(checkPolinomios.rows[0].count, 10) > 0;
+
+  if (!hasMultivariable || !hasSeries || !hasPolinomios) {
     console.log("Renombrando y sembrando todos los cursos de la página principal...");
     
     // Limpiar base de datos
