@@ -1525,6 +1525,483 @@ const DB = {
           contentExercises: capPotExercises,
           contentFormulas: capPotFormulas
         });
+      } else if (c.id === 'introduccion-algebra') {
+        const u1Id = unitIdCounter++;
+        const u2Id = unitIdCounter++;
+        const u3Id = unitIdCounter++;
+
+        defaultUnits.push(
+          { id: u1Id, courseId: c.id, unitIndex: 1, title: 'Fundamentos y Conceptos Básicos', isLocked: false },
+          { id: u2Id, courseId: c.id, unitIndex: 2, title: 'Aplicaciones y Métodos Avanzados', isLocked: false },
+          { id: u3Id, courseId: c.id, unitIndex: 3, title: 'Polinomios', isLocked: false }
+        );
+
+        // Capítulos de Unidad 1
+        defaultChapters.push({
+          id: chapterIdCounter++,
+          unitId: u1Id,
+          chapterIndex: '1.1',
+          title: 'Introducción y Definición Primaria',
+          isCompleted: false,
+          isLocked: false,
+          contentMotivation: `<div class="caja-ram caja-motivacion"><div class="caja-ram-icon">💡</div><div class="caja-ram-body"><div class="caja-ram-title">Motivación de ${c.title}</div><p>Este capítulo introduce las bases del ${c.title}.</p></div></div>`,
+          contentTheory: `<h3>Bases Teóricas</h3><p>Definiciones fundamentales.</p>`,
+          contentApplication: '<h3>Campos de Aplicación</h3><p>Ejemplos reales.</p>',
+          contentExercises: JSON.stringify([{ title: "Básico", level: "nivel-1", statement: "Resuelva el problema básico.", solution: "Pauta básica." }]),
+          contentFormulas: JSON.stringify([{ title: "Fórmula", latex: "y=f(x)", description: "Definición." }])
+        });
+
+        // Capítulos de Unidad 2
+        defaultChapters.push({
+          id: chapterIdCounter++,
+          unitId: u2Id,
+          chapterIndex: '2.1',
+          title: 'Métodos de Resolución Estándar',
+          isCompleted: false,
+          isLocked: false,
+          contentMotivation: '<div class="caja-ram caja-motivacion"><div class="caja-ram-icon">💡</div><div class="caja-ram-body"><div class="caja-ram-title">Motivación</div><p>Métodos de resolución.</p></div></div>',
+          contentTheory: '<h3>Métodos</h3><p>Algoritmos de álgebra.</p>',
+          contentApplication: '<h3>Aplicaciones</h3><p>Casos prácticos.</p>',
+          contentExercises: JSON.stringify([{ title: "Resolución", level: "nivel-2", statement: "Resuelva la ecuación lineal.", solution: "x = 2." }]),
+          contentFormulas: JSON.stringify([{ title: "Ecuación", latex: "ax + b = 0", description: "Lineal." }])
+        });
+
+        // Capítulos de Unidad 3: Polinomios
+        const capPolMotivation = `
+          <div class="caja-ram caja-motivacion">
+            <div class="caja-ram-icon">💡</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Motivación: El ADN de las funciones</div>
+              <p>
+                Los polinomios son los bloques de construcción fundamentales del álgebra y el análisis matemático. Piensa en ellos como el "lenguaje universal" con el que podemos modelar desde la trayectoria de un proyectil en física, hasta los algoritmos de compresión de datos en ciencias de la computación.
+              </p>
+              <p>
+                Comprender cómo descomponerlos (factorizarlos) y encontrar sus raíces es similar a descubrir el ADN de una función matemática. Al dominar los polinomios, te preparas para entender conceptos mucho más avanzados como el cálculo y la teoría de números.
+              </p>
+            </div>
+          </div>
+        `;
+
+        const capPolTheory = `
+          <h3>Definición de Polinomio</h3>
+          <div class="caja-ram caja-definicion">
+            <div class="caja-ram-icon">📐</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Definición Formal</div>
+              <p>
+                Un polinomio de variable $x$ y grado $n \\in \\mathbb{N}$ es una expresión algebraica que denotaremos por $p(x)$ y cuya forma matemática formal es:
+                $$p(x)=a_{0}+a_{1}x+\\cdots+a_{n}x^{n}=\\sum_{k=0}^{n}a_{k}x^{k}$$
+                donde el coeficiente líder cumple que $a_{n} \\neq 0$.
+              </p>
+              <p>
+                Dentro de esta estructura fundamental, identificamos los siguientes componentes:
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                  <li>$a_{k}$ se denominan <strong>coeficientes</strong> del polinomio.</li>
+                  <li>$a_{0}$ se conoce como el <strong>término libre</strong>.</li>
+                  <li>$a_{1}x$ corresponde al <strong>término lineal</strong>.</li>
+                  <li>$a_{n}x^{n}$ es el <strong>término líder</strong>.</li>
+                  <li>Si $a_{k} \\in \\mathbb{C}$, diremos que $p(x)$ es un <strong>polinomio a coeficientes complejos</strong>.</li>
+                  <li>Si $a_{k} \\in \\mathbb{R}$, diremos que $p(x)$ es un <strong>polinomio a coeficientes reales</strong>.</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <h3>Glosario Técnico y Terminología Clave</h3>
+          <div class="caja-ram caja-teoria">
+            <div class="caja-ram-icon">📐</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Raíz o Cero de un Polinomio</div>
+              <p>
+                Diremos que $c \\in \\mathbb{C}$ es un cero o una raíz de $p(x)$ si al evaluar algebraicamente el polinomio en la asignación $x=c$ se obtiene cero, es decir, $p(c)=0$.
+              </p>
+              <p>
+                Geométricamente (en $\\mathbb{R}$), representa el punto de intersección de la gráfica de la función con el eje $x$.
+              </p>
+            </div>
+          </div>
+
+          <div class="caja-ram caja-propiedades">
+            <div class="caja-ram-icon">📋</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Divisibilidad de Polinomios</div>
+              <p>
+                Sean $D(x)$ y $d(x)$ dos polinomios, con $d(x)$ distinto del polinomio nulo. Decimos que $d(x)$ <strong>divide</strong> a $D(x)$ si la división es exacta, es decir, el resto $r(x)$ es cero. Esto permite expresar el dividendo como:
+                $$D(x) = d(x)q(x)$$
+              </p>
+            </div>
+          </div>
+
+          <h3>Teoremas Principales</h3>
+          <div class="caja-ram caja-teorema">
+            <div class="caja-ram-icon">🧠</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Teorema del Resto</div>
+              <p>Al dividir $D$ entre $x-c$ se obtiene como resto $D(c)$.</p>
+            </div>
+          </div>
+
+          <div class="caja-ram caja-teorema">
+            <div class="caja-ram-icon">🧠</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Teorema de la Raíz Racional</div>
+              <p>
+                Sea $p(x)$ un polinomio con coeficientes enteros. Supongamos que $c=\\frac{u}{v} \\in \\mathbb{Q}$ es una raíz racional irreducible. Entonces $u$ divide a $a_{0}$ y $v$ divide a $a_{n}$.
+              </p>
+            </div>
+          </div>
+
+          <div class="caja-ram caja-teorema">
+            <div class="caja-ram-icon">🧠</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Teorema de la Raíz Conjugada</div>
+              <p>
+                Sea $p(x)$ un polinomio con coeficientes reales. Si $z \\in \\mathbb{C}$ es una raíz de $p(x)$, entonces $\\overline{z}$ también es raíz de $p(x)$.
+              </p>
+            </div>
+          </div>
+
+          <div class="caja-ram caja-teorema">
+            <div class="caja-ram-icon">🧠</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Teorema Fundamental del Álgebra</div>
+              <p>
+                Todo polinomio no constante a coeficientes complejos tiene una raíz compleja.
+              </p>
+            </div>
+          </div>
+
+          <h3>Propiedades Fundamentales</h3>
+          <div class="caja-ram caja-propiedades">
+            <div class="caja-ram-icon">📋</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Algoritmo de la División</div>
+              <p>
+                Existen únicos polinomios $q(x)$ y $r(x)$ tales que $D(x)=d(x)q(x)+r(x)$, donde $\\text{gr}(r) < \\text{gr}(d)$.
+              </p>
+            </div>
+          </div>
+
+          <div class="caja-ram caja-propiedades">
+            <div class="caja-ram-icon">📋</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Relación Factor-Raíz y Multiplicidad</div>
+              <p>
+                <ul style="margin-left: 20px;">
+                  <li><strong>Relación Factor-Raíz:</strong> $x-c$ es un factor de $D$ si y sólo si $x=c$ es una raíz de $D$.</li>
+                  <li><strong>Multiplicidad:</strong> Diremos que $m$ es la multiplicidad de la raíz $x=c$ si $(x-c)^{m}$ es un factor de $p(x)$, pero el término $(x-c)^{m+1}$ no es factor de $p(x)$.</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div class="caja-ram caja-pregunta-guia">
+            <div class="caja-ram-icon">💡</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Idea Clave: Conexión de conceptos</div>
+              <p>
+                ¿Cómo se conectan la divisibilidad, los factores y las raíces? Son tres formas de describir lo mismo: si $x-c$ divide a $p(x)$, entonces $x-c$ es un factor, lo que ocurre únicamente porque $c$ es raíz ($p(c)=0$).
+              </p>
+            </div>
+          </div>
+
+          <div class="caja-ram error-comun">
+            <div class="caja-ram-icon">🚨</div>
+            <div class="caja-ram-body">
+              <div class="caja-ram-title">Error Común (¡Trampa Cognitiva!)</div>
+              <p>
+                <strong>Confundir divisibilidad:</strong> Confundir "es divisible por" con una división ordinaria. La palabra "divisible" decreta que el resto es estrictamente cero.
+              </p>
+              <p>
+                <strong>Ruffini incompleto:</strong> Al usar la regla de Ruffini, jamás olvides rellenar con ceros los coeficientes de las potencias faltantes en el dividendo.
+              </p>
+            </div>
+          </div>
+        `;
+
+        const capPolApplication = `
+          <h3>Evaluación Formativa Rápida</h3>
+          <p>
+            Comprueba tu comprensión resolviendo las siguientes preguntas interactivas:
+          </p>
+
+          <div class="evaluacion-formativa" data-eval-id="eval-vf-polinomios-1" style="margin-bottom: 20px;">
+            <div class="eval-pregunta">
+              <span>🤔 Enunciado 1</span>
+              <div>Si al evaluar un polinomio a coeficientes reales obtenemos que $p(2+3i)=0$, podemos asegurar que $x=2-3i$ también es una raíz.</div>
+            </div>
+            <div class="eval-opciones">
+              <button class="opcion-btn" data-correct="true" data-explicacion="¡Correcto! Por el Teorema de la Raíz Conjugada, en polinomios con coeficientes reales, las raíces complejas siempre vienen en pares conjugados.">
+                A) Verdadero
+              </button>
+              <button class="opcion-btn" data-correct="false" data-explicacion="Incorrecto. Dado que los coeficientes son reales, si z es raíz, el conjugado de z también es raíz.">
+                B) Falso
+              </button>
+            </div>
+            <div class="feedback-contenedor hidden">
+              <div class="feedback-icon"></div>
+              <div class="feedback-texto"></div>
+            </div>
+          </div>
+
+          <div class="evaluacion-formativa" data-eval-id="eval-vf-polinomios-2" style="margin-bottom: 20px;">
+            <div class="eval-pregunta">
+              <span>🤔 Enunciado 2</span>
+              <div>Al dividir $D(x)$ por un divisor $d(x)$, el grado del resto puede ser igual al grado del divisor.</div>
+            </div>
+            <div class="eval-opciones">
+              <button class="opcion-btn" data-correct="false" data-explicacion="Incorrecto. Por el Algoritmo de la División, el grado del resto r(x) debe ser estrictamente menor que el grado del divisor d(x).">
+                A) Verdadero
+              </button>
+              <button class="opcion-btn" data-correct="true" data-explicacion="¡Correcto! El grado del resto debe ser estrictamente menor que el del divisor.">
+                B) Falso
+              </button>
+            </div>
+            <div class="feedback-contenedor hidden">
+              <div class="feedback-icon"></div>
+              <div class="feedback-texto"></div>
+            </div>
+          </div>
+
+          <div class="evaluacion-formativa" data-eval-id="eval-sm-polinomios-1" style="margin-bottom: 20px;">
+            <div class="eval-pregunta">
+              <span>✏️ Completar la definición</span>
+              <div>Diremos que $c \\in \\mathbb{C}$ es un cero o una _________ de $p(x)$ si al evaluar $p(x)$ en $x=c$ se obtiene cero.</div>
+            </div>
+            <div class="eval-opciones">
+              <button class="opcion-btn" data-correct="true" data-explicacion="¡Correcto! 'Cero' y 'raíz' de un polinomio son sinónimos.">
+                A) raíz
+              </button>
+              <button class="opcion-btn" data-correct="false" data-explicacion="Incorrecto. El término correcto es raíz.">
+                B) variable
+              </button>
+            </div>
+            <div class="feedback-contenedor hidden">
+              <div class="feedback-icon"></div>
+              <div class="feedback-texto"></div>
+            </div>
+          </div>
+
+          <div class="evaluacion-formativa" data-eval-id="eval-sm-polinomios-2" style="margin-bottom: 20px;">
+            <div class="eval-pregunta">
+              <span>✏️ Completar el método</span>
+              <div>Para aplicar el esquema de división corta o _________, el grado del divisor $d(x)$ debe ser 1.</div>
+            </div>
+            <div class="eval-opciones">
+              <button class="opcion-btn" data-correct="true" data-explicacion="¡Correcto! La regla de Ruffini (o división sintética) se aplica cuando el divisor es de la forma x-c (grado 1).">
+                A) Regla de Ruffini
+              </button>
+              <button class="opcion-btn" data-correct="false" data-explicacion="Incorrecto. Ruffini es el esquema de división corta para grado 1.">
+                B) Algoritmo clásico
+              </button>
+            </div>
+            <div class="feedback-contenedor hidden">
+              <div class="feedback-icon"></div>
+              <div class="feedback-texto"></div>
+            </div>
+          </div>
+        `;
+
+        const capPolExercises = `
+          <div class="ejercicio-propuesto" data-ejercicio-id="res-polinomios-1">
+            <div class="ejercicio-header">
+              <h4 class="ejercicio-titulo-prop">1. Divisibilidad y Teorema del Resto (Resuelto)</h4>
+              <span class="badge-nivel" style="background-color: var(--accent-bg); color: var(--accent-color); font-weight: bold;">Ejercicio Resuelto</span>
+            </div>
+            <p class="ejercicio-enunciado">
+              Demostrar que $p(x)=32x^{10}-33x^{5}+1$ es divisible por $x-1$.
+            </p>
+            <button class="btn-pista" aria-expanded="false">
+              <span>💡</span> Ver Indicación / Pauta
+            </button>
+            <div class="pista-contenido hidden">
+              <strong>Solución paso a paso:</strong>
+              <p>
+                Si $p(x)$ es divisible por $x-1$, gracias al Teorema del Resto se tiene entonces que $p(1)=0$.
+              </p>
+              <p>
+                Sustituyendo $x=1$ en $p(x)$:
+                $$p(1)=32(1)^{10}-33(1)^{5}+1=32-33+1=0$$
+              </p>
+              <p>
+                Por lo tanto, $p(x)$ es divisible por $x-1$.
+              </p>
+            </div>
+          </div>
+
+          <div class="ejercicio-propuesto" data-ejercicio-id="res-polinomios-2">
+            <div class="ejercicio-header">
+              <h4 class="ejercicio-titulo-prop">2. Coeficientes reales y raíces conjugadas (Resuelto)</h4>
+              <span class="badge-nivel" style="background-color: var(--accent-bg); color: var(--accent-color); font-weight: bold;">Ejercicio Resuelto</span>
+            </div>
+            <p class="ejercicio-enunciado">
+              Dada la ecuación $x^{3}+ax^{2}+bx+a=0$ con $a,b \\in \\mathbb{R}$ determine $a$ y $b$ tales que $x=2+i$ sea una raíz. Encuentre las otras raíces.
+            </p>
+            <button class="btn-pista" aria-expanded="false">
+              <span>💡</span> Ver Indicación / Pauta
+            </button>
+            <div class="pista-contenido hidden">
+              <strong>Solución paso a paso:</strong>
+              <ol style="margin-left: 20px;">
+                <li>Si $x=2+i$ es raíz, dado que los coeficientes son reales, también $x=2-i$ será raíz. La tercera raíz es real, denotada como $r$.</li>
+                <li>La suma de las raíces es: $(2+i)+(2-i)+r = -a \\implies 4+r = -a \\implies r = -a-4$.</li>
+                <li>El producto de las raíces es: $(2+i)(2-i)r = -a \\implies 5r = -a$.</li>
+                <li>Sustituyendo $r = -a-4$ en $5r = -a$: $5(-a-4) = -a \\implies -5a-20 = -a \\implies -4a = 20 \\implies a = -5$.</li>
+                <li>Por tanto, la raíz real es $r = 1$.</li>
+                <li>El valor de $b$ se obtiene de la suma de productos de dos en dos:
+                  $$b = (2+i)(2-i) + (2+i)(1) + (2-i)(1) = 5 + 2 + i + 2 - i = 9$$
+                </li>
+              </ol>
+              <p><strong>Resultado:</strong> $a=-5$ y $b=9$. Las raíces son $x=2\\pm i$, y $x=1$.</p>
+            </div>
+          </div>
+
+          <div class="ejercicio-propuesto" data-ejercicio-id="res-polinomios-3">
+            <div class="ejercicio-header">
+              <h4 class="ejercicio-titulo-prop">3. Construcción con raíces múltiples (Resuelto)</h4>
+              <span class="badge-nivel" style="background-color: var(--accent-bg); color: var(--accent-color); font-weight: bold;">Ejercicio Resuelto</span>
+            </div>
+            <p class="ejercicio-enunciado">
+              Sea $p(x)=x^{4}+12x^{3}+ax^{2}+bx+c$, determine $a, b$ y $c$ de modo tal que $p$ admita a $x=1$ como raíz de multiplicidad 3.
+            </p>
+            <button class="btn-pista" aria-expanded="false">
+              <span>💡</span> Ver Indicación / Pauta
+            </button>
+            <div class="pista-contenido hidden">
+              <strong>Solución paso a paso:</strong>
+              <p>Por hipótesis, $p(x)=(x-1)^{3}(x-r)$.</p>
+              <p>Expandiendo el producto $(x-1)^{3} = x^{3}-3x^{2}+3x-1$.</p>
+              <p>Entonces: $p(x) = (x^{3}-3x^{2}+3x-1)(x-r) = x^{4}+(-r-3)x^{3}+(3r+3)x^{2}+(-3r-1)x+r$.</p>
+              <p>Igualando coeficientes con $x^{4}+12x^{3}+ax^{2}+bx+c$:</p>
+              <ul style="margin-left: 20px;">
+                <li>Término $x^3$: $-r-3=12 \\implies r=-15$.</li>
+                <li>Término $x^2$: $3r+3=a \\implies a=3(-15)+3=-42$.</li>
+                <li>Término $x$: $-3r-1=b \\implies b=-3(-15)-1=44$.</li>
+                <li>Término libre: $r=c \\implies c=-15$.</li>
+              </ul>
+              <p><strong>Resultado:</strong> $a=-42$, $b=44$, $c=-15$.</p>
+            </div>
+          </div>
+
+          <div class="ejercicio-propuesto" data-ejercicio-id="prop-polinomios-1">
+            <div class="ejercicio-header">
+              <h4 class="ejercicio-titulo-prop">4. División Larga (Propuesto)</h4>
+              <span class="badge-nivel nivel-1">Nivel 1: Mecánico</span>
+            </div>
+            <p class="ejercicio-enunciado">
+              Encuentre el cociente $q(x)$ y el resto $r(x)$ de dividir el polinomio $p(x)=3x^{4}-2x^{3}+4x-7$ entre $q(x)=x+3$.
+            </p>
+            <button class="btn-pista" aria-expanded="false">
+              <span>💡</span> Ver Indicación / Pauta
+            </button>
+            <div class="pista-contenido hidden">
+              <strong>Pauta de control:</strong>
+              <p>Puedes aplicar división sintética (Ruffini) con $c = -3$, recordando colocar un 0 para el término $x^2$.</p>
+              <p><strong>Resultado:</strong> Cociente $q(x) = 3x^3 - 11x^2 + 33x - 95$, Resto $r = 278$.</p>
+            </div>
+          </div>
+
+          <div class="ejercicio-propuesto" data-ejercicio-id="prop-polinomios-2">
+            <div class="ejercicio-header">
+              <h4 class="ejercicio-titulo-prop">5. Condiciones de Divisibilidad (Propuesto)</h4>
+              <span class="badge-nivel nivel-2">Nivel 2: Analítico</span>
+            </div>
+            <p class="ejercicio-enunciado">
+              Hallar la relación entre los coeficientes $a$ y $b$ para que el polinomio $p(x)=2x^{4}-7x^{3}+ax+b$ sea divisible por $x-3$.
+            </p>
+            <button class="btn-pista" aria-expanded="false">
+              <span>💡</span> Ver Indicación / Pauta
+            </button>
+            <div class="pista-contenido hidden">
+              <strong>Pauta de control:</strong>
+              <p>Para que sea divisible, el resto al evaluar en $x=3$ debe ser exactamente cero: $p(3) = 0$.</p>
+              <p>Sustituyendo: $2(3)^4 - 7(3)^3 + 3a + b = 0 \\implies 162 - 189 + 3a + b = 0 \\implies 3a + b = 27$.</p>
+              <p><strong>Resultado:</strong> La relación buscada es $3a + b = 27$.</p>
+            </div>
+          </div>
+
+          <div class="ejercicio-propuesto" data-ejercicio-id="prop-polinomios-3">
+            <div class="ejercicio-header">
+              <h4 class="ejercicio-titulo-prop">6. Resto determinado (Propuesto)</h4>
+              <span class="badge-nivel nivel-3">Nivel 3: Certamen</span>
+            </div>
+            <p class="ejercicio-enunciado">
+              Encontrar $a$ y $b$ de modo tal que el resto de la división de $p(x)=ax^{4}+bx^{3}+6x^{2}-12x+4$ por $x^{2}-1$ sea exactamente el binomio $2x+1$.
+            </p>
+            <button class="btn-pista" aria-expanded="false">
+              <span>💡</span> Ver Indicación / Pauta
+            </button>
+            <div class="pista-contenido hidden">
+              <strong>Pauta de control:</strong>
+              <p>Escribe $p(x) = (x^2-1)q(x) + 2x + 1 = (x-1)(x+1)q(x) + 2x + 1$. Evalúa en $x=1$ y en $x=-1$ para armar un sistema lineal de dos variables:</p>
+              <ul>
+                <li>$p(1) = 3 \\implies a + b - 2 = 3 \\implies a + b = 5$.</li>
+                <li>$p(-1) = -1 \\implies a - b + 22 = -1 \\implies a - b = -23$.</li>
+              </ul>
+              <p><strong>Resultado:</strong> Resolviendo el sistema se obtiene $a = -9$ y $b = 14$.</p>
+            </div>
+          </div>
+        `;
+
+        const capPolFormulas = `
+          <h3 style="margin: 0 0 12px 0; color: var(--accent-color); font-size: 1.15rem; font-weight: 700; font-family: var(--font-display);">
+            📐 Fórmulas Claves
+          </h3>
+
+          <div class="formula-card">
+            <h4>Estructura General</h4>
+            <div class="formula-card-latex">
+              \\( p(x) = \\sum_{k=0}^{n} a_k x^k \\)
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
+              Polinomio de grado $n$ con $a_n \\neq 0$.
+            </p>
+          </div>
+
+          <div class="formula-card">
+            <h4>Algoritmo de la División</h4>
+            <div class="formula-card-latex">
+              \\( D(x) = d(x)q(x) + r(x) \\)
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
+              Relación fundamental de división con $\\text{gr}(r) < \\text{gr}(d)$.
+            </p>
+          </div>
+
+          <div class="formula-card">
+            <h4>Cardano-Vieta: Suma de raíces</h4>
+            <div class="formula-card-latex">
+              \\( \\sum_{k=1}^{n} r_k = -\\frac{a_{n-1}}{a_n} \\)
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
+              Suma de las raíces de un polinomio de grado $n$.
+            </p>
+          </div>
+
+          <div class="formula-card">
+            <h4>Cardano-Vieta: Producto de raíces</h4>
+            <div class="formula-card-latex">
+              \\( \\prod_{k=1}^{n} r_k = (-1)^n \\frac{a_0}{a_n} \\)
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
+              Producto de las raíces de un polinomio de grado $n$.
+            </p>
+          </div>
+        `;
+
+        defaultChapters.push({
+          id: chapterIdCounter++,
+          unitId: u3Id,
+          chapterIndex: '3.1',
+          title: 'Polinomios',
+          isCompleted: false,
+          isLocked: false,
+          contentMotivation: capPolMotivation,
+          contentTheory: capPolTheory,
+          contentApplication: capPolApplication,
+          contentExercises: capPolExercises,
+          contentFormulas: capPolFormulas
+        });
       } else {
         const u1Id = unitIdCounter++;
         const u2Id = unitIdCounter++;
