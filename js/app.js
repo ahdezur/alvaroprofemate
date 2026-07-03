@@ -1,5 +1,18 @@
 // Controladores de Interfaz y Comportamiento del Home
 
+// Soporte local para el protocolo file:/// (si el usuario hace click en enlaces tipo curso/nombre-curso locales)
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a");
+  if (link && window.location.protocol === "file:") {
+    const href = link.getAttribute("href");
+    if (href && href.startsWith("curso/")) {
+      e.preventDefault();
+      const courseId = href.replace("curso/", "");
+      window.location.href = `curso.html?courseId=${courseId}`;
+    }
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   initNavigation();
   initTestimonialSlider();
