@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   let COURSE_ID = urlParams.get("courseId");
   if (!COURSE_ID) {
-    if (window.location.pathname.includes("calculo_vectorial.html")) {
-      COURSE_ID = "calculo-multivariable";
+    const path = window.location.pathname;
+    if (path.includes("/curso/")) {
+      const segments = path.split("/");
+      COURSE_ID = segments[segments.length - 1] || segments[segments.length - 2];
     } else {
       COURSE_ID = "calculo-multivariable";
     }

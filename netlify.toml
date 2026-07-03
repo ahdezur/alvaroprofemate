@@ -22,3 +22,9 @@
   from = "/api/courses/*"
   to = "/.netlify/functions/courses"
   status = 200
+
+[[redirects]]
+  from = "/curso/:courseId"
+  to = "/curso.html?courseId=:courseId"
+  status = 200
+
