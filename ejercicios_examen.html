@@ -575,7 +575,9 @@
     }
 
     .split-active .formula-pane {
-      width: 360px;
+      width: 35vw;
+      min-width: 360px;
+      max-width: 600px;
       opacity: 1;
       padding: 1.4rem;
       border-color: var(--border);
@@ -600,8 +602,8 @@
       border-radius: var(--border-radius-sm);
       padding: 1rem;
       background: var(--bg-primary);
-      height: 190px;
-      overflow: hidden;
+      height: auto;
+      min-height: min-content;
     }
 
     .formula-card h4 {
@@ -614,8 +616,15 @@
     .formula-card-latex {
       text-align: center;
       font-size: 0.95rem;
-      overflow-x: auto;
+      overflow-x: visible;
       margin: 5px 0;
+    }
+
+    .formula-card-latex mjx-container {
+      overflow-x: visible !important;
+      overflow-y: visible !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
     }
 
     /* Solución Colapsable */

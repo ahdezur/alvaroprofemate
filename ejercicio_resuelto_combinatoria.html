@@ -256,7 +256,9 @@
     }
     
     .split-active .formula-pane {
-      width: 400px;
+      width: 35vw;
+      min-width: 360px;
+      max-width: 600px;
       opacity: 1;
       padding: 1.25rem;
       border-color: var(--border);
@@ -397,8 +399,14 @@
     }
 
     .formula-card .math-expr {
-      overflow-x: auto;
+      overflow-x: visible;
       padding: 0.25rem 0;
+    }
+
+    .formula-card .math-expr mjx-container {
+      overflow-x: visible !important;
+      overflow-y: visible !important;
+      max-width: 100% !important;
     }
 
     /* REDUCIR ESPACIO DE MATHJAX DISPLAY */

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+function initCoursePage() {
   const urlParams = new URLSearchParams(window.location.search);
   let COURSE_ID = urlParams.get("courseId");
   if (!COURSE_ID) {
@@ -84,12 +84,47 @@ document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(styleSheet);
   }
 
+  /* Control de Tamaño de Texto (Agrandar / Achicar) */
+  function initTextResizer() {
+    const btnIncrease = document.getElementById("text-increase-btn");
+    const btnDecrease = document.getElementById("text-decrease-btn");
+    if (!btnIncrease || !btnDecrease) return;
+
+    let currentScale = parseInt(localStorage.getItem("alvaro_profemate_text_scale")) || 100;
+    const minScale = 80;
+    const maxScale = 150;
+    const step = 10;
+
+    function applyScale() {
+      document.documentElement.style.fontSize = `${currentScale}%`;
+      localStorage.setItem("alvaro_profemate_text_scale", currentScale);
+    }
+
+    // Aplicar escala guardada inmediatamente
+    applyScale();
+
+    btnIncrease.onclick = () => {
+      if (currentScale < maxScale) {
+        currentScale += step;
+        applyScale();
+      }
+    };
+
+    btnDecrease.onclick = () => {
+      if (currentScale > minScale) {
+        currentScale -= step;
+        applyScale();
+      }
+    };
+  }
+
   /* ==========================================================================
      C. CARGA DINÁMICA DE ESTRUCTURA Y NAVEGACIÓN
      ========================================================================== */
   async function loadCourseContent() {
     initTheme();
     initSidebarCollapse();
+    initTextResizer();
 
     const menuContainer = document.getElementById("sidebar-menu-container");
     if (!menuContainer) return;
@@ -568,6 +603,979 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
     }
+
+    // 5. Inicialización de la animación de división de polinomios
+    const divPlayBtn = document.getElementById("div-play-btn");
+    if (divPlayBtn) {
+      initDivisionPlayer();
+    }
+
+    // 6. Inicialización de la animación de la Regla de Ruffini
+    const rufPlayBtn = document.getElementById("ruf-play-btn");
+    if (rufPlayBtn) {
+      initRuffiniPlayer();
+    }
+
+    // 7. Inicialización del visualizador de sucesiones (Cap 3.1)
+    const plotterSvg = document.getElementById("plotter-svg");
+    if (plotterSvg) {
+      initSequencePlotter();
+    }
+
+    // 8. Inicialización del juego de épsilon-N (Cap 3.2)
+    const gameSvg = document.getElementById("game-svg");
+    if (gameSvg) {
+      initEpsilonNGame();
+    }
+  }
+
+  function initCustomSelect() {
+    const wrapper = document.querySelector('.custom-select-wrapper');
+    if (!wrapper || wrapper.dataset.initialized === "true") return;
+    wrapper.dataset.initialized = "true";
+    
+    const trigger = wrapper.querySelector('.custom-select-trigger');
+    const container = wrapper.querySelector('.custom-options-container');
+    const options = wrapper.querySelectorAll('.custom-option');
+    const realSelect = document.getElementById('plotter-preset');
+    
+    if (!trigger || !container || !realSelect) return;
+    
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      container.style.display = container.style.display === 'block' ? 'none' : 'block';
+    });
+    
+    document.addEventListener('click', () => {
+      container.style.display = 'none';
+    });
+    
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        const val = opt.getAttribute('data-value');
+        options.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        trigger.querySelector('.custom-select-value').innerHTML = opt.innerHTML;
+        container.style.display = 'none';
+        
+        realSelect.value = val;
+        realSelect.dispatchEvent(new Event('change'));
+      });
+    });
+  }
+
+  function initSequencePlotter() {
+    initCustomSelect();
+    
+    const wrapper = document.querySelector('.custom-select-wrapper');
+    const realSelect = document.getElementById('plotter-preset');
+    if (wrapper && realSelect) {
+      const activeOption = wrapper.querySelector(`.custom-option[data-value="${realSelect.value}"]`);
+      if (activeOption) {
+        wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+        activeOption.classList.add('selected');
+        wrapper.querySelector('.custom-select-value').innerHTML = activeOption.innerHTML;
+      }
+    }
+
+    const presetSelect = realSelect;
+    const epsSlider = document.getElementById("plotter-eps");
+    const epsValText = document.getElementById("eps-val");
+    const nSlider = document.getElementById("plotter-n");
+    const nValText = document.getElementById("n-val");
+    const svg = document.getElementById("plotter-svg");
+    const gridGroup = document.getElementById("plot-grid");
+    const dotsGroup = document.getElementById("plot-dots");
+    const epsRect = document.getElementById("eps-rect");
+    const epsUpperLine = document.getElementById("eps-upper-line");
+    const epsLowerLine = document.getElementById("eps-lower-line");
+    const limitLine = document.getElementById("limit-line");
+    const readout = document.getElementById("plotter-readout");
+
+    if (!presetSelect || !epsSlider || !nSlider || !svg) return;
+
+    const presets = {
+      '1/n': {
+        formula: (n) => 1 / n,
+        limit: 0,
+        convergent: true,
+        ymin: -0.2,
+        ymax: 1.2,
+        yTicks: [0, 0.5, 1],
+        calcN0: (eps) => Math.floor(1 / eps) + 1
+      },
+      'n/n+1': {
+        formula: (n) => n / (n + 1),
+        limit: 1,
+        convergent: true,
+        ymin: 0.3,
+        ymax: 1.2,
+        yTicks: [0.5, 0.75, 1],
+        calcN0: (eps) => Math.max(1, Math.floor((1 - eps) / eps) + 1)
+      },
+      'alt': {
+        formula: (n) => (n % 2 === 0 ? 1 : -1) / n,
+        limit: 0,
+        convergent: true,
+        ymin: -1.2,
+        ymax: 1.2,
+        yTicks: [-1, -0.5, 0, 0.5, 1],
+        calcN0: (eps) => Math.floor(1 / eps) + 1
+      },
+      'osc': {
+        formula: (n) => (n % 2 === 0 ? 1 : -1),
+        limit: 0,
+        convergent: false,
+        ymin: -1.5,
+        ymax: 1.5,
+        yTicks: [-1, 0, 1],
+        calcN0: () => null
+      },
+      'div': {
+        formula: (n) => n / 15,
+        limit: Infinity,
+        convergent: false,
+        ymin: -0.2,
+        ymax: 3.0,
+        yTicks: [0, 1, 2],
+        calcN0: () => null
+      }
+    };
+
+    function updatePlot() {
+      const presetKey = presetSelect.value;
+      const eps = parseFloat(epsSlider.value);
+      const N = parseInt(nSlider.value);
+      const seq = presets[presetKey];
+
+      epsValText.textContent = eps.toFixed(2);
+      nValText.textContent = N;
+
+      const items = document.querySelectorAll('.challenge-item');
+      items.forEach(item => {
+        if (item.getAttribute('data-seq') === presetKey) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      const svgW = svg.clientWidth || 360;
+      const svgH = 180;
+      const marginL = 40;
+      const marginR = 15;
+      const marginT = 15;
+      const marginB = 25;
+      const plotW = svgW - marginL - marginR;
+      const plotH = svgH - marginT - marginB;
+
+      function getX(n) {
+        return marginL + (n - 1) * (plotW / (N - 1));
+      }
+
+      function getY(val) {
+        return marginT + plotH * (seq.ymax - val) / (seq.ymax - seq.ymin);
+      }
+
+      gridGroup.innerHTML = "";
+      seq.yTicks.forEach(tickVal => {
+        const yPos = getY(tickVal);
+        if (yPos >= marginT && yPos <= marginT + plotH) {
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", marginL);
+          line.setAttribute("y1", yPos);
+          line.setAttribute("x2", svgW - marginR);
+          line.setAttribute("y2", yPos);
+          line.setAttribute("stroke", "var(--border-color)");
+          line.setAttribute("stroke-width", "1");
+          if (tickVal !== 0) line.setAttribute("stroke-dasharray", "2,2");
+          gridGroup.appendChild(line);
+
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", marginL - 8);
+          text.setAttribute("y", yPos + 4);
+          text.setAttribute("fill", "var(--text-muted)");
+          text.setAttribute("font-size", "10");
+          text.setAttribute("text-anchor", "end");
+          text.setAttribute("font-family", "monospace");
+          text.textContent = tickVal;
+          gridGroup.appendChild(text);
+        }
+      });
+
+      const xTicksCount = 5;
+      const step = Math.ceil(N / xTicksCount);
+      for (let i = 1; i <= N; i += step) {
+        const xPos = getX(i);
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", xPos);
+        text.setAttribute("y", svgH - 8);
+        text.setAttribute("fill", "var(--text-muted)");
+        text.setAttribute("font-size", "10");
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-family", "monospace");
+        text.textContent = i;
+        gridGroup.appendChild(text);
+      }
+
+      if (seq.convergent) {
+        const limitY = getY(seq.limit);
+        const upperY = getY(seq.limit + eps);
+        const lowerY = getY(seq.limit - eps);
+
+        epsRect.style.display = "block";
+        epsRect.setAttribute("x", marginL);
+        epsRect.setAttribute("y", Math.max(marginT, upperY));
+        epsRect.setAttribute("width", plotW);
+        epsRect.setAttribute("height", Math.min(plotH, lowerY - upperY));
+
+        epsUpperLine.style.display = "block";
+        epsUpperLine.setAttribute("x1", marginL);
+        epsUpperLine.setAttribute("y1", upperY);
+        epsUpperLine.setAttribute("x2", svgW - marginR);
+        epsUpperLine.setAttribute("y2", upperY);
+
+        epsLowerLine.style.display = "block";
+        epsLowerLine.setAttribute("x1", marginL);
+        epsLowerLine.setAttribute("y1", lowerY);
+        epsLowerLine.setAttribute("x2", svgW - marginR);
+        epsLowerLine.setAttribute("y2", lowerY);
+
+        limitLine.style.display = "block";
+        limitLine.setAttribute("x1", marginL);
+        limitLine.setAttribute("y1", limitY);
+        limitLine.setAttribute("x2", svgW - marginR);
+        limitLine.setAttribute("y2", limitY);
+      } else {
+        epsRect.style.display = "none";
+        epsUpperLine.style.display = "none";
+        epsLowerLine.style.display = "none";
+        limitLine.style.display = "none";
+      }
+
+      dotsGroup.innerHTML = "";
+      for (let n = 1; n <= N; n++) {
+        const val = seq.formula(n);
+        const cx = getX(n);
+        const cy = getY(val);
+        const isInside = seq.convergent ? Math.abs(val - seq.limit) < eps : false;
+
+        if (cy >= marginT && cy <= marginT + plotH) {
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute("cx", cx);
+          circle.setAttribute("cy", cy);
+          circle.setAttribute("r", "4");
+          
+          if (seq.convergent) {
+            circle.setAttribute("fill", isInside ? "var(--accent-color)" : "#94a3b8");
+            if (isInside) {
+              circle.setAttribute("stroke", "rgba(99, 102, 241, 0.4)");
+              circle.setAttribute("stroke-width", "3");
+            }
+          } else {
+            circle.setAttribute("fill", "var(--text-muted)");
+          }
+          dotsGroup.appendChild(circle);
+        }
+      }
+
+      let n0 = seq.convergent ? seq.calcN0(eps) : null;
+      if (seq.convergent) {
+        const limVal = seq.limit;
+        const bandMin = (limVal - eps).toFixed(2);
+        const bandMax = (limVal + eps).toFixed(2);
+        
+        let info = `Límite <span class="highlight">L = ${limVal}</span>. error <span class="highlight">ε = ${eps.toFixed(2)}</span>.<br>`;
+        info += `Banda de error: (${bandMin}, ${bandMax}).<br>`;
+        
+        if (n0 <= N) {
+          info += `Umbral límite <span class="highlight" style="color: #10b981;">N₀ = ${n0}</span>. Para todo n ≥ ${n0}, aₙ está dentro de la banda.`;
+        } else {
+          info += `Umbral límite <span class="highlight" style="color: #ef4444;">N₀ = ${n0}</span> (fuera del gráfico visible N=${N}).`;
+        }
+        readout.innerHTML = info;
+      } else {
+        if (presetKey === 'osc') {
+          readout.innerHTML = `Sucesión <span class="highlight">aₙ = (-1)ⁿ</span>.<br>Valores alternan entre -1 y 1.`;
+        } else {
+          readout.innerHTML = `Sucesión <span class="highlight">aₙ = n/15</span>.<br>Valores escapan al infinito: aₙ → +∞.`;
+        }
+      }
+    }
+
+    presetSelect.addEventListener("change", updatePlot);
+    epsSlider.addEventListener("input", updatePlot);
+    nSlider.addEventListener("input", updatePlot);
+    
+    updatePlot();
+
+    // Vinculación de selección de opciones de reto
+    const challengeItems = document.querySelectorAll(".challenge-item");
+    challengeItems.forEach(item => {
+      const buttons = item.querySelectorAll(".btn-choice");
+      buttons.forEach(btn => {
+        btn.onclick = () => {
+          const val = btn.getAttribute("data-val");
+          buttons.forEach(b => {
+            b.classList.remove("selected", "conv", "div", "osc");
+          });
+          btn.classList.add("selected", val);
+          item.classList.remove("correct", "incorrect");
+          const feedback = item.querySelector(".challenge-feedback");
+          if (feedback) {
+            feedback.style.display = "none";
+            feedback.innerHTML = "";
+          }
+        };
+      });
+    });
+
+    // Vinculación del botón de verificar
+    const verifyBtn = document.getElementById("btn-verify-challenge");
+    if (verifyBtn) {
+      verifyBtn.onclick = () => {
+        const activeItem = Array.from(document.querySelectorAll(".challenge-item")).find(item => item.style.display !== "none");
+        if (!activeItem) return;
+        
+        const selectedBtn = activeItem.querySelector(".btn-choice.selected");
+        if (!selectedBtn) {
+          alert("Por favor, selecciona una clasificación para la sucesión antes de verificar.");
+          return;
+        }
+        
+        const seq = activeItem.getAttribute("data-seq");
+        const correctAnswer = activeItem.getAttribute("data-answer");
+        const selectedVal = selectedBtn.getAttribute("data-val");
+        const feedback = activeItem.querySelector(".challenge-feedback");
+        
+        const explanations = {
+          '1/n': {
+            conv: '¡Correcto! A medida que $n \\to \\infty$, los términos se acercan cada vez más a $0$. Se estabiliza en $L = 0$, por lo que es una sucesión <strong>Convergente</strong>.',
+            incorrect: 'Inténtalo de nuevo. Si aumentas $n$ en el visualizador, verás que $1/n$ decrece continuamente hacia $0$. Se estabiliza en el valor real finito $L = 0$, lo que la hace <strong>Convergente</strong>.'
+          },
+          'n/n+1': {
+            conv: '¡Excelente! Al avanzar el índice $n$, la fracción se aproxima a $1$ (los términos son $1/2, 2/3, 3/4, \\dots$). Se estabiliza en $L = 1$, por lo que es <strong>Convergente</strong>.',
+            incorrect: 'Incorrecto. Mira el visualizador: a medida que $n$ crece, los valores se acercan cada vez más a la línea verde en $y = 1$. Se estabiliza en el valor real finito $L=1$, por tanto es <strong>Convergente</strong>.'
+          },
+          'alt': {
+            conv: '¡Muy bien! Los términos rebotan alternadamente entre positivos y negativos, pero su amplitud se reduce rápidamente. Se acercan infinitamente a $0$. Al estabilizarse en $L = 0$, es una sucesión <strong>Convergente</strong>.',
+            incorrect: 'Incorrecto. Aunque tiene un factor alternante $(-1)^n$ que la hace rebotar entre positivo y negativo, los términos son cada vez más pequeños en valor absoluto y se aproximan a $0$. Por lo tanto, se estabiliza en $L = 0$, es decir, es <strong>Convergente</strong>.'
+          },
+          'osc': {
+            osc: '¡Exacto! Los términos oscilan alternadamente entre $-1$ y $1$. No se estabilizan en ningún valor único, pero tampoco crecen indefinidamente al infinito. Es una sucesión <strong>Oscilante</strong>.',
+            incorrect: 'Incorrecto. Los términos de la sucesión son $-1, 1, -1, 1, \\dots$. Nunca se concentran alrededor de un único punto (no converge) ni escapan al infinito. Por definición, es <strong>Oscilante</strong>.'
+          },
+          'div': {
+            div: '¡Correcto! Los términos aumentan de forma lineal y constante sin límite. A medida que $n \\to \\infty$, la sucesión crece indefinidamente hacia $+\\infty$, por lo que es <strong>Divergente</strong>.',
+            incorrect: 'Incorrecto. Observa que el gráfico muestra una tendencia lineal ascendente constante. A medida que $n$ avanza, los términos superan cualquier cota superior finita y escapan a $+\\infty$. Por lo tanto, es <strong>Divergente</strong>.'
+          }
+        };
+
+        activeItem.classList.remove("correct", "incorrect");
+        feedback.classList.remove("correct", "incorrect");
+        
+        if (selectedVal === correctAnswer) {
+          activeItem.classList.add("correct");
+          feedback.classList.add("correct");
+          feedback.innerHTML = explanations[seq][correctAnswer];
+        } else {
+          activeItem.classList.add("incorrect");
+          feedback.classList.add("incorrect");
+          feedback.innerHTML = explanations[seq].incorrect;
+        }
+        feedback.style.display = "block";
+        
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise([feedback]);
+        }
+      };
+    }
+  }
+
+  function initCustomSelectL2() {
+    const wrapper = document.querySelector('.custom-select-wrapper-l2');
+    if (!wrapper || wrapper.dataset.initialized === "true") return;
+    wrapper.dataset.initialized = "true";
+    
+    const trigger = wrapper.querySelector('.custom-select-trigger-l2');
+    const container = wrapper.querySelector('.custom-options-container-l2');
+    const options = wrapper.querySelectorAll('.custom-option-l2');
+    const realSelect = document.getElementById('game-preset');
+    
+    if (!trigger || !container || !realSelect) return;
+    
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      container.style.display = container.style.display === 'block' ? 'none' : 'block';
+    });
+    
+    document.addEventListener('click', () => {
+      container.style.display = 'none';
+    });
+    
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        const val = opt.getAttribute('data-value');
+        options.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        trigger.querySelector('.custom-select-value-l2').innerHTML = opt.innerHTML;
+        container.style.display = 'none';
+        
+        realSelect.value = val;
+        realSelect.dispatchEvent(new Event('change'));
+      });
+    });
+  }
+
+  function initEpsilonNGame() {
+    initCustomSelectL2();
+
+    const wrapper = document.querySelector('.custom-select-wrapper-l2');
+    const realSelect = document.getElementById('game-preset');
+    if (wrapper && realSelect) {
+      const activeOption = wrapper.querySelector(`.custom-option-l2[data-value="${realSelect.value}"]`);
+      if (activeOption) {
+        wrapper.querySelectorAll('.custom-option-l2').forEach(o => o.classList.remove('selected'));
+        activeOption.classList.add('selected');
+        wrapper.querySelector('.custom-select-value-l2').innerHTML = activeOption.innerHTML;
+      }
+    }
+
+    const presetSelect = realSelect;
+    const epsSlider = document.getElementById("game-eps");
+    const epsValText = document.getElementById("game-eps-val");
+    const nSlider = document.getElementById("game-n");
+    const nValText = document.getElementById("game-n-val");
+    const svg = document.getElementById("game-svg");
+    const gridGroup = document.getElementById("game-grid");
+    const dotsGroup = document.getElementById("game-dots");
+    const epsRect = document.getElementById("game-eps-rect");
+    const epsUpperLine = document.getElementById("game-eps-upper-line");
+    const epsLowerLine = document.getElementById("game-eps-lower-line");
+    const limitLine = document.getElementById("game-limit-line");
+    const nCutoffLine = document.getElementById("game-n-cutoff-line");
+    const readout = document.getElementById("game-readout");
+
+    if (!presetSelect || !epsSlider || !nSlider || !svg) return;
+
+    const presets = {
+      '1/n': {
+        formula: (n) => 1 / n,
+        limit: 0,
+        ymin: -0.2,
+        ymax: 1.2,
+        yTicks: [0, 0.5, 1],
+        calcN0: (eps) => Math.floor(1 / eps) + 1
+      },
+      'n/n+1': {
+        formula: (n) => n / (n + 1),
+        limit: 1,
+        ymin: 0.3,
+        ymax: 1.2,
+        yTicks: [0.5, 0.75, 1],
+        calcN0: (eps) => Math.max(1, Math.floor((1 - eps) / eps) + 1)
+      },
+      'alt': {
+        formula: (n) => (n % 2 === 0 ? 1 : -1) / n,
+        limit: 0,
+        ymin: -1.2,
+        ymax: 1.2,
+        yTicks: [-1, -0.5, 0, 0.5, 1],
+        calcN0: (eps) => Math.floor(1 / eps) + 1
+      }
+    };
+
+    function updatePlot() {
+      const presetKey = presetSelect.value;
+      const eps = parseFloat(epsSlider.value);
+      const N = parseInt(nSlider.value);
+      const seq = presets[presetKey];
+
+      epsValText.textContent = eps.toFixed(2);
+      nValText.textContent = N;
+
+      const svgW = svg.clientWidth || 360;
+      const svgH = 200;
+      const marginL = 40;
+      const marginR = 15;
+      const marginT = 15;
+      const marginB = 25;
+      const plotW = svgW - marginL - marginR;
+      const plotH = svgH - marginT - marginB;
+
+      const totalTerms = 40;
+
+      function getX(n) {
+        return marginL + (n - 1) * (plotW / (totalTerms - 1));
+      }
+
+      function getY(val) {
+        return marginT + plotH * (seq.ymax - val) / (seq.ymax - seq.ymin);
+      }
+
+      gridGroup.innerHTML = "";
+      seq.yTicks.forEach(tickVal => {
+        const yPos = getY(tickVal);
+        if (yPos >= marginT && yPos <= marginT + plotH) {
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", marginL);
+          line.setAttribute("y1", yPos);
+          line.setAttribute("x2", svgW - marginR);
+          line.setAttribute("y2", yPos);
+          line.setAttribute("stroke", "var(--border-color)");
+          line.setAttribute("stroke-width", "1");
+          if (tickVal !== 0) line.setAttribute("stroke-dasharray", "2,2");
+          gridGroup.appendChild(line);
+
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", marginL - 8);
+          text.setAttribute("y", yPos + 4);
+          text.setAttribute("fill", "var(--text-muted)");
+          text.setAttribute("font-size", "10");
+          text.setAttribute("text-anchor", "end");
+          text.setAttribute("font-family", "monospace");
+          text.textContent = tickVal;
+          gridGroup.appendChild(text);
+        }
+      });
+
+      const xTicksCount = 5;
+      const step = Math.ceil(totalTerms / xTicksCount);
+      for (let i = 1; i <= totalTerms; i += step) {
+        const xPos = getX(i);
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", xPos);
+        text.setAttribute("y", svgH - 8);
+        text.setAttribute("fill", "var(--text-muted)");
+        text.setAttribute("font-size", "10");
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-family", "monospace");
+        text.textContent = i;
+        gridGroup.appendChild(text);
+      }
+
+      const limitY = getY(seq.limit);
+      const upperY = getY(seq.limit + eps);
+      const lowerY = getY(seq.limit - eps);
+
+      epsRect.setAttribute("x", marginL);
+      epsRect.setAttribute("y", Math.max(marginT, upperY));
+      epsRect.setAttribute("width", plotW);
+      epsRect.setAttribute("height", Math.min(plotH, lowerY - upperY));
+
+      epsUpperLine.setAttribute("x1", marginL);
+      epsUpperLine.setAttribute("y1", upperY);
+      epsUpperLine.setAttribute("x2", svgW - marginR);
+      epsUpperLine.setAttribute("y2", upperY);
+
+      epsLowerLine.setAttribute("x1", marginL);
+      epsLowerLine.setAttribute("y1", lowerY);
+      epsLowerLine.setAttribute("x2", svgW - marginR);
+      epsLowerLine.setAttribute("y2", lowerY);
+
+      limitLine.setAttribute("x1", marginL);
+      limitLine.setAttribute("y1", limitY);
+      limitLine.setAttribute("x2", svgW - marginR);
+      limitLine.setAttribute("y2", limitY);
+
+      // Cutoff Line N
+      const cutoffX = getX(N);
+      nCutoffLine.setAttribute("x1", cutoffX);
+      nCutoffLine.setAttribute("y1", marginT);
+      nCutoffLine.setAttribute("x2", cutoffX);
+      nCutoffLine.setAttribute("y2", marginT + plotH);
+
+      dotsGroup.innerHTML = "";
+      
+      let firstViolatorIdx = null;
+
+      for (let n = 1; n <= totalTerms; n++) {
+        const val = seq.formula(n);
+        const cx = getX(n);
+        const cy = getY(val);
+        const isInside = Math.abs(val - seq.limit) < eps;
+
+        if (cy >= marginT && cy <= marginT + plotH) {
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute("cx", cx);
+          circle.setAttribute("cy", cy);
+          circle.setAttribute("r", "5");
+          
+          if (n < N) {
+            circle.setAttribute("fill", "#94a3b8");
+            circle.setAttribute("opacity", "0.4");
+          } else {
+            if (isInside) {
+              circle.setAttribute("fill", "#10b981"); // Green
+              circle.setAttribute("stroke", "rgba(16, 185, 129, 0.3)");
+              circle.setAttribute("stroke-width", "3");
+            } else {
+              circle.setAttribute("fill", "#ef4444"); // Red
+              circle.setAttribute("stroke", "rgba(239, 68, 68, 0.3)");
+              circle.setAttribute("stroke-width", "3");
+              if (firstViolatorIdx === null) {
+                firstViolatorIdx = n;
+              }
+            }
+          }
+          dotsGroup.appendChild(circle);
+        }
+      }
+
+      const n0 = seq.calcN0(eps);
+      if (N >= n0) {
+        readout.style.borderColor = "#10b981";
+        readout.style.backgroundColor = "rgba(16, 185, 129, 0.05)";
+        readout.style.color = "#10b981";
+        readout.innerHTML = `🎉 ¡Felicidades! Has atrapado la sucesión. Con N = ${N} (el mínimo requerido es N₀ = ${n0}), todos los términos a partir de ${N} cumplen |aₙ - L| < ${eps.toFixed(2)}.`;
+      } else {
+        readout.style.borderColor = "#ef4444";
+        readout.style.backgroundColor = "rgba(239, 68, 68, 0.05)";
+        readout.style.color = "#ef4444";
+        const sampleIdx = firstViolatorIdx || N;
+        const sampleVal = seq.formula(sampleIdx).toFixed(3);
+        readout.innerHTML = `⚠️ Quedan puntos fugitivos a la derecha de N. Por ejemplo, a_${sampleIdx} = ${sampleVal} está fuera de la tolerancia. ¡Prueba con N ≥ ${n0}!`;
+      }
+    }
+
+    presetSelect.addEventListener("change", updatePlot);
+    epsSlider.addEventListener("input", updatePlot);
+    nSlider.addEventListener("input", updatePlot);
+    
+    updatePlot();
+
+    // Desafío analítico de épsilon
+    const choiceButtons = document.querySelectorAll(".option-btn-l2");
+    const feedback = document.getElementById("game-challenge-feedback");
+    const verifyChallengeBtn = document.getElementById("btn-verify-challenge-l2");
+    
+    let selectedValue = null;
+
+    choiceButtons.forEach(btn => {
+      btn.onclick = () => {
+        choiceButtons.forEach(b => {
+          b.classList.remove("selected");
+          b.style.backgroundColor = "var(--bg-primary)";
+          b.style.borderColor = "var(--border-color)";
+        });
+        btn.classList.add("selected");
+        btn.style.backgroundColor = "var(--accent-color)";
+        btn.style.borderColor = "var(--accent-color)";
+        selectedValue = btn.getAttribute("data-val");
+        
+        if (feedback) {
+          feedback.style.display = "none";
+        }
+      };
+    });
+
+    if (verifyChallengeBtn && feedback) {
+      verifyChallengeBtn.onclick = () => {
+        if (!selectedValue) {
+          alert("Por favor, selecciona una opción antes de verificar.");
+          return;
+        }
+
+        feedback.style.display = "block";
+        if (selectedValue === "13") {
+          feedback.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
+          feedback.style.border = "1px solid #10b981";
+          feedback.style.color = "#10b981";
+          feedback.innerHTML = `<strong>¡Correcto!</strong> Despejando: $1/n < 0.08 \\implies n > 1/0.08 = 12.5$. El primer entero que cumple es $n = 13$, por lo que el menor natural es $N = 13$.`;
+        } else {
+          feedback.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
+          feedback.style.border = "1px solid #ef4444";
+          feedback.style.color = "#ef4444";
+          if (selectedValue === "10") {
+            feedback.innerHTML = `<strong>Incorrecto:</strong> Para $n=10$, $a_{10} = 0.1$, que es mayor que $0.08$. El término queda fuera.`;
+          } else if (selectedValue === "12") {
+            feedback.innerHTML = `<strong>Incorrecto:</strong> Para $n=12$, $a_{12} = 1/12 \\approx 0.0833$, que aún es mayor que $0.08$.`;
+          } else {
+            feedback.innerHTML = `<strong>Incorrecto:</strong> Aunque $N=15$ cumple la condición de tolerancia para todos los términos siguientes, <strong>no es el mínimo natural</strong> requerido. El mínimo es $13$.`;
+          }
+        }
+
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise([feedback]);
+        }
+      };
+    }
+  }
+
+
+  function initDivisionPlayer() {
+    const playBtn = document.getElementById("div-play-btn");
+    const prevBtn = document.getElementById("div-prev-btn");
+    const nextBtn = document.getElementById("div-next-btn");
+    const stepIndicator = document.getElementById("div-step-indicator");
+    const progressFill = document.getElementById("player-progress-fill");
+    const expBox = document.getElementById("player-explanation-box");
+    
+    const boardCociente = document.getElementById("board-cociente");
+    const termSub1 = document.getElementById("term-subtract-1");
+    const termLine1 = document.getElementById("term-line-1");
+    const termRes1 = document.getElementById("term-residue-1");
+    const termSub2 = document.getElementById("term-subtract-2");
+    const termLine2 = document.getElementById("term-line-2");
+    const termRemainder = document.getElementById("term-remainder");
+
+    if (!playBtn || !prevBtn || !nextBtn) return;
+
+    const steps = [
+      {
+        indicator: "Paso 0 de 5: Planteamiento",
+        progress: 0,
+        explanation: "<strong>Paso 0:</strong> Planteamos la división clásica. El dividendo es $2x^3 - 3x^2 + 4x - 5$ y el divisor es $x^2 - x + 1$. El cociente está vacío.",
+        setup: () => {
+          boardCociente.innerHTML = "";
+          termSub1.style.opacity = 0;
+          termLine1.style.opacity = 0;
+          termRes1.style.opacity = 0;
+          termSub2.style.opacity = 0;
+          termLine2.style.opacity = 0;
+          termRemainder.style.opacity = 0;
+        }
+      },
+      {
+        indicator: "Paso 1 de 5: Dividir líderes y primer cociente",
+        progress: 20,
+        explanation: "<strong>Paso 1:</strong> Dividimos el término líder del dividendo ($2x^3$) entre el líder del divisor ($x^2$): $\\frac{2x^3}{x^2} = 2x$. Escribimos $2x$ en el cociente.",
+        setup: () => {
+          boardCociente.innerHTML = "\\(2x\\)";
+          termSub1.style.opacity = 0;
+          termLine1.style.opacity = 0;
+          termRes1.style.opacity = 0;
+          termSub2.style.opacity = 0;
+          termLine2.style.opacity = 0;
+          termRemainder.style.opacity = 0;
+        }
+      },
+      {
+        indicator: "Paso 2 de 5: Restar primer producto",
+        progress: 40,
+        explanation: "<strong>Paso 2:</strong> Multiplicamos $2x \\cdot (x^2 - x + 1) = 2x^3 - 2x^2 + 2x$ y restamos este resultado del dividendo, obteniendo como primer residuo parcial: $-x^2 + 2x - 5$.",
+        setup: () => {
+          boardCociente.innerHTML = "\\(2x\\)";
+          termSub1.style.opacity = 1;
+          termLine1.style.opacity = 1;
+          termRes1.style.opacity = 1;
+          termSub2.style.opacity = 0;
+          termLine2.style.opacity = 0;
+          termRemainder.style.opacity = 0;
+        }
+      },
+      {
+        indicator: "Paso 3 de 5: Dividir líderes y segundo cociente",
+        progress: 60,
+        explanation: "<strong>Paso 3:</strong> Dividimos el término líder del residuo parcial ($-x^2$) entre el líder del divisor ($x^2$): $\\frac{-x^2}{x^2} = -1$. Escribimos $- 1$ en el cociente.",
+        setup: () => {
+          boardCociente.innerHTML = "\\(2x - 1\\)";
+          termSub1.style.opacity = 1;
+          termLine1.style.opacity = 1;
+          termRes1.style.opacity = 1;
+          termSub2.style.opacity = 0;
+          termLine2.style.opacity = 0;
+          termRemainder.style.opacity = 0;
+        }
+      },
+      {
+        indicator: "Paso 4 de 5: Restar segundo producto",
+        progress: 80,
+        explanation: "<strong>Paso 4:</strong> Multiplicamos $-1 \\cdot (x^2 - x + 1) = -x^2 + x - 1$ y restamos este resultado del residuo parcial anterior, obteniendo como residuo final: $x - 4$.",
+        setup: () => {
+          boardCociente.innerHTML = "\\(2x - 1\\)";
+          termSub1.style.opacity = 1;
+          termLine1.style.opacity = 1;
+          termRes1.style.opacity = 1;
+          termSub2.style.opacity = 1;
+          termLine2.style.opacity = 1;
+          termRemainder.style.opacity = 1;
+        }
+      },
+      {
+        indicator: "Paso 5 de 5: Fin del algoritmo",
+        progress: 100,
+        explanation: "<strong>Paso 5:</strong> El residuo es $x - 4$. Dado que su grado (1) es menor que el grado del divisor (2), el algoritmo se detiene. El cociente final es $q(x) = 2x - 1$ y el resto es $r(x) = x - 4$.",
+        setup: () => {
+          boardCociente.innerHTML = "\\(2x - 1\\)";
+          termSub1.style.opacity = 1;
+          termLine1.style.opacity = 1;
+          termRes1.style.opacity = 1;
+          termSub2.style.opacity = 1;
+          termLine2.style.opacity = 1;
+          termRemainder.style.opacity = 1;
+        }
+      }
+    ];
+
+    let currentStep = 0;
+    let isPlaying = false;
+    let playInterval = null;
+
+    function renderStep(idx) {
+      currentStep = idx;
+      const step = steps[currentStep];
+      
+      stepIndicator.textContent = step.indicator;
+      progressFill.style.width = `${step.progress}%`;
+      expBox.innerHTML = step.explanation;
+      
+      // Clear MathJax typesetting cache for elements that change dynamically
+      if (window.MathJax && window.MathJax.typesetClear) {
+        window.MathJax.typesetClear([expBox, boardCociente]);
+      }
+      
+      step.setup();
+
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([expBox, boardCociente]);
+      }
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        playBtn.innerHTML = `<span>⏸</span> <span>Pausar</span>`;
+        playInterval = setInterval(() => {
+          if (currentStep < steps.length - 1) {
+            renderStep(currentStep + 1);
+          } else {
+            renderStep(0);
+          }
+        }, 3500);
+      } else {
+        playBtn.innerHTML = `<span>▶</span> <span>Reproducir</span>`;
+        clearInterval(playInterval);
+      }
+    }
+
+    playBtn.onclick = togglePlay;
+    
+    prevBtn.onclick = () => {
+      if (isPlaying) togglePlay();
+      if (currentStep > 0) {
+        renderStep(currentStep - 1);
+      }
+    };
+    
+    nextBtn.onclick = () => {
+      if (isPlaying) togglePlay();
+      if (currentStep < steps.length - 1) {
+        renderStep(currentStep + 1);
+      }
+    };
+
+    renderStep(0);
+  }
+
+  function initRuffiniPlayer() {
+    const playBtn = document.getElementById("ruf-play-btn");
+    const prevBtn = document.getElementById("ruf-prev-btn");
+    const nextBtn = document.getElementById("ruf-next-btn");
+    const stepIndicator = document.getElementById("ruf-step-indicator");
+    const progressFill = document.getElementById("ruf-progress-fill");
+    const expBox = document.getElementById("ruf-explanation-box");
+    const container = document.getElementById("ruffini-latex-container");
+
+    if (!playBtn || !prevBtn || !nextBtn || !container) return;
+
+    const steps = [
+      {
+        indicator: "Paso 0 de 6: Planteamiento",
+        progress: 0,
+        explanation: "<strong>Paso 0:</strong> Escribimos los coeficientes del dividendo $x^4 - 3x^2 + 5x - 7$ en la fila superior (añadiendo $0$ para el término $x^3$ ausente). Escribimos la raíz del divisor $x - 2 = 0 \\implies c = 2$ a la izquierda.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & & & & \\\\ \\hline & & & & & \\end{array}\\]"
+      },
+      {
+        indicator: "Paso 1 de 6: Bajar el primer término",
+        progress: 16,
+        explanation: "<strong>Paso 1:</strong> Bajamos el primer coeficiente ($1$) directamente a la línea de resultados sin realizar ninguna operación.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & & & & \\\\ \\hline & \\mathbf{1} & & & & \\end{array}\\]"
+      },
+      {
+        indicator: "Paso 2 de 6: Multiplicar y sumar la segunda columna",
+        progress: 33,
+        explanation: "<strong>Paso 2:</strong> Multiplicamos el número recién bajado ($1$) por la raíz ($2$): $1 \\cdot 2 = 2$. Colocamos el resultado bajo el coeficiente $0$ y sumamos: $0 + 2 = 2$.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & \\color{#3b82f6}{2} & & & \\\\ \\hline & 1 & \\mathbf{2} & & & \\end{array}\\]"
+      },
+      {
+        indicator: "Paso 3 de 6: Multiplicar y sumar la tercera columna",
+        progress: 50,
+        explanation: "<strong>Paso 3:</strong> Multiplicamos el resultado obtenido ($2$) por la raíz ($2$): $2 \\cdot 2 = 4$. Colocamos el resultado bajo el coeficiente $-3$ y sumamos: $-3 + 4 = 1$.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & 2 & \\color{#3b82f6}{4} & & \\\\ \\hline & 1 & 2 & \\mathbf{1} & & \\end{array}\\]"
+      },
+      {
+        indicator: "Paso 4 de 6: Multiplicar y sumar la cuarta columna",
+        progress: 66,
+        explanation: "<strong>Paso 4:</strong> Multiplicamos el resultado obtenido ($1$) por la raíz ($2$): $1 \\cdot 2 = 2$. Colocamos el resultado bajo el coeficiente $5$ y sumamos: $5 + 2 = 7$.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & 2 & 4 & \\color{#3b82f6}{2} & \\\\ \\hline & 1 & 2 & 1 & \\mathbf{7} & \\end{array}\\]"
+      },
+      {
+        indicator: "Paso 5 de 6: Calcular el resto final",
+        progress: 83,
+        explanation: "<strong>Paso 5:</strong> Multiplicamos el resultado obtenido ($7$) por la raíz ($2$): $7 \\cdot 2 = 14$. Colocamos el resultado bajo el coeficiente $-7$ y sumamos: $-7 + 14 = 7$. Este valor es el residuo.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & 2 & 4 & 2 & \\color{#3b82f6}{14} \\\\ \\hline & 1 & 2 & 1 & 7 & \\color{#10b981}{\\mathbf{7}} \\end{array}\\]"
+      },
+      {
+        indicator: "Paso 6 de 6: Resultado y cociente final",
+        progress: 100,
+        explanation: "<strong>Paso 6:</strong> Hemos completado el esquema. El resto es $r = 7$, y los coeficientes del cociente son $1, 2, 1, 7$ (que corresponden a un grado menor): $q(x) = x^3 + 2x^2 + x + 7$.",
+        latex: "\\[\\begin{array}{c|rrrrr} & 1 & 0 & -3 & 5 & -7 \\\\ 2 & & 2 & 4 & 2 & 14 \\\\ \\hline & 1 & 2 & 1 & 7 & \\color{#10b981}{\\boxed{7}} \\end{array}\\]"
+      }
+    ];
+
+    let currentStep = 0;
+    let isPlaying = false;
+    let playInterval = null;
+
+    function renderStep(idx) {
+      currentStep = idx;
+      const step = steps[currentStep];
+
+      stepIndicator.textContent = step.indicator;
+      progressFill.style.width = `${step.progress}%`;
+      expBox.innerHTML = step.explanation;
+      container.innerHTML = step.latex;
+
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([expBox, container]);
+      }
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        playBtn.innerHTML = `<span>⏸</span> <span>Pausar</span>`;
+        playInterval = setInterval(() => {
+          if (currentStep < steps.length - 1) {
+            renderStep(currentStep + 1);
+          } else {
+            renderStep(0);
+          }
+        }, 4000);
+      } else {
+        playBtn.innerHTML = `<span>▶</span> <span>Reproducir</span>`;
+        clearInterval(playInterval);
+      }
+    }
+
+    playBtn.onclick = togglePlay;
+
+    prevBtn.onclick = () => {
+      if (isPlaying) togglePlay();
+      if (currentStep > 0) {
+        renderStep(currentStep - 1);
+      }
+    };
+
+    nextBtn.onclick = () => {
+      if (isPlaying) togglePlay();
+      if (currentStep < steps.length - 1) {
+        renderStep(currentStep + 1);
+      }
+    };
+
+    renderStep(0);
   }
 
   function formatExercisesContent(raw) {
@@ -662,4 +1670,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Inicializar carga de datos
   loadCourseContent();
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initCoursePage);
+} else {
+  initCoursePage();
+}
