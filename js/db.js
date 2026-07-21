@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "2.4" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Algoritmo de la división") && chapters.includes("Radio e intervalo de potencias") && chapters.includes("Operaciones con series de potencias") && chapters.includes("Domina la intuición visual") && chapters.includes("Enfréntate al límite formal")) {
+    if (dbVersion === "2.5" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Algoritmo de la división") && chapters.includes("Radio e intervalo de potencias") && chapters.includes("Operaciones con series de potencias") && chapters.includes("Domina la intuición visual") && chapters.includes("Enfréntate al límite formal")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "2.4");
+    localStorage.setItem("alvaro_profemate_db_version", "2.5");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
@@ -801,7 +801,7 @@ const DB = {
       { id: 'calculo-diferencial', title: 'Cálculo Diferencial', description: 'Límites, continuidad, derivadas y sus aplicaciones prácticas en optimización y tasas de cambio.', icon: 'fa-calculator' },
       { id: 'calculo-integral', title: 'Cálculo Integral', description: 'La integral definida, técnicas de integración, áreas, volúmenes de revolución e integrales impropias.', icon: 'fa-calculator' },
       { id: 'algebra-lineal', title: 'Álgebra Lineal', description: 'Matrices, determinantes, sistemas lineales, espacios vectoriales, transformaciones y valores propios.', icon: 'fa-border-all' },
-      { id: 'calculo-multivariable', title: 'Calculo Multivariable', description: 'Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas vectoriales.', icon: 'fa-layer-group' },
+      { id: 'calculo-multivariable', title: 'Cálculo Multivariable', description: 'Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas vectoriales.', icon: 'fa-layer-group' },
       { id: 'ecuaciones-diferenciales', title: 'Ecuaciones Diferenciales Ordinarias', description: 'EDO de primer y segundo orden, transformada de Laplace, sistemas lineales y modelación matemática.', icon: 'fa-bezier-curve' },
       { id: 'calculo-avanzado', title: 'Cálculo Avanzado', description: 'Series de Fourier, variables complejas, funciones analíticas e integración en el plano complejo.', icon: 'fa-infinity' }
     ];

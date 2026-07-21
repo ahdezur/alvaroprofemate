@@ -81,7 +81,7 @@ async function initDatabase(client) {
   `);
 
   // Verificar si calculo-multivariable, Series de Potencias, Algoritmo de la división y Radio e intervalo de potencias están sembrados
-  const checkRes = await client.query("SELECT COUNT(*) FROM courses WHERE id = 'calculo-multivariable'");
+  const checkRes = await client.query("SELECT COUNT(*) FROM courses WHERE id = 'calculo-multivariable' AND title = 'Cálculo Multivariable'");
   const checkSeries = await client.query("SELECT COUNT(*) FROM chapters WHERE title = 'Series de Potencias'");
   const checkPolinomios = await client.query("SELECT COUNT(*) FROM chapters WHERE title = 'Algoritmo de la división'");
   const checkRadio = await client.query("SELECT content_formulas, content_exercises FROM chapters WHERE title = 'Radio e intervalo de potencias' LIMIT 1");
@@ -116,7 +116,7 @@ async function initDatabase(client) {
       { id: 'calculo-diferencial', title: 'Cálculo Diferencial', desc: 'Límites, continuidad, derivadas y sus aplicaciones prácticas en optimización y tasas de cambio.', icon: 'fa-calculator' },
       { id: 'calculo-integral', title: 'Cálculo Integral', desc: 'La integral definida, técnicas de integración, áreas, volúmenes de revolución e integrales impropias.', icon: 'fa-calculator' },
       { id: 'algebra-lineal', title: 'Álgebra Lineal', desc: 'Matrices, determinantes, sistemas lineales, espacios vectoriales, transformaciones y valores propios.', icon: 'fa-border-all' },
-      { id: 'calculo-multivariable', title: 'Calculo Multivariable', desc: 'Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas vectoriales.', icon: 'fa-layer-group' },
+      { id: 'calculo-multivariable', title: 'Cálculo Multivariable', desc: 'Cálculo en varias variables: límites, derivadas parciales, integrales dobles y triples, y teoremas vectoriales.', icon: 'fa-layer-group' },
       { id: 'ecuaciones-diferenciales', title: 'Ecuaciones Diferenciales Ordinarias', desc: 'EDO de primer y segundo orden, transformada de Laplace, sistemas lineales y modelación matemática.', icon: 'fa-bezier-curve' },
       { id: 'calculo-avanzado', title: 'Cálculo Avanzado', desc: 'Series de Fourier, variables complejas, funciones analíticas e integración en el plano complejo.', icon: 'fa-infinity' }
     ];
