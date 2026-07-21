@@ -1,0 +1,243 @@
+[
+  {
+    "id": "prueba-piloto-calculo-2",
+    "titulo": "Prueba piloto de Cálculo 2",
+    "descripcion": "Evaluación integral para validar conocimientos fundamentales de cálculo en varias variables y cálculo vectorial (curvas de nivel, integrales dobles y teoremas vectoriales).",
+    "curso": "Cálculo 2",
+    "universidad": "Universidad de Chile",
+    "año": 2023,
+    "semestre": "Primavera",
+    "tipo": "Prueba",
+    "tiempo_limite_minutos": 90,
+    "etiquetas": [
+      "Cálculo de Varias Variables",
+      "Cálculo Vectorial"
+    ],
+    "preguntas": [
+      "pregunta-curvas-nivel-001",
+      "pregunta-integral-doble-001",
+      "pregunta-conservativo-001",
+      "pregunta-green-001"
+    ]
+  },
+  {
+    "id": "examen-algebra-lineal-01",
+    "titulo": "Examen Final Álgebra Lineal",
+    "descripcion": "Examen completo que abarca espacios vectoriales, transformaciones lineales y diagonalización.",
+    "curso": "Álgebra Lineal",
+    "universidad": "Universidad Católica",
+    "año": 2022,
+    "semestre": "Otoño",
+    "tipo": "Examen",
+    "tiempo_limite_minutos": 120,
+    "etiquetas": [
+      "Espacios Vectoriales",
+      "Diagonalización"
+    ],
+    "preguntas": []
+  },
+  {
+    "id": "examen-calculo-ii-uan-2026-1",
+    "titulo": "Examen de Cálculo II",
+    "descripcion": "Evaluación sumativa sobre diferenciabilidad en varias variables, derivadas parciales, cambio del orden de integración, cambio de variables e integrales de superficie.",
+    "curso": "Cálculo II",
+    "universidad": "Universidad de los Andes",
+    "ano": 2026,
+    "semestre": "Otoño",
+    "tipo": "Examen",
+    "tiempo_limite_minutos": 120,
+    "etiquetas": [
+      "Derivadas parciales",
+      "Diferenciabilidad",
+      "Regla de la cadena",
+      "Integrales triples",
+      "Cambio de orden",
+      "Coordenadas polares",
+      "Integrales de superficie",
+      "Teorema de Gauss",
+      "Principio de Arquímedes"
+    ],
+    "preguntas": [
+      "p1-a-i-derivadas-parciales",
+      "p1-a-ii-diferenciabilidad",
+      "p1-b-identidad-derivadas",
+      "p2-a-cambio-orden",
+      "p2-b-polares",
+      "p3-a-empuje-esfera",
+      "p3-b-empuje-cilindro",
+      "p3-c-comparacion-arquimedes"
+    ],
+    "pdfUrl": "evaluaciones/data/uploads/1784379680593-Examen Calc II-2026-1sol.pdf"
+  },
+  {
+    "id": "examen-calculo-multivariable-2026-1",
+    "titulo": "Examen de Cálculo Multivariable 2026-1",
+    "descripcion": "Evaluación de integración múltiple, Teorema de Green, aproximación mediante diferenciales y geometría de curvas en el espacio.",
+    "curso": "Cálculo Multivariable",
+    "universidad": "Universidad del Desarrollo",
+    "ano": 2026,
+    "semestre": "2026-1",
+    "tipo": "Examen",
+    "tiempo_limite_minutos": 120,
+    "etiquetas": [
+      "Teorema de Green",
+      "Coordenadas esféricas",
+      "Integral triple",
+      "Diferenciales",
+      "Aproximación de errores",
+      "Error relativo",
+      "Curvas en el espacio"
+    ],
+    "preguntas": [
+      "ejercicio-1",
+      "ejercicio-2",
+      "ejercicio-3",
+      "ejercicio-4",
+      "ejercicio-5-a",
+      "ejercicio-5-b"
+    ]
+  },
+  {
+    "id": "examen-calculo-integral-2026-otono",
+    "titulo": "Examen de Cálculo Integral",
+    "descripcion": "Examen de Cálculo Integral sobre integrales impropias, volúmenes de revolución, coordenadas polares, longitud de arco y series.",
+    "curso": "Cálculo Integral",
+    "universidad": "Universidad del Desarrollo",
+    "ano": 2026,
+    "semestre": "Otoño",
+    "tipo": "Examen",
+    "tiempo_limite_minutos": 120,
+    "etiquetas": [
+      "Integrales impropias",
+      "Área entre curvas",
+      "Volúmenes de revolución",
+      "Coordenadas polares",
+      "Curvas paramétricas",
+      "Longitud de arco",
+      "Series numéricas",
+      "Series de Taylor"
+    ],
+    "preguntas": [
+      "examen-ci-2026-p1",
+      "examen-ci-2026-p2a",
+      "examen-ci-2026-p2b",
+      "examen-ci-2026-p3",
+      "examen-ci-2026-p4",
+      "examen-ci-2026-p5a",
+      "examen-ci-2026-p5b"
+    ]
+  },
+  {
+    "id": "control-4-ma1101-2026-otono",
+    "titulo": "Control 4 de Introducción al Álgebra",
+    "descripcion": "Control sobre elementos invertibles en anillos, grupos, números complejos, subgrupos, raíces y divisibilidad de polinomios.",
+    "curso": "Introducción al Álgebra MA1101",
+    "universidad": "Universidad de Chile",
+    "ano": 2026,
+    "semestre": "Otoño",
+    "tipo": "Control",
+    "tiempo_limite_minutos": 180,
+    "etiquetas": [
+      "Anillos",
+      "Elementos invertibles",
+      "Grupos",
+      "Subgrupos",
+      "Números complejos",
+      "Forma polar",
+      "Raíces complejas",
+      "Polinomios",
+      "Multiplicidad de raíces",
+      "Divisibilidad de polinomios"
+    ],
+    "preguntas": [
+      "control4-ma1101-p1a",
+      "control4-ma1101-p1b",
+      "control4-ma1101-p1c",
+      "control4-ma1101-p1d",
+      "control4-ma1101-p1e",
+      "control4-ma1101-p2a",
+      "control4-ma1101-p2b",
+      "control4-ma1101-p2c",
+      "control4-ma1101-p2d",
+      "control4-ma1101-p3ai",
+      "control4-ma1101-p3aii",
+      "control4-ma1101-p3bi",
+      "control4-ma1101-p3bii",
+      "control4-ma1101-p3biii",
+      "control4-ma1101-p3biv"
+    ]
+  },
+  {
+    "id": "prueba-multimetodo-01",
+    "titulo": "Prueba Demostrativa Multi-Método",
+    "descripcion": "Esta es una prueba generada para demostrar el selector de métodos múltiples en la rúbrica.",
+    "curso": "Curso de Prueba",
+    "universidad": "Universidad AI",
+    "ano": 2026,
+    "semestre": "Otoño",
+    "tipo": "Prueba Piloto",
+    "tiempo_limite_minutos": 90,
+    "etiquetas": [
+      "Multi-Método",
+      "Demostración"
+    ],
+    "preguntas": [
+      "q-mult-01"
+    ]
+  },
+  {
+    "id": "control-4-algebra",
+    "titulo": "Control 4",
+    "descripcion": "Facultad de Ciencias Físicas y Matemáticas",
+    "curso": "Introducción al Algebra MA1101",
+    "universidad": "Universidad de Chile",
+    "ano": 2026,
+    "semestre": "Otoño",
+    "tipo": "Control",
+    "tiempo_limite_minutos": 180,
+    "etiquetas": [
+      "Anillos",
+      "Grupos",
+      "Complejos",
+      "Polinomios"
+    ],
+    "preguntas": [
+      "p1-a",
+      "p1-b",
+      "p1-c",
+      "p1-d",
+      "p1-e",
+      "p2-a",
+      "p2-b",
+      "p2-c",
+      "p2-d",
+      "p3-a-i",
+      "p3-a-ii",
+      "p3-b-i",
+      "p3-b-ii",
+      "p3-b-iii",
+      "p3-b-iv"
+    ]
+  },
+  {
+    "id": "udd-calculo-integral-2023-1-examen",
+    "titulo": "Examen Cálculo Integral",
+    "descripcion": "Facultad de Ingeniería",
+    "curso": "Cálculo Integral",
+    "universidad": "Universidad del Desarrollo",
+    "ano": 2023,
+    "semestre": "Otoño",
+    "tipo": "Examen",
+    "tiempo_limite_minutos": 120,
+    "etiquetas": [
+      "Áreas",
+      "Coordenadas Polares",
+      "Longitud de Arco",
+      "Volumen de Revolución",
+      "Series de Potencias"
+    ],
+    "preguntas": [
+      "p1"
+    ]
+  }
+]

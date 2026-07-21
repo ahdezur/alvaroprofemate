@@ -1,0 +1,145 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\geometry{a4paper, margin=2cm}
+
+% ==========================================
+% COMANDOS DE ESTRUCTURA PARA EL PARSER (AI)
+% ==========================================
+% Estos comandos permiten que la IA lea automáticamente tu documento LaTeX
+% y lo convierta directamente a los archivos JSON del sistema, soportando
+% cualquier jerarquía (preguntas sueltas, anidadas con contexto, anidadas sin contexto).
+
+% 1. Configuración general de la Evaluación
+% Uso: \evalMeta{ID}{Título}{Descripción}{Curso}{Universidad}{Año}{Semestre}{Nombre de la Evaluación}{Minutos}
+% Opciones para "Nombre de la Evaluación": Control, Prueba, Certamen, Examen
+\newcommand{\evalMeta}[9]{
+  \begin{center}
+    {\Large \textbf{#2}}\\[0.2cm]
+    \textbf{Curso:} #4 \quad \textbf{Universidad:} #5 \quad \textbf{Año:} #6 - #7\\[0.1cm]
+    \textbf{Evaluación:} #8 \quad \textbf{Tiempo límite:} #9 minutos\\[0.3cm]
+    \textit{#3}
+  \end{center}
+  \vspace{0.5cm}
+}
+
+% 2. Etiquetas generales del ensayo (separadas por coma)
+\newcommand{\evalTags}[1]{
+  \textbf{Etiquetas Generales:} #1 \vspace{0.5cm}
+}
+
+% 3. Bloque para agrupar subpreguntas bajo un mismo contexto general
+% Uso: \begin{bloqueContexto}{Aquí va el enunciado general compartido}
+\newenvironment{bloqueContexto}[1]{
+  \vspace{0.5cm}\noindent\hrulefill\vspace{0.2cm}\\
+  \noindent \textbf{Contexto General:}\\
+  #1
+  \vspace{0.3cm}
+}{
+  \vspace{0.5cm}
+}
+
+% 4. Entorno de Pregunta (aplica tanto para sueltas como para subpreguntas)
+% Uso: \begin{pregunta}{ID_Pregunta}{Puntaje}{Dificultad}{Temas}
+\newenvironment{pregunta}[4]{
+  \vspace{0.3cm}\noindent\textbf{Pregunta (#2 pts) - Dificultad: #3}\\
+  \textbf{Temas:} #4\\[0.2cm]
+}{
+  \vspace{0.3cm}
+}
+
+% 5. Sub-elementos de la pregunta (Pistas, Soluciones, Pauta y Errores)
+
+% Usa \numeracion{} para indicar el número de la pregunta en la UI (ej: 1. a) i)
+\newcommand{\numeracion}[1]{
+  \vspace{-0.3cm}\noindent\textbf{Numeración:} #1 \\
+}
+
+\newcommand{\pista}[1]{
+  \noindent \textbf{\textsl{Pista:}} #1 \\
+}
+
+\newenvironment{solucion}{
+  \vspace{0.2cm}
+  \noindent \textbf{Solución Paso a Paso:}\\[0.1cm]
+}{
+  \vspace{0.2cm}
+}
+
+\newcommand{\criterio}[2]{
+  \noindent $\square$ \textbf{Criterio (#2 pts):} #1 \\
+}
+
+\newcommand{\errorfrecuente}[1]{
+  \noindent \textbf{Error Frecuente:} #1 \\
+}
+
+
+% ==========================================
+% INICIO DEL DOCUMENTO
+% ==========================================
+\begin{document}
+
+\evalMeta
+  {examen-ejemplo}
+  {Examen de Ejemplo (Estructuras Jerárquicas)}
+  {Demostración de cómo armar preguntas con y sin nidos.}
+  {Cálculo}
+  {Universidad}
+  {2026}
+  {Otoño}
+  {Examen}
+  {90}
+
+\evalTags{Derivadas, Integrales}
+
+% ---------------------------------------------------------
+% CASO 1: PREGUNTAS ANIDADAS CON ENUNCIADO COMÚN
+% ---------------------------------------------------------
+\begin{bloqueContexto}{
+Respecto de la función
+$$ f(x,y) = \begin{cases} \frac{x^2y}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases} $$
+}
+
+    \begin{pregunta}{q1-a}{5}{Media}{Derivadas parciales}
+    \numeracion{1. a)}
+    Calcule las derivadas parciales.
+    \pista{Usa regla de la cadena.}
+    \end{pregunta}
+
+    \begin{pregunta}{q1-b}{5}{Media}{Diferenciabilidad}
+    \numeracion{1. b)}
+    Decida si la función es diferenciable en el origen.
+    \end{pregunta}
+
+\end{bloqueContexto}
+
+
+% ---------------------------------------------------------
+% CASO 2: PREGUNTAS ANIDADAS PERO INDEPENDIENTES (SIN CONTEXTO COMÚN)
+% ---------------------------------------------------------
+% Aquí simplemente pones las preguntas seguidas y usas \numeracion para agruparlas visualmente en la plataforma web, sin necesidad de un bloqueContexto.
+
+\begin{pregunta}{q2-a}{10}{Alta}{Integrales}
+\numeracion{2. a)}
+Considere la integral triple... (enunciado específico de a)
+\end{pregunta}
+
+\begin{pregunta}{q2-b}{10}{Alta}{Polares}
+\numeracion{2. b)}
+Calcule la integral doble... (enunciado específico de b, totalmente ajeno a la 2a)
+\end{pregunta}
+
+
+% ---------------------------------------------------------
+% CASO 3: PREGUNTA SUELTA (SIN ANIDAR)
+% ---------------------------------------------------------
+\begin{pregunta}{q3}{15}{Media}{Regla de la Cadena}
+\numeracion{3.}
+Suponga que $f,g$ son diferenciables. Muestre que se cumple la identidad...
+\end{pregunta}
+
+
+\end{document}

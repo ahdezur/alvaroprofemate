@@ -1,0 +1,2547 @@
+[
+  {
+    "id": "pregunta-curvas-nivel-001",
+    "enunciado": "Considera la función de dos variables $f(x,y) = \\sqrt{16 - x^2 - y^2}$.<br><br>1. Determina el dominio de $f$.<br>2. Describe geométrica y analíticamente las curvas de nivel $f(x,y) = c$ para $c = 0, 2$ y $4$.",
+    "puntaje": 25,
+    "dificultad": "Media",
+    "temas": [
+      "Funciones de varias variables",
+      "Curvas de nivel"
+    ],
+    "pistas": [
+      "Para el dominio, recuerda que la cantidad dentro de una raíz cuadrada real debe ser no negativa: $16 - x^2 - y^2 \\ge 0$.",
+      "Para las curvas de nivel, iguala la función a $c$: $\\sqrt{16 - x^2 - y^2} = c$. Eleva al cuadrado y agrupa $x$ e $y$ a un lado para reconocer la ecuación de una cónica."
+    ],
+    "solucion": "### 1. Dominio de $f$\nPara que $f(x,y)$ esté definida en los reales, el argumento de la raíz debe ser no negativo:\n$$ 16 - x^2 - y^2 \\ge 0 \\implies x^2 + y^2 \\le 16 $$\nPor lo tanto, el dominio es el disco cerrado centrado en el origen con radio 4: $\\text{Dom}(f) = \\{ (x,y) \\in \\mathbb{R}^2 \\mid x^2 + y^2 \\le 16 \\}$.\n\n### 2. Curvas de nivel\nSea $f(x,y) = c$. Como el rango de la raíz es $[0, \\infty)$, solo hay curvas de nivel para $c \\ge 0$.\n$$ \\sqrt{16 - x^2 - y^2} = c \\implies 16 - x^2 - y^2 = c^2 \\implies x^2 + y^2 = 16 - c^2 $$\nEstas son circunferencias centradas en el origen de radio $r = \\sqrt{16 - c^2}$.\n*   Si **$c = 0$**: $x^2 + y^2 = 16$. Circunferencia de radio 4.\n*   Si **$c = 2$**: $x^2 + y^2 = 12$. Circunferencia de radio $\\sqrt{12} = 2\\sqrt{3}$.\n*   Si **$c = 4$**: $x^2 + y^2 = 0$. Un único punto, el origen $(0,0)$.",
+    "criterios_correccion": [
+      {
+        "descripcion": "Identifica correctamente la restricción de la raíz cuadrada.",
+        "puntaje": 5
+      },
+      {
+        "descripcion": "Describe el dominio como un disco cerrado de radio 4.",
+        "puntaje": 5
+      },
+      {
+        "descripcion": "Plantea correctamente la ecuación general de las curvas de nivel $x^2 + y^2 = 16 - c^2$.",
+        "puntaje": 6
+      },
+      {
+        "descripcion": "Calcula e identifica correctamente la curva para $c=0$ y $c=2$.",
+        "puntaje": 6
+      },
+      {
+        "descripcion": "Identifica correctamente que para $c=4$ la curva degenera en el punto origen.",
+        "puntaje": 3
+      }
+    ],
+    "errores_frecuentes": [
+      "Olvidar que $c$ debe ser positivo, asumiendo que existen curvas de nivel para $c < 0$.",
+      "No identificar que $x^2 + y^2 \\le 16$ representa el interior y el borde del círculo, diciendo solo que es 'una circunferencia'.",
+      "Calcular mal el radio de la curva $c=2$ (escribir radio 12 en vez de $\\sqrt{12}$)."
+    ]
+  },
+  {
+    "id": "pregunta-integral-doble-001",
+    "enunciado": "Calcula la siguiente integral doble utilizando un cambio a coordenadas polares:\n\n$$ \\iint_D e^{-x^2-y^2} dA $$\n\ndonde $D$ es la región del primer cuadrante limitada por $x^2 + y^2 = 4$.",
+    "puntaje": 30,
+    "dificultad": "Alta",
+    "temas": [
+      "Cálculo 2",
+      "Integrales Múltiples",
+      "Coordenadas Polares"
+    ],
+    "pistas": [
+      "El cambio a polares es $x = r\\cos(\\theta)$ e $y = r\\sin(\\theta)$. ¡No olvides el Jacobiano! $dA = r \\, dr \\, d\\theta$.",
+      "La región es un cuarto de círculo de radio 2. ¿Cuáles son los límites de integración para $r$ y para $\\theta$ en el primer cuadrante?"
+    ],
+    "solucion": "### Cambio de variables\nAplicamos el cambio a coordenadas polares:\n$x = r\\cos\\theta$\n$y = r\\sin\\theta$\n$x^2 + y^2 = r^2$\n$dA = r \\, dr \\, d\\theta$\n\n### Límites de integración\nLa región $D$ es el primer cuadrante ($x \\ge 0, y \\ge 0$) dentro de la circunferencia de radio 2 ($r^2 = 4 \\implies r=2$).\nPor tanto:\n$0 \\le r \\le 2$\n$0 \\le \\theta \\le \\frac{\\pi}{2}$\n\n### Resolución de la integral\nSustituimos en la integral:\n$$ I = \\int_0^{\\pi/2} \\int_0^2 e^{-r^2} r \\, dr \\, d\\theta $$\nResolvemos primero la integral interior respecto a $r$. Usamos sustitución $u = -r^2$, $du = -2r \\, dr \\implies r \\, dr = -\\frac{du}{2}$:\n$$ \\int_0^2 r e^{-r^2} dr = \\left[ -\\frac{1}{2} e^{-r^2} \\right]_0^2 = -\\frac{1}{2}(e^{-4} - 1) = \\frac{1 - e^{-4}}{2} $$\nAhora integramos respecto a $\\theta$:\n$$ I = \\int_0^{\\pi/2} \\frac{1 - e^{-4}}{2} d\\theta = \\frac{1 - e^{-4}}{2} \\left[ \\theta \\right]_0^{\\pi/2} = \\frac{\\pi(1 - e^{-4})}{4} $$",
+    "criterios_correccion": [
+      {
+        "descripcion": "Establece correctamente los límites de integración para r y theta.",
+        "puntaje": 8
+      },
+      {
+        "descripcion": "Realiza la sustitución correcta de la función integrandoy añade el Jacobiano (r).",
+        "puntaje": 7
+      },
+      {
+        "descripcion": "Calcula correctamente la integral respecto a r usando sustitución simple.",
+        "puntaje": 10
+      },
+      {
+        "descripcion": "Calcula la integral respecto a theta y llega al resultado numérico final correcto.",
+        "puntaje": 5
+      }
+    ],
+    "errores_frecuentes": [
+      "Olvidar multiplicar por el Jacobiano $r$ al cambiar a polares.",
+      "Integrar mal $e^{-r^2}r$. Muchos estudiantes olvidan el factor $-1/2$ derivado de la regla de la cadena invertida.",
+      "Considerar los límites de $\\theta$ desde $0$ a $2\\pi$ ignorando la restricción de 'primer cuadrante'."
+    ]
+  },
+  {
+    "id": "pregunta-conservativo-001",
+    "enunciado": "Dado el campo vectorial $\\vec{F}(x,y) = (3x^2y + 2x, x^3 + 4y)$:\n\n1. Demuestra que $\\vec{F}$ es un campo vectorial conservativo.\n2. Encuentra una función potencial $f(x,y)$ tal que $\\nabla f = \\vec{F}$.\n3. Calcula el trabajo realizado por $\\vec{F}$ al mover una partícula desde el punto $(0,0)$ hasta el punto $(1,2)$.",
+    "puntaje": 25,
+    "dificultad": "Media",
+    "temas": [
+      "Cálculo Vectorial",
+      "Campos Conservativos",
+      "Integrales de línea"
+    ],
+    "pistas": [
+      "Para ver si es conservativo en el plano, verifica si las derivadas cruzadas son iguales: $\\frac{\\partial P}{\\partial y} = \\frac{\\partial Q}{\\partial x}$.",
+      "Para hallar la función potencial, integra la primera componente $P$ respecto a $x$. Recuerda que la 'constante' de integración será una función $g(y)$. Luego deriva respecto a $y$ e iguala a $Q$."
+    ],
+    "solucion": "### 1. Demostración de campo conservativo\nSea $\\vec{F} = (P, Q)$ donde $P = 3x^2y + 2x$ y $Q = x^3 + 4y$. El dominio es $\\mathbb{R}^2$ (simplemente conexo).\nComprobamos las derivadas cruzadas:\n$\\frac{\\partial P}{\\partial y} = 3x^2$\n$\\frac{\\partial Q}{\\partial x} = 3x^2$\nComo $\\frac{\\partial P}{\\partial y} = \\frac{\\partial Q}{\\partial x}$, el campo es conservativo.\n\n### 2. Función potencial\nBuscamos $f$ tal que $\\frac{\\partial f}{\\partial x} = 3x^2y + 2x$ y $\\frac{\\partial f}{\\partial y} = x^3 + 4y$.\nIntegramos respecto a $x$:\n$$ f(x,y) = \\int (3x^2y + 2x) dx = x^3y + x^2 + g(y) $$\nDerivamos respecto a $y$ e igualamos a $Q$:\n$$ \\frac{\\partial f}{\\partial y} = x^3 + g'(y) = x^3 + 4y \\implies g'(y) = 4y $$\nIntegramos respecto a $y$:\n$$ g(y) = 2y^2 + C $$\nPor lo tanto, la función potencial es $f(x,y) = x^3y + x^2 + 2y^2 + C$.\n\n### 3. Cálculo del Trabajo\nPor el Teorema Fundamental de las Integrales de Línea, el trabajo $W$ es independiente del camino:\n$$ W = \\int_C \\vec{F} \\cdot d\\vec{r} = f(1,2) - f(0,0) $$\nEvaluando (con $C=0$):\n$f(1,2) = (1)^3(2) + (1)^2 + 2(2)^2 = 2 + 1 + 8 = 11$\n$f(0,0) = 0$\n$W = 11 - 0 = 11$.",
+    "criterios_correccion": [
+      {
+        "descripcion": "Verifica correctamente la igualdad de las derivadas cruzadas para demostrar que es conservativo.",
+        "puntaje": 5
+      },
+      {
+        "descripcion": "Integra correctamente P o Q para iniciar la búsqueda de la función potencial.",
+        "puntaje": 6
+      },
+      {
+        "descripcion": "Halla correctamente la constante g(y) o h(x) y plantea la función potencial completa.",
+        "puntaje": 6
+      },
+      {
+        "descripcion": "Reconoce el uso del Teorema Fundamental de las Integrales de Línea para evitar parametrizar.",
+        "puntaje": 4
+      },
+      {
+        "descripcion": "Evalúa correctamente la función potencial en los extremos para hallar el trabajo final (11).",
+        "puntaje": 4
+      }
+    ],
+    "errores_frecuentes": [
+      "Cometer errores algebraicos al derivar cruzado o integrar la función polinómica.",
+      "Olvidar sumar la constante de integración dependiente de la otra variable $g(y)$.",
+      "Intentar calcular el trabajo parametrizando una recta, lo cual es correcto pero mucho más largo y propenso a errores (no aprovechar que es conservativo)."
+    ]
+  },
+  {
+    "id": "pregunta-green-001",
+    "enunciado": "Utiliza el Teorema de Green para calcular la integral de línea:\n\n$$ \\oint_C (xy^2) dx + (x^3 + y) dy $$\n\ndonde $C$ es el contorno del rectángulo con vértices $(0,0), (2,0), (2,3), (0,3)$ recorrido en sentido antihorario.",
+    "puntaje": 20,
+    "dificultad": "Media",
+    "temas": [
+      "Cálculo Vectorial",
+      "Teorema de Green",
+      "Integrales de Línea"
+    ],
+    "pistas": [
+      "El Teorema de Green relaciona la integral de línea en un contorno cerrado con una integral doble: $\\oint_C P dx + Q dy = \\iint_D (\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}) dA$.",
+      "Calcula las derivadas parciales. La región $D$ es un rectángulo, por lo que los límites de integración doble serán directos: $0 \\le x \\le 2$ y $0 \\le y \\le 3$."
+    ],
+    "solucion": "### Aplicación del Teorema de Green\nIdentificamos las funciones $P(x,y) = xy^2$ y $Q(x,y) = x^3 + y$.\nCalculamos las derivadas parciales necesarias:\n$\\frac{\\partial Q}{\\partial x} = 3x^2$\n$\\frac{\\partial P}{\\partial y} = 2xy$\n\nSegún el Teorema de Green:\n$$ \\oint_C P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dA = \\iint_D (3x^2 - 2xy) dA $$\n\n### Límites de Integración\nLa región $D$ es el rectángulo $[0,2] \\times [0,3]$.\nPor tanto, la integral doble se plantea como:\n$$ \\int_0^2 \\int_0^3 (3x^2 - 2xy) \\, dy \\, dx $$\n\n### Resolución\nIntegramos primero respecto a $y$:\n$$ \\int_0^3 (3x^2 - 2xy) \\, dy = \\left[ 3x^2y - xy^2 \\right]_0^3 = 9x^2 - 9x $$\nAhora integramos respecto a $x$:\n$$ \\int_0^2 (9x^2 - 9x) \\, dx = \\left[ 3x^3 - \\frac{9x^2}{2} \\right]_0^2 = 3(8) - \\frac{9(4)}{2} = 24 - 18 = 6 $$\nEl valor de la integral es 6.",
+    "criterios_correccion": [
+      {
+        "descripcion": "Identifica correctamente las componentes P y Q y sus respectivas derivadas parciales.",
+        "puntaje": 5
+      },
+      {
+        "descripcion": "Plantea correctamente el integrando de la integral doble usando la fórmula del Teorema de Green.",
+        "puntaje": 5
+      },
+      {
+        "descripcion": "Establece correctamente los límites de integración del rectángulo D.",
+        "puntaje": 4
+      },
+      {
+        "descripcion": "Resuelve correctamente las integrales dobles paso a paso llegando al resultado 6.",
+        "puntaje": 6
+      }
+    ],
+    "errores_frecuentes": [
+      "Invertir el orden de la resta en el Teorema de Green $\\frac{\\partial P}{\\partial y} - \\frac{\\partial Q}{\\partial x}$.",
+      "Intentar resolver el problema calculando las cuatro integrales de línea de los bordes del rectángulo (es válido, pero ignora la instrucción de usar el teorema).",
+      "Cometer errores básicos de integración polinómica o evaluación en los límites."
+    ]
+  },
+  {
+    "id": "p1-a-i-derivadas-parciales",
+    "puntaje": 5,
+    "dificultad": "Media",
+    "temas": [
+      "Derivadas parciales",
+      "funciones definidas por partes"
+    ],
+    "contexto": "Respecto de la función\n$$\nf(x,y)=\n\\begin{cases}\n\\displaystyle \\frac{x^2y}{x^2+y^2}, & (x,y)\\neq(0,0)\\\\[0.2cm]\n0, & (x,y)=(0,0)\n\\end{cases}\n$$",
+    "pistas": [
+      "Para $(x,y)\\neq(0,0)$ utilice la regla del cociente. En el origen debe emplear directamente la definición de derivada parcial."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Calcula correctamente $\\frac{\\partial f}{\\partial x}$ para $(x,y)\\neq(0,0)$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula correctamente $\\frac{\\partial f}{\\partial y}$ para $(x,y)\\neq(0,0)$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Usa la definición para calcular $\\frac{\\partial f}{\\partial x}(0,0)$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Usa la definición para calcular $\\frac{\\partial f}{\\partial y}(0,0)$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Presenta ambas derivadas parciales mediante expresiones definidas por partes",
+        "puntaje": 1
+      }
+    ],
+    "errores_frecuentes": [
+      "Sustituir $(0,0)$ en las fórmulas obtenidas mediante la regla del cociente, aunque esas fórmulas solo son válidas fuera del origen.",
+      "Concluir que una derivada parcial no existe solo porque la fórmula del cociente produce una indeterminación en el origen."
+    ],
+    "numeracion_personalizada": "1. a) i)",
+    "solucion": "Para $(x,y)\\neq(0,0)$, aplicando la regla del cociente,\n$$\n\\frac{\\partial f}{\\partial x}(x,y)\n=\\frac{2xy(x^2+y^2)-2x(x^2y)}{(x^2+y^2)^2}\n=\\frac{2xy^3}{(x^2+y^2)^2}\n$$\ny\n$$\n\\frac{\\partial f}{\\partial y}(x,y)\n=\\frac{x^2(x^2+y^2)-2y(x^2y)}{(x^2+y^2)^2}\n=\\frac{x^2(x^2-y^2)}{(x^2+y^2)^2}\n$$<br><br>En el origen, por definición,\n$$\n\\frac{\\partial f}{\\partial x}(0,0)\n=\\lim_{h\\to0}\\frac{f(h,0)-f(0,0)}{h}\n=\\lim_{h\\to0}\\frac{0}{h}=0\n$$\ny\n$$\n\\frac{\\partial f}{\\partial y}(0,0)\n=\\lim_{h\\to0}\\frac{f(0,h)-f(0,0)}{h}\n=\\lim_{h\\to0}\\frac{0}{h}=0\n$$\nPor lo tanto,\n$$\n\\frac{\\partial f}{\\partial x}(x,y)=\n\\begin{cases}\n\\displaystyle\\frac{2xy^3}{(x^2+y^2)^2},&(x,y)\\neq(0,0)\\\\[0.2cm]\n0,&(x,y)=(0,0)\n\\end{cases}\n$$\ny\n$$\n\\frac{\\partial f}{\\partial y}(x,y)=\n\\begin{cases}\n\\displaystyle\\frac{x^2(x^2-y^2)}{(x^2+y^2)^2},&(x,y)\\neq(0,0)\\\\[0.2cm]\n0,&(x,y)=(0,0)\n\\end{cases}\n$$",
+    "enunciado": "Calcule, si existen, $\\displaystyle \\frac{\\partial f}{\\partial x}(x,y)$ y $\\displaystyle \\frac{\\partial f}{\\partial y}(x,y)$ para $(x,y)\\in\\mathbb R^2$."
+  },
+  {
+    "id": "p1-a-ii-diferenciabilidad",
+    "puntaje": 5,
+    "dificultad": "Media",
+    "temas": [
+      "Diferenciabilidad",
+      "aproximación lineal",
+      "límites en varias variables"
+    ],
+    "contexto": "Respecto de la función\n$$\nf(x,y)=\n\\begin{cases}\n\\displaystyle \\frac{x^2y}{x^2+y^2}, & (x,y)\\neq(0,0)\\\\[0.2cm]\n0, & (x,y)=(0,0)\n\\end{cases}\n$$",
+    "pistas": [
+      "Como las derivadas parciales en el origen son nulas, si $f$ fuera diferenciable en $(0,0)$ su aplicación lineal candidata sería la aplicación nula.",
+      "Examine el cociente de diferenciabilidad a lo largo de la recta $y=x$."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Identifica correctamente que la aplicación lineal candidata es la aplicación nula",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Plantea el cociente que caracteriza la diferenciabilidad en el origen",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Escoge una trayectoria adecuada, por ejemplo $y=x$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula correctamente el cociente sobre la trayectoria elegida",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Concluye justificadamente que $f$ no es diferenciable en el origen",
+        "puntaje": 1
+      }
+    ],
+    "errores_frecuentes": [
+      "Afirmar que la existencia de las derivadas parciales en el origen implica diferenciabilidad.",
+      "Estudiar únicamente la continuidad de $f$; la continuidad es necesaria, pero no basta para demostrar diferenciabilidad."
+    ],
+    "numeracion_personalizada": "1. a) ii)",
+    "solucion": "De la pregunta anterior,\n$$\n\\frac{\\partial f}{\\partial x}(0,0)=0,\n\\qquad\n\\frac{\\partial f}{\\partial y}(0,0)=0\n$$\nPor lo tanto, si $f$ fuera diferenciable en $(0,0)$, debería cumplirse\n$$\n\\lim_{(x,y)\\to(0,0)}\n\\frac{f(x,y)-f(0,0)-0x-0y}{\\sqrt{x^2+y^2}}=0\n$$\nEs decir,\n$$\n\\lim_{(x,y)\\to(0,0)}\n\\frac{f(x,y)}{\\sqrt{x^2+y^2}}=0\n$$\nSin embargo, tomando la trayectoria $y=x$, con $x\\neq0$,\n$$\nf(x,x)=\\frac{x^3}{2x^2}=\\frac{x}{2}\n$$\ny entonces\n$$\n\\frac{f(x,x)}{\\sqrt{x^2+x^2}}\n=\\frac{x/2}{\\sqrt{2}\\,|x|}\n=\\frac{1}{2\\sqrt{2}}\\frac{x}{|x|}\n$$\nEste cociente vale $\\frac{1}{2\\sqrt{2}}$ cuando $x>0$ y $-\\frac{1}{2\\sqrt{2}}$ cuando $x<0$, por lo que no tiende a cero.<br><br>En consecuencia, $f$ no es diferenciable en $(0,0)$.",
+    "enunciado": "Decida si $f$ es diferenciable en el origen."
+  },
+  {
+    "id": "p1-b-identidad-derivadas",
+    "puntaje": 10,
+    "dificultad": "Media",
+    "temas": [
+      "Derivadas parciales de segundo orden",
+      "regla de la cadena"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Introduzca la variable auxiliar $s=x+y$ y calcule cuidadosamente las derivadas de primer y segundo orden.",
+      "También puede reconocer el operador $(\\partial_x-\\partial_y)^2$."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Introduce correctamente $s=x+y$ o aplica de manera equivalente la regla de la cadena",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula correctamente $h_x$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula correctamente $h_y$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula correctamente $h_{xx}$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Calcula correctamente $h_{yx}$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Calcula correctamente $h_{yy}$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Sustituye, simplifica y obtiene la identidad igual a cero",
+        "puntaje": 1
+      }
+    ],
+    "errores_frecuentes": [
+      "Olvidar que al derivar $f(x+y)$ o $g(x+y)$ aparece la derivada de la función compuesta.",
+      "Confundir $h_{yx}$ con la derivación de $h_y$ respecto de $y$ en lugar de respecto de $x$."
+    ],
+    "numeracion_personalizada": "1. b)",
+    "solucion": "Sea $s=x+y$. Entonces\n$$\nh(x,y)=xf(s)+yg(s)\n$$\nCalculamos primero\n$$\nh_x=f(s)+xf'(s)+yg'(s)\n$$\ny\n$$\nh_y=xf'(s)+g(s)+yg'(s)\n$$\nLuego,\n$$\nh_{xx}=2f'(s)+xf''(s)+yg''(s)\n$$\n$$\nh_{yx}=f'(s)+xf''(s)+g'(s)+yg''(s)\n$$\ny\n$$\nh_{yy}=xf''(s)+2g'(s)+yg''(s)\n$$\nPor consiguiente,\n\\begin{align*}\nh_{xx}-2h_{yx}+h_{yy}\n&=2f'(s)+xf''(s)+yg''(s)\\\\\n&\\quad-2\\bigl(f'(s)+xf''(s)+g'(s)+yg''(s)\\bigr)\\\\\n&\\quad+xf''(s)+2g'(s)+yg''(s)\\\\\n&=0\n\\end{align*}\ncomo se quería demostrar.",
+    "enunciado": "Suponga que $f,g:\\mathbb R\\to\\mathbb R$ son funciones dos veces diferenciables. Defina $h:\\mathbb R^2\\to\\mathbb R$ mediante\n$$\nh(x,y)=xf(x+y)+yg(x+y)\n$$\nMuestre que\n$$\n\\frac{\\partial^2h}{\\partial x^2}\n-2\\frac{\\partial^2h}{\\partial y\\partial x}\n+\\frac{\\partial^2h}{\\partial y^2}=0\n$$"
+  },
+  {
+    "id": "p2-a-cambio-orden",
+    "puntaje": 10,
+    "dificultad": "Alta",
+    "temas": [
+      "Integrales triples",
+      "cambio del orden de integración",
+      "descripción de regiones"
+    ],
+    "contexto": null,
+    "pistas": [
+      "La región está determinada por $-1\\leq x\\leq1$, $-x^3\\leq y\\leq1$ y $0\\leq z\\leq x^3+y$.",
+      "Despeje $x$ desde la desigualdad $z\\leq x^3+y$, usando la raíz cúbica real."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Describe correctamente la región a partir de los límites originales",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Despeja correctamente $x\\geq\\sqrt[3]{z-y}$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Determina el intervalo global $-1\\leq y\\leq1$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Determina correctamente $0\\leq z\\leq y+1$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Escribe la integral completa en el orden $dx\\,dz\\,dy$",
+        "puntaje": 2
+      }
+    ],
+    "errores_frecuentes": [
+      "Usar una raíz cúbica con signo $\\pm$; la función $x\\mapsto x^3$ es biyectiva en $\\mathbb R$.",
+      "Mantener límites que dependan de una variable que se integra antes."
+    ],
+    "numeracion_personalizada": "2. a)",
+    "solucion": "La región de integración es\n$$\nD=\\left\\{(x,y,z):-1\\leq x\\leq1,\\ -x^3\\leq y\\leq1,\\ 0\\leq z\\leq x^3+y\\right\\}\n$$\nLa desigualdad\n$$\nz\\leq x^3+y\n$$\nequivale a\n$$\nx^3\\geq z-y\n$$\ny, como la función cúbica es creciente,\n$$\nx\\geq\\sqrt[3]{z-y}\n$$\nAdemás, $x\\leq1$. Para que exista un valor de $x$ en ese intervalo se requiere\n$$\n\\sqrt[3]{z-y}\\leq1\n$$\nlo que equivale a\n$$\nz\\leq y+1\n$$\nComo $z\\geq0$, necesariamente $y\\geq-1$. Por otra parte, del enunciado original se tiene $y\\leq1$. Así,\n$$\n-1\\leq y\\leq1,\n\\qquad\n0\\leq z\\leq y+1,\n\\qquad\n\\sqrt[3]{z-y}\\leq x\\leq1\n$$\nPor lo tanto, la integral en el orden solicitado es\n$$\n\\boxed{\n\\int_{-1}^{1}\\int_{0}^{y+1}\\int_{\\sqrt[3]{z-y}}^{1}\ne^{z^2}\\,dx\\,dz\\,dy\n}\n$$",
+    "enunciado": "Considere la integral triple\n$$\n\\int_{-1}^{1}\\int_{-x^3}^{1}\\int_{0}^{x^3+y}e^{z^2}\\,dz\\,dy\\,dx\n$$\nReescriba la integral en el orden de integración $dx\\,dz\\,dy$. No es necesario calcular su valor.<br><br><br><br><div style=\"text-align:center;\"><img src=\"Examenfig1.jpg\" alt=\"Imagen\" style=\"max-width: 50%;\"></div><br><br>"
+  },
+  {
+    "id": "p2-b-polares",
+    "puntaje": 10,
+    "dificultad": "Alta",
+    "temas": [
+      "Cambio a coordenadas polares",
+      "integrales dobles"
+    ],
+    "contexto": null,
+    "pistas": [
+      "En coordenadas polares, $x=r\\cos\\theta$, $y=r\\sin\\theta$ y $dA=r\\,dr\\,d\\theta$.",
+      "Después de pasar a polares, utilice el cambio $u=r\\sec\\theta$."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Transforma correctamente la región y obtiene $-\\pi/4\\leq\\theta\\leq\\pi/4$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Obtiene los límites radiales $\\pi\\cos\\theta\\leq r\\leq2\\pi\\cos\\theta$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Transforma correctamente el integrando y el elemento de área",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Realiza correctamente el cambio $u=r\\sec\\theta$ y separa las integrales",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Calcula ambas integrales y obtiene $\\frac{3\\pi}{4}(2-\\pi)$",
+        "puntaje": 2
+      }
+    ],
+    "errores_frecuentes": [
+      "Olvidar el factor jacobiano $r$ de las coordenadas polares.",
+      "Usar $0\\leq\\theta\\leq2\\pi$ sin imponer las restricciones angulares determinadas por $-x\\leq y\\leq x$."
+    ],
+    "numeracion_personalizada": "2. b)",
+    "solucion": "En coordenadas polares,\n$$\nx=r\\cos\\theta,\n\\qquad\ny=r\\sin\\theta\n$$\nLas desigualdades radiales quedan\n$$\n\\pi r\\cos\\theta\\leq r^2\\leq2\\pi r\\cos\\theta\n$$\ny, para $r>0$,\n$$\n\\pi\\cos\\theta\\leq r\\leq2\\pi\\cos\\theta\n$$\nLas desigualdades $-x\\leq y\\leq x$ determinan\n$$\n-\\frac{\\pi}{4}\\leq\\theta\\leq\\frac{\\pi}{4}\n$$\nPor otra parte,\n$$\n\\frac{y^2}{x^2}=\\tan^2\\theta,\n\\qquad\n\\frac{x^2+y^2}{x}=\\frac{r}{\\cos\\theta}=r\\sec\\theta\n$$\nAsí,\n$$\nI=\\int_{-\\pi/4}^{\\pi/4}\\int_{\\pi\\cos\\theta}^{2\\pi\\cos\\theta}\n\\tan^2\\theta\\,\\sin(r\\sec\\theta)\\,r\\,dr\\,d\\theta\n$$\nHacemos el cambio\n$$\nu=r\\sec\\theta\n$$\nEntonces\n$$\nr=u\\cos\\theta,\n\\qquad\ndr=\\cos\\theta\\,du\n$$\ny los nuevos límites son $\\pi\\leq u\\leq2\\pi$. Además,\n$$\n\\tan^2\\theta\\,r\\,dr\n=\\tan^2\\theta\\,u\\cos^2\\theta\\,du\n=u\\sin^2\\theta\\,du\n$$\nPor tanto,\n$$\nI=\n\\left(\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta\\right)\n\\left(\\int_{\\pi}^{2\\pi}u\\sin u\\,du\\right)\n$$\nCalculamos\n$$\n\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta\n=\\frac{\\pi}{4}-\\frac12\n$$\ny, por integración por partes,\n$$\n\\int_{\\pi}^{2\\pi}u\\sin u\\,du\n=\\left[-u\\cos u+\\sin u\\right]_{\\pi}^{2\\pi}\n=-3\\pi\n$$\nEn consecuencia,\n$$\n\\boxed{\nI=-3\\pi\\left(\\frac{\\pi}{4}-\\frac12\\right)\n=\\frac{3\\pi}{4}(2-\\pi)\n}\n$$",
+    "enunciado": "Calcule\n$$\n\\int_R \\frac{y^2}{x^2}\\sin\\left(\\frac{x^2+y^2}{x}\\right)\\,dA\n$$\ndonde\n$$\nR=\\left\\{(x,y)\\in\\mathbb R^2:\\pi x\\leq x^2+y^2\\leq2\\pi x,\\ -x\\leq y\\leq x\\right\\}\n$$<br><br><br><br><div style=\"text-align:center;\"><img src=\"Examenfig3.jpg\" alt=\"Imagen\" style=\"max-width: 50%;\"></div><br><br>"
+  },
+  {
+    "id": "p3-a-empuje-esfera",
+    "puntaje": 7,
+    "dificultad": "Alta",
+    "temas": [
+      "Integral de superficie de flujo",
+      "parametrización de la esfera"
+    ],
+    "contexto": "El empuje total que ejerce un fluido de densidad $\\rho$ sobre una superficie cerrada $S$, con normal apuntando al exterior, está dado por\n$$\nE=-\\int_S\\vec F\\cdot\\overrightarrow{dA}\n$$\ndonde\n$$\n\\vec F(x,y,z)=\\bigl(0,0,\\rho g(H-z)\\bigr)\n$$\nAquí $g$ es la constante de gravedad y $H$ es la altura del nivel del fluido. Se sumergen completamente una esfera de radio $R$ y un cilindro tapado de radio $R$ y altura $2R$.<br><br><br><br><div style=\"text-align:center;\"><img src=\"Examenfig2.jpg\" alt=\"Imagen\" style=\"max-width: 50%;\"></div><br><br><br><br>Se recuerda que\n$$\nV_{\\mathrm{esfera}}=\\frac43\\pi R^3,\n\\qquad\nA_{\\mathrm{esfera}}=4\\pi R^2\n$$\ny, para un cilindro tapado de radio $R$ y altura $h$,\n$$\nV_{\\mathrm{cilindro}}=\\pi R^2h,\n\\qquad\nA_{\\mathrm{cilindro}}=2\\pi R^2+2\\pi Rh\n$$\nLa esfera de radio $R$ centrada en $(0,0,h)$ puede parametrizarse mediante\n$$\n\\vec r(\\phi,\\theta)=\n\\bigl(R\\sin\\phi\\cos\\theta,\\,R\\sin\\phi\\sin\\theta,\\,h+R\\cos\\phi\\bigr)\n$$\ncon $0\\leq\\phi\\leq\\pi$ y $0\\leq\\theta\\leq2\\pi$.",
+    "pistas": [
+      "Use la parametrización esférica dada y una normal exterior.",
+      "La componente vertical del vector área orientado es $R^2\\sin\\phi\\cos\\phi\\,d\\phi\\,d\\theta$."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Obtiene correctamente el vector área orientado hacia el exterior",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Evalúa correctamente el campo sobre la parametrización de la esfera",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Plantea la integral de flujo con los límites adecuados",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Calcula el flujo y obtiene $-\\frac43\\pi\\rho gR^3$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Aplica el signo de la definición y obtiene $E=\\frac43\\pi\\rho gR^3$",
+        "puntaje": 1
+      }
+    ],
+    "errores_frecuentes": [
+      "Usar la normal interior o perder el signo negativo presente en la definición de $E$.",
+      "Suponer que la profundidad del centro cambia el empuje final; el término dependiente de $h$ se anula al integrar sobre la superficie cerrada."
+    ],
+    "numeracion_personalizada": "3. a)",
+    "solucion": "Para la parametrización dada, el vector área orientado hacia el exterior es\n$$\n\\overrightarrow{dA}\n=R^2\\sin\\phi\n\\bigl(\\sin\\phi\\cos\\theta,\\sin\\phi\\sin\\theta,\\cos\\phi\\bigr)\n\\,d\\phi\\,d\\theta\n$$\nSobre la esfera,\n$$\nz=h+R\\cos\\phi\n$$\ny, por tanto,\n$$\n\\vec F\\bigl(\\vec r(\\phi,\\theta)\\bigr)\n=\\bigl(0,0,\\rho g(H-h-R\\cos\\phi)\\bigr)\n$$\nEntonces\n\\begin{align*}\n\\int_S\\vec F\\cdot\\overrightarrow{dA}\n&=\\rho gR^2\n\\int_0^{2\\pi}\\int_0^\\pi\n(H-h-R\\cos\\phi)\\sin\\phi\\cos\\phi\n\\,d\\phi\\,d\\theta\n\\end{align*}\nEl término que contiene $H-h$ se anula porque\n$$\n\\int_0^\\pi\\sin\\phi\\cos\\phi\\,d\\phi=0\n$$\nAdemás,\n$$\n\\int_0^\\pi\\sin\\phi\\cos^2\\phi\\,d\\phi=\\frac23\n$$\nAsí,\n$$\n\\int_S\\vec F\\cdot\\overrightarrow{dA}\n=-\\rho gR^3(2\\pi)\\frac23\n=-\\frac43\\pi\\rho gR^3\n$$\nFinalmente,\n$$\n\\boxed{E=-\\int_S\\vec F\\cdot\\overrightarrow{dA}\n=\\frac43\\pi\\rho gR^3}\n$$",
+    "enunciado": "Encuentre el valor del empuje $E$ sobre la esfera usando directamente la definición\n$$\nE=-\\int_S\\vec F\\cdot\\overrightarrow{dA}\n$$"
+  },
+  {
+    "id": "p3-b-empuje-cilindro",
+    "puntaje": 7,
+    "dificultad": "Media",
+    "temas": [
+      "Teorema de Gauss",
+      "divergencia",
+      "superficies cerradas"
+    ],
+    "contexto": "El empuje total que ejerce un fluido de densidad $\\rho$ sobre una superficie cerrada $S$, con normal apuntando al exterior, está dado por\n$$\nE=-\\int_S\\vec F\\cdot\\overrightarrow{dA}\n$$\ndonde\n$$\n\\vec F(x,y,z)=\\bigl(0,0,\\rho g(H-z)\\bigr)\n$$\nAquí $g$ es la constante de gravedad y $H$ es la altura del nivel del fluido. Se sumergen completamente una esfera de radio $R$ y un cilindro tapado de radio $R$ y altura $2R$.<br><br><br><br><div style=\"text-align:center;\"><img src=\"Examenfig2.jpg\" alt=\"Imagen\" style=\"max-width: 50%;\"></div><br><br><br><br>Se recuerda que\n$$\nV_{\\mathrm{esfera}}=\\frac43\\pi R^3,\n\\qquad\nA_{\\mathrm{esfera}}=4\\pi R^2\n$$\ny, para un cilindro tapado de radio $R$ y altura $h$,\n$$\nV_{\\mathrm{cilindro}}=\\pi R^2h,\n\\qquad\nA_{\\mathrm{cilindro}}=2\\pi R^2+2\\pi Rh\n$$\nLa esfera de radio $R$ centrada en $(0,0,h)$ puede parametrizarse mediante\n$$\n\\vec r(\\phi,\\theta)=\n\\bigl(R\\sin\\phi\\cos\\theta,\\,R\\sin\\phi\\sin\\theta,\\,h+R\\cos\\phi\\bigr)\n$$\ncon $0\\leq\\phi\\leq\\pi$ y $0\\leq\\theta\\leq2\\pi$.",
+    "pistas": [
+      "El Teorema de Gauss es el adecuado porque se integra el flujo de un campo a través de una superficie cerrada."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Selecciona y enuncia el uso del Teorema de Gauss",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula correctamente $\\operatorname{div}\\vec F=-\\rho g$",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Aplica correctamente el Teorema de Gauss a la superficie cerrada",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Calcula el volumen del cilindro como $2\\pi R^3$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Obtiene el flujo $-2\\pi\\rho gR^3$",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Aplica el signo de la definición y obtiene $E=2\\pi\\rho gR^3$",
+        "puntaje": 1
+      }
+    ],
+    "errores_frecuentes": [
+      "Aplicar el Teorema de Stokes directamente a una superficie cerrada sin identificar una curva borde.",
+      "Usar únicamente el área del cilindro en vez de su volumen al aplicar el Teorema de Gauss."
+    ],
+    "numeracion_personalizada": "3. b)",
+    "solucion": "Utilizamos el Teorema de Gauss. La divergencia del campo es\n$$\n\\operatorname{div}\\vec F\n=\\frac{\\partial}{\\partial z}\\bigl(\\rho g(H-z)\\bigr)\n=-\\rho g\n$$\nSi $V$ es el sólido encerrado por el cilindro, entonces\n$$\n\\int_S\\vec F\\cdot\\overrightarrow{dA}\n=\\iiint_V\\operatorname{div}\\vec F\\,dV\n=-\\rho g\\iiint_VdV\n=-\\rho g\\,\\operatorname{Vol}(V)\n$$\nComo el cilindro tiene radio $R$ y altura $2R$,\n$$\n\\operatorname{Vol}(V)=\\pi R^2(2R)=2\\pi R^3\n$$\nLuego,\n$$\n\\int_S\\vec F\\cdot\\overrightarrow{dA}\n=-2\\pi\\rho gR^3\n$$\ny, por la definición del empuje,\n$$\n\\boxed{E=-\\int_S\\vec F\\cdot\\overrightarrow{dA}\n=2\\pi\\rho gR^3}\n$$\nEl Teorema de Stokes no es el instrumento natural en este caso, pues relaciona la circulación sobre una curva cerrada con el flujo del rotor a través de una superficie cuyo borde es esa curva.",
+    "enunciado": "Encuentre el valor del empuje $E$ sobre el cilindro tapado, de radio $R$ y altura $2R$, utilizando el Teorema de Gauss o el Teorema de Stokes. Indique cuál de los dos teoremas utiliza."
+  },
+  {
+    "id": "p3-c-comparacion-arquimedes",
+    "puntaje": 6,
+    "dificultad": "Baja",
+    "temas": [
+      "Comparación de volúmenes",
+      "Principio de Arquímedes"
+    ],
+    "contexto": "El empuje total que ejerce un fluido de densidad $\\rho$ sobre una superficie cerrada $S$, con normal apuntando al exterior, está dado por\n$$\nE=-\\int_S\\vec F\\cdot\\overrightarrow{dA}\n$$\ndonde\n$$\n\\vec F(x,y,z)=\\bigl(0,0,\\rho g(H-z)\\bigr)\n$$\nAquí $g$ es la constante de gravedad y $H$ es la altura del nivel del fluido. Se sumergen completamente una esfera de radio $R$ y un cilindro tapado de radio $R$ y altura $2R$.<br><br><br><br><div style=\"text-align:center;\"><img src=\"Examenfig2.jpg\" alt=\"Imagen\" style=\"max-width: 50%;\"></div><br><br><br><br>Se recuerda que\n$$\nV_{\\mathrm{esfera}}=\\frac43\\pi R^3,\n\\qquad\nA_{\\mathrm{esfera}}=4\\pi R^2\n$$\ny, para un cilindro tapado de radio $R$ y altura $h$,\n$$\nV_{\\mathrm{cilindro}}=\\pi R^2h,\n\\qquad\nA_{\\mathrm{cilindro}}=2\\pi R^2+2\\pi Rh\n$$\nLa esfera de radio $R$ centrada en $(0,0,h)$ puede parametrizarse mediante\n$$\n\\vec r(\\phi,\\theta)=\n\\bigl(R\\sin\\phi\\cos\\theta,\\,R\\sin\\phi\\sin\\theta,\\,h+R\\cos\\phi\\bigr)\n$$\ncon $0\\leq\\phi\\leq\\pi$ y $0\\leq\\theta\\leq2\\pi$.",
+    "pistas": [
+      "Compare los valores obtenidos en las dos preguntas anteriores y relaciónelos con los respectivos volúmenes."
+    ],
+    "criterios_correccion": [
+      {
+        "descripcion": "Compara correctamente los dos valores de empuje",
+        "puntaje": 2
+      },
+      {
+        "descripcion": "Concluye que el cilindro experimenta un mayor empuje",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Verifica $E=\\rho gV$ para la esfera",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Verifica $E=\\rho gV$ para el cilindro",
+        "puntaje": 1
+      },
+      {
+        "descripcion": "Formula correctamente la conclusión asociada al Principio de Arquímedes",
+        "puntaje": 1
+      }
+    ],
+    "errores_frecuentes": [
+      "Comparar las áreas superficiales de los objetos en lugar de sus volúmenes desplazados.",
+      "Concluir que el objeto situado a mayor profundidad experimenta necesariamente mayor empuje cuando el fluido tiene densidad constante y el objeto está completamente sumergido."
+    ],
+    "numeracion_personalizada": "3. c)",
+    "solucion": "Para la esfera se obtuvo\n$$\nE_{\\mathrm{esfera}}=\\frac43\\pi\\rho gR^3\n$$\ny para el cilindro\n$$\nE_{\\mathrm{cilindro}}=2\\pi\\rho gR^3\n$$\nComo\n$$\n2>\\frac43\n$$\nse concluye que\n$$\n\\boxed{E_{\\mathrm{cilindro}}>E_{\\mathrm{esfera}}}\n$$<br><br>Además,\n$$\n\\rho gV_{\\mathrm{esfera}}\n=\\rho g\\left(\\frac43\\pi R^3\\right)\n=\\frac43\\pi\\rho gR^3\n=E_{\\mathrm{esfera}}\n$$\ny\n$$\n\\rho gV_{\\mathrm{cilindro}}\n=\\rho g(\\pi R^2\\cdot2R)\n=2\\pi\\rho gR^3\n=E_{\\mathrm{cilindro}}\n$$\nPor lo tanto, en ambos casos el empuje coincide con el peso $\\rho gV$ del volumen del fluido desplazado, verificándose el Principio de Arquímedes.",
+    "enunciado": "Determine sobre cuál objeto se produce un mayor empuje. Muestre además que se verifica el Principio de Arquímedes: el empuje corresponde al peso del volumen del fluido desplazado."
+  },
+  {
+    "id": "ejercicio-1",
+    "puntaje": 20,
+    "dificultad": "Baja",
+    "temas": [
+      "Coordenadas esféricas",
+      "Integral triple",
+      "Volumen"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Describe la región mediante desigualdades en coordenadas esféricas antes de escribir la integral."
+    ],
+    "errores_frecuentes": [
+      "Confundir el ángulo polar con el ángulo azimutal.",
+      "Olvidar que el jacobiano en coordenadas esféricas es $\\rho^2\\sin\\varphi$.",
+      "Elegir incorrectamente los límites de integración para alguno de los ángulos."
+    ],
+    "numeracion_personalizada": "1.",
+    "solucion": "En coordenadas esféricas, la región queda descrita por<br><br>$$\n0\\le \\rho \\le R,\\qquad\n0\\le \\theta \\le 2\\pi,\\qquad\n0\\le \\varphi \\le \\varphi_0.\n$$<br><br>Por lo tanto,<br><br>$$\nV=\n\\int_{0}^{2\\pi}\n\\int_{0}^{\\varphi_0}\n\\int_{0}^{R}\n\\rho^{2}\\sin\\varphi\\,\nd\\rho\\,d\\varphi\\,d\\theta.\n$$<br><br>Calculando,<br><br>$$\n\\begin{aligned}\nV\n&=\n\\left(\n\\int_{0}^{2\\pi}d\\theta\n\\right)\n\\left(\n\\int_{0}^{\\varphi_0}\\sin\\varphi\\,d\\varphi\n\\right)\n\\left(\n\\int_{0}^{R}\\rho^{2}\\,d\\rho\n\\right)\\\\[2mm]\n&=\n2\\pi\n(1-\\cos\\varphi_0)\n\\frac{R^{3}}{3}.\n\\end{aligned}\n$$<br><br>Por lo tanto,<br><br>$$\n\\boxed{\nV=\n\\frac{2\\pi R^{3}}{3}\n(1-\\cos\\varphi_0)\n}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Determina correctamente los límites de integración en coordenadas esféricas.",
+            "puntaje": 8
+          },
+          {
+            "descripcion": "Utiliza correctamente el jacobiano $\\rho^{2}\\sin\\varphi$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Calcula correctamente la integral triple.",
+            "puntaje": 6
+          },
+          {
+            "descripcion": "Obtiene el resultado final simplificado.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Calcule el volumen de la región sólida ubicada bajo la esfera de radio $R$ y sobre el cono de eje $z$ que forma un ángulo $\\varphi_0$ con el eje positivo $z$. Use coordenadas esféricas."
+  },
+  {
+    "id": "ejercicio-2",
+    "puntaje": 20,
+    "dificultad": "Baja",
+    "temas": [
+      "Teorema de Green",
+      "Integral doble",
+      "Integral de línea"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Antes de parametrizar la curva, verifica si el Teorema de Green es aplicable."
+    ],
+    "errores_frecuentes": [
+      "Aplicar el Teorema de Green con orientación horaria sin cambiar el signo.",
+      "Calcular incorrectamente $\\dfrac{\\partial Q}{\\partial x}-\\dfrac{\\partial P}{\\partial y}$.",
+      "Describir incorrectamente la región encerrada por la curva."
+    ],
+    "numeracion_personalizada": "2.",
+    "solucion": "Elegimos<br><br>$$\nP(x,y)=0,\n\\qquad\nQ(x,y)=x^3+2xy.\n$$<br><br>Entonces,<br><br>$$\n\\frac{\\partial Q}{\\partial x}\n-\n\\frac{\\partial P}{\\partial y}\n=\n3x^2+2y.\n$$<br><br>Por el Teorema de Green,<br><br>$$\n\\int\\!\\!\\int_D \\left(3x^2+2y\\right)\\,dA\n=\n\\int_{\\partial D}P\\,dx+Q\\,dy\n=\n\\int_{\\partial D}\\left(x^3+2xy\\right)\\,dy.\n$$<br><br>La frontera positiva de $D$ se divide en las curvas<br><br>$$\nC_1:\\quad y=0,\n\\qquad\n0\\leq x\\leq 2,\n$$<br><br>$$\nC_2:\\quad\nx=2\\cos t,\n\\qquad\ny=2\\sin t,\n\\qquad\n0\\leq t\\leq \\frac{\\pi}{2},\n$$<br><br>y<br><br>$$\nC_3:\\quad x=0,\n\\qquad\n2\\geq y\\geq 0.\n$$<br><br>En $C_1$ se tiene $dy=0$, mientras que en $C_3$ se tiene $x=0$. Por lo tanto, ambas contribuciones son nulas.<br><br>En $C_2$,<br><br>$$\nx=2\\cos t,\n\\qquad\ny=2\\sin t,\n\\qquad\ndy=2\\cos t\\,dt.\n$$<br><br>Así,<br><br>$$\n\\begin{aligned}\n\\int_{C_2}\\left(x^3+2xy\\right)\\,dy\n&=\n\\int_0^{\\pi/2}\n\\left(8\\cos^3 t+8\\sin t\\cos t\\right)\n2\\cos t\\,dt\\\\\n&=\n16\\int_0^{\\pi/2}\\cos^4 t\\,dt\n+\n16\\int_0^{\\pi/2}\\sin t\\cos^2 t\\,dt.\n\\end{aligned}\n$$<br><br>Usando<br><br>$$\n\\int_0^{\\pi/2}\\cos^4 t\\,dt\n=\n\\frac{3\\pi}{16}\n$$<br><br>y<br><br>$$\n\\int_0^{\\pi/2}\\sin t\\cos^2 t\\,dt\n=\n\\frac{1}{3},\n$$<br><br>se obtiene<br><br>$$\n\\int_{C_2}\\left(x^3+2xy\\right)\\,dy\n=\n16\\cdot\\frac{3\\pi}{16}\n+\n16\\cdot\\frac{1}{3}.\n$$<br><br>Por lo tanto,<br><br>$$\n\\boxed{\n\\int\\!\\!\\int_D \\left(3x^2+2y\\right)\\,dA\n=\n3\\pi+\\frac{16}{3}\n}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Elige correctamente las funciones $P$ y $Q$.",
+            "puntaje": 5
+          },
+          {
+            "descripcion": "Verifica correctamente que $\\displaystyle \\frac{\\partial Q}{\\partial x}-\\frac{\\partial P}{\\partial y}=3x^2+2y$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Parametriza la frontera con orientación positiva.",
+            "puntaje": 5
+          },
+          {
+            "descripcion": "Calcula correctamente la integral de línea.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Obtiene el resultado final correcto.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Use el Teorema de Green para calcular<br><br>$$\n\\int\\!\\!\\int_D \\left(3x^2+2y\\right)\\,dA,\n$$<br><br>donde $D$ es el cuarto de disco de radio $2$ ubicado en el primer cuadrante."
+  },
+  {
+    "id": "ejercicio-3",
+    "puntaje": 20,
+    "dificultad": "Media",
+    "temas": [
+      "Coordenadas polares",
+      "Cambio de variable",
+      "Integral doble"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Determina primero la transformación y luego calcula cuidadosamente el jacobiano."
+    ],
+    "errores_frecuentes": [
+      "Invertir la transformación sin expresar correctamente las variables originales.",
+      "Olvidar el valor absoluto del determinante jacobiano.",
+      "Transformar solo el integrando y no la región de integración."
+    ],
+    "numeracion_personalizada": "3.",
+    "solucion": "Con el cambio a coordenadas polares<br><br>$$\nx=r\\cos\\theta,\n\\qquad\ny=r\\sin\\theta,\n\\qquad\ndx\\,dy=r\\,dr\\,d\\theta,\n$$<br><br>se obtiene<br><br>$$\n\\frac{y}{x}\n=\n\\tan\\theta,\n$$<br><br>y además<br><br>$$\n\\frac{x^2+y^2}{x}\n=\n\\frac{r}{\\cos\\theta}.\n$$<br><br>La región queda descrita por<br><br>$$\n\\pi\\cos\\theta\n\\le r\\le\n2\\pi\\cos\\theta,\n\\qquad\n-\\frac{\\pi}{4}\n\\le\n\\theta\n\\le\n\\frac{\\pi}{4}.\n$$<br><br>Por lo tanto,<br><br>$$\nI=\n\\int_{-\\pi/4}^{\\pi/4}\n\\int_{\\pi\\cos\\theta}^{2\\pi\\cos\\theta}\n\\tan\\theta\\,\n\\sin\\!\\left(\n\\frac{r}{\\cos\\theta}\n\\right)\nr\\,dr\\,d\\theta.\n$$<br><br>Ahora realizamos el cambio de variable<br><br>$$\nu=\\frac{r}{\\cos\\theta}.\n$$<br><br>Entonces,<br><br>$$\nr=u\\cos\\theta,\n\\qquad\ndr=\\cos\\theta\\,du,\n$$<br><br>y los nuevos límites son<br><br>$$\n\\pi\\le u\\le2\\pi.\n$$<br><br>Sustituyendo,<br><br>$$\n\\begin{aligned}\nI\n&=\n\\int_{-\\pi/4}^{\\pi/4}\n\\int_{\\pi}^{2\\pi}\n\\tan\\theta\n\\sin(u)\n\\,(u\\cos\\theta)\n(\\cos\\theta)\n\\,du\\,d\\theta\\\\\n&=\n\\left(\n\\int_{-\\pi/4}^{\\pi/4}\n\\sin\\theta\\cos\\theta\\,d\\theta\n\\right)\n\\left(\n\\int_{\\pi}^{2\\pi}\nu\\sin u\\,du\n\\right).\n\\end{aligned}\n$$<br><br>Como la función<br><br>$$\n\\sin\\theta\\cos\\theta\n$$<br><br>es impar y el intervalo de integración es simétrico respecto del origen,<br><br>$$\n\\int_{-\\pi/4}^{\\pi/4}\n\\sin\\theta\\cos\\theta\\,d\\theta\n=\n0.\n$$<br><br>En consecuencia,<br><br>$$\n\\boxed{\nI=0.\n}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Transforma correctamente el integrando a coordenadas polares.",
+            "puntaje": 5
+          },
+          {
+            "descripcion": "Determina correctamente los límites de integración para $r$.",
+            "puntaje": 5
+          },
+          {
+            "descripcion": "Determina correctamente los límites de integración para $\\theta$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Realiza correctamente el cambio de variable $u=r/\\cos\\theta$.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Concluye correctamente que la integral vale $0$.",
+            "puntaje": 3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Calcule la integral doble<br><br>$$\nI=\n\\int\\!\\!\\int_R\n\\frac{y}{x}\n\\sin\\!\\left(\n\\frac{x^2+y^2}{x}\n\\right)\n\\,dx\\,dy,\n$$<br><br>donde<br><br>$$\nR=\n\\left\\{\n(x,y)\\in\\mathbb{R}^2:\n\\pi x\\le x^2+y^2\\le 2\\pi x,\\;\n-x\\le y\\le x\n\\right\\}.\n$$<br><br>Use cambio a coordenadas polares."
+  },
+  {
+    "id": "ejercicio-4",
+    "puntaje": 20,
+    "dificultad": "Baja",
+    "temas": [
+      "Diferenciales",
+      "Aproximación de errores",
+      "Error relativo"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Escribe primero el diferencial total antes de sustituir los incrementos."
+    ],
+    "errores_frecuentes": [
+      "Confundir diferencial con incremento exacto.",
+      "Usar derivadas parciales evaluadas en un punto incorrecto.",
+      "Confundir error absoluto con error relativo."
+    ],
+    "numeracion_personalizada": "4.",
+    "solucion": "El modelo que relaciona la resistencia con la longitud y el radio es<br><br>$$\nR=k\\frac{l}{r^2},\n$$<br><br>donde $k$ es una constante de proporcionalidad. Aplicando logaritmos,<br><br>$$\n\\ln R=\\ln k+\\ln l-2\\ln r.\n$$<br><br>Derivando,<br><br>$$\n\\frac{dR}{R}\n=\n\\frac{dl}{l}\n-\n2\\frac{dr}{r}.\n$$<br><br>Para estimar el error relativo máximo aproximado, tomamos valores absolutos:<br><br>$$\n\\left|\n\\frac{\\Delta R}{R}\n\\right|\n\\lesssim\n\\left|\n\\frac{\\Delta l}{l}\n\\right|\n+\n2\n\\left|\n\\frac{\\Delta r}{r}\n\\right|.\n$$<br><br>Como<br><br>$$\n\\left|\n\\frac{\\Delta l}{l}\n\\right|\n=0.05,\n\\qquad\n\\left|\n\\frac{\\Delta r}{r}\n\\right|\n=0.10,\n$$<br><br>se obtiene<br><br>$$\n\\left|\n\\frac{\\Delta R}{R}\n\\right|\n\\lesssim\n0.05+2(0.10)\n=0.25.\n$$<br><br>Por lo tanto,<br><br>$$\n\\boxed{\n\\left|\n\\frac{\\Delta R}{R}\n\\right|\n\\approx 25\\%.\n}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Plantea correctamente el modelo $R=k\\dfrac{l}{r^2}$.",
+            "puntaje": 5
+          },
+          {
+            "descripcion": "Aplica correctamente logaritmos o diferenciales logarítmicos.",
+            "puntaje": 5
+          },
+          {
+            "descripcion": "Obtiene correctamente $\\displaystyle \\frac{dR}{R}=\\frac{dl}{l}-2\\frac{dr}{r}$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Utiliza valores absolutos para acotar el error relativo.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Obtiene correctamente el resultado final de $25\\%$.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "La resistencia de un alambre es proporcional a su longitud e inversamente proporcional al cuadrado de su radio. Si la longitud presenta un posible error relativo de $5\\%$ y el radio un posible error relativo de $10\\%$, estime el error relativo máximo aproximado en la resistencia."
+  },
+  {
+    "id": "ejercicio-5-a",
+    "puntaje": 8,
+    "dificultad": "Media",
+    "temas": [
+      "Curvas en el espacio",
+      "Planos",
+      "Producto punto"
+    ],
+    "contexto": "Sea una curva con vector posición<br><br>$$\n\\vec r(t)=\\bigl(x(t),y(t),z(t)\\bigr)\n$$<br><br>contenida en el plano<br><br>$$\n4x-3y-2z=6.\n$$",
+    "pistas": [
+      "Recuerda que un plano queda determinado por un punto y un vector normal."
+    ],
+    "errores_frecuentes": [
+      "Usar como vector normal un vector que no es perpendicular al plano.",
+      "No verificar que el punto pertenezca al plano obtenido."
+    ],
+    "numeracion_personalizada": "5. a)",
+    "solucion": "El vector normal del plano es<br><br>$$\n\\vec n=(4,-3,-2).\n$$<br><br>Para que la curva esté contenida en el plano, cada uno de sus puntos debe satisfacer<br><br>$$\n4x(t)-3y(t)-2z(t)=6.\n$$<br><br>En forma vectorial, esto se escribe como<br><br>$$\n\\boxed{\n\\vec n\\cdot \\vec r(t)=6\n}\n$$<br><br>es decir,<br><br>$$\n(4,-3,-2)\\cdot \\bigl(x(t),y(t),z(t)\\bigr)=6.\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identifica correctamente el vector normal $\\vec n=(4,-3,-2)$.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Escribe correctamente $\\vec r(t)=\\bigl(x(t),y(t),z(t)\\bigr)$.",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Plantea correctamente la condición $\\vec n\\cdot\\vec r(t)=6$.",
+            "puntaje": 3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Escriba la condición vectorial que debe satisfacer la curva para estar contenida en el plano."
+  },
+  {
+    "id": "ejercicio-5-b",
+    "puntaje": 12,
+    "dificultad": "Media",
+    "temas": [
+      "Curvas en el espacio",
+      "Vector tangente",
+      "Paralelismo"
+    ],
+    "contexto": "Sea una curva con vector posición<br><br>$$\n\\vec r(t)=\\bigl(x(t),y(t),z(t)\\bigr)\n$$<br><br>contenida en el plano<br><br>$$\n4x-3y-2z=6.\n$$",
+    "pistas": [
+      "Calcula primero el vector tangente derivando la parametrización."
+    ],
+    "errores_frecuentes": [
+      "Derivar incorrectamente la curva.",
+      "Confundir paralelismo con perpendicularidad al comparar vectores.",
+      "Evaluar el vector tangente en un parámetro incorrecto."
+    ],
+    "numeracion_personalizada": "5. b)",
+    "solucion": "Derivando respecto de $t$ la igualdad<br><br>$$\n\\vec n\\cdot\\vec r(t)=6,\n$$<br><br>se obtiene<br><br>$$\n\\frac{d}{dt}\n\\left[\n\\vec n\\cdot\\vec r(t)\n\\right]\n=\n\\frac{d}{dt}(6).\n$$<br><br>Como $\\vec n$ es constante,<br><br>$$\n\\vec n\\cdot\\frac{d\\vec r}{dt}=0.\n$$<br><br>Esto significa que<br><br>$$\n\\frac{d\\vec r}{dt}\\perp \\vec n.\n$$<br><br>Como $\\vec n$ es un vector normal al plano, todo vector perpendicular a $\\vec n$ es paralelo al plano. Por lo tanto,<br><br>$$\n\\boxed{\n\\frac{d\\vec r}{dt}\n\\text{ es paralelo al plano }\n4x-3y-2z=6\n}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Deriva correctamente la condición $\\vec n\\cdot\\vec r(t)=6$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Utiliza correctamente que $\\vec n$ es constante.",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Obtiene $\\displaystyle \\vec n\\cdot\\frac{d\\vec r}{dt}=0$.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Interpreta correctamente la perpendicularidad con el vector normal.",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Concluye que $\\displaystyle \\frac{d\\vec r}{dt}$ es paralelo al plano.",
+            "puntaje": 1
+          }
+        ]
+      }
+    ],
+    "enunciado": "Derive dicha condición y demuestre que $\\dfrac{d\\vec r}{dt}$ es paralelo al plano."
+  },
+  {
+    "id": "examen-ci-2026-p1",
+    "puntaje": 20,
+    "dificultad": "Media",
+    "temas": [
+      "Integral impropia",
+      "Área entre curvas",
+      "Funciones exponenciales"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Encuentra primero el punto de intersección de las curvas y determina cuál de ellas queda por encima para los valores de $x$ que describen la región infinita."
+    ],
+    "errores_frecuentes": [
+      "Integrar desde $x=0$ sin considerar que la región encerrada entre ambas curvas comienza en el punto de intersección $x=1$.",
+      "Invertir el orden de las funciones y obtener un área negativa.",
+      "Escribir directamente una integral con extremo $+\\infty$ sin expresarla mediante el límite que define la integral impropia."
+    ],
+    "numeracion_personalizada": "1.",
+    "solucion": "Para comenzar, es necesario encontrar el punto donde ambas curvas se cortan. Igualando las ecuaciones exponenciales, tenemos que\n$$\ne^{-2x}=e^{-3x+1}\n$$\nlo que, por la inyectividad de la función exponencial, significa que debemos resolver la ecuación lineal\n$$\n-2x=-3x+1\n$$\nde donde obtenemos $x=1$.<br><br>Por otro lado, si $x\\geq 1$, entonces $-2x\\geq -3x+1$ y, por tanto,\n$$\ne^{-2x}\\geq e^{-3x+1}\n$$\nAsí, el área de la región está dada por\n$$\n\\begin{aligned}\nA\n&=\\int_{1}^{+\\infty}\\left(e^{-2x}-e^{-3x+1}\\right)\\,dx\\\\\n&=\\lim_{b\\to+\\infty}\\int_{1}^{b}\\left(e^{-2x}-e^{-3x+1}\\right)\\,dx\\\\\n&=\\lim_{b\\to+\\infty}\\left[-\\frac{1}{2}e^{-2x}+\\frac{1}{3}e^{-3x+1}\\right]_{1}^{b}\\\\\n&=0-\\left(-\\frac{1}{2}e^{-2}+\\frac{1}{3}e^{-2}\\right)\\\\\n&=-\\left(-\\frac{1}{6}e^{-2}\\right)\\\\\n&=\\frac{1}{6e^{2}}\n\\end{aligned}\n$$\nPor lo tanto, el valor del área de la región infinita $R$ es\n$$\n\\frac{1}{6e^{2}}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Encontrar correctamente el punto de intersección ($x=1$) mediante la igualación de las curvas.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Determinar correctamente qué curva está por encima de la otra en el intervalo $[1,+\\infty[$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Plantear la integral impropia utilizando el límite formal correspondiente ($\\lim_{b\\to+\\infty}$).",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Calcular correctamente las antiderivadas de ambas funciones exponenciales.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Evaluar el límite al infinito y obtener el valor final exacto $\\frac{1}{6e^{2}}$.",
+            "puntaje": 4
+          }
+        ]
+      }
+    ],
+    "enunciado": "Sea $R$ la región infinita del primer cuadrante delimitada por las curvas de ecuación\n$$\ny=e^{-2x},\\qquad y=e^{-3x+1}\n$$\nDetermine el valor del área de la región $R$."
+  },
+  {
+    "id": "examen-ci-2026-p2a",
+    "puntaje": 12,
+    "dificultad": "Media",
+    "temas": [
+      "Volúmenes de revolución",
+      "Cascarones cilíndricos"
+    ],
+    "contexto": "Sea $R$ la región acotada por las gráficas de las funciones\n$$\ny=4-x,\\qquad y=(x-2)^2\n$$",
+    "pistas": [
+      "Trabaja con franjas verticales: el radio es la distancia al eje $Y$ y la altura es la diferencia entre la función superior y la inferior."
+    ],
+    "errores_frecuentes": [
+      "Omitir el factor $x$ correspondiente al radio del cascarón cilíndrico.",
+      "Calcular la altura como parábola menos recta, obteniendo una altura negativa en $[0,3]$.",
+      "Usar límites en la variable $y$ a pesar de que el método de cascarones alrededor del eje $Y$ se está planteando con franjas verticales."
+    ],
+    "numeracion_personalizada": "2. a)",
+    "solucion": "Consideramos la región $R$ acotada por la recta $y=4-x$ y la parábola $y=(x-2)^2$. Al igualar ambas funciones para hallar sus puntos de intersección, obtenemos\n$$\n4-x=(x-2)^2\n$$\nes decir,\n$$\nx^2-3x=0\n$$\ncuyas raíces son $x=0$ y $x=3$. En este intervalo, la recta se encuentra sobre la parábola.<br><br>Para calcular el volumen del sólido generado al rotar la región alrededor del eje $Y$ mediante cascarones cilíndricos, tenemos que\n$$\nr=d\\big((x,y);x=0\\big)=|x|=x,\\qquad x\\in[0,3]\n$$\ny\n$$\nh=(4-x)-(x-2)^2\n$$\nAsí, el volumen del sólido está dado por\n$$\n\\begin{aligned}\nV\n&=2\\pi\\int_{0}^{3}x\\left((4-x)-(x-2)^2\\right)\\,dx\\\\\n&=2\\pi\\int_{0}^{3}x(3x-x^2)\\,dx\\\\\n&=2\\pi\\int_{0}^{3}(3x^2-x^3)\\,dx\\\\\n&=2\\pi\\left[x^3-\\frac{x^4}{4}\\right]_{0}^{3}\\\\\n&=2\\pi\\left(27-\\frac{81}{4}\\right)\\\\\n&=2\\pi\\left(\\frac{27}{4}\\right)\\\\\n&=\\frac{27\\pi}{2}\n\\end{aligned}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Encontrar los puntos de intersección en el eje $X$ ($x=0$ y $x=3$).",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Identificar correctamente el radio ($r=x$) y la altura ($h=y_{\\mathrm{superior}}-y_{\\mathrm{inferior}}$) para plantear la integral del volumen.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Desarrollar el álgebra interna del integrando e integrar término a término de forma correcta.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Evaluar los límites de integración y llegar al resultado final $\\frac{27\\pi}{2}$.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine el valor del volumen del sólido obtenido al girar $R$ alrededor del eje $Y$ usando el método de los cascarones cilíndricos."
+  },
+  {
+    "id": "examen-ci-2026-p2b",
+    "puntaje": 8,
+    "dificultad": "Alta",
+    "temas": [
+      "Volúmenes de revolución",
+      "Método de los anillos"
+    ],
+    "contexto": "Sea $R$ la región acotada por las gráficas de las funciones\n$$\ny=4-x,\\qquad y=(x-2)^2\n$$",
+    "pistas": [
+      "Usa franjas horizontales, despeja $x$ en función de $y$ y localiza el valor de $y$ en el que cambia la frontera derecha de la región."
+    ],
+    "errores_frecuentes": [
+      "Plantear una sola integral en $y\\in[0,4]$ sin considerar que la frontera derecha cambia en $y=1$.",
+      "Usar $2+\\sqrt{y}$ como radio exterior también para $y\\in[1,4]$, donde la frontera derecha es $x=4-y$.",
+      "Confundir los radios exterior e interior y restar sus cuadrados en el orden inverso."
+    ],
+    "numeracion_personalizada": "2. b)",
+    "solucion": "Si en lugar de los cascarones cilíndricos utilizamos el método de los anillos respecto al eje $Y$, es necesario expresar las funciones con la variable $y$ como variable independiente y analizar los límites en dicho eje, es decir, con $y\\in[0,4]$. Como la curva que acota por la derecha cambia, la región debe dividirse en dos subregiones.<br><br>Para $y\\in[0,1]$, tenemos\n$$\n2-\\sqrt{y}\\leq x\\leq 2+\\sqrt{y}\n$$\nPara $y\\in[1,4]$, tenemos\n$$\n2-\\sqrt{y}\\leq x\\leq 4-y\n$$\nLuego, una fórmula para calcular el volumen del sólido en estas condiciones es\n$$\nV=\\pi\\int_{0}^{1}\\left[(2+\\sqrt{y})^2-(2-\\sqrt{y})^2\\right]dy\n+\\pi\\int_{1}^{4}\\left[(4-y)^2-(2-\\sqrt{y})^2\\right]dy\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identificar el intervalo de integración en el eje $Y$ ($y\\in[0,4]$) y notar que la región se debe dividir en dos partes debido al cambio en la frontera derecha.",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Despejar correctamente la variable $x$ en función de $y$ para ambas curvas ($x=2\\pm\\sqrt{y}$ y $x=4-y$).",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Plantear correctamente la primera integral para el intervalo $y\\in[0,1]$ con sus respectivos radios.",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Plantear correctamente la segunda integral para el intervalo $y\\in[1,4]$ con sus respectivos radios.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Encuentre una fórmula (no es necesario que desarrolle) que permita determinar el valor del volumen del sólido obtenido al girar $R$ alrededor del eje $Y$ usando el método de los anillos."
+  },
+  {
+    "id": "examen-ci-2026-p3",
+    "puntaje": 20,
+    "dificultad": "Alta",
+    "temas": [
+      "Coordenadas polares",
+      "Área en coordenadas polares",
+      "Cardioide"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Aprovecha la simetría respecto al eje polar y determina en qué intervalos angulares la región está limitada solo por el cardioide y en cuáles debe restarse el área de la circunferencia."
+    ],
+    "errores_frecuentes": [
+      "Restar el área de la circunferencia en todo el intervalo $\\left[0,\\frac{2\\pi}{3}\\right]$, aunque $r=-3\\cos\\theta$ no delimita la región para $0\\leq\\theta<\\frac{\\pi}{2}$.",
+      "Olvidar el factor $\\frac{1}{2}$ de la fórmula de área polar o el factor $2$ proveniente de la simetría.",
+      "Usar un ángulo de intersección incorrecto al resolver $\\cos\\theta=-\\frac{1}{2}$."
+    ],
+    "numeracion_personalizada": "3.",
+    "solucion": "En primer lugar, notemos que el cardioide de ecuación $C_1:r=1-\\cos(\\theta)$ está definido para $\\theta\\in[0,2\\pi]$, mientras que la circunferencia de ecuación $C_2:r=-3\\cos(\\theta)$ está definida para\n$$\n\\theta\\in\\left[\\frac{\\pi}{2},\\frac{3\\pi}{2}\\right]\n$$\nPor ello, ocuparemos la simetría que tiene la región respecto al eje polar y luego multiplicaremos por $2$.<br><br>Ahora calculamos el ángulo de intersección igualando ambas ecuaciones polares:\n$$\n1-\\cos(\\theta)=-3\\cos(\\theta)\n$$\nPor tanto,\n$$\n-2\\cos(\\theta)=1\n\\quad\\Longrightarrow\\quad\n\\cos(\\theta)=-\\frac{1}{2}\n\\quad\\Longrightarrow\\quad\n\\theta=\\pi-\\frac{\\pi}{3}=\\frac{2\\pi}{3}\n$$\nAsí, para $\\theta\\in\\left[0,\\frac{\\pi}{2}\\right]$, la región está limitada solo por el cardioide, mientras que para $\\theta\\in\\left[\\frac{\\pi}{2},\\frac{2\\pi}{3}\\right]$, la región está limitada por ambas curvas.<br><br>El área de la región está dada por\n$$\n\\begin{aligned}\nA\n&=2\\left(\\frac{1}{2}\\int_{0}^{2\\pi/3}(1-\\cos\\theta)^2\\,d\\theta\n-\\frac{1}{2}\\int_{\\pi/2}^{2\\pi/3}(-3\\cos\\theta)^2\\,d\\theta\\right)\\\\\n&=\\int_{0}^{2\\pi/3}\\left(1-2\\cos\\theta+\\cos^2\\theta\\right)\\,d\\theta\n-\\int_{\\pi/2}^{2\\pi/3}9\\cos^2\\theta\\,d\\theta\\\\\n&=\\int_{0}^{2\\pi/3}\\left(\\frac{3}{2}-2\\cos\\theta+\\frac{1}{2}\\cos(2\\theta)\\right)\\,d\\theta\n-9\\int_{\\pi/2}^{2\\pi/3}\\frac{1+\\cos(2\\theta)}{2}\\,d\\theta\\\\\n&=\\left[\\frac{3}{2}\\theta-2\\sin\\theta+\\frac{1}{4}\\sin(2\\theta)\\right]_{0}^{2\\pi/3}\n-9\\left[\\frac{\\theta}{2}+\\frac{\\sin(2\\theta)}{4}\\right]_{\\pi/2}^{2\\pi/3}\\\\\n&=\\frac{3}{2}\\cdot\\frac{2\\pi}{3}-2\\sin\\left(\\frac{2\\pi}{3}\\right)\n+\\frac{1}{4}\\sin\\left(\\frac{4\\pi}{3}\\right)\n-9\\left(\\frac{\\pi}{3}+\\frac{1}{4}\\sin\\left(\\frac{4\\pi}{3}\\right)\\right)\n+\\frac{9\\pi}{4}\\\\\n&=\\pi-\\frac{9\\sqrt{3}}{8}-3\\pi+\\frac{9\\sqrt{3}}{8}+\\frac{9\\pi}{4}\\\\\n&=\\frac{\\pi}{4}\n\\end{aligned}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identificar correctamente la simetría de la región respecto al eje polar (o plantear el área completa mediante los intervalos adecuados).",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Calcular el ángulo de intersección correcto entre el cardioide y la circunferencia ($\\theta=\\frac{2\\pi}{3}$).",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Plantear correctamente la estructura de las integrales restando las áreas correspondientes en los intervalos correctos $\\left[0,\\frac{\\pi}{2}\\right]$ y $\\left[\\frac{\\pi}{2},\\frac{2\\pi}{3}\\right]$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Aplicar correctamente las identidades de ángulo medio para reducir las potencias de los cosenos ($\\cos^2\\theta$).",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Encontrar las antiderivadas de todos los términos trigonométricos.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Evaluar minuciosamente los ángulos notables y obtener el valor final $\\frac{\\pi}{4}$.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Considere las curvas en coordenadas polares\n$$\nC_1:r=1-\\cos(\\theta),\\qquad C_2:r=-3\\cos(\\theta)\n$$\nDetermine el valor del área de la región interior a $C_1$ y exterior a $C_2$."
+  },
+  {
+    "id": "examen-ci-2026-p4",
+    "puntaje": 20,
+    "dificultad": "Media",
+    "temas": [
+      "Curvas paramétricas",
+      "Longitud de arco",
+      "Teorema Fundamental del Cálculo"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Obtén primero $x'(t)$ e $y'(t)$ usando el Teorema Fundamental del Cálculo, prestando atención a que $t$ aparece como límite inferior."
+    ],
+    "errores_frecuentes": [
+      "Olvidar el signo menos al derivar una integral cuyo límite inferior es la variable $t$.",
+      "Simplificar incorrectamente $\\sqrt{t^{-1/2}}$ como $t^{-1/2}$ en lugar de $t^{-1/4}$.",
+      "Tratar la integral desde $0$ como propia, sin reconocer la singularidad del integrando en el extremo inferior."
+    ],
+    "numeracion_personalizada": "4.",
+    "solucion": "Vamos a encontrar las derivadas paramétricas de las funciones $x$ e $y$ usando el Teorema Fundamental del Cálculo. Para $t\\in]0,1]$, notemos que\n$$\nx=\\int_{t}^{1}\\frac{\\sin(u)}{\\sqrt[4]{u}}\\,du\n=-\\int_{1}^{t}\\frac{\\sin(u)}{\\sqrt[4]{u}}\\,du\n\\quad\\Longrightarrow\\quad\nx'(t)=-\\frac{\\sin(t)}{\\sqrt[4]{t}}\n$$\ny\n$$\ny=\\int_{t}^{1}\\frac{\\cos(u)}{\\sqrt[4]{u}}\\,du\n=-\\int_{1}^{t}\\frac{\\cos(u)}{\\sqrt[4]{u}}\\,du\n\\quad\\Longrightarrow\\quad\ny'(t)=-\\frac{\\cos(t)}{\\sqrt[4]{t}}\n$$\nAsí, la longitud de arco de la curva está dada por\n$$\n\\begin{aligned}\nL\n&=\\int_{0}^{1}\\sqrt{\\left(x'(t)\\right)^2+\\left(y'(t)\\right)^2}\\,dt\\\\\n&=\\int_{0}^{1}\\sqrt{\\left(-\\frac{\\sin(t)}{\\sqrt[4]{t}}\\right)^2\n+\\left(-\\frac{\\cos(t)}{\\sqrt[4]{t}}\\right)^2}\\,dt\\\\\n&=\\int_{0}^{1}\\sqrt{t^{-1/2}}\\,dt\\\\\n&=\\int_{0}^{1}t^{-1/4}\\,dt\\\\\n&=\\lim_{a\\to0^+}\\int_{a}^{1}t^{-1/4}\\,dt\\\\\n&=\\lim_{a\\to0^+}\\left[\\frac{t^{3/4}}{3/4}\\right]_{a}^{1}\\\\\n&=\\lim_{a\\to0^+}\\left(\\frac{4}{3}-\\frac{4a^{3/4}}{3}\\right)\\\\\n&=\\frac{4}{3}\n\\end{aligned}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Aplicar correctamente el Teorema Fundamental del Cálculo para obtener las derivadas paramétricas $x'$ e $y'$, incluyendo el signo menos debido al límite inferior de la integral.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Plantear la fórmula de longitud de arco sustituyendo correctamente $x'$ e $y'$ dentro de la raíz.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Simplificar la expresión usando la identidad fundamental $\\sin^2(t)+\\cos^2(t)=1$ y reducir el integrando a $t^{-1/4}$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Resolver la integral resultante de manera correcta.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Evaluar los límites de integración mediante el límite formal cuando el extremo inferior tiende a $0$ y llegar al resultado final $\\frac{4}{3}$.",
+            "puntaje": 4
+          }
+        ]
+      }
+    ],
+    "enunciado": "Sea $C$ la curva paramétrica dada por las ecuaciones\n$$\nx=\\int_{t}^{1}\\frac{\\sin(u)}{\\sqrt[4]{u}}\\,du,\n\\qquad\ny=\\int_{t}^{1}\\frac{\\cos(u)}{\\sqrt[4]{u}}\\,du,\n\\qquad t\\in]0,1]\n$$\nDetermine la longitud de la curva $C$."
+  },
+  {
+    "id": "examen-ci-2026-p5a",
+    "puntaje": 8,
+    "dificultad": "Baja",
+    "temas": [
+      "Series telescópicas"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Define $a_n=\\frac{n+2}{2n+1}$ y escribe los primeros términos de la suma parcial para observar qué términos se cancelan."
+    ],
+    "errores_frecuentes": [
+      "Calcular únicamente el límite del término general y concluir, a partir de él, cuál es la suma de la serie.",
+      "No reconocer que $\\frac{n+3}{2n+3}=a_{n+1}$ y, por tanto, no efectuar la cancelación telescópica.",
+      "Confundir la suma parcial $S_k$ con el término general de la serie."
+    ],
+    "numeracion_personalizada": "5. a)",
+    "solucion": "El término enésimo\n$$\na_n=\\frac{n+2}{2n+1}\n$$\npermite reconocer una serie telescópica de la forma\n$$\n\\sum_{n=1}^{+\\infty}(a_n-a_{n+1})\n$$\nAl desarrollar la suma parcial hasta un término $k$, todos los elementos intermedios se cancelan mutuamente, sobreviviendo únicamente el primer término y el último:\n$$\nS_k=a_1-a_{k+1}\n=\\frac{1+2}{2(1)+1}-\\frac{k+3}{2k+3}\n=1-\\frac{k+3}{2k+3}\n$$\nPara hallar el valor de la serie completa, calculamos el límite de esta suma parcial cuando $k$ tiende a infinito:\n$$\nS=\\lim_{k\\to+\\infty}S_k\n=\\lim_{k\\to+\\infty}\\left(1-\\frac{k+3}{2k+3}\\right)\n=1-\\frac{1}{2}\n=\\frac{1}{2}\n$$\nPor lo tanto, la serie converge y su suma es\n$$\n\\frac{1}{2}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Reconocer la estructura de la serie telescópica y escribir correctamente la forma de la suma parcial $S_k$ tras cancelar los términos intermedios.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Plantear el límite de la suma parcial cuando $k\\to+\\infty$.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Calcular correctamente el límite de la fracción y llegar al valor final de la suma $\\frac{1}{2}$.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine el valor de la serie\n$$\n\\sum_{n=1}^{+\\infty}\\left(\\frac{n+2}{2n+1}-\\frac{n+3}{2n+3}\\right)\n$$"
+  },
+  {
+    "id": "examen-ci-2026-p5b",
+    "puntaje": 12,
+    "dificultad": "Media",
+    "temas": [
+      "Series de Taylor",
+      "Series de potencias",
+      "Radio de convergencia"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Parte de la serie geométrica, realiza una sustitución apropiada para obtener una serie para $\\frac{1}{1+x}$ y luego integra término a término."
+    ],
+    "errores_frecuentes": [
+      "Usar la serie geométrica de $\\frac{1}{1-x}$ sin reemplazar $x$ por $-x$, lo que produce signos incorrectos.",
+      "Olvidar la constante de integración al integrar término a término o no justificar que $C=0$.",
+      "Confundir el radio de convergencia con el intervalo de convergencia o afirmar que $R=|x|<1$."
+    ],
+    "numeracion_personalizada": "5. b)",
+    "solucion": "Para desarrollar la serie de Taylor de la función $f(x)=\\ln(1+x)$ centrada en $x_0=0$, o serie de Maclaurin, podemos partir del desarrollo conocido de la serie geométrica para $\\frac{1}{1-x}$, con $|x|<1$:\n$$\n\\frac{1}{1-x}=\\sum_{n=0}^{+\\infty}x^n\n$$\nReemplazando $x$ por $-x$, tenemos\n$$\n\\frac{1}{1+x}=\\sum_{n=0}^{+\\infty}(-1)^n x^n\n$$\nserie que también tiene el mismo intervalo de convergencia, dado que $|x|=|-x|$.<br><br>Integrando término a término respecto de $x$ en ambos lados de la ecuación, obtenemos el desarrollo para el logaritmo natural más una constante de integración $C$:\n$$\n\\ln(1+x)=\\sum_{n=0}^{+\\infty}(-1)^n\\frac{x^{n+1}}{n+1}+C\n$$\nDado que $\\ln(1)=0$, al evaluar la igualdad en $x=0$ comprobamos que $C=0$. Por tanto,\n$$\n\\ln(1+x)=\\sum_{n=0}^{+\\infty}(-1)^n\\frac{x^{n+1}}{n+1}\n$$<br><br>Para establecer el radio de convergencia $R$, aplicamos el criterio de la razón sobre el valor absoluto del término general. El límite del cociente de los términos sucesivos es\n$$\n\\begin{aligned}\nL\n&=\\lim_{n\\to+\\infty}\\left|\\frac{x^{n+2}}{n+2}\\cdot\\frac{n+1}{x^{n+1}}\\right|\\\\\n&=|x|\\lim_{n\\to+\\infty}\\frac{n+1}{n+2}\\\\\n&=|x|\n\\end{aligned}\n$$\nPara asegurar la convergencia absoluta exigimos que $L<1$, lo que implica que $|x|<1$. En consecuencia, el radio de convergencia de la serie es\n$$\nR=1\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Plantear la serie geométrica base y hacer la sustitución adecuada para obtener la serie de $\\frac{1}{1+x}$.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Integrar término a término la serie para obtener el desarrollo de $\\ln(1+x)$ y justificar por qué la constante de integración es $C=0$.",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Aplicar el criterio de la razón, u otro criterio equivalente, sobre el término general de la serie de potencias.",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Resolver el límite del criterio para concluir correctamente que el radio de convergencia es $R=1$.",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine la serie de Taylor centrada en $x_0=0$ de la función\n$$\nf(x)=\\ln(1+x)\n$$\nespecificando cuál es su radio de convergencia."
+  },
+  {
+    "id": "control4-ma1101-p1a",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Anillos",
+      "Elementos invertibles",
+      "Ley de composición interna"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir,\n$$\nA^{\\times}=\\left\\{a\\in A\\mid a\\text{ tiene inverso para }\\cdot\\text{ en }A\\right\\}\n$$",
+    "pistas": [
+      "Busca primero un elemento que siempre sea invertible en cualquier anillo y luego usa una propiedad del producto de elementos invertibles."
+    ],
+    "errores_frecuentes": [
+      "Afirmar únicamente que $A^{\\times}$ es no vacío sin identificar un elemento concreto que pertenezca al conjunto.",
+      "Usar que $a^{-1}b^{-1}$ es el inverso de $ab$ sin respetar el orden correcto en un anillo no necesariamente conmutativo."
+    ],
+    "numeracion_personalizada": "1. a)",
+    "solucion": "\\textit{Veamos que $A^{\\times}\\neq\\varnothing$:}<br><br>Por definición, todo anillo tiene como elemento al $1$, el neutro para $\\cdot$, y los neutros siempre se tienen a sí mismos como inverso. Luego $1\\in A^{\\times}$ y, por lo tanto, $A^{\\times}\\neq\\varnothing$.<br><br><br><br><i>Veamos que $\\cdot$ es una ley de composición interna en $A^{\\times}$:</i><br><br>Dado que una ley de composición interna en $A^{\\times}$ es una función de $A^{\\times}\\times A^{\\times}$ en $A^{\\times}$, basta verificar que si tomamos $a,b\\in A^{\\times}$, entonces $a\\cdot b\\in A^{\\times}$.<br><br>Como $a$ y $b$ tienen inverso para $\\cdot$, el producto $a\\cdot b$ también tiene inverso para $\\cdot$. En efecto,\n$$\n(a\\cdot b)^{-1}=b^{-1}\\cdot a^{-1}\n$$\nPor lo tanto, $a\\cdot b\\in A^{\\times}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Demostrar que $A^{\\times}\\neq\\varnothing$ identificando al neutro multiplicativo $1$ como un elemento invertible.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Demostrar que el producto de dos elementos de $A^{\\times}$ vuelve a pertenecer a $A^{\\times}$.",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $A^{\\times}\\neq\\varnothing$ y que $\\cdot$ es una ley de composición interna en $A^{\\times}$."
+  },
+  {
+    "id": "control4-ma1101-p1b",
+    "puntaje": 2,
+    "dificultad": "Media",
+    "temas": [
+      "Grupo de unidades",
+      "Grupos",
+      "Grupos abelianos"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir,\n$$\nA^{\\times}=\\left\\{a\\in A\\mid a\\text{ tiene inverso para }\\cdot\\text{ en }A\\right\\}\n$$",
+    "pistas": [
+      "Verifica sucesivamente asociatividad, existencia del neutro y existencia de inversos dentro del propio conjunto $A^{\\times}$."
+    ],
+    "errores_frecuentes": [
+      "Decir que cada elemento tiene inverso en $A$ sin verificar que dicho inverso pertenece a $A^{\\times}$.",
+      "Intentar demostrar nuevamente la asociatividad mediante cálculos en lugar de reconocer que se hereda del anillo."
+    ],
+    "numeracion_personalizada": "1. b)",
+    "solucion": "Ya se sabe que $\\cdot$ es una ley de composición interna en $A^{\\times}$. Debemos verificar las propiedades de grupo.<br><br><br><br><i>$\\cdot$ es asociativa en $A^{\\times}$:</i><br><br>Esto se hereda directamente del hecho de que $\\cdot$ es asociativa en el conjunto $A$ completo.<br><br><br><br><i>$\\cdot$ tiene neutro en $A^{\\times}$:</i><br><br>Como $1$ es neutro para $\\cdot$ en todo $A$ y $1\\in A^{\\times}$, entonces $1$ es también neutro en el subconjunto $A^{\\times}$.<br><br><br><br><i>Cada $a\\in A^{\\times}$ tiene inverso para $\\cdot$ en $A^{\\times}$:</i><br><br>Si $a\\in A^{\\times}$, entonces $a$ tiene inverso $a^{-1}\\in A$. El elemento $a^{-1}$ también es invertible, pues su inverso es $a$. Por lo tanto, $a^{-1}\\in A^{\\times}$ y $a$ tiene inverso dentro de $A^{\\times}$.<br><br><br><br><i>Caso conmutativo:</i><br><br>Si el anillo $(A,+,\\cdot)$ es conmutativo, la multiplicación es conmutativa en todo $A$ y, en particular, en $A^{\\times}$. Por lo tanto, $(A^{\\times},\\cdot)$ es un grupo abeliano.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Justificar que la multiplicación es asociativa en $A^{\\times}$ por herencia de la asociatividad en $A$.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Identificar al elemento $1$ como neutro multiplicativo de $A^{\\times}$.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Justificar que el inverso de cada elemento de $A^{\\times}$ también pertenece a $A^{\\times}$.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Concluir que, si el anillo es conmutativo, el grupo de unidades es abeliano.",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $(A^{\\times},\\cdot)$ es un grupo y que, si $(A,+,\\cdot)$ es un anillo conmutativo, $(A^{\\times},\\cdot)$ es un grupo abeliano."
+  },
+  {
+    "id": "control4-ma1101-p1c",
+    "puntaje": 1,
+    "dificultad": "Baja",
+    "temas": [
+      "Cuerpos",
+      "Elementos invertibles"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir,\n$$\nA^{\\times}=\\left\\{a\\in A\\mid a\\text{ tiene inverso para }\\cdot\\text{ en }A\\right\\}\n$$",
+    "pistas": [
+      "Recuerda qué elementos de un cuerpo tienen inverso multiplicativo y qué ocurre con el elemento $0$."
+    ],
+    "errores_frecuentes": [
+      "Incluir al $0$ en $K^{\\times}$ por confundir la existencia del inverso aditivo con la del inverso multiplicativo."
+    ],
+    "numeracion_personalizada": "1. c)",
+    "solucion": "Por definición de cuerpo, todo elemento de $K\\setminus\\{0\\}$ tiene inverso para $\\cdot$. Por otra parte, $0$ no tiene inverso para $\\cdot$ en ningún anillo, porque para cualquier $a$ del anillo,\n$$\n0\\cdot a=0\\neq 1\n$$\nPor lo tanto,\n$$\nK^{\\times}=K\\setminus\\{0\\}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Determinar correctamente que $K^{\\times}=K\\setminus\\{0\\}$ y justificar que $0$ no es invertible.",
+            "puntaje": 1
+          }
+        ]
+      }
+    ],
+    "enunciado": "Si $(K,+,\\cdot)$ es un cuerpo, determine $K^{\\times}$."
+  },
+  {
+    "id": "control4-ma1101-p1d",
+    "puntaje": 1,
+    "dificultad": "Baja",
+    "temas": [
+      "Anillos de polinomios",
+      "Unidades"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir,\n$$\nA^{\\times}=\\left\\{a\\in A\\mid a\\text{ tiene inverso para }\\cdot\\text{ en }A\\right\\}\n$$",
+    "pistas": [
+      "Analiza qué debe ocurrir con los grados de dos polinomios cuyo producto sea el polinomio constante $1$."
+    ],
+    "errores_frecuentes": [
+      "Incluir el polinomio cero entre las unidades de $\\mathbb{R}[x]$.",
+      "Suponer que cualquier polinomio sin raíces reales posee inverso dentro de $\\mathbb{R}[x]$."
+    ],
+    "numeracion_personalizada": "1. d)",
+    "solucion": "Los polinomios con inverso multiplicativo son los polinomios de grado $0$, es decir, los polinomios constantes no nulos. Por lo tanto,\n$$\n\\mathbb{R}[x]^{\\times}=\\left\\{p(x)\\in\\mathbb{R}[x]\\mid \\operatorname{gr}(p(x))=0\\right\\}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identificar correctamente las unidades de $\\mathbb{R}[x]$ como los polinomios constantes no nulos, equivalentes a los polinomios de grado $0$.",
+            "puntaje": 1
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine $\\mathbb{R}[x]^{\\times}$, donde $\\mathbb{R}[x]$ es el anillo de los polinomios con coeficientes reales."
+  },
+  {
+    "id": "control4-ma1101-p1e",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Aritmética modular",
+      "Unidades en $\\Z_n$"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir,\n$$\nA^{\\times}=\\left\\{a\\in A\\mid a\\text{ tiene inverso para }\\cdot\\text{ en }A\\right\\}\n$$",
+    "pistas": [
+      "Busca qué clases poseen un producto congruente con $1$ módulo $6$, o descarta primero los divisores de cero."
+    ],
+    "errores_frecuentes": [
+      "Confundir ser distinto de cero con ser invertible en un anillo que no es un cuerpo.",
+      "Concluir que $2$ o $3$ son unidades sin comprobar que su producto con alguna clase sea congruente con $1$ módulo $6$."
+    ],
+    "numeracion_personalizada": "1. e)",
+    "solucion": "\\textit{Primera forma: revisando los elementos de $\\mathbb{Z}_6$.}<br><br>Esto se puede hacer de manera compacta escribiendo la tabla para la multiplicación en $\\mathbb{Z}_6$:\n$$\n\\renewcommand{\\arraystretch}{1.05}\n\\begin{array}{c|cccccc}\n\\cdot & 0 & \\mathbf{1} & 2 & 3 & 4 & \\mathbf{5}\\\\ \\hline\n0 & 0 & 0 & 0 & 0 & 0 & 0\\\\\n\\mathbf{1} & 0 & \\mathbf{1} & 2 & 3 & 4 & 5\\\\\n2 & 0 & 2 & 4 & 0 & 2 & 4\\\\\n3 & 0 & 3 & 0 & 3 & 0 & 3\\\\\n4 & 0 & 4 & 2 & 0 & 4 & 2\\\\\n\\mathbf{5} & 0 & 5 & 4 & 3 & 2 & \\mathbf{1}\n\\end{array}\n$$\nRevisando cada fila, vemos que los únicos elementos que tienen a $1$ como múltiplo son $1$ y $5$. Luego,\n$$\n\\mathbb{Z}_6^{\\times}=\\{1,5\\}\n$$<br><br><br><br><i>Segunda forma: usando propiedades de los elementos invertibles.</i><br><br>Como en un anillo $0\\cdot a=0\\neq1$ para cualquier $a$, el $0$ no tiene inverso para $\\cdot$; por tanto, $0\\notin\\mathbb{Z}_6^{\\times}$.<br><br>Si un elemento es un divisor de cero, no es cancelable para $\\cdot$, mientras que todo elemento con inverso multiplicativo sí es cancelable. Como en $\\mathbb{Z}_6$,\n$$\n2\\cdot3=0,\\qquad 4\\cdot3=0\n$$\nlos elementos $2$, $3$ y $4$ son divisores de cero y no tienen inverso para $\\cdot$.<br><br>Además, la clase de $-1$, que coincide con la clase de $5$, tiene inverso multiplicativo, pues $(-1)(-1)=1$. Así, $5\\in\\mathbb{Z}_6^{\\times}$.<br><br>Por último, el neutro siempre tiene inverso, por lo que $1\\in\\mathbb{Z}_6^{\\times}$. En consecuencia,\n$$\n\\mathbb{Z}_6^{\\times}=\\{1,5\\}\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Justificar que $0$ no pertenece a $\\mathbb{Z}_6^{\\times}$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Descartar a $2$, $3$ y $4$ por ser divisores de cero y, por tanto, no invertibles.",
+            "puntaje": 0.4
+          },
+          {
+            "descripcion": "Justificar que $5$ es invertible, observando que representa a la clase de $-1$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Reconocer que $1$ es invertible y concluir que $\\mathbb{Z}_6^{\\times}=\\{1,5\\}$.",
+            "puntaje": 0.2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine $\\mathbb{Z}_6^{\\times}$, donde $\\mathbb{Z}_6$ es el anillo de los enteros módulo $6$."
+  },
+  {
+    "id": "control4-ma1101-p2a",
+    "puntaje": 1,
+    "dificultad": "Baja",
+    "temas": [
+      "Números complejos",
+      "Módulo"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Sustituye la parte real y la parte imaginaria de $z$ en la definición de módulo."
+    ],
+    "errores_frecuentes": [
+      "Calcular el módulo como $\\cos(\\theta)+\\sin(\\theta)$ en lugar de usar la raíz de la suma de cuadrados.",
+      "Olvidar que la identidad pitagórica vale para los cuadrados de seno y coseno."
+    ],
+    "numeracion_personalizada": "2. a)",
+    "solucion": "Usando la definición de módulo,\n$$\n|z|=\\sqrt{\\operatorname{Re}^{2}(z)+\\operatorname{Im}^{2}(z)}\n$$\nPara $z=\\cos(\\theta)+i\\sin(\\theta)$, se tiene que\n$$\n\\operatorname{Re}(z)=\\cos(\\theta),\\qquad \\operatorname{Im}(z)=\\sin(\\theta)\n$$\nPor lo tanto, usando la identidad pitagórica $\\cos^{2}(\\theta)+\\sin^{2}(\\theta)=1$,\n$$\n|z|=\\sqrt{\\cos^{2}(\\theta)+\\sin^{2}(\\theta)}=\\sqrt{1}=1\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Aplicar correctamente la definición del módulo de un número complejo.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Utilizar la identidad pitagórica $\\cos^{2}(\\theta)+\\sin^{2}(\\theta)=1$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Concluir correctamente que $|z|=1$.",
+            "puntaje": 0.3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Sea $z=\\cos(\\theta)+i\\sin(\\theta)$, donde $\\theta\\in\\mathbb{R}$. Demuestre que $|z|=1$."
+  },
+  {
+    "id": "control4-ma1101-p2b",
+    "puntaje": 2,
+    "dificultad": "Media",
+    "temas": [
+      "Forma polar",
+      "Raíces complejas"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Escribe primero el lado derecho en forma polar y después aplica la fórmula para las raíces séptimas de un complejo."
+    ],
+    "errores_frecuentes": [
+      "Olvidar la raíz séptima del módulo y escribir módulo $2$ en las soluciones.",
+      "Usar solamente el argumento principal y entregar una única raíz.",
+      "Dividir $\\pi/3$ por $7$ sin incorporar los términos $2k\\pi$."
+    ],
+    "numeracion_personalizada": "2. b)",
+    "solucion": "Para resolver la ecuación, escribimos el lado derecho en forma polar. Su módulo es\n$$\n|1+i\\sqrt{3}|=\\sqrt{1+3}=2\n$$\ny su argumento $\\theta\\in[0,2\\pi)$ satisface\n$$\n1+i\\sqrt{3}=2(\\cos(\\theta)+i\\sin(\\theta))\n$$\nPor lo tanto,\n$$\n\\cos(\\theta)=\\frac12,\\qquad \\sin(\\theta)=\\frac{\\sqrt3}{2}\n$$\ny se obtiene $\\theta=\\pi/3$. Luego,\n$$\n1+i\\sqrt{3}=2e^{i\\pi/3}\n$$\nLa ecuación se reescribe como\n$$\nz^{7}=2e^{i\\pi/3}\n$$\nEsta ecuación tiene exactamente siete soluciones $w_0,\\ldots,w_6$, dadas por\n$$\nw_k=\\sqrt[7]{2}\\,e^{i(\\pi/3+2k\\pi)/7},\\qquad k=0,1,\\ldots,6\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Reconocer que conviene escribir $1+i\\sqrt3$ en forma polar.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Calcular correctamente el módulo $|1+i\\sqrt3|=2$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Calcular correctamente el argumento $\\theta=\\pi/3$.",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Escribir $1+i\\sqrt3=2e^{i\\pi/3}$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Reescribir la ecuación como $z^7=2e^{i\\pi/3}$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Reconocer que la ecuación tiene exactamente siete soluciones.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Expresar correctamente las siete soluciones $w_k=\\sqrt[7]{2}\\,e^{i(\\pi/3+2k\\pi)/7}$, con $k=0,\\ldots,6$.",
+            "puntaje": 0.8
+          }
+        ]
+      }
+    ],
+    "enunciado": "Encuentre todas las soluciones $z\\in\\mathbb{C}$ de la ecuación\n$$\nz^{7}=1+i\\sqrt{3}\n$$\nen forma polar."
+  },
+  {
+    "id": "control4-ma1101-p2c",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Forma polar",
+      "Potencias de números complejos"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Convierte numerador y denominador a forma polar antes de efectuar el cociente y la potencia."
+    ],
+    "errores_frecuentes": [
+      "Restar los argumentos del cociente en el orden inverso.",
+      "Elevar únicamente el argumento a la potencia $60$ en lugar de multiplicarlo por $60$."
+    ],
+    "numeracion_personalizada": "2. c)",
+    "solucion": "Como se debe elevar un número complejo, conviene escribir primero el numerador y el denominador en forma polar. Se tiene\n$$\n1+i\\sqrt{3}=2e^{i\\pi/3}\n$$\nAdemás, como $1-i\\sqrt{3}$ es el conjugado de $1+i\\sqrt{3}$,\n$$\n1-i\\sqrt{3}=2e^{-i\\pi/3}\n$$\nLuego,\n$$\n\\begin{aligned}\n\\left(\\frac{1+i\\sqrt{3}}{1-i\\sqrt{3}}\\right)^{60}\n&=\\left(\\frac{2e^{i\\pi/3}}{2e^{-i\\pi/3}}\\right)^{60}\\\\\n&=(e^{2i\\pi/3})^{60}\\\\\n&=e^{40i\\pi}\\\\\n&=1\n\\end{aligned}\n$$\nPor lo tanto, su forma cartesiana es $1+0i$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Reconocer que conviene realizar el cálculo utilizando la forma polar.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Escribir correctamente $1+i\\sqrt3=2e^{i\\pi/3}$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Escribir correctamente $1-i\\sqrt3=2e^{-i\\pi/3}$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Calcular el cociente, elevarlo a la potencia indicada y obtener el resultado cartesiano $1$.",
+            "puntaje": 0.4
+          }
+        ]
+      }
+    ],
+    "enunciado": "Escriba el complejo\n$$\n\\left(\\frac{1+i\\sqrt{3}}{1-i\\sqrt{3}}\\right)^{60}\n$$\nen forma cartesiana."
+  },
+  {
+    "id": "control4-ma1101-p2d",
+    "puntaje": 2,
+    "dificultad": "Alta",
+    "temas": [
+      "Subgrupos",
+      "Caracterización de subgrupos"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Comprueba que $U$ es no vacío y está contenido en $S$; después aplica el criterio $x,y\\in U\\Rightarrow xy^{-1}\\in U$."
+    ],
+    "errores_frecuentes": [
+      "Comprobar solamente que $U\\subset S$ y olvidar verificar una condición que garantice que $U$ es subgrupo.",
+      "Usar $y^{-1}=e^{i\\theta n}$, sin cambiar el signo del argumento.",
+      "No justificar que $m-n$ pertenece a $\\mathbb{Z}$."
+    ],
+    "numeracion_personalizada": "2. d)",
+    "solucion": "Demostraremos primero que $U\\neq\\varnothing$ y que $U\\subset S$. Se tiene $U\\neq\\varnothing$, pues tomando $k=0$ se obtiene $1=e^{i\\theta\\cdot0}\\in U$.<br><br>Además, $U\\subset S$ por la pregunta 2.a), ya que todo elemento de $U$ tiene la forma\n$$\ne^{i\\theta k}=\\cos(\\theta k)+i\\sin(\\theta k)\n$$\ny, por tanto, tiene módulo $1$.<br><br>Usamos el teorema de caracterización de subgrupos y demostraremos que\n$$\n\\forall x,y\\in U,\\qquad x\\cdot y^{-1}\\in U\n$$\nSean $x,y\\in U$. Por definición de $U$, existen $m,n\\in\\mathbb{Z}$ tales que\n$$\nx=e^{i\\theta m},\\qquad y=e^{i\\theta n}\n$$\nEntonces,\n$$\ny^{-1}=e^{-i\\theta n}\n$$\ny, usando la fórmula para la multiplicación en forma polar,\n$$\nx\\cdot y^{-1}=e^{i\\theta m}e^{-i\\theta n}=e^{i\\theta(m-n)}\n$$\nComo $m,n\\in\\mathbb{Z}$, se tiene que $m-n\\in\\mathbb{Z}$. Si anotamos $k=m-n$, entonces\n$$\nx\\cdot y^{-1}=e^{i\\theta k}\\in U\n$$\nEsto concluye que $(U,\\cdot)$ es subgrupo de $(S,\\cdot)$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Demostrar que $U\\neq\\varnothing$ tomando $k=0$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Justificar que $U\\subset S$ utilizando que sus elementos tienen módulo $1$.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Invocar correctamente el teorema de caracterización de subgrupos.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Plantear que debe verificarse $x\\cdot y^{-1}\\in U$ para todo $x,y\\in U$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Escribir $x=e^{i\\theta m}$ e $y=e^{i\\theta n}$ para ciertos $m,n\\in\\mathbb{Z}$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Obtener correctamente $y^{-1}=e^{-i\\theta n}$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Utilizar correctamente la fórmula de multiplicación de complejos en forma polar.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Calcular $x\\cdot y^{-1}=e^{i\\theta(m-n)}$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Usar que la resta de dos enteros vuelve a ser un entero.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Definir $k=m-n\\in\\mathbb{Z}$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Reescribir $x\\cdot y^{-1}=e^{i\\theta k}$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Concluir por definición que $x\\cdot y^{-1}\\in U$.",
+            "puntaje": 0.1
+          }
+        ]
+      }
+    ],
+    "enunciado": "Dado $\\theta\\in\\mathbb{R}$ fijo, considere los conjuntos\n$$\nS=\\{z\\in\\mathbb{C}:|z|=1\\},\\qquad U=\\{e^{i\\theta k}:k\\in\\mathbb{Z}\\}\n$$\nDemuestre que $(U,\\cdot)$ es subgrupo de $(S,\\cdot)$, donde $\\cdot$ es la multiplicación en $\\mathbb{C}$.<br><br><b>Indicación:</b> use sin demostrar que $(S,\\cdot)$ es un grupo abeliano."
+  },
+  {
+    "id": "control4-ma1101-p3ai",
+    "puntaje": 2,
+    "dificultad": "Media",
+    "temas": [
+      "Polinomios",
+      "Multiplicidad de raíces",
+      "Factorización"
+    ],
+    "contexto": "Considere el polinomio $P\\in\\mathbb{C}[x]$ dado por\n$$\nP(x)=x^{4}-2x^{3}+2x^{2}-2x+1\n$$",
+    "pistas": [
+      "Intenta agrupar los términos para obtener un factor $(x-1)^2$, o divide sucesivamente por $x-1$."
+    ],
+    "errores_frecuentes": [
+      "Mostrar solamente que $P(1)=0$, lo que prueba que $1$ es raíz pero no determina su multiplicidad.",
+      "Concluir multiplicidad $2$ al encontrar el factor $(x-1)^2$ sin verificar que $(x-1)^3$ no divide al polinomio."
+    ],
+    "numeracion_personalizada": "3. a) i)",
+    "solucion": "\\textbf{Primera forma:} factorizar directamente, agrupando términos:\n\\begin{align*}\nP(x)&=x^{4}-2x^{3}+2x^{2}-2x+1\\\\\n&=(x^{4}-2x^{3}+x^{2})+(x^{2}-2x+1)\\\\\n&=x^{2}(x^{2}-2x+1)+(x^{2}-2x+1)\\\\\n&=(x^{2}+1)(x^{2}-2x+1)\\\\\n&=(x^{2}+1)(x-1)^{2}\n\\end{align*}\nPor lo tanto, $(x-1)^2$ divide a $P$. Además, $x-1$ no divide a $x^2+1$, pues $1^2+1\\neq0$, de modo que $(x-1)^3$ no divide a $P$. Por definición, $1$ es raíz de $P$ con multiplicidad exactamente $2$.<br><br>\\medskip\n\\textbf{Segunda forma:} utilizando el Teorema del Resto. Primero, $P(1)=0$, por lo que $x-1$ divide a $P$. Dividimos:\n$$\n\\begin{array}{rrrrrcl}\n x^{4}&-2x^{3}&+2x^{2}&-2x&+1&:x-1=&x^{3}-x^{2}+x-1\\\\\n-(x^{4}&-x^{3})&&&&&\\\\[-1mm]\n\\cline{1-2}\n&-x^{3}&+2x^{2}&-2x&+1&&\\\\\n&-(-x^{3}&+x^{2})&&&&\\\\[-1mm]\n\\cline{2-3}\n&&x^{2}&-2x&+1&&\\\\\n&&-(x^{2}&-x)&&&\\\\[-1mm]\n\\cline{3-4}\n&&&-x&+1&&\\\\\n&&&-(-x&+1)&&\\\\[-1mm]\n\\cline{4-5}\n&&&&0&&\n\\end{array}\n$$\nAsí, $P(x)=(x-1)Q(x)$, donde $Q(x)=x^{3}-x^{2}+x-1$. Como $Q(1)=0$, nuevamente $x-1$ divide al cociente. Dividiendo por segunda vez,\n$$\n\\begin{array}{rrrrcl}\n x^{3}&-x^{2}&+x&-1&:x-1=&x^{2}+1\\\\\n-(x^{3}&-x^{2})&&&&\\\\[-1mm]\n\\cline{1-2}\n&&x&-1&&\\\\\n&&-(x&-1)&&\\\\[-1mm]\n\\cline{3-4}\n&&&0&&\n\\end{array}\n$$\nObtenemos $Q(x)=(x-1)(x^{2}+1)$ y, por tanto,\n$$\nP(x)=(x-1)^2(x^2+1)\n$$\nFinalmente, $x^2+1$ evaluado en $1$ es distinto de $0$, por lo que $(x-1)^3$ no divide a $P$. Así, $1$ es raíz de multiplicidad exactamente $2$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Factorizar correctamente $P(x)=(x^2+1)(x-1)^2$.",
+            "puntaje": 0.7
+          },
+          {
+            "descripcion": "Concluir que $(x-1)^2$ divide a $P$.",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Determinar que $(x-1)^3$ no divide a $P$, estableciendo que la multiplicidad no es mayor que $2$.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Concluir, usando la definición, que $1$ es raíz de multiplicidad exactamente $2$.",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $1$ es raíz de $P$ con multiplicidad $2$."
+  },
+  {
+    "id": "control4-ma1101-p3aii",
+    "puntaje": 1,
+    "dificultad": "Baja",
+    "temas": [
+      "Raíces de polinomios en $\\mathbb{C"
+    ],
+    "contexto": "Considere el polinomio $P\\in\\mathbb{C}[x]$ dado por\n$$\nP(x)=x^{4}-2x^{3}+2x^{2}-2x+1\n$$",
+    "pistas": [
+      "Utiliza la factorización obtenida en el inciso anterior y resuelve por separado cada factor."
+    ],
+    "errores_frecuentes": [
+      "Entregar solamente las raíces distintas sin indicar sus multiplicidades.",
+      "Resolver $x^2=-1$ como $x=-1$ en lugar de obtener las raíces complejas $\\pm i$."
+    ],
+    "numeracion_personalizada": "3. a) ii)",
+    "solucion": "De la factorización anterior,\n$$\nP(x)=(x-1)^2(x^2+1)\n$$\nPor lo tanto, $P(x)=0$ si y solo si\n$$\n(x-1)^2=0\\qquad\\text{o bien}\\qquad x^2+1=0\n$$\nLa primera ecuación entrega $x=1$ con multiplicidad $2$. Para la segunda, $x^2=-1$, de donde $x=i$ o $x=-i$. Así,\n$$\nP(x)=(x-1)^2(x-i)(x+i)\n$$\nLas raíces son $1$ con multiplicidad $2$, $i$ con multiplicidad $1$ y $-i$ con multiplicidad $1$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Usar la factorización para reducir la ecuación $P(x)=0$ a las ecuaciones $(x-1)^2=0$ y $x^2+1=0$.",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Identificar $x=1$ como raíz de multiplicidad $2$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Obtener $i$ y $-i$ y entregar correctamente todas las raíces con sus multiplicidades.",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "$}<br><br>Encuentre todas las raíces de $P$ en $\\mathbb{C}$ justificando su respuesta."
+  },
+  {
+    "id": "control4-ma1101-p3bi",
+    "puntaje": 0,
+    "dificultad": "Baja",
+    "temas": [
+      "Ecuaciones cuadráticas",
+      "Raíces conjugadas"
+    ],
+    "contexto": "Sean $n,m,k\\in\\mathbb{N}$ cualesquiera y considere los polinomios $P,Q\\in\\mathbb{C}[x]$:\n$$\nP(x)=x^{6n}+x^{6m+2}+x^{6k+4},\\qquad Q(x)=x^{2}-x+1\n$$",
+    "pistas": [
+      "Completa el cuadrado o usa la fórmula cuadrática; observa luego cómo cambian las partes imaginarias al conjugar."
+    ],
+    "errores_frecuentes": [
+      "Perder el signo negativo al completar el cuadrado y obtener raíces reales.",
+      "Confundir el conjugado con el opuesto y cambiar también el signo de la parte real."
+    ],
+    "numeracion_personalizada": "3. b) i)",
+    "solucion": "Buscamos resolver\n$$\nx^{2}-x+1=0\n$$\nCompletando el cuadrado,\n$$\nx^{2}-x+\\frac14=-\\frac34\n$$\ny, por tanto,\n$$\n\\left(x-\\frac12\\right)^2=-\\frac34\n$$\nIdentificando $i^2=-1$, las raíces son\n$$\nz_1=\\frac12+i\\frac{\\sqrt3}{2},\\qquad z_2=\\frac12-i\\frac{\\sqrt3}{2}\n$$\nEn consecuencia,\n$$\n\\overline{z_1}=\\overline{\\frac12+i\\frac{\\sqrt3}{2}}\n=\\frac12-i\\frac{\\sqrt3}{2}=z_2\n$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Plantear la ecuación $x^2-x+1=0$ que permite encontrar las raíces de $Q$.",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Calcular correctamente $z_1=\\frac12+i\\frac{\\sqrt3}{2}$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Calcular correctamente $z_2=\\frac12-i\\frac{\\sqrt3}{2}$ y reconocer que $\\overline{z_1}=z_2$.",
+            "puntaje": 0.2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Calcule las raíces $z_1$ y $z_2$ de $Q(x)$. Demuestre que $\\overline{z_1}=z_2$."
+  },
+  {
+    "id": "control4-ma1101-p3bii",
+    "puntaje": 0,
+    "dificultad": "Media",
+    "temas": [
+      "Forma polar",
+      "Potencias de números complejos"
+    ],
+    "contexto": "Sean $n,m,k\\in\\mathbb{N}$ cualesquiera y considere los polinomios $P,Q\\in\\mathbb{C}[x]$:\n$$\nP(x)=x^{6n}+x^{6m+2}+x^{6k+4},\\qquad Q(x)=x^{2}-x+1\n$$",
+    "pistas": [
+      "Puedes usar que cada $z_j$ satisface $Q(z_j)=0$, o escribir las raíces obtenidas en forma polar."
+    ],
+    "errores_frecuentes": [
+      "Usar la relación $z_j^2=z_j+1$ por cambiar incorrectamente el signo al despejar.",
+      "Al usar forma polar, elevar el módulo pero no multiplicar el argumento por $3$."
+    ],
+    "numeracion_personalizada": "3. b) ii)",
+    "solucion": "\\textbf{Primera forma:} Sea $j\\in\\{1,2\\}$. Como $z_j$ es raíz de $Q$,\n$$\nz_j^2-z_j+1=0\n$$\nPor lo tanto, $z_j^2=z_j-1$. Multiplicando por $z_j$,\n$$\nz_j^3=z_j^2-z_j\n$$\ny usando nuevamente $z_j^2=z_j-1$,\n$$\nz_j^3=(z_j-1)-z_j=-1\n$$\nComo esto vale para $j=1$ y $j=2$, se concluye que\n$$\nz_1^3=z_2^3=-1\n$$<br><br>\\medskip\n\\textbf{Segunda forma:} Las raíces en forma polar son\n$$\nz_1=e^{i\\pi/3},\\qquad z_2=e^{i5\\pi/3}\n$$\nLuego,\n$$\nz_1^3=e^{i\\pi}=-1,\n\\qquad\nz_2^3=e^{i5\\pi}=-1\n$$\nporque $5\\pi\\equiv\\pi\\pmod{2\\pi}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Usar que $Q(z_j)=0$ para obtener la relación $z_j^2=z_j-1$, o establecer las formas polares equivalentes de las raíces.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Deducir correctamente que $z_1^3=z_2^3=-1$.",
+            "puntaje": 0.3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $z_1^{3}=z_2^{3}=-1$."
+  },
+  {
+    "id": "control4-ma1101-p3biii",
+    "puntaje": 1,
+    "dificultad": "Alta",
+    "temas": [
+      "Evaluación de polinomios",
+      "Raíces"
+    ],
+    "contexto": "Sean $n,m,k\\in\\mathbb{N}$ cualesquiera y considere los polinomios $P,Q\\in\\mathbb{C}[x]$:\n$$\nP(x)=x^{6n}+x^{6m+2}+x^{6k+4},\\qquad Q(x)=x^{2}-x+1\n$$",
+    "pistas": [
+      "Reduce los exponentes usando $z_j^3=-1$ y busca que la expresión resultante coincida con $Q(z_j)$."
+    ],
+    "errores_frecuentes": [
+      "Suponer que $z_j^{6n}=z_j^6$ en lugar de usar $(z_j^6)^n=1$.",
+      "Reducir incorrectamente $z_j^4$ y no obtener la expresión $Q(z_j)$.",
+      "Verificar solo una de las dos raíces sin explicar por qué el argumento vale para ambas."
+    ],
+    "numeracion_personalizada": "3. b) iii)",
+    "solucion": "\\textbf{Primera forma:} Para $j=1,2$, como $z_j^3=-1$,\n$$\nz_j^6=(z_j^3)^2=1,\n\\qquad\nz_j^4=z_j\\,z_j^3=-z_j\n$$\nEvaluamos $P$ en $z_j$:\n\\begin{align*}\nP(z_j)&=z_j^{6n}+z_j^{6m+2}+z_j^{6k+4}\\\\\n&=(z_j^6)^n+(z_j^6)^m z_j^2+(z_j^6)^k z_j^4\\\\\n&=1+z_j^2+z_j^4\\\\\n&=1+z_j^2-z_j\\\\\n&=z_j^2-z_j+1\\\\\n&=Q(z_j)\\\\\n&=0\n\\end{align*}\nPor lo tanto, $P(z_1)=P(z_2)=0$.<br><br>\\medskip\n\\textbf{Segunda forma:} Usando\n$$\nz_1=e^{i\\pi/3},\\qquad z_2=e^{i5\\pi/3}\n$$\nse obtiene\n\\begin{align*}\nP(z_1)\n&=\\left(e^{i\\pi/3}\\right)^{6n}\n +\\left(e^{i\\pi/3}\\right)^{6m+2}\n +\\left(e^{i\\pi/3}\\right)^{6k+4}\\\\\n&=e^{i2\\pi n}+e^{i(2\\pi m+2\\pi/3)}+e^{i(2\\pi k+4\\pi/3)}\\\\\n&=1+e^{i2\\pi/3}+e^{i4\\pi/3}\\\\\n&=1+\\left(-\\frac12+i\\frac{\\sqrt3}{2}\\right)\n +\\left(-\\frac12-i\\frac{\\sqrt3}{2}\\right)\\\\\n&=0\n\\end{align*}\nEl cálculo para $z_2$ es análogo y también entrega $P(z_2)=0$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Reconocer que $z_j^6=1$ y $z_j^4=-z_j$ para $j=1,2$.",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Desarrollar correctamente la evaluación y reducirla a $1+z_j^2-z_j$.",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Reconocer la expresión obtenida como $Q(z_j)$.",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Concluir que $P(z_1)=P(z_2)=0$.",
+            "puntaje": 0.2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $P(z_1)=P(z_2)=0$."
+  },
+  {
+    "id": "control4-ma1101-p3biv",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Divisibilidad de polinomios",
+      "Teorema del factor"
+    ],
+    "contexto": "Sean $n,m,k\\in\\mathbb{N}$ cualesquiera y considere los polinomios $P,Q\\in\\mathbb{C}[x]$:\n$$\nP(x)=x^{6n}+x^{6m+2}+x^{6k+4},\\qquad Q(x)=x^{2}-x+1\n$$",
+    "pistas": [
+      "Usa que $z_1$ y $z_2$ son raíces distintas de $P$ y compara el producto $(x-z_1)(x-z_2)$ con $Q(x)$."
+    ],
+    "errores_frecuentes": [
+      "Concluir que $Q$ divide a $P$ solo porque comparten una raíz, sin usar las dos raíces distintas.",
+      "Olvidar justificar que el producto de los factores lineales coincide exactamente con $Q(x)$ y no solamente con un múltiplo escalar de $Q$."
+    ],
+    "numeracion_personalizada": "3. b) iv)",
+    "solucion": "De la parte iii), sabemos que $z_1$ y $z_2$ son raíces de $P$. De la parte i), sabemos que son distintas; luego,\n$$\n(x-z_1)(x-z_2)\n$$\ndivide a $P$.<br><br>Por otra parte, $Q$ es un polinomio mónico y $z_1,z_2$ son sus raíces, por lo que\n$$\nQ(x)=(x-z_1)(x-z_2)\n$$\nEn efecto,\n$$\n(x-z_1)(x-z_2)\n=x^2-(z_1+z_2)x+z_1z_2\n=x^2-x+1\n=Q(x)\n$$\nPor lo tanto, $Q(x)$ divide a $P(x)$ para cualesquiera $n,m,k\\in\\mathbb{N}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Usar que $z_1$ y $z_2$ son raíces distintas de $P$ para concluir que $(x-z_1)(x-z_2)$ divide a $P$.",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Justificar que $Q(x)=(x-z_1)(x-z_2)$, por ser mónico y tener esas dos raíces.",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Concluir que $Q(x)$ divide a $P(x)$.",
+            "puntaje": 0.2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Concluya que $P(x)$ es divisible por $Q(x)$, cualesquiera sean los valores de $n,m,k\\in\\mathbb{N}$."
+  },
+  {
+    "id": "q-mult-01",
+    "puntaje": 5,
+    "dificultad": "Baja",
+    "temas": [
+      "Integrales",
+      "Técnicas de integración"
+    ],
+    "contexto": "A continuación se presenta un ejercicio clásico que admite múltiples vías de resolución. Elige el camino que más te acomode para obtener el resultado final.",
+    "pistas": [
+      "Puedes intentar usar el método de sustitución (cambio de variable) o reconocer directamente la regla de la cadena inversa."
+    ],
+    "errores_frecuentes": [
+      "Olvidar el factor de $\\frac{1}{2}$ al despejar el diferencial.",
+      "Omitir la constante de integración $C$ en la respuesta final."
+    ],
+    "numeracion_personalizada": "1.",
+    "solucion": "Tenemos la integral $\\int x e^{x^2} \\, dx$. Se puede resolver de dos maneras principales.<br><br><b>Forma 1: Sustitución (Cambio de variable)</b>\nPropongamos el cambio de variable $u = x^2$. \nDerivando obtenemos el diferencial:\n$$ du = 2x \\, dx \\implies x \\, dx = \\frac{du}{2} $$\nSustituyendo en la integral original:\n$$ \\int x e^{x^2} \\, dx = \\int e^u \\frac{du}{2} = \\frac{1}{2} \\int e^u \\, du $$\nEsta es una integral directa:\n$$ \\frac{1}{2} e^u + C $$\nVolviendo a la variable original $x$:\n$$ \\frac{1}{2} e^{x^2} + C $$<br><br><br>\n<b>Forma 2: Inspección Directa (Regla de la Cadena)</b>\nObservamos que la derivada del exponente $x^2$ es $2x$, lo cual es muy parecido al factor $x$ que multiplica a la exponencial.\nPodemos multiplicar y dividir por 2 para completar la derivada exacta:\n$$ \\int x e^{x^2} \\, dx = \\frac{1}{2} \\int 2x e^{x^2} \\, dx $$\nReconociendo la forma $\\int e^{f(x)}f'(x)dx = e^{f(x)}$, podemos integrar directamente:\n$$ \\frac{1}{2} e^{x^2} + C $$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Forma 1: Sustitución (Cambio de variable)",
+        "criterios": [
+          {
+            "descripcion": "Propone correctamente el cambio de variable $u = x^2$.",
+            "puntaje": 1.5
+          },
+          {
+            "descripcion": "Calcula el diferencial $du = 2x \\, dx \\Rightarrow x \\, dx = \\frac{du}{2}$.",
+            "puntaje": 1
+          },
+          {
+            "descripcion": "Reemplaza y resuelve la integral respecto a $u$, obteniendo $\\frac{1}{2} e^u$.",
+            "puntaje": 1.5
+          },
+          {
+            "descripcion": "Retorna a la variable $x$ y suma la constante de integración $C$.",
+            "puntaje": 1
+          }
+        ]
+      },
+      {
+        "nombre": "Forma 2: Inspección Directa (Regla de la Cadena)",
+        "criterios": [
+          {
+            "descripcion": "Observa que la derivada del exponente $x^2$ es $2x$, lo cual es casi el factor $x$ del integrando.",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Multiplica y divide inteligentemente por 2 para completar la derivada: $\\frac{1}{2} \\int 2x e^{x^2} \\, dx$.",
+            "puntaje": 1.5
+          },
+          {
+            "descripcion": "Integra directamente reconociendo la forma $\\int e^{f(x)}f'(x)dx = e^{f(x)}$.",
+            "puntaje": 1
+          },
+          {
+            "descripcion": "Suma la constante de integración $C$ al resultado $\\frac{1}{2}e^{x^2}$.",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Calcule la siguiente integral indefinida:\n$$ \\int x e^{x^2} \\, dx $$"
+  },
+  {
+    "id": "p1-a",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Leyes de Composición Interna"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir:\n$$ A^{\\times} = \\{ a \\in A \\mid a \\text{ tiene inverso para } \\cdot \\text{ en } A \\} $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P1. a)",
+    "solucion": "Veamos que $A^{\\times} \\neq \\emptyset$: Por definición, todo anillo tiene como elemento al 1, el neutro para $\\cdot$, y los neutros siempre se tienen a sí mismos como inverso, luego $1 \\in A^{\\times}$ y por lo tanto $A^{\\times} \\neq \\emptyset$.<br><br>    Veamos que $\\cdot$ es una l.c.i. en $A^{\\times}$: Dado que una l.c.i. en $A^{\\times}$ es simplemente una función de $A^{\\times} \\times A^{\\times}$ en $A^{\\times}$, basta verificar que si tomamos un par cualquiera de elementos $a,b \\in A^{\\times}$, se debe tener que $a \\cdot b \\in A^{\\times}$. Y ese es efectivamente el caso, porque $a,b \\in A^{\\times}$ significa que $a$ y $b$ tienen inverso para $\\cdot$, y se sabe que en un anillo eso implica que $a \\cdot b$ tiene inverso para $\\cdot$, es decir, $a \\cdot b \\in A^{\\times}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Demuestra que $A^{\\times} \\neq \\emptyset$ argumentando que $1 \\in A^{\\times}$",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Demuestra que $\\cdot$ es l.c.i. comprobando que el producto de invertibles es invertible",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $A^{\\times} \\neq \\emptyset$ y que $\\cdot$ es una ley de composición interna (l.c.i.) en $A^{\\times}$."
+  },
+  {
+    "id": "p1-b",
+    "puntaje": 2,
+    "dificultad": "Media",
+    "temas": [
+      "Grupos"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir:\n$$ A^{\\times} = \\{ a \\in A \\mid a \\text{ tiene inverso para } \\cdot \\text{ en } A \\} $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P1. b)",
+    "solucion": "Ya se sabe que $\\cdot$ es una l.c.i. en $A^{\\times}$; por lo tanto $(A^{\\times}, \\cdot)$ es una estructura algebraica. Debemos verificar las propiedades de grupo en $A^{\\times}$:<br><br>    $\\cdot$ es asociativa en $A^{\\times}$: Ello se hereda directamente del hecho de que $\\cdot$ es asociativa en el conjunto $A$ completo.<br><br>    $\\cdot$ tiene neutro en $A^{\\times}$: Como 1 es neutro para $\\cdot$ en todo $A$, y como $1 \\in A^{\\times}$, entonces 1 es también neutro en el subconjunto $A^{\\times}$.<br><br>    Cada $a \\in A^{\\times}$ tiene inverso en $A^{\\times}$: Si $a \\in A^{\\times}$ entonces $a$ es un elemento de $A$ con inverso $a^{-1} \\in A$. Pero se sabe que en este caso el elemento $a^{-1}$ también es invertible, por lo cual $a^{-1} \\in A^{\\times}$.<br><br>    Veamos que si el anillo es conmutativo, el grupo es Abeliano: Esto se hereda directamente del hecho de que $\\cdot$ es conmutativa en el conjunto $A$ completo.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Justifica que la asociatividad se hereda de $A$",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Justifica que el neutro 1 pertenece a $A^{\\times}$ y actúa como neutro",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Justifica que el inverso $a^{-1}$ pertenece a $A^{\\times}$",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Justifica que la conmutatividad se hereda si $A$ es conmutativo",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $(A^{\\times}, \\cdot)$ es un grupo, y que si $(A,+,\\cdot)$ es anillo conmutativo, $(A^{\\times}, \\cdot)$ es grupo Abeliano."
+  },
+  {
+    "id": "p1-c",
+    "puntaje": 1,
+    "dificultad": "Baja",
+    "temas": [
+      "Cuerpos"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir:\n$$ A^{\\times} = \\{ a \\in A \\mid a \\text{ tiene inverso para } \\cdot \\text{ en } A \\} $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P1. c)",
+    "solucion": "Por definición de cuerpo, todo elemento de $K \\setminus \\{0\\}$ tiene inverso multiplicativo. Por otra parte, 0 no tiene inverso en ningún anillo (porque para cualquier $a$, $0 \\cdot a = 0 \\neq 1$). Por lo tanto $K^{\\times} = K \\setminus \\{0\\}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identifica correctamente que $K^{\\times} = K \\setminus \\{0\\}$ justificando en la definición",
+            "puntaje": 1
+          }
+        ]
+      }
+    ],
+    "enunciado": "Si $(K, +, \\cdot)$ es un cuerpo, determine $K^{\\times}$."
+  },
+  {
+    "id": "p1-d",
+    "puntaje": 1,
+    "dificultad": "Baja",
+    "temas": [
+      "Polinomios"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir:\n$$ A^{\\times} = \\{ a \\in A \\mid a \\text{ tiene inverso para } \\cdot \\text{ en } A \\} $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P1. d)",
+    "solucion": "Los polinomios con inverso multiplicativo son los polinomios de grado 0 (es decir, los polinomios constantes no nulos). Por lo tanto $\\mathbb{R}[x]^{\\times} = \\{p(x) \\in \\mathbb{R}[x] \\mid \\text{gr}(p(x))=0\\}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Determina que son los polinomios constantes no nulos (grado 0)",
+            "puntaje": 1
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine $\\mathbb{R}[x]^{\\times}$, donde $\\mathbb{R}[x]$ es el anillo de los polinomios a coeficientes reales."
+  },
+  {
+    "id": "p1-e",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Anillo Zm"
+    ],
+    "contexto": "Sea $(A,+,\\cdot)$ un anillo. Anotemos como $A^{\\times}$ el subconjunto de $A$ formado por todos los elementos con inverso multiplicativo, es decir:\n$$ A^{\\times} = \\{ a \\in A \\mid a \\text{ tiene inverso para } \\cdot \\text{ en } A \\} $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P1. e)",
+    "solucion": "Existen dos formas de abordar esto:<br><br>    <b>Primera forma (revisando cada elemento):</b>\n    Se puede hacer construyendo la tabla para la l.c.i. en $\\mathbb{Z}_6$. Revisando cada fila de la tabla, los únicos elementos que tienen a 1 (el neutro multiplicativo) como múltiplo son el 1 y el 5. Luego $\\mathbb{Z}_6^{\\times}=\\{1,5\\}$.<br><br>    <b>Segunda forma (usando propiedades):</b>\n    Como en un anillo $0 \\cdot a = 0 \\neq 1$, el 0 no tiene inverso. Además, los divisores de cero (2, 3 y 4) no tienen inverso. Como el -1 tiene inverso en $\\mathbb{Z}$, la clase de -1 (que es 5) tiene inverso en $\\mathbb{Z}_6$. Por último, el neutro 1 siempre tiene inverso. Así, $\\mathbb{Z}_6^{\\times}=\\{1,5\\}$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Primera forma: Tabla de Multiplicar o Múltiplos",
+        "criterios": [
+          {
+            "descripcion": "Construye la tabla o revisa los múltiplos y concluye $\\mathbb{Z}_6^{\\times}=\\{1,5\\}$",
+            "puntaje": 1
+          }
+        ]
+      },
+      {
+        "nombre": "Segunda forma: Propiedades de Elementos Invertibles",
+        "criterios": [
+          {
+            "descripcion": "Argumenta que el 0 no tiene inverso",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Identifica que los divisores de cero (2,3,4) no tienen inverso",
+            "puntaje": 0.4
+          },
+          {
+            "descripcion": "Identifica que el 5 (clase de -1) tiene inverso",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Identifica que el neutro (1) tiene inverso",
+            "puntaje": 0.2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine $\\mathbb{Z}_6^{\\times}$, donde $\\mathbb{Z}_6$ es el anillo de los enteros módulo 6."
+  },
+  {
+    "id": "p2-c",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Potencias de Complejos"
+    ],
+    "contexto": null,
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P2. c)",
+    "solucion": "Conviene escribir en coordenadas polares. $1+i\\sqrt{3}$ se escribe como $2e^{i\\pi/3}$. \nComo $1-i\\sqrt{3}$ es el conjugado, en polares es $2e^{-i\\pi/3}$.\nLuego se obtiene:\n$$ \\left(\\frac{2e^{i\\pi/3}}{2e^{-i\\pi/3}}\\right)^{60} = \\left(e^{2i\\pi/3}\\right)^{60} = e^{40i\\pi} = 1 $$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Transforma ambos complejos a su forma polar",
+            "puntaje": 0.6
+          },
+          {
+            "descripcion": "Resuelve la división y aplica el exponente correctamente llegando a 1",
+            "puntaje": 0.4
+          }
+        ]
+      }
+    ],
+    "enunciado": "Escriba el complejo $\\left(\\frac{1+i\\sqrt{3}}{1-i\\sqrt{3}}\\right)^{60}$ en forma cartesiana."
+  },
+  {
+    "id": "p2-d",
+    "puntaje": 2,
+    "dificultad": "Alta",
+    "temas": [
+      "Subgrupos de Complejos"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Use sin demostrar que $(S, \\cdot)$ es grupo abeliano."
+    ],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P2. d)",
+    "solucion": "Demostraremos primero que $U \\neq \\emptyset$ y que $U \\subset S$. \nTomando $k=0$, se tiene que $1 \\in U$. $U \\subset S$ por la pregunta P2 a).\nUsamos el teorema de caracterización de subgrupos y demostraremos que $\\forall x,y \\in U$, $x \\cdot y^{-1} \\in U$. \nSean $x,y \\in U$. Existen $m,n \\in \\mathbb{Z}$ tales que $x=e^{i\\theta m}$ y $y=e^{i\\theta n}$.\nUsando que $y^{-1}=e^{-i\\theta n}$, obtenemos $z = x \\cdot y^{-1} = e^{i\\theta m}e^{-i\\theta n} = e^{i\\theta(m-n)}$.\nComo $(\\mathbb{Z},+)$ es l.c.i., $m-n = k \\in \\mathbb{Z}$ y por lo tanto $z = e^{i\\theta k}$, lo que prueba que $z \\in U$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Demuestra que $U$ es no vacío mostrando que $1 \\in U$",
+            "puntaje": 0.1
+          },
+          {
+            "descripcion": "Argumenta que $U \\subset S$ usando el cálculo del módulo",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Menciona que utilizará el criterio/teorema de caracterización $x \\cdot y^{-1} \\in U$",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Toma dos elementos genéricos y plantea la demostración",
+            "puntaje": 0.4
+          },
+          {
+            "descripcion": "Calcula $x \\cdot y^{-1}$ empleando exponentes",
+            "puntaje": 0.4
+          },
+          {
+            "descripcion": "Justifica la clausura por la suma de enteros y concluye que el elemento pertenece a $U$",
+            "puntaje": 0.4
+          }
+        ]
+      }
+    ],
+    "enunciado": "Dado $\\theta \\in \\mathbb{R}$ fijo, considere los conjuntos $S=\\{z \\in \\mathbb{C} : |z|=1\\}$ y $U=\\{e^{i\\theta k} : k \\in \\mathbb{Z}\\}$. Demuestre que $(U, \\cdot)$ es subgrupo de $(S, \\cdot)$."
+  },
+  {
+    "id": "p3-a-i",
+    "puntaje": 2,
+    "dificultad": "Alta",
+    "temas": [
+      "Raíces y Multiplicidad"
+    ],
+    "contexto": "Considere el polinomio $P \\in \\mathbb{C}[x]$ dado por:\n$$ P(x) = x^4 - 2x^3 + 2x^2 - 2x + 1 $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P3. a) i)",
+    "solucion": "Existen dos formas de demostrarlo:<br><br>    <b>Primera forma: Factorización directa</b>\n    Agrupando términos:\n    $$ P(x) = (x^4 - 2x^3 + x^2) + (x^2 - 2x + 1) $$\n    $$ = x^2(x^2 - 2x + 1) + (x^2 - 2x + 1) = (x^2 + 1)(x - 1)^2 $$\n    Por lo tanto $(x-1)^2$ divide a $P$. Además, $x-1$ no divide a $x^2+1$, por lo que $(x-1)^3$ no divide a $P$. 1 es raíz con multiplicidad 2.<br><br>    <b>Segunda forma: Teorema del Resto (División)</b>\n    Notemos que $P(1)=0$. Dividiendo $P(x)$ por $(x-1)$ obtenemos un cociente $Q(x) = x^3 - x^2 + x - 1$.\n    Evaluando $Q(1) = 0$. Dividiendo nuevamente por $(x-1)$, obtenemos $x^2+1$.\n    Reemplazando: $P(x) = (x-1)^2(x^2+1)$. Finalmente $x^2+1$ evaluado en 1 es distinto de 0, por lo tanto 1 es raíz con multiplicidad exactamente 2.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Primera forma: Factorización Directa",
+        "criterios": [
+          {
+            "descripcion": "Factoriza agrupando y llega a $(x^2+1)(x-1)^2$",
+            "puntaje": 0.7
+          },
+          {
+            "descripcion": "Concluye explícitamente que $(x-1)^2$ divide a $P$",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Determina que $x-1$ no divide al resto, demostrando que $(x-1)^3$ no divide a $P$",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Concluye la multiplicidad usando la definición",
+            "puntaje": 0.5
+          }
+        ]
+      },
+      {
+        "nombre": "Segunda forma: Teorema del Resto y División",
+        "criterios": [
+          {
+            "descripcion": "Aplica Teorema del Resto la primera vez",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Realiza la primera división polinomial correctamente",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Aplica Teorema del Resto al cociente obtenido",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Realiza la segunda división polinomial correctamente",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Concluye que la multiplicidad es 2 evaluando el residuo",
+            "puntaje": 0.4
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que 1 es raíz de $P$ con multiplicidad 2."
+  },
+  {
+    "id": "p3-a-ii",
+    "puntaje": 1,
+    "dificultad": "Media",
+    "temas": [
+      "Raíces Complejas"
+    ],
+    "contexto": "Considere el polinomio $P \\in \\mathbb{C}[x]$ dado por:\n$$ P(x) = x^4 - 2x^3 + 2x^2 - 2x + 1 $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P3. a) ii)",
+    "solucion": "De la factorización anterior, $P(x) = (x-1)^2(x^2+1)$. Por lo tanto, $P(x)=0$ si y solo si $(x-1)^2=0$ o bien $x^2+1=0$.\n    La primera ecuación entrega $x=1$ con multiplicidad 2. Para la segunda, $x^2=-1$, de donde $x=i$ o $x=-i$.\n    Así, $P(x)=(x-1)^2(x-i)(x+i)$. Las raíces son 1 con multiplicidad 2, $i$ y $-i$ con multiplicidad 1.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Plantea las ecuaciones derivadas de la factorización para encontrar raíces",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Establece la raíz real y su multiplicidad",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Obtiene las raíces complejas $i$ y $-i$ con su multiplicidad",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Encuentre todas las raíces de $P$ en $\\mathbb{C}$ justificando su respuesta."
+  },
+  {
+    "id": "p3-b-i",
+    "puntaje": 0,
+    "dificultad": "Media",
+    "temas": [
+      "Raíces de Q"
+    ],
+    "contexto": "Sean $n, m, k \\in \\mathbb{N}$ cualesquiera y considere los polinomios $P, Q \\in \\mathbb{C}[x]$:\n$$ P(x) = x^{6n} + x^{6m+2} + x^{6k+4} \\quad \\text{y} \\quad Q(x) = x^2 - x + 1 $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P3. b) i)",
+    "solucion": "Buscamos resolver $x^2 - x + 1 = 0$. Completando el cuadrado:\n    $(x - 1/2)^2 = -3/4$.\n    Identificando $i^2=-1$, las raíces son $z_1 = \\frac{1}{2} + i\\frac{\\sqrt{3}}{2}$ y $z_2 = \\frac{1}{2} - i\\frac{\\sqrt{3}}{2}$. Se observa directamente que son conjugadas.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Encuentra ambas raíces complejas conjugadas (ej. completando cuadrados o fórmula cuadrática)",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Calcule las raíces $z_1$ y $z_2$ de $Q(x)$. Demuestre que $\\overline{z_1} = z_2$."
+  },
+  {
+    "id": "p3-b-ii",
+    "puntaje": 0,
+    "dificultad": "Media",
+    "temas": [
+      "Potencias Cúbicas"
+    ],
+    "contexto": "Sean $n, m, k \\in \\mathbb{N}$ cualesquiera y considere los polinomios $P, Q \\in \\mathbb{C}[x]$:\n$$ P(x) = x^{6n} + x^{6m+2} + x^{6k+4} \\quad \\text{y} \\quad Q(x) = x^2 - x + 1 $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P3. b) ii)",
+    "solucion": "<b>Primera forma: Manipulación algebraica</b>\n    Como $z_j$ es raíz, $z_j^2 - z_j + 1 = 0 \\implies z_j^2 = z_j - 1$.\n    Multiplicando por $z_j$: $z_j^3 = z_j^2 - z_j$. Reemplazando nuevamente obtenemos $z_j^3 = (z_j - 1) - z_j = -1$.<br><br>    <b>Segunda forma: Forma polar</b>\n    $z_1 = e^{i\\pi/3}$ y $z_2 = e^{i5\\pi/3}$.\n    $z_1^3 = (e^{i\\pi/3})^3 = e^{i\\pi} = -1$.\n    $z_2^3 = (e^{i5\\pi/3})^3 = e^{i5\\pi} = -1$ (ya que $5\\pi \\equiv \\pi \\pmod{2\\pi}$).",
+    "metodos_resolucion": [
+      {
+        "nombre": "Primera forma: Manipulación Algebraica",
+        "criterios": [
+          {
+            "descripcion": "Usa la relación $z_j^2 = z_j - 1$ de la ecuación original",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Multiplica por la raíz y reduce para llegar a $-1$",
+            "puntaje": 0.3
+          }
+        ]
+      },
+      {
+        "nombre": "Segunda forma: Uso de Coordenadas Polares",
+        "criterios": [
+          {
+            "descripcion": "Convierte y expresa las raíces en forma polar",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Aplica la potencia al cubo y reduce mediante trigonometría para llegar a $-1$",
+            "puntaje": 0.3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $z_1^3 = z_2^3 = -1$."
+  },
+  {
+    "id": "p3-b-iii",
+    "puntaje": 1,
+    "dificultad": "Alta",
+    "temas": [
+      "Evaluación de P"
+    ],
+    "contexto": "Sean $n, m, k \\in \\mathbb{N}$ cualesquiera y considere los polinomios $P, Q \\in \\mathbb{C}[x]$:\n$$ P(x) = x^{6n} + x^{6m+2} + x^{6k+4} \\quad \\text{y} \\quad Q(x) = x^2 - x + 1 $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P3. b) iii)",
+    "solucion": "<b>Primera forma: Potencias previas</b>\n    Notemos que $z_j^6 = (z_j^3)^2 = (-1)^2 = 1$ y $z_j^4 = z_j(z_j^3) = -z_j$.\n    Evaluamos: $P(z_j) = (z_j^6)^n + (z_j^6)^m z_j^2 + (z_j^6)^k z_j^4 = 1 + z_j^2 + z_j^4$.\n    Reemplazando: $1 + z_j^2 - z_j = Q(z_j) = 0$.<br><br>    <b>Segunda forma: Forma polar</b>\n    Reemplazamos $z_1 = e^{i\\pi/3}$:\n    $P(z_1) = e^{i2\\pi n} + e^{i(2\\pi m + 2\\pi/3)} + e^{i(2\\pi k + 4\\pi/3)} = 1 + e^{i2\\pi/3} + e^{i4\\pi/3}$.\n    $= 1 + (-1/2 + i\\sqrt{3}/2) + (-1/2 - i\\sqrt{3}/2) = 0$.\n    El caso para $z_2$ es análogo.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Primera forma: Potencias Previas",
+        "criterios": [
+          {
+            "descripcion": "Nota la reducción de potencias para $z_j^6$ y $z_j^4$",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Desarrolla la expresión evaluada de $P$ simplificando exponentes",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Reconoce el término $Q(z_j)$",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Concluye que es igual a 0",
+            "puntaje": 0.2
+          }
+        ]
+      },
+      {
+        "nombre": "Segunda forma: Evaluación Polar Directa",
+        "criterios": [
+          {
+            "descripcion": "Reemplaza la forma polar directamente en el polinomio $P$",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Pasa de vuelta de la forma polar evaluada a coordenadas cartesianas",
+            "puntaje": 0.2
+          },
+          {
+            "descripcion": "Opera la suma y concluye que el resultado es 0",
+            "puntaje": 0.5
+          }
+        ]
+      }
+    ],
+    "enunciado": "Demuestre que $P(z_1) = P(z_2) = 0$."
+  },
+  {
+    "id": "p3-b-iv",
+    "puntaje": 1,
+    "dificultad": "Alta",
+    "temas": [
+      "Divisibilidad Polinomial"
+    ],
+    "contexto": "Sean $n, m, k \\in \\mathbb{N}$ cualesquiera y considere los polinomios $P, Q \\in \\mathbb{C}[x]$:\n$$ P(x) = x^{6n} + x^{6m+2} + x^{6k+4} \\quad \\text{y} \\quad Q(x) = x^2 - x + 1 $$",
+    "pistas": [],
+    "errores_frecuentes": [],
+    "numeracion_personalizada": "P3. b) iv)",
+    "solucion": "Sabemos que $z_1$ y $z_2$ son raíces de $P$. Como son distintas, el producto $(x-z_1)(x-z_2)$ divide a $P$.\n    Notemos que este es un polinomio mónico y como $z_1$ y $z_2$ son también las raíces de $Q(x)$, entonces $Q(x) = (x-z_1)(x-z_2)$.\n    Por lo que $Q(x)$ divide a $P$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Plantea que el producto $(x-z_1)(x-z_2)$ divide a $P$ por tener las mismas raíces",
+            "puntaje": 0.5
+          },
+          {
+            "descripcion": "Reconstruye $Q(x)$ a partir de ese producto de raíces conjugadas",
+            "puntaje": 0.3
+          },
+          {
+            "descripcion": "Concluye explícitamente la divisibilidad final",
+            "puntaje": 0.2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Concluya que $P(x)$ es divisible por $Q(x)$ cualquiera sean los valores de $n, m, k \\in \\mathbb{N}$."
+  },
+  {
+    "id": "p2-a",
+    "puntaje": 8,
+    "dificultad": "Alta",
+    "temas": [
+      "Área en Polares"
+    ],
+    "contexto": "Considere las curvas dadas por las ecuaciones polares:\n$$ C_1 : r^2 = 2\\cos(2\\theta) $$\n$$ C_2 : r = 1 $$",
+    "pistas": [
+      "Iguala $r^2$ de ambas curvas para encontrar el ángulo de intersección en el primer cuadrante. Usa la fórmula de área polar $\\frac{1}{2}\\int (r_{exterior}^2 - r_{interior}^2) d\\theta$ multiplicando por 4 debido a la simetría."
+    ],
+    "errores_frecuentes": [
+      "Olvidar que la ecuación $C_1$ ya está expresada como $r^2$, y elevarla al cuadrado por error al aplicar la fórmula del área."
+    ],
+    "numeracion_personalizada": "2. a)",
+    "solucion": "Podemos usar la simetría de la región, calculando la parte de la región que está en el primer cuadrante y luego multiplicar por 4.\n    El ángulo inicial es $\\theta=0$; para encontrar el ángulo final, debemos resolver la intersección:\n    $$ 2\\cos(2\\theta) = 1 \\implies \\cos(2\\theta) = \\frac{1}{2} \\implies 2\\theta = \\frac{\\pi}{3} \\implies \\theta = \\frac{\\pi}{6} $$\n    Así, el área está dada por:\n    $$ A = 4 \\cdot \\frac{1}{2} \\int_{0}^{\\pi/6} (2\\cos(2\\theta) - 1) d\\theta $$\n    $$ A = 2 (\\sin(2\\theta) - \\theta)\\Big|_{0}^{\\pi/6} = 2\\left(\\sin\\left(\\frac{\\pi}{3}\\right) - \\frac{\\pi}{6}\\right) = \\sqrt{3} - \\frac{\\pi}{3} $$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Encuentra correctamente el ángulo de intersección $\\theta = \\pi/6$",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Plantea la integral del área restando $C_1 - C_2$ y considerando la simetría",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Resuelve la integral trigonométrica llegando al valor correcto",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Determine el valor del área de la región que es interior a $C_1$ y que es exterior a $C_2$."
+  },
+  {
+    "id": "p2-b",
+    "puntaje": 4,
+    "dificultad": "Alta",
+    "temas": [
+      "Planteamiento en Polares"
+    ],
+    "contexto": "Considere las curvas dadas por las ecuaciones polares:\n$$ C_1 : r^2 = 2\\cos(2\\theta) $$\n$$ C_2 : r = 1 $$",
+    "pistas": [
+      "La región está acotada exteriormente por la circunferencia en todo momento, pero interiormente limita con la lemniscata solo hasta que esta toca el origen."
+    ],
+    "errores_frecuentes": [
+      "Plantear una única integral directa desde $\\pi/6$ hasta $\\pi/2$ restando $1 - 2\\cos(2\\theta)$, lo cual procesa valores negativos o imaginarios de la lemniscata en el sector donde no está definida."
+    ],
+    "numeracion_personalizada": "2. b)",
+    "solucion": "Primero debemos identificar dónde la lemniscata $C_1$ se hace cero (llega al origen):\n    $$ 2\\cos(2\\theta) = 0 \\implies \\cos(2\\theta) = 0 \\implies 2\\theta = \\frac{\\pi}{2} \\implies \\theta = \\frac{\\pi}{4} $$\n    A partir de $\\pi/4$ y hasta $\\pi/2$, la región solo está limitada por la circunferencia, ya que la lemniscata no existe en ese sector.\n    Así, en virtud de la simetría, una fórmula posible es:\n    $$ A = 4 \\left( \\frac{1}{2}\\int_{\\pi/6}^{\\pi/4} (1 - 2\\cos(2\\theta)) d\\theta + \\frac{1}{2}\\int_{\\pi/4}^{\\pi/2} 1 d\\theta \\right) $$\n    O de forma equivalente (restando a la circunferencia completa el trozo interior):\n    $$ A = 4 \\left( \\frac{1}{2}\\int_{\\pi/6}^{\\pi/2} 1 d\\theta - \\frac{1}{2}\\int_{\\pi/6}^{\\pi/4} 2\\cos(2\\theta) d\\theta \\right) $$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identifica el límite de existencia de la curva $C_1$ en $\\theta = \\pi/4$",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Plantea la suma (o resta) de integrales contemplando los límites correctos",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Encuentre (no calcule) una fórmula que permita calcular el valor del área de la región que es interior a $C_2$ y que es exterior a $C_1$."
+  },
+  {
+    "id": "p3",
+    "puntaje": 10,
+    "dificultad": "Media",
+    "temas": [
+      "Longitud de Arco"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Aplica el Teorema Fundamental del Cálculo para encontrar $x'(t)$ e $y'(t)$, y luego usa la identidad trigonométrica fundamental para simplificar la suma dentro de la raíz."
+    ],
+    "errores_frecuentes": [
+      "Intentar resolver las integrales paramétricas originales en lugar de derivarlas inmediatamente por el Teorema Fundamental del Cálculo."
+    ],
+    "numeracion_personalizada": "3.",
+    "solucion": "Usando el Teorema Fundamental del Cálculo, tenemos que derivar los límites de integración:\n$$ x'(t) = \\frac{\\sin(t^{3})}{t^{2}}, \\quad y'(t) = \\frac{\\cos(t^{3})}{t^{2}} $$\nAsí, la fórmula de la longitud de arco está dada por:\n$$ L = \\int_{1}^{2} \\sqrt{(x'(t))^{2} + (y'(t))^{2}} dt = \\int_{1}^{2} \\sqrt{\\left(\\frac{\\sin(t^{3})}{t^{2}}\\right)^{2} + \\left(\\frac{\\cos(t^{3})}{t^{2}}\\right)^{2}} dt $$\n$$ L = \\int_{1}^{2} \\sqrt{\\frac{\\sin^{2}(t^{3})}{t^{4}} + \\frac{\\cos^{2}(t^{3})}{t^{4}}} dt = \\int_{1}^{2} \\sqrt{\\frac{\\sin^{2}(t^{3}) + \\cos^{2}(t^{3})}{t^{4}}} dt $$\n$$ L = \\int_{1}^{2} \\sqrt{\\frac{1}{t^{4}}} dt = \\int_{1}^{2} \\frac{dt}{t^{2}} = \\frac{-1}{t}\\Big|_{1}^{2} = \\frac{-1}{2} + 1 = \\frac{1}{2} $$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Obtiene las derivadas paramétricas aplicando el TFC correctamente",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Plantea la integral de longitud de arco y aplica la identidad pitagórica",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Resuelve la integral resultante obteniendo la longitud 1/2",
+            "puntaje": 3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Considere la curva $C$ dada por las curvas paramétricas\n$$ x(t) = \\int_{1}^{t} \\frac{\\sin(z^{3})}{z^{2}} dz \\quad ; \\quad y(t) = \\int_{1}^{t} \\frac{\\cos(z^{3})}{z^{2}} dz $$\ncon $t \\in [1,2]$. Determine la longitud de $C$."
+  },
+  {
+    "id": "p4",
+    "puntaje": 10,
+    "dificultad": "Alta",
+    "temas": [
+      "Método de las Capas e Impropia"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Al girar en torno al eje Y, conviene usar el método de las capas cilíndricas: $V = 2\\pi \\int x f(x) dx$. Luego usa integración por partes para la exponencial."
+    ],
+    "errores_frecuentes": [
+      "Equivocarse al plantear la fórmula del sólido de revolución usando el método de discos en un escenario donde las capas cilíndricas son necesarias para evitar invertir la función logarítmicamente."
+    ],
+    "numeracion_personalizada": "4.",
+    "solucion": "Usando el método de las capas cilíndricas, el volumen obtenido al girar la región $R$ está dado por:\n$$ V = 2\\pi \\int_{0}^{+\\infty} x e^{-ax} dx = 2\\pi \\lim_{b \\to +\\infty} \\int_{0}^{b} x e^{-ax} dx $$\nUsando integración por partes:\n$$ u=x, \\quad dv=e^{-ax}dx $$\n$$ du=dx, \\quad v=-\\frac{1}{a}e^{-ax} $$\n$$ V = 2\\pi \\lim_{b \\to +\\infty} \\left( -\\frac{x}{a}e^{-ax}\\Big|_{0}^{b} + \\frac{1}{a}\\int_{0}^{b} e^{-ax} dx \\right) $$\n$$ = 2\\pi \\lim_{b \\to +\\infty} \\left( \\frac{-x}{a}e^{-ax} - \\frac{1}{a^{2}}e^{-ax} \\right)\\Big|_{0}^{b} $$\n$$ = 2\\pi \\lim_{b \\to +\\infty} \\left( \\frac{-b}{a}e^{-ab} - \\frac{1}{a^{2}}e^{-ab} + \\frac{1}{a^{2}} \\right) = \\frac{2\\pi}{a^{2}} $$\nIgualando al volumen dado:\n$$ \\frac{2\\pi}{a^{2}} = 8\\pi \\implies a^{2} = \\frac{1}{4} \\implies a = \\frac{1}{2} $$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Plantea correctamente el volumen mediante casquetes cilíndricos (límite e integral)",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Ejecuta integración por partes de manera adecuada",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Evalúa el límite impropio demostrando que los términos se anulan, llegando a $2\\pi/a^2$",
+            "puntaje": 2
+          },
+          {
+            "descripcion": "Despeja el parámetro $a$ correctamente a partir de la igualdad de volúmenes",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Considere la región infinita $R$ del primer cuadrante limitada por los ejes coordenados y por la gráfica de la función $f(x)=e^{-ax}$ ($a>0$). Determine el valor de $a$ si el volumen del sólido obtenido al girar $R$ alrededor del eje Y es igual a $8\\pi$ unidades cúbicas."
+  },
+  {
+    "id": "p5",
+    "puntaje": 15,
+    "dificultad": "Media",
+    "temas": [
+      "Intervalo de Convergencia"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Utiliza el Criterio del Cuociente para encontrar el radio de convergencia. Luego, reemplaza $x=0$ y $x=2$ para revisar la convergencia en las fronteras usando p-series y Leibniz."
+    ],
+    "errores_frecuentes": [
+      "Aplicar mal el valor absoluto en el Criterio del Cuociente y arrastrar términos negativos, lo que altera el cálculo de los extremos de la inecuación."
+    ],
+    "numeracion_personalizada": "5.",
+    "solucion": "Consideremos $a_{n} = \\frac{(x-1)^{n}}{n} \\implies a_{n+1} = \\frac{(x-1)^{n+1}}{n+1}$.\nAsí, en virtud del criterio del cuociente, tenemos que:\n$$ \\lim_{n \\to +\\infty} \\left| \\frac{a_{n+1}}{a_{n}} \\right| = \\lim_{n \\to +\\infty} |x-1|\\frac{n}{n+1} = |x-1| \\lim_{n \\to +\\infty} \\frac{n}{n+1} = |x-1| < 1 $$\nAsí, tenemos que:\na) Para $|x-1| < 1 \\iff 0 < x < 2$ la serie converge absolutamente.\nb) Para $|x-1| > 1 \\iff x < 0 \\text{ ó } x > 2$, la serie diverge.\nc) Nos falta ver qué ocurre cuando $x=0$ y $x=2$:\n1) Cuando $x=2$, obtenemos la serie:\n$$ \\sum_{n=1}^{+\\infty} \\frac{1}{n} $$\nque es divergente (p-serie con $p=1$, también llamada serie armónica).\n2) Cuando $x=0$, obtenemos la serie alternante:\n$$ \\sum_{n=1}^{+\\infty} \\frac{(-1)^{n}}{n} $$\nEsta serie no converge absolutamente. Por otro lado, como $\\lim_{n \\to +\\infty} \\frac{1}{n} = 0$ y $\\{\\frac{1}{n}\\}$ es decreciente, por el criterio de Leibniz la serie converge condicionalmente.\nAsí, concluimos que el intervalo de convergencia es $[0, 2[$.",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Aplica el criterio del cuociente y obtiene el límite $|x-1|$",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Despeja la inecuación obteniendo el intervalo abierto $]0, 2[$",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Analiza $x=2$ demostrando divergencia por tratarse de la Serie Armónica",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Analiza $x=0$ argumentando convergencia por el Criterio de Leibniz",
+            "puntaje": 3
+          },
+          {
+            "descripcion": "Concluye con el intervalo de convergencia cerrado a la izquierda $[0, 2[$",
+            "puntaje": 2
+          }
+        ]
+      }
+    ],
+    "enunciado": "Considere la serie de potencias:\n$$ \\sum_{n=1}^{+\\infty} \\frac{(x-1)^{n}}{n} $$\nDetermine su intervalo de convergencia, incluyendo el estudio de qué ocurre en sus puntos frontera."
+  },
+  {
+    "id": "p1",
+    "puntaje": 15,
+    "dificultad": "Media",
+    "temas": [
+      "Área entre Curvas"
+    ],
+    "contexto": null,
+    "pistas": [
+      "Aprovecha la simetría par respecto al eje Y calculando solo el lado derecho y multiplicando por 2. Identifica correctamente cuál función actúa como \"techo\" y cuál como \"piso\" en cada tramo."
+    ],
+    "errores_frecuentes": [
+      "Restar las funciones en el orden incorrecto (inferior menos superior) obteniendo áreas negativas, o no dividir el cálculo en dos integrales al cambiar el \"techo\" de la región en $x=1$."
+    ],
+    "numeracion_personalizada": "1.",
+    "solucion": "Por simetría de la región, podemos calcular el área de la región que está a la derecha del eje Y y, luego, multiplicar por 2.\nEncontramos las intersecciones para definir los límites:\na) Intersectando $y=4-x^{2}$ con $y=8-2x^{2}$, tenemos que $4-x^{2}=0 \\implies x=2$.\nb) Intersectando $y=8-2x^{2}$ con $y=6$, tenemos que $2-2x^{2}=0 \\implies x=1$.\nc) Las gráficas de $y=6$ e $y=4-x^{2}$ no se intersectan.<br><br>Luego, el área de la región está dada por la suma de dos integrales:\n$$A = 2\\left( \\int_{0}^{1} (6 - (4-x^{2})) dx + \\int_{1}^{2} ((8-2x^{2}) - (4-x^{2})) dx \\right)$$\n$$A = 2\\left( \\int_{0}^{1} (2+x^{2}) dx + \\int_{1}^{2} (4-x^{2}) dx \\right)$$\n$$A = 2\\left( \\left(2x + \\frac{x^{3}}{3}\\right)\\Big\\vert{}_{0}^{1} + \\left(4x - \\frac{x^{3}}{3}\\right)\\Big\\vert{}_{1}^{2} \\right) = 8$$",
+    "metodos_resolucion": [
+      {
+        "nombre": "Única Forma",
+        "criterios": [
+          {
+            "descripcion": "Identifica los puntos de intersección correctos ($x=1$ y $x=2$)",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Plantea la primera integral con $y=6$ como límite superior",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Plantea la segunda integral con $y=8-2x^2$ como límite superior",
+            "puntaje": 4
+          },
+          {
+            "descripcion": "Integra correctamente y llega al valor final 8",
+            "puntaje": 3
+          }
+        ]
+      }
+    ],
+    "enunciado": "Considere $R$ la región acotada por las parábolas $y=4-x^{2}$, $y=8-2x^{2}$ y por la recta $y=6$.\nAyudándose de un bosquejo de la región, determine el área de $R$."
+  }
+]

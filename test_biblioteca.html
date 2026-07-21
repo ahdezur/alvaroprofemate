@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test DataService - Biblioteca</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f4f4f5; }
+    .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Prueba del DataService (Fase 1)</h2>
+    <p>Abre la <strong>consola del navegador (F12)</strong> para ver los logs detallados, o revisa el resultado a continuación:</p>
+    
+    <h3>Evaluaciones Cargadas:</h3>
+    <pre id="output-evaluaciones">Cargando...</pre>
+
+    <h3>Preguntas Cargadas:</h3>
+    <pre id="output-preguntas">Cargando...</pre>
+    
+    <h3>Estado LocalStorage Inicial:</h3>
+    <pre id="output-progreso">Cargando...</pre>
+  </div>
+
+  <script type="module">
+    import { dataService } from './js/biblioteca/DataService.js';
+
+    async function runTest() {
+      try {
+        console.log("=== INICIANDO TEST DEL DATASERVICE ===");
+        
+        // 1. Leer Evaluaciones
+        console.log("1. Cargando Evaluaciones...");
+        const evaluaciones = await dataService.getEvaluaciones();
+        console.log("Evaluaciones obtenidas:", evaluaciones);
+        document.getElementById('output-evaluaciones').textContent = JSON.stringify(evaluaciones, null, 2);
+
+        // 2. Leer Preguntas
+        console.log("2. Cargando Preguntas...");
+        const preguntas = await dataService.getPreguntas();
+        console.log("Preguntas obtenidas:", preguntas);
+        document.getElementById('output-preguntas').textContent = JSON.stringify(preguntas, null, 2);
+
+        // 3. Probar LocalStorage
+        console.log("3. Leyendo LocalStorage...");
+        const progreso = dataService.getProgreso();
+        console.log("Progreso actual:", progreso);
+        document.getElementById('output-progreso').textContent = JSON.stringify(progreso, null, 2);
+        
+        console.log("=== TEST FINALIZADO CON ÉXITO ===");
+
+      } catch (error) {
+        console.error("Error en la prueba:", error);
+        document.getElementById('output-evaluaciones').textContent = "ERROR: " + error.message;
+      }
+    }
+
+    runTest();
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "q_1001",
+    "tema": "calculo_diferencial",
+    "subtema": "regla_de_la_cadena",
+    "dificultad": 3,
+    "enunciado": "Calcula la derivada de la función \\( f(x) = \\sin(x^2) \\).",
+    "tipo": "alternativa",
+    "alternativas": [
+      { "id": "a1", "texto": "\\( \\cos(x^2) \\)", "correcta": false },
+      { "id": "a2", "texto": "\\( 2x \\cos(x^2) \\)", "correcta": true },
+      { "id": "a3", "texto": "\\( -2x \\cos(x^2) \\)", "correcta": false },
+      { "id": "a4", "texto": "\\( 2x \\sin(x) \\)", "correcta": false }
+    ],
+    "pistas": [
+      "Recuerda que la función es compuesta: una función 'exterior' (seno) y una 'interior' (cuadrática).",
+      "La regla de la cadena establece que: \\( \\frac{d}{dx}f(g(x)) = f'(g(x)) \\cdot g'(x) \\)."
+    ],
+    "solucion": "1. Identificamos \\( g(x) = x^2 \\) y \\( f(u) = \\sin(u) \\).<br>2. Derivamos \\( g'(x) = 2x \\).<br>3. Derivamos \\( f'(u) = \\cos(u) \\).<br>4. Multiplicamos: \\( \\cos(x^2) \\cdot 2x = 2x \\cos(x^2) \\)."
+  },
+  {
+    "id": "q_1002",
+    "tema": "calculo_diferencial",
+    "subtema": "limites",
+    "dificultad": 2,
+    "enunciado": "Calcula el siguiente límite: \\[ \\lim_{x \\to 0} \\frac{\\sin(3x)}{x} \\]",
+    "tipo": "alternativa",
+    "alternativas": [
+      { "id": "a1", "texto": "\\( 0 \\)", "correcta": false },
+      { "id": "a2", "texto": "\\( 1 \\)", "correcta": false },
+      { "id": "a3", "texto": "\\( 3 \\)", "correcta": true },
+      { "id": "a4", "texto": "No existe", "correcta": false }
+    ],
+    "pistas": [
+      "Intenta utilizar el límite notable \\( \\lim_{u \\to 0} \\frac{\\sin(u)}{u} = 1 \\).",
+      "Multiplica y divide por 3 para que el argumento del seno coincida con el denominador."
+    ],
+    "solucion": "Multiplicamos el numerador y denominador por 3: \\[ \\lim_{x \\to 0} \\frac{3\\sin(3x)}{3x} \\] Como \\( \\lim_{3x \\to 0} \\frac{\\sin(3x)}{3x} = 1 \\), entonces el resultado es \\( 3 \\cdot 1 = 3 \\)."
+  },
+  {
+    "id": "q_1003",
+    "tema": "algebra_lineal",
+    "subtema": "matrices",
+    "dificultad": 1,
+    "enunciado": "¿Cuál es el determinante de la matriz identidad \\( I_{3 \\times 3} \\)?",
+    "tipo": "alternativa",
+    "alternativas": [
+      { "id": "a1", "texto": "\\( 0 \\)", "correcta": false },
+      { "id": "a2", "texto": "\\( 1 \\)", "correcta": true },
+      { "id": "a3", "texto": "\\( 3 \\)", "correcta": false },
+      { "id": "a4", "texto": "\\( -1 \\)", "correcta": false }
+    ],
+    "pistas": [
+      "Recuerda que la matriz identidad tiene unos en la diagonal principal y ceros en el resto."
+    ],
+    "solucion": "El determinante de una matriz diagonal (como la matriz identidad) es simplemente el producto de los elementos de su diagonal principal. Por lo tanto, \\( 1 \\cdot 1 \\cdot 1 = 1 \\)."
+  }
+]

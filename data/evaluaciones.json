@@ -1,0 +1,14 @@
+[
+  {
+    "id": "eval_01",
+    "titulo": "Ensayo Diagnóstico Matemático N°1",
+    "descripcion": "Una evaluación rápida para medir conceptos básicos de cálculo y álgebra lineal.",
+    "tiempo_limite_minutos": 15,
+    "etiquetas": ["Cálculo", "Álgebra Lineal", "Diagnóstico"],
+    "preguntas": [
+      { "id_pregunta": "q_1003", "orden": 1, "puntaje": 10 },
+      { "id_pregunta": "q_1002", "orden": 2, "puntaje": 15 },
+      { "id_pregunta": "q_1001", "orden": 3, "puntaje": 20 }
+    ]
+  }
+]

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resolviendo Evaluación – Álvaro Profemate</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="css/biblioteca.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' },
+      startup: { typeset: false } // Evitamos el primer render para hacerlo manual cuando inyectemos el HTML
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    /* Estilos específicos para la SPA de Evaluación que extienden biblioteca.css */
+    .eval-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 30px;
+      margin-top: 100px;
+      min-height: calc(100vh - 180px);
+    }
+    
+    .eval-sidebar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 20px;
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .question-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .q-nav-btn {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+
+    .q-nav-btn:hover { border-color: var(--primary); }
+    .q-nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .q-nav-btn.visited { border-color: var(--accent); color: var(--accent); }
+    .q-nav-btn.flagged::after {
+      content: "";
+      position: absolute;
+      top: -3px; right: -3px;
+      width: 10px; height: 10px;
+      background: #f59e0b;
+      border-radius: 50%;
+    }
+
+    .eval-content-area {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 40px;
+    }
+
+    .q-meta-badges { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    
+    .q-text {
+      font-size: 16px;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    /* Pistas Acordeón */
+    .hint-container {
+      margin-top: 20px;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: var(--border-radius-sm);
+      overflow: hidden;
+      display: none;
+    }
+    .hint-container.visible { display: block; }
+    .hint-header {
+      background: rgba(6, 182, 212, 0.1);
+      padding: 10px 15px;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+    }
+    .hint-body { padding: 15px; font-size: 14px; }
+
+    /* Solución */
+    .solution-panel {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(16, 185, 129, 0.05);
+      border-left: 4px solid #10b981;
+      border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+      display: none;
+    }
+    .solution-panel.visible { display: block; }
+
+    /* Pauta Interactiva */
+    .rubric-panel {
+      margin-top: 30px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      display: none;
+    }
+    .rubric-panel.visible { display: block; }
+    .rubric-header { background: var(--bg-input); padding: 15px; font-weight: 600; }
+    .rubric-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 15px;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .rubric-item:hover { background: rgba(255,255,255,0.02); }
+    .rubric-item input { margin-top: 4px; }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .eval-layout { grid-template-columns: 1fr; margin-top: 80px; }
+      .eval-sidebar { position: static; max-height: none; }
+      .eval-content-area { padding: 20px; }
+    }
+  </style>
+</head>
+<body class="theme-light">
+  
+  <nav class="navbar scrolled" id="navbar">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-calculator"></i></div>
+      Álvaro<span>Profemate</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html" class="nav-link"><i class="fa-solid fa-arrow-left"></i> Volver al Catálogo</a></li>
+    </ul>
+  </nav>
+
+  <!-- LOADING STATE -->
+  <div id="loader" style="display:flex; justify-content:center; align-items:center; height:100vh;">
+    <div style="text-align:center; color: var(--accent);">
+      <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+      <p style="margin-top:15px;">Cargando evaluación...</p>
+    </div>
+  </div>
+
+  <div id="error-container" class="container" style="display:none; margin-top: 150px; text-align: center;">
+    <div class="subject-card" style="display: inline-block; text-align:left; max-width: 500px;">
+      <h3 style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error al cargar</h3>
+      <p id="error-message" style="margin: 15px 0;">No se pudo encontrar la evaluación especificada.</p>
+      <a href="index.html" class="btn btn-secondary">Volver al catálogo</a>
+    </div>
+  </div>
+
+  <div id="lobby-container" class="container" style="display:none; margin-top: 120px; max-width: 650px; margin-left: auto; margin-right: auto;">
+    <div class="subject-card" style="text-align: center; padding: 50px;">
+      <h2 id="lobby-title" style="font-size: 28px; margin-bottom: 15px;">Cargando...</h2>
+      <div id="lobby-meta" class="eval-meta" style="justify-content: center; margin-bottom: 15px; color: var(--text-secondary); font-size: 14px;"></div>
+      <div id="lobby-tags" class="tags-container" style="justify-content: center; margin-bottom: 25px;"></div>
+      
+      <div style="background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); padding: 15px; border-radius: 8px; margin-bottom: 30px;">
+        <p style="color: var(--accent); font-weight: 600; font-size: 16px;"><i class="fa-regular fa-clock"></i> Tiempo destinado: <span id="lobby-time">--</span> minutos</p>
+      </div>
+
+      <div style="margin-bottom: 30px; text-align: left; background: var(--bg-input); padding: 20px; border-radius: 8px;">
+        <label style="font-size: 14px; font-weight: 600; display: block; margin-bottom: 10px;">Selecciona el modo antes de comenzar:</label>
+        <select id="lobby-mode" class="lib-input" style="font-size: 15px; padding: 12px;">
+          <option value="estudio">Modo Estudio (Con Ayudas y Pautas)</option>
+          <option value="evaluacion">Modo Evaluación (Prueba Estricta)</option>
+        </select>
+      </div>
+
+      <button id="btn-comenzar" class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 15px;"><i class="fa-solid fa-play"></i> Comenzar Evaluación</button>
+    </div>
+  </div>
+
+  <div class="container eval-layout" id="app-container" style="display: none;">
+    <!-- SIDEBAR NAV -->
+    <aside class="eval-sidebar">
+      <div style="margin-bottom: 15px;">
+        <h3 id="eval-title" style="font-size: 16px; margin-bottom: 5px;">Cargando...</h3>
+        <p id="eval-course" style="font-size: 12px; color: var(--text-muted);"></p>
+        <div id="eval-timer" style="font-size: 26px; font-family: monospace; font-weight: bold; color: var(--accent); margin-top: 15px; display: none;"></div>
+      </div>
+      
+      <!-- Selector de Modo -->
+      <div style="margin-bottom: 20px; background: var(--bg-input); border-radius: 8px; padding: 10px;">
+        <label style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 5px;">Modo de Uso</label>
+        <select id="mode-selector" class="lib-input" style="padding: 5px; font-size: 13px;">
+          <option value="estudio">Modo Estudio (Con Ayudas)</option>
+          <option value="evaluacion">Modo Evaluación</option>
+        </select>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 12px;">
+        <span>Progreso</span>
+        <span id="progress-text">0 / 0</span>
+      </div>
+      <div style="width: 100%; height: 6px; background: var(--bg-input); border-radius: 5px; margin-top: 5px;">
+        <div id="progress-bar" style="height: 100%; width: 0%; background: var(--primary); border-radius: 5px; transition: width 0.3s;"></div>
+      </div>
+
+      <div class="question-nav-grid" id="q-nav-grid">
+        <!-- Generado dinámicamente -->
+      </div>
+      
+      <div style="margin-top: 30px; text-align: center;">
+        <button id="btn-finish-eval" class="btn btn-secondary" style="width: 100%; font-size: 13px;"><i class="fa-solid fa-flag-checkered"></i> Finalizar Intento</button>
+        <button id="btn-reset-eval" class="btn-text" style="margin-top: 15px; color: #ef4444;"><i class="fa-solid fa-trash"></i> Reiniciar Progreso</button>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="eval-content-area">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <h2 id="q-title" style="font-size: 24px;">Pregunta 1</h2>
+        <button id="btn-flag" class="btn-text" style="color: #f59e0b;"><i class="fa-regular fa-flag"></i> Marcar para revisar</button>
+      </div>
+
+      <div class="q-meta-badges" id="q-badges">
+        <!-- Badges de dificultad, puntaje, temas -->
+      </div>
+
+      <div class="q-text" id="q-statement">
+        <!-- Enunciado inyectado aquí -->
+      </div>
+
+      <!-- BOTONERA MODO ESTUDIO -->
+      <div id="study-tools-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+        <button id="btn-show-hint-1" class="btn btn-secondary" style="font-size: 13px;"><i class="fa-solid fa-lightbulb"></i> Ver Pista 1</button>
+        <button id="btn-show-hint-2" class="btn btn-secondary" style="font-size: 13px; display: none;"><i class="fa-solid fa-lightbulb"></i> Ver Pista 2</button>
+        <button id="btn-show-solution" class="btn btn-secondary" style="font-size: 13px; color: #10b981; border-color: rgba(16,185,129,0.3);"><i class="fa-solid fa-key"></i> Ver Solución</button>
+        <button id="btn-show-rubric" class="btn btn-secondary" style="font-size: 13px; color: var(--accent); border-color: rgba(6,182,212,0.3);"><i class="fa-solid fa-list-check"></i> Criterios de Corrección</button>
+      </div>
+
+      <!-- PISTAS -->
+      <div id="hint-1-container" class="hint-container">
+        <div class="hint-header"><i class="fa-solid fa-lightbulb"></i> Pista 1</div>
+        <div class="hint-body" id="hint-1-text"></div>
+      </div>
+      <div id="hint-2-container" class="hint-container">
+        <div class="hint-header"><i class="fa-solid fa-lightbulb"></i> Pista 2</div>
+        <div class="hint-body" id="hint-2-text"></div>
+      </div>
+
+      <!-- SOLUCIÓN -->
+      <div id="solution-container" class="solution-panel">
+        <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-key"></i> Solución Paso a Paso</h4>
+        <div id="solution-text"></div>
+        <div id="errors-container" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(16,185,129,0.3);">
+          <h5 style="color: #ef4444; margin-bottom: 5px;"><i class="fa-solid fa-triangle-exclamation"></i> Errores Frecuentes:</h5>
+          <ul id="errors-list" style="padding-left: 20px; font-size: 13px; color: var(--text-secondary);"></ul>
+        </div>
+      </div>
+
+      <!-- PAUTA INTERACTIVA -->
+      <div id="rubric-container" class="rubric-panel">
+        <div class="rubric-header">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-list-check"></i> Autoevaluación referencial</span>
+            <span id="rubric-score" style="color: var(--accent); font-size: 18px; font-family: var(--font-title);">0 / 0</span>
+          </div>
+        </div>
+        <div id="rubric-items-list">
+          <!-- Items dinámicos -->
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <button id="btn-prev" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+        <button id="btn-next" class="btn btn-primary">Siguiente <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/biblioteca/EvaluacionApp.js"></script>
+</body>
+</html>
