@@ -1966,7 +1966,19 @@ function parseLatexChapter(latexText) {
     html = html.replace(/\\subsection\*\{([^}]+)\}/gi, '<h4>$1</h4>');
     html = html.replace(/\\section\*\{([^}]+)\}/gi, '<h3>$1</h3>');
 
-    return html.trim();
+    // Paragraph formatting: Split text by double newlines or blank lines into <p>...</p> blocks
+    const blocks = html.split(/\n\s*\n/);
+    const formattedBlocks = blocks.map(block => {
+      let b = block.trim();
+      if (!b) return '';
+      if (/^<(div|ul|ol|h3|h4|p|blockquote|table)\b/i.test(b)) {
+        return b;
+      }
+      b = b.replace(/\n/g, ' ');
+      return `<p>${b}</p>`;
+    });
+
+    return formattedBlocks.filter(Boolean).join('\n');
   }
 
   // Parse Ejercicios
