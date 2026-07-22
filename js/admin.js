@@ -1765,6 +1765,41 @@ function parseLatexChapter(latexText) {
   const rawExerc = stripLatexComments(getEnvContent('ejercicios'));
   const rawFormulas = stripLatexComments(getEnvContent('formulas'));
 
+  function extractMacroCalls(text, macroName, argCount) {
+    const results = [];
+    const regex = new RegExp(`\\\\${macroName}\\s*\\{`, 'gi');
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const startIndex = match.index + match[0].length - 1;
+      const args = [];
+      let i = startIndex;
+
+      while (i < text.length && args.length < argCount) {
+        if (text[i] === '{') {
+          let depth = 1;
+          let start = i + 1;
+          i++;
+          while (i < text.length && depth > 0) {
+            if (text[i] === '{' && text[i - 1] !== '\\') depth++;
+            else if (text[i] === '}' && text[i - 1] !== '\\') depth--;
+            i++;
+          }
+          args.push(text.substring(start, i - 1));
+        } else {
+          i++;
+        }
+      }
+
+      if (args.length === argCount) {
+        results.push({
+          fullMatch: text.substring(match.index, i),
+          args: args
+        });
+      }
+    }
+    return results;
+  }
+
   function latexToHtml(raw) {
     if (!raw) return '';
     let text = stripLatexComments(raw).trim();
@@ -1820,20 +1855,28 @@ function parseLatexChapter(latexText) {
     // Quizzes & Pareados
     text = text.replace(/\\begin\{preguntaalternativas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaalternativas\}/gi, (m, title, body) => {
       const options = [];
-      let statement = body.replace(/\\opcion\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, optText, isCorrect, feedback) => {
-        options.push({ text: optText.trim(), isCorrect: isCorrect.trim(), feedback: feedback.trim() });
-        return '';
-      }).trim();
+      let statement = body;
+      const calls = extractMacroCalls(body, 'opcion', 3);
+      calls.forEach(c => {
+        statement = statement.replace(c.fullMatch, '');
+        options.push({
+          text: c.args[0].trim(),
+          isCorrect: c.args[1].trim(),
+          feedback: c.args[2].trim()
+        });
+      });
+
       const optionsHtml = options.map((opt) => `
         <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
-          <input type="radio" name="quiz_alt_${title.replace(/\W+/g, '')}" value="${opt.isCorrect.toLowerCase() === 'correcto' ? '1' : '0'}" data-feedback="${opt.feedback.replace(/"/g, '&quot;')}" style="margin-right: 8px;">
+          <input type="radio" name="quiz_alt_${title.replace(/\W+/g, '')}" value="${opt.isCorrect.toLowerCase() === 'correcto' ? '1' : '0'}" data-feedback="${latexToHtml(opt.feedback).replace(/"/g, '&quot;')}" style="margin-right: 8px;">
           ${latexToHtml(opt.text)}
         </label>
       `).join('');
+
       return saveBlock(`
         <div class="quiz-block quiz-alternativas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-list-check"></i> ${title}</h4>
-          ${latexToHtml(statement)}
+          ${latexToHtml(statement.trim())}
           <div>${optionsHtml}</div>
           <button type="button" class="btn btn-verify-quiz" onclick="verifyQuizAlternatives(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Respuesta</button>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
@@ -1845,19 +1888,24 @@ function parseLatexChapter(latexText) {
       let correctVal = 'V';
       let fbV = '';
       let fbF = '';
-      let statement = body.replace(/\\verdaderofalso\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, cVal, fV, fF) => {
-        correctVal = cVal.trim().toUpperCase();
-        fbV = fV.trim();
-        fbF = fF.trim();
-        return '';
-      }).trim();
+      let statement = body;
+
+      const calls = extractMacroCalls(body, 'verdaderofalso', 3);
+      if (calls.length > 0) {
+        const c = calls[0];
+        statement = body.replace(c.fullMatch, '').trim();
+        correctVal = c.args[0].trim().toUpperCase();
+        fbF = c.args[1].trim(); // Arg 2: Si marca Falso
+        fbV = c.args[2].trim(); // Arg 3: Si marca Verdadero
+      }
+
       return saveBlock(`
         <div class="quiz-block quiz-vf" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-circle-half-stroke"></i> ${title}</h4>
           ${latexToHtml(statement)}
           <div style="display:flex; gap:12px; margin:10px 0;">
-            <button type="button" class="btn btn-vf-option" data-val="V" data-correct="${correctVal}" data-feedback="${fbV.replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Verdadero (V)</button>
-            <button type="button" class="btn btn-vf-option" data-val="F" data-correct="${correctVal}" data-feedback="${fbF.replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Falso (F)</button>
+            <button type="button" class="btn btn-vf-option" data-val="V" data-correct="${correctVal}" data-feedback="${latexToHtml(fbV).replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Verdadero (V)</button>
+            <button type="button" class="btn btn-vf-option" data-val="F" data-correct="${correctVal}" data-feedback="${latexToHtml(fbF).replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Falso (F)</button>
           </div>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
         </div>
@@ -1866,20 +1914,28 @@ function parseLatexChapter(latexText) {
 
     text = text.replace(/\\begin\{preguntacasillas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntacasillas\}/gi, (m, title, body) => {
       const items = [];
-      let statement = body.replace(/\\casilla\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, t, isCorrect, feedback) => {
-        items.push({ text: t.trim(), isCorrect: isCorrect.trim().toLowerCase() === 'correcto', feedback: feedback.trim() });
-        return '';
-      }).trim();
+      let statement = body;
+      const calls = extractMacroCalls(body, 'casilla', 3);
+      calls.forEach(c => {
+        statement = statement.replace(c.fullMatch, '');
+        items.push({
+          text: c.args[0].trim(),
+          isCorrect: c.args[1].trim().toLowerCase() === 'correcto',
+          feedback: c.args[2].trim()
+        });
+      });
+
       const itemsHtml = items.map((opt) => `
         <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
-          <input type="checkbox" data-correct="${opt.isCorrect ? '1' : '0'}" data-feedback="${opt.feedback.replace(/"/g, '&quot;')}" style="margin-right: 8px;">
+          <input type="checkbox" data-correct="${opt.isCorrect ? '1' : '0'}" data-feedback="${latexToHtml(opt.feedback).replace(/"/g, '&quot;')}" style="margin-right: 8px;">
           ${latexToHtml(opt.text)}
         </label>
       `).join('');
+
       return saveBlock(`
         <div class="quiz-block quiz-casillas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-square-check"></i> ${title}</h4>
-          ${latexToHtml(statement)}
+          ${latexToHtml(statement.trim())}
           <div>${itemsHtml}</div>
           <button type="button" class="btn btn-verify-casillas" onclick="verifyQuizCasillas(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Selección</button>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
