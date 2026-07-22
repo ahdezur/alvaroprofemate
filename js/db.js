@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "2.5" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Algoritmo de la división") && chapters.includes("Radio e intervalo de potencias") && chapters.includes("Operaciones con series de potencias") && chapters.includes("Domina la intuición visual") && chapters.includes("Enfréntate al límite formal")) {
+    if (dbVersion === "2.6" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "2.5");
+    localStorage.setItem("alvaro_profemate_db_version", "2.6");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
