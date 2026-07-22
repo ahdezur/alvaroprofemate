@@ -1852,8 +1852,8 @@ function parseLatexChapter(latexText) {
           let start = i + 1;
           i++;
           while (i < text.length && depth > 0) {
-            if (text[i] === '{' && text[i - 1] !== '\\') depth++;
-            else if (text[i] === '}' && text[i - 1] !== '\\') depth--;
+            if (text[i] === '{') depth++;
+            else if (text[i] === '}') depth--;
             i++;
           }
           args.push(text.substring(start, i - 1));
