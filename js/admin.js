@@ -2305,16 +2305,15 @@ function parseLatexChapter(latexText) {
   // Parse Fórmulas
   const formulasList = [];
   if (rawFormulas) {
-    const formRegex = /\\formula\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}/gi;
-    let match;
-    while ((match = formRegex.exec(rawFormulas)) !== null) {
+    const formulaCalls = extractMacroCalls(rawFormulas, 'formula', 3);
+    formulaCalls.forEach(fc => {
       formulasList.push({
         id: `form-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        title: match[1].trim(),
-        latex: match[2].trim(),
-        description: match[3].trim()
+        title: fc.args[0].trim(),
+        latex: fc.args[1].trim(),
+        description: fc.args[2].trim()
       });
-    }
+    });
   }
 
   return {
