@@ -597,7 +597,8 @@
       margin: 24px 0;
       box-shadow: var(--shadow-sm);
       display: flex;
-      gap: 16px;
+      flex-direction: column;
+      gap: 10px;
       transition: background-color var(--transition-speed);
     }
 
@@ -609,14 +610,31 @@
     }
 
     .caja-ram-body {
-      flex: 1;
+      width: 100%;
     }
 
     .caja-ram-title {
       font-family: var(--font-display);
       font-size: 1.05rem;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Caja de Procedimiento (Procedimiento, Algoritmos, Pasos) */
+    .caja-procesamiento {
+      background-color: var(--ram-propiedades-bg);
+      border-left-color: var(--ram-propiedades-border);
+      color: var(--ram-propiedades-text);
+    }
+    .caja-procesamiento .caja-ram-title {
+      color: var(--ram-propiedades-border);
+    }
+    .caja-procesamiento p {
+      color: var(--ram-propiedades-text);
+      opacity: 0.9;
     }
 
     /* Caja de Motivación (Motivación, Reflexión) */

@@ -1455,6 +1455,86 @@ textarea.form-control {
 }
 
 /* ==========================================================================
+   CAJAS DE ESTILO INSTRUCCIONAL (MODELO RAM)
+   ========================================================================== */
+.caja-ram {
+  border-left: 5px solid transparent;
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--bg-card);
+}
+
+.caja-ram-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.caja-ram-body {
+  width: 100%;
+}
+
+.caja-ram-body p:last-child {
+  margin-bottom: 0;
+}
+
+.caja-teoria, .caja-definicion {
+  background-color: rgba(6, 182, 212, 0.08);
+  border-left-color: #06b6d4;
+}
+.caja-teoria .caja-ram-title, .caja-definicion .caja-ram-title {
+  color: #06b6d4;
+}
+
+.caja-choque-cognitivo, .error-comun, .caja-alerta {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-left-color: #ef4444;
+}
+.caja-choque-cognitivo .caja-ram-title, .error-comun .caja-ram-title, .caja-alerta .caja-ram-title {
+  color: #ef4444;
+}
+
+.caja-procesamiento, .caja-propiedades {
+  background-color: rgba(16, 185, 129, 0.08);
+  border-left-color: #10b981;
+}
+.caja-procesamiento .caja-ram-title, .caja-propiedades .caja-ram-title {
+  color: #10b981;
+}
+
+.caja-ejemplo {
+  background-color: rgba(99, 102, 241, 0.08);
+  border-left-color: #6366f1;
+}
+.caja-ejemplo .caja-ram-title {
+  color: #6366f1;
+}
+
+.caja-teorema {
+  background-color: rgba(168, 85, 247, 0.08);
+  border-left-color: #a855f7;
+}
+.caja-teorema .caja-ram-title {
+  color: #a855f7;
+}
+
+.caja-pregunta-guia, .caja-motivacion {
+  background-color: rgba(245, 158, 11, 0.08);
+  border-left-color: #f59e0b;
+}
+.caja-pregunta-guia .caja-ram-title, .caja-motivacion .caja-ram-title {
+  color: #f59e0b;
+}
+
+/* ==========================================================================
    RESPONSIVE DESIGN (Media Queries)
    ========================================================================== */
 
