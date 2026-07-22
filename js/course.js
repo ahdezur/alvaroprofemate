@@ -89,38 +89,54 @@ function initCoursePage() {
     document.head.appendChild(styleSheet);
   }
 
-  /* Control de Tamaño de Texto (Agrandar / Achicar) */
+  /* Control de Tamaño de Texto (Agrandar / Achicar / Restablecer) */
   function initTextResizer() {
     const btnIncrease = document.getElementById("text-increase-btn");
     const btnDecrease = document.getElementById("text-decrease-btn");
-    if (!btnIncrease || !btnDecrease) return;
+    const btnReset = document.getElementById("text-reset-btn");
+    if (!btnIncrease && !btnDecrease && !btnReset) return;
 
-    let currentScale = parseInt(localStorage.getItem("alvaro_profemate_text_scale")) || 100;
-    const minScale = 80;
-    const maxScale = 150;
-    const step = 10;
+    let currentScale = parseInt(localStorage.getItem("alvaro_profemate_text_scale") || "100", 10);
+    const minScale = 85;
+    const maxScale = 140;
+    const step = 5;
 
     function applyScale() {
-      document.documentElement.style.fontSize = `${currentScale}%`;
-      localStorage.setItem("alvaro_profemate_text_scale", currentScale);
+      const dynamicContainer = document.getElementById("contenido-dinamico");
+      if (dynamicContainer) {
+        dynamicContainer.style.fontSize = `${currentScale}%`;
+      } else {
+        document.documentElement.style.fontSize = `${currentScale}%`;
+      }
+      localStorage.setItem("alvaro_profemate_text_scale", currentScale.toString());
     }
 
-    // Aplicar escala guardada inmediatamente
     applyScale();
 
-    btnIncrease.onclick = () => {
-      if (currentScale < maxScale) {
-        currentScale += step;
-        applyScale();
-      }
-    };
+    if (btnIncrease) {
+      btnIncrease.onclick = () => {
+        if (currentScale < maxScale) {
+          currentScale += step;
+          applyScale();
+        }
+      };
+    }
 
-    btnDecrease.onclick = () => {
-      if (currentScale > minScale) {
-        currentScale -= step;
+    if (btnDecrease) {
+      btnDecrease.onclick = () => {
+        if (currentScale > minScale) {
+          currentScale -= step;
+          applyScale();
+        }
+      };
+    }
+
+    if (btnReset) {
+      btnReset.onclick = () => {
+        currentScale = 100;
         applyScale();
-      }
-    };
+      };
+    }
   }
 
   /* ==========================================================================
@@ -456,6 +472,7 @@ function initCoursePage() {
 
       // Enlazar los eventos interactivos
       bindInteractiveCourseElements();
+      initTextResizer();
 
       // Renderizar MathJax sobre todo el contenedor inyectado
       if (window.MathJax && window.MathJax.typesetPromise) {
