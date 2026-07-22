@@ -1677,3 +1677,129 @@ if (document.readyState === "loading") {
 } else {
   initCoursePage();
 }
+
+/* ==========================================================================
+   HANDLERS GLOBALES DE VERIFICACIÓN PARA QUIZZES INTERACTIVOS
+   ========================================================================== */
+window.verifyQuizAlternatives = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const selected = container.querySelector('input[type="radio"]:checked');
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  if (!selected) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor selecciona una opción antes de verificar.';
+    return;
+  }
+
+  const isCorrect = selected.value === '1';
+  const feedbackText = selected.getAttribute('data-feedback') || '';
+
+  feedbackDiv.style.display = 'block';
+  if (isCorrect) {
+    feedbackDiv.style.background = 'rgba(16, 185, 129, 0.15)';
+    feedbackDiv.style.border = '1px solid #10b981';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Correcto!</p><p style="margin:0;">${feedbackText}</p>`;
+  } else {
+    feedbackDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+    feedbackDiv.style.border = '1px solid #ef4444';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Incorrecto</p><p style="margin:0;">${feedbackText}</p>`;
+  }
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};
+
+window.verifyQuizVF = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const selectedVal = btn.getAttribute('data-val');
+  const correctVal = btn.getAttribute('data-correct');
+  const feedbackText = btn.getAttribute('data-feedback') || '';
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  const isCorrect = selectedVal === correctVal;
+
+  feedbackDiv.style.display = 'block';
+  if (isCorrect) {
+    feedbackDiv.style.background = 'rgba(16, 185, 129, 0.15)';
+    feedbackDiv.style.border = '1px solid #10b981';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Respuesta Correcta!</p><p style="margin:0;">${feedbackText}</p>`;
+  } else {
+    feedbackDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+    feedbackDiv.style.border = '1px solid #ef4444';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Respuesta Incorrecta</p><p style="margin:0;">${feedbackText}</p>`;
+  }
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};
+
+window.verifyQuizCasillas = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const checkboxes = Array.from(container.querySelectorAll('input[type="checkbox"]'));
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  let allCorrect = true;
+  let hasSelection = false;
+  let feedbackMessages = [];
+
+  checkboxes.forEach(cb => {
+    const isChecked = cb.checked;
+    if (isChecked) hasSelection = true;
+    const isCorrect = cb.getAttribute('data-correct') === '1';
+    const fb = cb.getAttribute('data-feedback');
+
+    if (isChecked !== isCorrect) {
+      allCorrect = false;
+    }
+    if (isChecked && fb) {
+      feedbackMessages.push(fb);
+    }
+  });
+
+  if (!hasSelection) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor marca al menos una casilla antes de verificar.';
+    return;
+  }
+
+  feedbackDiv.style.display = 'block';
+  if (allCorrect) {
+    feedbackDiv.style.background = 'rgba(16, 185, 129, 0.15)';
+    feedbackDiv.style.border = '1px solid #10b981';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Excelente! Has seleccionado la combinación correcta.</p>` +
+      (feedbackMessages.length ? `<ul style="margin:4px 0 0 18px;">${feedbackMessages.map(m => `<li>${m}</li>`).join('')}</ul>` : '');
+  } else {
+    feedbackDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+    feedbackDiv.style.border = '1px solid #ef4444';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> La combinación seleccionada no es la adecuada.</p>` +
+      (feedbackMessages.length ? `<ul style="margin:4px 0 0 18px;">${feedbackMessages.map(m => `<li>${m}</li>`).join('')}</ul>` : '');
+  }
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};
