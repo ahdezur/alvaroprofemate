@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "2.8" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
+    if (dbVersion === "3.0" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "2.8");
+    localStorage.setItem("alvaro_profemate_db_version", "3.0");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
@@ -1093,79 +1093,7 @@ const DB = {
   </section>
 `;
 
-    const cap11Exercises = `
-      <div class="ejercicio-propuesto" data-ejercicio-id="res-1">
-        <div class="ejercicio-header">
-          <h4 class="ejercicio-titulo-prop">1. Curvas de nivel elípticas</h4>
-          <span class="badge-nivel" style="background-color: var(--accent-bg); color: var(--accent-color); font-weight: bold;">Ejercicio Resuelto</span>
-        </div>
-        <p class="ejercicio-enunciado">
-          Determine la forma de las curvas de nivel para el campo escalar $f(x,y) = x^2 + 4y^2$ para los valores de altura $k = 0, 1, 4$.
-        </p>
-        <button class="btn-pista" aria-expanded="false">
-          <span>💡</span> Ver Indicación / Pauta
-        </button>
-        <div class="pista-contenido hidden">
-          <strong>Solución paso a paso:</strong>
-          <ol style="margin-left: 20px; margin-top: 8px; margin-bottom: 12px; color: var(--text-secondary);">
-            <li>Igualamos la función a la constante de altura: $x^2 + 4y^2 = k$.</li>
-            <li>Para $k = 0$, la ecuación es $x^2 + 4y^2 = 0$. Como ambos términos están al cuadrado y son no negativos, la única solución es el punto $(0,0)$.</li>
-            <li>Para $k = 1$, obtenemos $x^2 + 4y^2 = 1$, que es la ecuación de una <strong>elipse</strong> centrada en el origen con semieje mayor $a = 1$ en el eje X y semieje menor $b = 1/2$ en el eje Y.</li>
-            <li>Para $k = 4$, la ecuación es $x^2 + 4y^2 = 4$. Si dividimos todo por 4 para llevarla a su forma canónica:
-            $$\\frac{x^2}{4} + y^2 = 1$$
-            Esto corresponde a una elipse centrada en el origen con semiejes $a = 2$ y $b = 1$.</li>
-          </ol>
-          <p><em>Conclusión:</em> Las curvas de nivel son una familia de elipses concéntricas que crecen en tamaño a medida que aumenta la altura $k$.</p>
-        </div>
-      </div>
-      
-      <div class="ejercicio-propuesto" data-ejercicio-id="prop-1">
-        <div class="ejercicio-header">
-          <h4 class="ejercicio-titulo-prop">2. Evaluación de campos escalares</h4>
-          <span class="badge-nivel nivel-1">Nivel 1: Mecánico</span>
-        </div>
-        <p class="ejercicio-enunciado">
-          Sea el campo escalar de temperatura dado por $T(x,y) = 50 - 3x^2 - 5y^2$. Calcule el valor de temperatura exacto en el punto $P(2, -1)$.
-        </p>
-        <button class="btn-pista" aria-expanded="false">
-          <span>💡</span> Ver Indicación / Pauta
-        </button>
-        <div class="pista-contenido hidden">
-          <strong>Respuesta / Pauta:</strong> Sustituye los valores en la función:
-          $$T(2,-1) = 50 - 3(2)^2 - 5(-1)^2$$
-          $$T(2,-1) = 50 - 12 - 5 = 33$$
-          La temperatura en ese punto es $33$.
-        </div>
-      </div>
-
-      <div class="ejercicio-propuesto" data-ejercicio-id="prop-2">
-        <div class="ejercicio-header">
-          <h4 class="ejercicio-titulo-prop">3. Identificación geométrica de curvas de nivel</h4>
-          <span class="badge-nivel nivel-2">Nivel 2: Analítico</span>
-        </div>
-        <p class="ejercicio-enunciado">
-          Describa analíticamente las curvas de nivel del campo $g(x,y) = y - x^2$. ¿Qué tipo de curvas geométricas son y hacia dónde se desplazan al aumentar la constante $k$?
-        </p>
-        <button class="btn-pista" aria-expanded="false">
-          <span>💡</span> Ver Indicación / Pauta
-        </button>
-        <div class="pista-contenido hidden">
-          <strong>Respuesta / Pauta:</strong> La ecuación de las curvas de nivel es $y - x^2 = k$, lo cual se puede escribir como $y = x^2 + k$.
-          Esto representa una familia de <strong>parábolas</strong> con vértice en $(0,k)$ que se abren hacia arriba. A medida que $k$ aumenta, las parábolas se desplazan verticalmente hacia arriba a lo largo del eje Y.
-        </div>
-      </div>
-
-      <!-- Caja de Error Común -->
-      <div class="caja-ram error-comun" style="margin-top: 24px;">
-        <div class="caja-ram-icon">🚨</div>
-        <div class="caja-ram-body">
-          <div class="caja-ram-title">Error Común: Probar trayectorias finitas</div>
-          <p>
-            Evaluar el límite por rectas del tipo $y = mx$ o parábolas $y = kx^2$ y obtener el mismo valor <strong>no demuestra</strong> que el límite existe. Existen funciones con comportamientos patológicos donde el límite es diferente por trayectorias no polinomiales.
-          </p>
-        </div>
-      </div>
-    `;
+    const cap11Exercises = "[\n  {\n    \"id\": \"ex-1784739116294-9ks8\",\n    \"title\": \"Determinación de Dominio con Múltiples Restricciones\",\n    \"level\": \"nivel-2\",\n    \"statement\": \"<p>Determine analíticamente y describa geométricamente el dominio natural del campo escalar dado por la expresión:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$f(x,y) = \\\\frac{\\\\sqrt{9 - x^2 - y^2}}{\\\\ln(y - x)}$$</div></p>\",\n    \"solution\": \"<p>Para que la función entregue un valor real bien definido, debemos plantear y resolver simultáneamente tres restricciones algebraicas:</p>\\n<p><strong>Restricción 1 (Raíz cuadrada):</strong> El radicando del numerador no puede ser negativo:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ 9 - x^2 - y^2 \\\\geq 0 \\\\implies x^2 + y^2 \\\\leq 9 $$</div>       Geométricamente, esto representa un disco cerrado de radio $3$ centrado en el origen $(0,0)$.</p>\\n<p><strong>Restricción 2 (Logaritmo natural):</strong> El argumento del logaritmo en el denominador debe ser estrictamente positivo:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ y - x > 0 \\\\implies y > x $$</div>       Esto corresponde al semiplano abierto ubicado estrictamente por encima de la recta identidad $y = x$.</p>\\n<p><strong>Restricción 3 (Denominador no nulo):</strong> El denominador completo no puede anularse:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ \\\\ln(y - x) \\\\neq 0 \\\\implies y - x \\\\neq e^0 \\\\implies y - x \\\\neq 1 \\\\implies y \\\\neq x + 1 $$</div>       Esto significa que debemos excluir todos los puntos que pertenecen a la recta transladada $y = x + 1$.</p>\\n<p><strong>Conclusión y Descripción del Dominio:</strong>       El dominio natural del campo escalar es la intersección de estas tres regiones:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ \\\\text{Dom}(f) = \\\\left\\\\{ (x,y) \\\\in \\\\mathbb{R}^2 \\\\;\\\\middle|\\\\; x^2 + y^2 \\\\leq 9 \\\\;\\\\land\\\\; y > x \\\\;\\\\land\\\\; y \\\\neq x + 1 \\\\right\\\\} $$</div>       Geométricamente, corresponde a la mitad superior-izquierda del círculo de radio 3 (cortado por la recta $y=x$), excluyendo los puntos de la frontera sobre dicha recta y quitando completamente el segmento de la recta $y = x + 1$ que cruza por dentro de la figura.</p>\"\n  },\n  {\n    \"id\": \"ex-1784739116299-23o2\",\n    \"title\": \"Invarianza por Simetría Radial\",\n    \"level\": \"nivel-3\",\n    \"statement\": \"<p>Un campo escalar $f: \\\\mathbb{R}^2 \\\\to \\\\mathbb{R}$ posee <em>simetría radial</em> si su valor depende únicamente de la distancia del punto al origen. Es decir, si existe una función de una variable $g: [0, \\\\infty) \\\\to \\\\mathbb{R}$ tal que $f(x,y) = g(\\\\sqrt{x^2+y^2})$.</p>\\n<p>Demuestre rigurosamente que el campo escalar $f(x,y) = \\\\ln(1 + x^2 + y^2)$ posee simetría radial, determine explícitamente la función $g(t)$ asociada, y pruebe analíticamente que la imagen del campo es $\\\\text{Im}(f) = [0, \\\\infty)$.</p>\",\n    \"solution\": \"<p><strong>Parte 1: Demostración de Simetría Radial</strong>       Definamos la variable $t = \\\\sqrt{x^2 + y^2}$, la cual representa la distancia euclidiana de cualquier punto $(x,y)$ al origen $(0,0)$. Dado que las variables están en los números reales, al elevar al cuadrado obtenemos $t^2 = x^2 + y^2$.</p>\\n<p>Sustituyendo directamente en la regla de correspondencia de nuestro campo escalar:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ f(x,y) = \\\\ln(1 + (x^2 + y^2)) = \\\\ln(1 + t^2) $$</div>       Como la expresión resultante depende única y exclusivamente del parámetro de distancia $t$, queda demostrado que $f$ posee simetría radial. La función unidimensional asociada es:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ g(t) = \\\\ln(1 + t^2) \\\\quad \\\\text{con } t \\\\in [0, \\\\infty) $$</div></p>\\n<p><strong>Parte 2: Determinación Rigurosa de la Imagen</strong>       Para hallar la imagen, analizamos el comportamiento de $g(t)$ en su dominio restringido $[0, \\\\infty)$:       <ol style=\\\"margin: 8px 0; padding-left: 20px;\\\">\\n        <li>Dado que $t \\\\geq 0$, entonces $t^2 \\\\geq 0$, lo que implica que $1 + t^2 \\\\geq 1$.\\n        </li><li>Aplicando la función logaritmo natural (que es estrictamente creciente en todo su dominio) a la desigualdad anterior, obtenemos:\\n        <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ \\\\ln(1 + t^2) \\\\geq \\\\ln(1) \\\\implies g(t) \\\\geq 0 $$</div>\\n        </li><li>El valor mínimo absoluto es $0$ y se alcanza únicamente en $t=0$ (es decir, en el origen $f(0,0) = 0$).\\n        </li><li>Como $\\\\lim_{t \\\\to \\\\infty} \\\\ln(1 + t^2) = \\\\infty$ y la función es continua, por el Teorema del Valor Intermedio el recorrido toma todos los valores intermedios.\\n      </li></ol>       Por lo tanto, la imagen del campo escalar es, formalmente, $\\\\text{Im}(f) = [0, \\\\infty)$.</p>\"\n  },\n  {\n    \"id\": \"ex-1784739116300-aa3m\",\n    \"title\": \"Restricciones Hiperbólicas en el Plano\",\n    \"level\": \"nivel-2\",\n    \"statement\": \"<p>Considere el campo escalar definido por la regla de correspondencia:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ h(x,y) = \\\\ln(x \\\\cdot y - 1) $$</div>       Determine su dominio natural y describa las fronteras que delimitan esta región matemática en el plano cartesiano.</p>\",\n    \"solution\": \"<p><strong>Pista metodológica:</strong> La restricción del logaritmo exige que el producto de las variables cumpla $x \\\\cdot y > 1$. Analiza este comportamiento separando el análisis para cuando $x > 0$ y cuando $x < 0$. Recuerda que la frontera matemática está dada por las dos ramas de la hipérbola equilátera $y = \\\\frac{1}{x}$, y que el dominio consta de dos regiones disjuntas en el primer y tercer cuadrante.</p>\"\n  },\n  {\n    \"id\": \"ex-1784739116301-3s2o\",\n    \"title\": \"Restricción Logarítmica e Hiperbólica\",\n    \"level\": \"nivel-2\",\n    \"statement\": \"<p>Determine analíticamente el dominio natural y la imagen del campo escalar dado por la expresión:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ f(x,y) = \\\\ln(x^2 - y^2) $$</div>       Describa cualitativamente la geometría de la región del plano obtenida.</p>\",\n    \"solution\": \"<p><strong>Dominio:</strong> El argumento del logaritmo debe ser estrictamente positivo ($x^2 - y^2 > 0$). Esto equivale a $x^2 > y^2 \\\\implies |x| > |y|$. Geométricamente, representa el interior de los dos conos abiertos opuestos que contienen al eje $X$, delimitados por las rectas asíntotas $y = x$ e $y = -x$ (sin incluir las rectas). \\\\\\\\       <strong>Imagen:</strong> Como la expresión $x^2 - y^2$ puede tomar cualquier valor dentro del intervalo $(0, \\\\infty)$ bajo las condiciones del dominio, el logaritmo natural recorre todo su espectro. Por lo tanto, $\\\\text{Im}(f) = \\\\mathbb{R}$.</p>\"\n  },\n  {\n    \"id\": \"ex-1784739116301-7shp\",\n    \"title\": \"Regiones Cónicas y Fronteras Cerradas\",\n    \"level\": \"nivel-2\",\n    \"statement\": \"<p>Considere el campo escalar:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ f(x,y) = \\\\sqrt{-x^2 + y^2} $$</div>       Halle analíticamente su dominio natural e imagen, y establezca la diferencia geométrica respecto al ejercicio anterior.</p>\",\n    \"solution\": \"<p><strong>Dominio:</strong> El radicando exige que $y^2 - x^2 \\\\geq 0 \\\\implies y^2 \\\\geq x^2$, lo cual se traduce en la desigualdad de valores absolutos $|y| \\\\geq |x|$. Geométricamente, esto corresponde a las regiones (superior e inferior) que contienen al eje $Y$. A diferencia del problema anterior, esta región es <em>cerrada</em>, lo que significa que sí incluye a las rectas fronteras $y = x$ e $y = -x$. \\\\\\\\       <strong>Imagen:</strong> Al tratarse de una raíz cuadrada estándar cuyo radicando puede crecer indefinidamente conforme nos alejamos en el eje $Y$, el conjunto imagen corresponde a los reales no negativos: $\\\\text{Im}(f) = [0, \\\\infty)$.</p>\"\n  },\n  {\n    \"id\": \"ex-1784739116301-2xhz\",\n    \"title\": \"Periodicidad y Acotación Multivariable\",\n    \"level\": \"nivel-1\",\n    \"statement\": \"<p>Para el campo escalar definido por la regla de correspondencia:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ f(x,y) = \\\\sin(x+y) $$</div>       Determine su dominio natural y su conjunto imagen.</p>\",\n    \"solution\": \"<p><strong>Dominio:</strong> La función trigonométrica seno no impone ninguna restricción matemática sobre el comportamiento de sus argumentos, por lo que su dominio natural es todo el plano bidimensional, $\\\\text{Dom}(f) = \\\\mathbb{R}^2$. \\\\\\\\       <strong>Imagen:</strong> Dado que la combinación lineal $x+y$ puede tomar cualquier valor real en el intervalo $(-\\\\infty, \\\\infty)$, y sabiendo que la función seno oscila de forma periódica, la imagen queda confinada de manera idéntica al caso unidimensional: $\\\\text{Im}(f) = [-1, 1]$.</p>\"\n  },\n  {\n    \"id\": \"ex-1784739116301-gajc\",\n    \"title\": \"Fronteras Parabólicas en el Plano\",\n    \"level\": \"nivel-2\",\n    \"statement\": \"<p>Determine analíticamente el dominio natural y el conjunto imagen de la función:       <div class=\\\"formula-block\\\" style=\\\"text-align:center; margin: 12px 0;\\\">$$ f(x,y) = \\\\sqrt{x^2 - y} $$</div></p>\",\n    \"solution\": \"<p><strong>Dominio:</strong> La restricción de la raíz cuadrada de índice par exige que $x^2 - y \\\\geq 0$, lo que equivale analíticamente a la inecuación $y \\\\leq x^2$. En el plano cartesiano, esto representa geométricamente a todos los puntos que se encuentran sobre y por debajo de la parábola estándar $y = x^2$. \\\\\\\\       <strong>Imagen:</strong> Debido a que la raíz cuadrada entrega exclusivamente valores no negativos y la diferencia $x^2 - y$ puede ser arbitrariamente grande (por ejemplo, fijando $x=0$ y haciendo que $y \\\\to -\\\\infty$), la imagen es $\\\\text{Im}(f) = [0, \\\\infty)$.</p>\"\n  }\n]";
 
     const cap11Formulas = `
       <h3 style="margin: 0 0 12px 0; color: var(--accent-color); font-size: 1.15rem; font-weight: 700; font-family: var(--font-display);">
