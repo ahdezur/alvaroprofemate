@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "2.7" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
+    if (dbVersion === "2.8" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "2.7");
+    localStorage.setItem("alvaro_profemate_db_version", "2.8");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
@@ -946,11 +946,11 @@ const DB = {
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #2563eb; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">1</span>
-              <span style="font-size: 14px;">$f(x,y) = \sqrt{4 - x^2 - y^2}$</span>
+              <span style="font-size: 14px;">$f(x,y) = \\sqrt{4 - x^2 - y^2}$</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #2563eb; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">2</span>
-              <span style="font-size: 14px;">$f(x,y) = \ln(y - x^2)$</span>
+              <span style="font-size: 14px;">$f(x,y) = \\ln(y - x^2)$</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #2563eb; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">3</span>
@@ -958,7 +958,7 @@ const DB = {
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #2563eb; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">4</span>
-              <span style="font-size: 14px;">$f(x,y) = \frac{1}{x^2 + y^2}$</span>
+              <span style="font-size: 14px;">$f(x,y) = \\frac{1}{x^2 + y^2}$</span>
             </div>
           </div>
         </div>
@@ -975,15 +975,15 @@ const DB = {
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #10b981; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">B</span>
-              <span style="font-size: 13px;">Plano $\mathbb{R}^2 \setminus \{(0,0)\}$</span>
+              <span style="font-size: 13px;">Plano $\\mathbb{R}^2 \\setminus \\{(0,0)\\}$</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #10b981; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">C</span>
-              <span style="font-size: 13px;">Disco cerrado $x^2 + y^2 \le 4$</span>
+              <span style="font-size: 13px;">Disco cerrado $x^2 + y^2 \\le 4$</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #10b981; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">D</span>
-              <span style="font-size: 13px;">Plano $\mathbb{R}^2$ completo</span>
+              <span style="font-size: 13px;">Plano $\\mathbb{R}^2$ completo</span>
             </div>
           </div>
         </div>
@@ -996,19 +996,19 @@ const DB = {
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #8b5cf6; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">I</span>
-              <span style="font-size: 13px;">Paraboloide circular ($\text{Im} \ge 0$)</span>
+              <span style="font-size: 13px;">Paraboloide circular ($\\text{Im} \\ge 0$)</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #8b5cf6; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">II</span>
-              <span style="font-size: 13px;">Hemisferio ($\text{Im} = [0,2]$)</span>
+              <span style="font-size: 13px;">Hemisferio ($\\text{Im} = [0,2]$)</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #8b5cf6; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">III</span>
-              <span style="font-size: 13px;">Superficie asintótica ($\text{Im} > 0$)</span>
+              <span style="font-size: 13px;">Superficie asintótica ($\\text{Im} > 0$)</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-color);">
               <span style="background: #8b5cf6; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">IV</span>
-              <span style="font-size: 13px;">Superficie logarítmica ($\text{Im} = \mathbb{R}$)</span>
+              <span style="font-size: 13px;">Superficie logarítmica ($\\text{Im} = \\mathbb{R}$)</span>
             </div>
           </div>
         </div>
@@ -1023,7 +1023,7 @@ const DB = {
 
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <!-- FILA ÍTEM 1 -->
-          <div class="pareo-row-item" data-num="1" data-correct-letter="C" data-correct-roman="II" data-feedback="¡Correcto! El interior de la raíz exige $4 - x^2 - y^2 \ge 0 \implies x^2 + y^2 \le 4$ (disco de radio 2). Su gráfico es una semiesfera de radio 2 con alturas entre 0 y 2." style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
+          <div class="pareo-row-item" data-num="1" data-correct-letter="C" data-correct-roman="II" data-feedback="¡Correcto! El interior de la raíz exige $4 - x^2 - y^2 \\ge 0 \\implies x^2 + y^2 \\le 4$ (disco de radio 2). Su gráfico es una semiesfera de radio 2 con alturas entre 0 y 2." style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
             <span style="font-weight: bold; width: 70px;">Ítem 1:</span>
             <span style="font-size: 13px; color: var(--text-muted);">Letra:</span>
             <select class="pareo-select-col2" style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-weight: 600; cursor: pointer;">
@@ -1038,7 +1038,7 @@ const DB = {
           </div>
 
           <!-- FILA ÍTEM 2 -->
-          <div class="pareo-row-item" data-num="2" data-correct-letter="A" data-correct-roman="IV" data-feedback="¡Excelente! El logaritmo requiere argumento positivo $y - x^2 > 0 \implies y > x^2$. Al no estar acotada, la imagen cubre todo el conjunto real $\mathbb{R}$." style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
+          <div class="pareo-row-item" data-num="2" data-correct-letter="A" data-correct-roman="IV" data-feedback="¡Excelente! El logaritmo requiere argumento positivo $y - x^2 > 0 \\implies y > x^2$. Al no estar acotada, la imagen cubre todo el conjunto real $\\mathbb{R}$." style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
             <span style="font-weight: bold; width: 70px;">Ítem 2:</span>
             <span style="font-size: 13px; color: var(--text-muted);">Letra:</span>
             <select class="pareo-select-col2" style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-weight: 600; cursor: pointer;">
@@ -1053,7 +1053,7 @@ const DB = {
           </div>
 
           <!-- FILA ÍTEM 3 -->
-          <div class="pareo-row-item" data-num="3" data-correct-letter="D" data-correct-roman="I" data-feedback="¡Muy bien! $x^2 + y^2$ está definida en todo el plano real $\mathbb{R}^2$ sin restricciones. Su gráfica es un paraboloide circular cuya altura va desde 0 hasta $+\infty$." style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
+          <div class="pareo-row-item" data-num="3" data-correct-letter="D" data-correct-roman="I" data-feedback="¡Muy bien! $x^2 + y^2$ está definida en todo el plano real $\\mathbb{R}^2$ sin restricciones. Su gráfica es un paraboloide circular cuya altura va desde 0 hasta $+\\infty$." style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
             <span style="font-weight: bold; width: 70px;">Ítem 3:</span>
             <span style="font-size: 13px; color: var(--text-muted);">Letra:</span>
             <select class="pareo-select-col2" style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-weight: 600; cursor: pointer;">
