@@ -1349,9 +1349,14 @@ function initCoursesManager() {
         try {
           const parsed = parseLatexChapter(latexText);
 
+          const chapterSel = document.getElementById("chapter-selector");
+          const selectedOption = chapterSel && chapterSel.selectedIndex >= 0 ? chapterSel.options[chapterSel.selectedIndex] : null;
+
           if (!parsed.metadata.chapterTitle && !parsed.metadata.chapterIndex) {
-            alert("No se pudieron detectar metadatos de capítulo válidos en el archivo .TEX.");
-            return;
+            if (!activeChapterData && (!selectedOption || !selectedOption.value)) {
+              alert("No se pudieron detectar metadatos (% \\TITULO_CAPITULO) en el archivo .TEX y tampoco hay un capítulo seleccionado en la lista.\n\nPor favor selecciona un capítulo en el desplegable del Panel Admin antes de cargar el archivo .TEX.");
+              return;
+            }
           }
 
           if (parsed.metadata.courseId) {
@@ -1362,12 +1367,21 @@ function initCoursesManager() {
           }
 
           if (!activeChapterData) {
+            let chapterNum = parsed.metadata.chapterIndex;
+            let chapterName = parsed.metadata.chapterTitle;
+
+            if (!chapterName && selectedOption) {
+              const textParts = selectedOption.text.split(':');
+              chapterNum = textParts[0] ? textParts[0].replace(/Capítulo/i, '').trim() : '';
+              chapterName = textParts[1] ? textParts[1].trim() : selectedOption.text;
+            }
+
             activeChapterData = {
               courseId: parsed.metadata.courseId || document.getElementById("course-selector").value,
-              chapterIndex: parsed.metadata.chapterIndex,
-              title: parsed.metadata.chapterTitle,
-              isCompleted: parsed.metadata.isCompleted,
-              isLocked: parsed.metadata.isLocked,
+              chapterIndex: chapterNum || "1.1",
+              title: chapterName || "Capítulo Importado",
+              isCompleted: parsed.metadata.isCompleted || false,
+              isLocked: parsed.metadata.isLocked || false,
               contentMotivation: '',
               contentTheory: '',
               contentApplication: '',
@@ -1378,6 +1392,8 @@ function initCoursesManager() {
 
           if (parsed.metadata.chapterTitle) activeChapterData.title = parsed.metadata.chapterTitle;
           if (parsed.metadata.chapterIndex) activeChapterData.chapterIndex = parsed.metadata.chapterIndex;
+          if (parsed.metadata.isCompleted !== undefined) activeChapterData.isCompleted = parsed.metadata.isCompleted;
+          if (parsed.metadata.isLocked !== undefined) activeChapterData.isLocked = parsed.metadata.isLocked;
           activeChapterData.isCompleted = parsed.metadata.isCompleted;
           activeChapterData.isLocked = parsed.metadata.isLocked;
 
@@ -1743,7 +1759,7 @@ function parseLatexChapter(latexText) {
   };
 
   const getEnvContent = (envName) => {
-    const re = new RegExp(`\\\\begin\\{${envName}\\}([\\s\\S]*?)\\\\end\\{${envName}\\}`, 'i');
+    const re = new RegExp(`\\\\begin\\{${envName}\\}(?:\\{[^}]*\\})?([\\s\\S]*?)\\\\end\\{${envName}\\}`, 'i');
     const m = latexText.match(re);
     return m ? m[1].trim() : '';
   };
