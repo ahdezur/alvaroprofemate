@@ -1024,16 +1024,52 @@ function renderStructuredManager(tabName) {
 
 function getStructuredItems(tabName) {
   let raw = "";
-  if (tabName === "exercises") raw = activeChapterData.contentExercises || "";
-  else raw = activeChapterData.contentFormulas || "";
+  if (tabName === "exercises") raw = activeChapterData ? activeChapterData.contentExercises : "";
+  else raw = activeChapterData ? activeChapterData.contentFormulas : "";
 
-  try {
-    if (raw.trim().startsWith("[")) {
-      return JSON.parse(raw);
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw;
+
+  if (typeof raw === "string") {
+    const trimmed = raw.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        return JSON.parse(trimmed);
+      } catch (e) {
+        console.warn("No se pudo parsear como JSON, convirtiendo...", e);
+      }
     }
-  } catch (e) {
-    console.warn("No se pudo parsear como JSON, convirtiendo...", e);
+
+    if (tabName === "exercises" && (trimmed.includes("ejercicio-propuesto") || trimmed.includes("ejercicio-header"))) {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = trimmed;
+      const cards = tempDiv.querySelectorAll(".ejercicio-propuesto");
+      const list = [];
+      cards.forEach((card, idx) => {
+        const titleEl = card.querySelector(".ejercicio-titulo-prop");
+        const levelEl = card.querySelector(".badge-nivel");
+        const enunEl = card.querySelector(".ejercicio-enunciado");
+        const pistaEl = card.querySelector(".pista-contenido");
+
+        let levelClass = "nivel-2";
+        if (levelEl) {
+          if (levelEl.classList.contains("nivel-1")) levelClass = "nivel-1";
+          else if (levelEl.classList.contains("nivel-3")) levelClass = "nivel-3";
+          else if (levelEl.textContent.toLowerCase().includes("resuelto")) levelClass = "resuelto";
+        }
+
+        list.push({
+          id: card.getAttribute("data-ejercicio-id") || `ex-html-${idx + 1}`,
+          title: titleEl ? titleEl.textContent.replace(/^\d+\.\s*/, "").trim() : `Ejercicio ${idx + 1}`,
+          level: levelClass,
+          statement: enunEl ? enunEl.innerHTML.trim() : "",
+          solution: pistaEl ? pistaEl.innerHTML.trim() : ""
+        });
+      });
+      if (list.length > 0) return list;
+    }
   }
+
   return [];
 }
 
@@ -2238,57 +2274,32 @@ function parseLatexChapter(latexText) {
   // Parse Ejercicios
   const exercisesList = [];
   if (rawExerc) {
-    // 1. Ejercicio Resuelto
-    const exResRegex = /\\begin\{ejercicioresuelto\}\{([^}]+)\}\{([^}]+)\}([\s\S]*?)\\end\{ejercicioresuelto\}/gi;
-    let match;
-    while ((match = exResRegex.exec(rawExerc)) !== null) {
-      const title = match[1].trim();
-      const level = match[2].trim();
-      const body = match[3];
-      const enunMatch = body.match(/\\enunciado\{([\s\S]*?)\}/i);
-      const solMatch = body.match(/\\solucion\{([\s\S]*?)\}/i);
-      exercisesList.push({
-        id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        title: title,
-        level: level || 'resuelto',
-        statement: enunMatch ? latexToHtml(enunMatch[1].trim()) : '',
-        solution: solMatch ? latexToHtml(solMatch[1].trim()) : ''
-      });
-    }
+    const envTypes = [
+      { envName: 'ejercicioresuelto', defaultLevel: 'resuelto', solMacro: 'solucion' },
+      { envName: 'ejerciciodemostracion', defaultLevel: 'nivel-3', solMacro: 'demostracion' },
+      { envName: 'ejerciciopropuesto', defaultLevel: 'nivel-2', solMacro: 'pista' }
+    ];
 
-    // 2. Ejercicio Demostración
-    const exDemoRegex = /\\begin\{ejerciciodemostracion\}\{([^}]+)\}\{([^}]+)\}([\s\S]*?)\\end\{ejerciciodemostracion\}/gi;
-    while ((match = exDemoRegex.exec(rawExerc)) !== null) {
-      const title = match[1].trim();
-      const level = match[2].trim();
-      const body = match[3];
-      const enunMatch = body.match(/\\enunciado\{([\s\S]*?)\}/i);
-      const demoMatch = body.match(/\\demostracion\{([\s\S]*?)\}/i);
-      exercisesList.push({
-        id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        title: title,
-        level: level || 'nivel-3',
-        statement: enunMatch ? latexToHtml(enunMatch[1].trim()) : '',
-        solution: demoMatch ? latexToHtml(demoMatch[1].trim()) : ''
-      });
-    }
+    envTypes.forEach(t => {
+      const regex = new RegExp(`\\\\begin\\{${t.envName}\\}\\s*\\{([^}]+)\\}\\s*\\{([^}]+)\\}([\\s\\S]*?)\\\\end\\{${t.envName}\\}`, 'gi');
+      let match;
+      while ((match = regex.exec(rawExerc)) !== null) {
+        const title = match[1].trim();
+        const level = match[2].trim();
+        const body = match[3];
 
-    // 3. Ejercicio Propuesto
-    const exPropRegex = /\\begin\{ejerciciopropuesto\}\{([^}]+)\}\{([^}]+)\}([\s\S]*?)\\end\{ejerciciopropuesto\}/gi;
-    while ((match = exPropRegex.exec(rawExerc)) !== null) {
-      const title = match[1].trim();
-      const level = match[2].trim();
-      const body = match[3];
-      const enunMatch = body.match(/\\enunciado\{([\s\S]*?)\}/i);
-      const pistaMatch = body.match(/\\pista\{([\s\S]*?)\}/i);
-      exercisesList.push({
-        id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        title: title,
-        level: level || 'nivel-2',
-        statement: enunMatch ? latexToHtml(enunMatch[1].trim()) : '',
-        solution: pistaMatch ? latexToHtml(pistaMatch[1].trim()) : ''
-      });
-    }
+        const enunCalls = extractMacroCalls(body, 'enunciado', 1);
+        const solCalls = extractMacroCalls(body, t.solMacro, 1);
+
+        exercisesList.push({
+          id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          title: title,
+          level: level || t.defaultLevel,
+          statement: enunCalls.length > 0 ? latexToHtml(enunCalls[0].args[0].trim()) : latexToHtml(body.trim()),
+          solution: solCalls.length > 0 ? latexToHtml(solCalls[0].args[0].trim()) : ''
+        });
+      }
+    });
   }
 
   // Parse Fórmulas
