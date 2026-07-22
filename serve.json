@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "curso/:courseId", "destination": "/curso.html" },
+    { "source": "curso/*", "destination": "/curso.html" }
+  ]
+}

@@ -4,8 +4,13 @@ function initCoursePage() {
   if (!COURSE_ID) {
     const path = window.location.pathname;
     if (path.includes("/curso/")) {
-      const segments = path.split("/");
-      COURSE_ID = segments[segments.length - 1] || segments[segments.length - 2];
+      const parts = path.split("/").filter(Boolean);
+      const cursoIdx = parts.indexOf("curso");
+      if (cursoIdx !== -1 && parts[cursoIdx + 1]) {
+        COURSE_ID = parts[cursoIdx + 1];
+      } else {
+        COURSE_ID = parts[parts.length - 1];
+      }
     } else {
       COURSE_ID = "calculo-multivariable";
     }

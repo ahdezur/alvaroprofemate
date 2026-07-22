@@ -4,6 +4,7 @@
   "description": "Sitio web corporativo de Álvaro Hernández con administración de blog y Netlify Postgres",
   "main": "index.html",
   "scripts": {
+    "dev": "npx -y serve -l 8000 -s .",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
