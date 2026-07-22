@@ -1068,6 +1068,26 @@ function getStructuredItems(tabName) {
       });
       if (list.length > 0) return list;
     }
+
+    if (tabName === "formulas" && (trimmed.includes("formula-card") || trimmed.includes("formula-card-latex"))) {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = trimmed;
+      const cards = tempDiv.querySelectorAll(".formula-card");
+      const list = [];
+      cards.forEach((card, idx) => {
+        const titleEl = card.querySelector("h4");
+        const latexEl = card.querySelector(".formula-card-latex");
+        const descEl = card.querySelector("p");
+
+        list.push({
+          id: `form-html-${idx + 1}`,
+          title: titleEl ? titleEl.textContent.trim() : `Fórmula ${idx + 1}`,
+          latex: latexEl ? latexEl.textContent.replace(/\\\(|\\\)|\\\[|\\\]|\$\$/g, "").trim() : "",
+          description: descEl ? descEl.textContent.trim() : ""
+        });
+      });
+      if (list.length > 0) return list;
+    }
   }
 
   return [];

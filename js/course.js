@@ -1638,17 +1638,30 @@ function initCoursePage() {
       if (trimmed.startsWith("[")) {
         const items = JSON.parse(trimmed);
         if (items.length === 0) return '<p style="color: var(--text-muted);">Sin fórmulas cargadas.</p>';
-        const cards = items.map(item => `
-          <div class="formula-card">
-            <h4>${escapeHtml(item.title)}</h4>
-            <div class="formula-card-latex">
-              \\(${item.latex}\\)
+        const cards = items.map(item => {
+          let mathContent = item.latex ? item.latex.trim() : '';
+          let formattedMath = '';
+          if (mathContent.startsWith('\\begin') || mathContent.startsWith('$$') || mathContent.startsWith('\\[') || mathContent.includes('\n')) {
+            if (!mathContent.startsWith('$$') && !mathContent.startsWith('\\[')) {
+              formattedMath = `$$${mathContent}$$`;
+            } else {
+              formattedMath = mathContent;
+            }
+          } else {
+            formattedMath = `\\(${mathContent}\\)`;
+          }
+          return `
+            <div class="formula-card">
+              <h4>${escapeHtml(item.title)}</h4>
+              <div class="formula-card-latex" style="overflow-x: auto; padding: 6px 0;">
+                ${formattedMath}
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
+                ${escapeHtml(item.description)}
+              </p>
             </div>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
-              ${item.description}
-            </p>
-          </div>
-        `).join('');
+          `;
+        }).join('');
         return `
           <h3 style="margin: 0 0 12px 0; color: var(--accent-color); font-size: 1.15rem; font-weight: 700; font-family: var(--font-display);">
             📐 Fórmulas de Apoyo
