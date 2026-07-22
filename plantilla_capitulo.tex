@@ -1,0 +1,402 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% (Permite compilar el archivo a PDF sin alterar la estructura que lee la IA)
+% ==============================================================================
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=Alerta: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{procesamiento}[1]{%
+  \begin{tcolorbox}[colback=gray!10,colframe=gray!75!black,title=Procedimiento: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{ejemplo}[1]{%
+  \begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Ejemplo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+
+\newenvironment{ejercicioresuelto}[2]{%
+  \subsection*{Ejercicio Resuelto: #1 \hfill \normalfont\small(#2)}%
+}{}
+
+\newcommand{\enunciado}[1]{%
+  \textbf{Enunciado:}\par#1\par\medskip
+}
+
+\newcommand{\solucion}[1]{%
+  \textbf{Solución:}\par#1\par\bigskip
+}
+
+\newenvironment{ejerciciodemostracion}[2]{%
+  \subsection*{Demostración Resuelta: #1 \hfill \normalfont\small(#2)}%
+}{}
+
+\newcommand{\demostracion}[1]{%
+  \textbf{Demostración:}\par#1\par\bigskip
+}
+
+\newenvironment{ejerciciopropuesto}[2]{%
+  \subsection*{Ejercicio Propuesto: #1 \hfill \normalfont\small(#2)}%
+}{}
+
+\newcommand{\pista}[1]{%
+  \textbf{Pista/Pauta:}\par#1\par\bigskip
+}
+
+\newenvironment{formulas}{%
+  \section*{5. Fórmulas Clave}%
+}{}
+
+\newcommand{\formula}[3]{%
+  \begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=#1]%
+    \centering
+    \[ #2 \]
+    \tcblower
+    \flushleft\small\textbf{Descripción:} #3
+  \end{tcolorbox}%
+}
+
+% --- ELEMENTOS INTERACTIVOS DE LA PESTAÑA APLICACIÓN ---
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+% --- TÉRMINOS PAREADOS (2 COLUMNAS: NÚMEROS Y LETRAS) ---
+\newenvironment{pareadosdoscolumnas}[1]{%
+  \begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=Términos Pareados (2 Columnas): #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+% --- TÉRMINOS PAREADOS (3 COLUMNAS: NÚMEROS, LETRAS Y ROMANOS) ---
+\newenvironment{pareadostrescolumnas}[1]{%
+  \begin{tcolorbox}[colback=teal!5,colframe=teal!75!black,title=Términos Pareados (3 Columnas): #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newcommand{\columnaI}[1]{%
+  \par\medskip
+  \textbf{Columna 1 (Números):}\par
+  \begin{itemize}
+    #1
+  \end{itemize}%
+}
+
+\newcommand{\columnaII}[1]{%
+  \par\medskip
+  \textbf{Columna 2 (Letras):}\par
+  \begin{itemize}
+    #1
+  \end{itemize}%
+}
+
+\newcommand{\columnaIII}[1]{%
+  \par\medskip
+  \textbf{Columna 3 (Números Romanos):}\par
+  \begin{itemize}
+    #1
+  \end{itemize}%
+}
+
+\newcommand{\pareo}[2]{%
+  \par\smallskip
+  \textbf{Pareo [#1]:} #2\par
+}
+
+\newcommand{\pareotres}[2]{%
+  \par\smallskip
+  \textbf{Pareo [#1]:} #2\par
+}
+% ==============================================================================
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE (COMPLETAR OBLIGATORIAMENTE)
+% ==============================================================================
+% ID_CURSO: introduccion-calculo
+%   --> Opciones válidas: introduccion-calculo | calculo-diferencial | calculo-integral | calculo-multivariable
+% NUMERO_UNIDAD: 3
+% TITULO_UNIDAD: Sucesiones
+% NUMERO_CAPITULO: 3.2
+% TITULO_CAPITULO: Enfréntate al límite formal
+% ESTADO_BLOQUEADO: false
+%   --> Opciones: true (bloqueado con candado) | false (desbloqueado por defecto)
+% ESTADO_COMPLETADO: false
+%   --> Opciones: true | false
+% ==============================================================================
+
+% ==============================================================================
+% 2. DEFINICIONES Y MACROS PERSONALIZADAS (OPCIONAL)
+% Declara aquí cualquier macro que utilices en las fórmulas. Las registraré
+% en la configuración de MathJax para que se muestren idénticas en la web.
+% ==============================================================================
+
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% Estructuras admitidas: texto libre, \textbf, \textit, preguntaguia
+% ==============================================================================
+\begin{motivacion}
+  Texto introductorio del capítulo en \textbf{negrita} o \textit{cursiva}.
+  Puedes usar fórmulas en línea como $a_n \to L$ o destacadas con doble signo peso:
+  $$ \lim_{n \to \infty} a_n = L $$
+
+  \begin{preguntaguia}
+    Escribe aquí la pregunta de reflexión o guía para el alumno.
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% Estructuras admitidas: definicion, teorema, demostracion, alerta, procesamiento
+% ==============================================================================
+\begin{teoria}
+  Escribe el texto de introducción teórica aquí.
+  
+  % Caja azul de Definición
+  \begin{definicion}{Título de la Definición}
+    Cuerpo de la definición matemática. Puedes usar listas ordenadas o viñetas:
+    \begin{itemize}
+      \item Primer punto importante.
+      \item Segundo punto importante.
+    \end{itemize}
+  \end{definicion}
+
+  % Caja verde de Teorema
+  \begin{teorema}{Título del Teorema}
+    Enunciado formal del teorema.
+  \end{teorema}
+  
+  % Demostración asociada al teorema anterior (texto limpio sin caja)
+  \begin{proof}[Demostración]
+    Desarrollo matemático de la demostración formal. Finaliza con el símbolo Q.E.D.
+  \end{proof}
+
+  % Caja amarilla de Advertencia / Alerta
+  \begin{alerta}{Nota de Advertencia}
+    Mensaje de precaución para evitar errores conceptuales comunes.
+  \end{alerta}
+
+  % Caja gris oscuro de Procedimiento / Notas de estudio
+  \begin{procesamiento}{Trampa Cognitiva}
+    Explicación de un error común o procedimiento algorítmico paso a paso.
+  \end{procesamiento}
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% Estructuras admitidas: texto explicativo, simuladores, preguntas interactivas.
+% ==============================================================================
+\begin{aplicacion}
+  Escribe aquí el texto explicativo de la aplicación del concepto.
+  
+  % Si deseas inyectar un visualizador gráfico o simulador interactivo,
+  % escribe la referencia como un comentario o bloque de texto:
+  % [SIMULADOR: epsilon-n-game]
+
+  % --- EJEMPLO SIMPLE / INTRODUCTORIO ---
+  \begin{ejemplo}{Primeros términos de una sucesión}
+    Consideremos la sucesión $a_n = \frac{n}{n+1}$. Los primeros cuatro términos son:
+    \begin{itemize}
+      \item $a_1 = \frac{1}{2} = 0.5$
+      \item $a_2 = \frac{2}{3} \approx 0.67$
+      \item $a_3 = \frac{3}{4} = 0.75$
+      \item $a_4 = \frac{4}{5} = 0.8$
+    \end{itemize}
+    Observamos de forma sencilla que a medida que $n$ crece, los valores se aproximan a $1$.
+  \end{ejemplo}
+
+  % --- TIPO 1: PREGUNTA DE ALTERNATIVAS (Opción única con feedback individual) ---
+  \begin{preguntaalternativas}{Tendencia de la sucesión}
+    Enunciado de la pregunta de alternativas. ¿Hacia dónde tiende $a_n = \frac{1}{n}$?
+    
+    % Uso: \opcion{Texto}{Correcto | Incorrecto}{Explicación de retroalimentación}
+    \opcion{Hacia 1.}{Incorrecto}{A medida que $n$ crece, $1/n$ se hace cada vez más pequeño.}
+    \opcion{Hacia 0.}{Correcto}{Excelente. Los términos se estabilizan infinitesimalmente cerca de 0.}
+    \opcion{No tiene tendencia.}{Incorrecto}{Analiza qué ocurre con los términos a largo plazo.}
+  \end{preguntaalternativas}
+
+  % --- TIPO 2: PREGUNTA DE VERDADERO O FALSO ---
+  \begin{preguntaverdaderofalso}{Monotonía de la sucesión}
+    La sucesión $a_n = (-1)^n$ es una sucesión monótona decreciente.
+    
+    % Uso: \verdaderofalso{Respuesta Correcta: V o F}{Feedback para V}{Feedback para F}
+    \verdaderofalso{F}
+      {Incorrecto. Los términos rebotan entre -1 y 1; no mantiene una tendencia constante.}
+      {¡Correcto! Al alternar signos no es monótona (ni creciente ni decreciente).}
+  \end{preguntaverdaderofalso}
+
+  % --- TIPO 3: PREGUNTA DE CASILLAS (Selección múltiple, marcar varias correctas) ---
+  \begin{preguntacasillas}{Características de sucesiones convergentes}
+    Seleccione todas las afirmaciones que son verdaderas para una sucesión convergente:
+    
+    % Uso: \casilla{Texto}{Correcto | Incorrecto}{Explicación de retroalimentación}
+    \casilla{Debe estar acotada superior e inferiormente.}{Correcto}{Toda sucesión convergente es acotada.}
+    \casilla{Sus términos son siempre todos positivos.}{Incorrecto}{Una sucesión puede converger a un valor negativo o tener signos alternados.}
+    \casilla{Posee un único límite real $L$.}{Correcto}{El límite de una sucesión, de existir, es único.}
+  \end{preguntacasillas}
+
+  % --- TIPO 4: TÉRMINOS PAREADOS DE 2 COLUMNAS (Números - Letras) ---
+  \begin{pareadosdoscolumnas}{Asociación de Sucesiones con su Límite}
+    Enunciado: Relacione la sucesión de la Columna 1 (Números) con su límite correspondiente en la Columna 2 (Letras).
+    
+    \columnaI{
+      \item[1.] $a_n = \frac{1}{n}$
+      \item[2.] $a_n = \frac{3n+2}{n}$
+      \item[3.] $a_n = (-1)^n$
+    }
+    \columnaII{
+      \item[A.] $L = 3$
+      \item[B.] No existe (Diverge por oscilación)
+      \item[C.] $L = 0$
+    }
+    
+    % Retroalimentación de pares (Número - Letra)
+    \pareo{1-C}{¡Correcto! A medida que $n \to \infty$, los términos $1/n$ tienden a 0.}
+    \pareo{2-A}{¡Correcto! Dividiendo por $n$, el cociente se aproxima a $3$.}
+    \pareo{3-B}{¡Correcto! Los términos alternan entre $-1$ y $1$, sin estabilizarse en un único valor.}
+  \end{pareadosdoscolumnas}
+
+  % --- TIPO 5: TÉRMINOS PAREADOS DE 3 COLUMNAS (Números - Letras - Romanos) ---
+  \begin{pareadostrescolumnas}{Clasificación Completa de Sucesiones}
+    Enunciado: Relacione la Sucesión (Columna 1: Números) con su Comportamiento (Columna 2: Letras) y su Valor Límite (Columna 3: Romanos).
+    
+    \columnaI{
+      \item[1.] $a_n = \frac{1}{n^2}$
+      \item[2.] $a_n = n^2$
+      \item[3.] $a_n = (-1)^n n$
+    }
+    \columnaII{
+      \item[A.] Divergente no acotada
+      \item[B.] Convergente acotada
+      \item[C.] Divergente oscilante
+    }
+    \columnaIII{
+      \item[I.] No existe (Sin tendencia definida)
+      \item[II.] $L = 0$
+      \item[III.] $+\infty$
+    }
+    
+    % Retroalimentación de tríos (Número - Letra - Romano)
+    \pareotres{1-B-II}{¡Correcto! La sucesión $1/n^2$ está acotada y su límite es 0.}
+    \pareotres{2-A-III}{¡Correcto! La sucesión $n^2$ no está acotada y crece indefinidamente hacia $+\infty$.}
+    \pareotres{3-C-I}{¡Correcto! Alterna signos con magnitud creciente, por lo que diverge sin límite.}
+  \end{pareadostrescolumnas}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+
+  % --- EJERCICIO RESUELTO ESTÁNDAR (De cálculo práctico) ---
+  \begin{ejercicioresuelto}{Cálculo de Límite Racional}{nivel-2}
+    \enunciado{
+      Escribe aquí el enunciado del problema práctico de cálculo.
+    }
+    \solucion{
+      Escribe aquí el desarrollo detallado paso a paso y la solución final.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO DE DEMOSTRACIÓN RESUELTO (Teórico / Pruebas formales) ---
+  \begin{ejerciciodemostracion}{Demostración por Definición}{nivel-3}
+    \enunciado{
+      Escribe aquí el enunciado que exige probar o demostrar una propiedad.
+    }
+    \demostracion{
+      Escribe aquí la demostración analítica rigurosa.
+    }
+  \end{ejerciciodemostracion}
+
+  % --- EJERCICIO PROPUESTO (Sin resolución directa, solo con pauta/pista) ---
+  \begin{ejerciciopropuesto}{Límite con Alternancia}{nivel-2}
+    \enunciado{
+      Escribe aquí el enunciado propuesto para que el alumno resuelva solo.
+    }
+    \pista{
+      Escribe aquí una pista metodológica o la respuesta final para verificación.
+    }
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Límite de Sucesión}
+    {\lim_{n \to \infty} a_n = L}
+    {Expresión básica de convergencia de un término hacia su límite.}
+
+  \formula{Propiedad Arquimediana}
+    {\forall x > 0, \forall y \in \mathbb{R}, \exists n \in \mathbb{N} : nx > y}
+    {Garantiza que siempre existe un número natural mayor que cualquier real.}
+
+\end{formulas}
+
+\end{document}

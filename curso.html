@@ -89,6 +89,10 @@
       --ram-idea-border: hsl(140, 85%, 35%);
       --ram-idea-text: hsl(140, 90%, 15%);
 
+      --ram-ejemplo-bg: hsl(210, 15%, 95%);
+      --ram-ejemplo-border: hsl(210, 10%, 45%);
+      --ram-ejemplo-text: hsl(210, 15%, 20%);
+
       /* Sombras y Bordes */
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -161,6 +165,10 @@
       --ram-idea-bg: hsl(140, 30%, 10%);
       --ram-idea-border: hsl(140, 70%, 45%);
       --ram-idea-text: hsl(140, 90%, 85%);
+
+      --ram-ejemplo-bg: hsl(210, 10%, 12%);
+      --ram-ejemplo-border: hsl(210, 15%, 45%);
+      --ram-ejemplo-text: hsl(210, 10%, 85%);
 
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
@@ -730,6 +738,20 @@
     }
     .caja-idea p, .caja-pregunta-guia p {
       color: var(--ram-idea-text);
+      opacity: 0.9;
+    }
+
+    /* Caja de Ejemplo (Ejemplos rápidos e ilustrativos) */
+    .caja-ejemplo {
+      background-color: var(--ram-ejemplo-bg);
+      border-left-color: var(--ram-ejemplo-border);
+      color: var(--ram-ejemplo-text);
+    }
+    .caja-ejemplo .caja-ram-title {
+      color: var(--ram-ejemplo-border);
+    }
+    .caja-ejemplo p {
+      color: var(--ram-ejemplo-text);
       opacity: 0.9;
     }
 

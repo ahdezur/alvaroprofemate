@@ -1326,6 +1326,93 @@ function initCoursesManager() {
     };
   }
 
+  // --- BOTONES: IMPORTAR Y CARGAR CAPÍTULO .TEX ---
+  const btnImportTex = document.getElementById("btn-import-tex-chapter");
+  const btnUploadTex = document.getElementById("btn-upload-tex-chapter");
+  const inputTexFile = document.getElementById("input-tex-file-upload");
+
+  if (btnImportTex && inputTexFile) {
+    btnImportTex.onclick = () => inputTexFile.click();
+  }
+  if (btnUploadTex && inputTexFile) {
+    btnUploadTex.onclick = () => inputTexFile.click();
+  }
+
+  if (inputTexFile) {
+    inputTexFile.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async (evt) => {
+        const latexText = evt.target.result;
+        try {
+          const parsed = parseLatexChapter(latexText);
+
+          if (!parsed.metadata.chapterTitle && !parsed.metadata.chapterIndex) {
+            alert("No se pudieron detectar metadatos de capítulo válidos en el archivo .TEX.");
+            return;
+          }
+
+          if (parsed.metadata.courseId) {
+            const courseSel = document.getElementById("course-selector");
+            if (courseSel && Array.from(courseSel.options).some(opt => opt.value === parsed.metadata.courseId)) {
+              courseSel.value = parsed.metadata.courseId;
+            }
+          }
+
+          if (!activeChapterData) {
+            activeChapterData = {
+              courseId: parsed.metadata.courseId || document.getElementById("course-selector").value,
+              chapterIndex: parsed.metadata.chapterIndex,
+              title: parsed.metadata.chapterTitle,
+              isCompleted: parsed.metadata.isCompleted,
+              isLocked: parsed.metadata.isLocked,
+              contentMotivation: '',
+              contentTheory: '',
+              contentApplication: '',
+              contentExercises: '[]',
+              contentFormulas: '[]'
+            };
+          }
+
+          if (parsed.metadata.chapterTitle) activeChapterData.title = parsed.metadata.chapterTitle;
+          if (parsed.metadata.chapterIndex) activeChapterData.chapterIndex = parsed.metadata.chapterIndex;
+          activeChapterData.isCompleted = parsed.metadata.isCompleted;
+          activeChapterData.isLocked = parsed.metadata.isLocked;
+
+          activeChapterData.contentMotivation = parsed.contentMotivation;
+          activeChapterData.contentTheory = parsed.contentTheory;
+          activeChapterData.contentApplication = parsed.contentApplication;
+          activeChapterData.contentExercises = parsed.contentExercises;
+          activeChapterData.contentFormulas = parsed.contentFormulas;
+
+          document.getElementById("editor-chapter-title").value = activeChapterData.title || "";
+          document.getElementById("editor-chapter-index").value = activeChapterData.chapterIndex || "";
+          document.getElementById("editor-chapter-completed").checked = activeChapterData.isCompleted || false;
+          document.getElementById("editor-chapter-locked").checked = activeChapterData.isLocked || false;
+
+          document.getElementById("workspace-chapter-title").textContent = `Editar Capítulo ${activeChapterData.chapterIndex}`;
+          document.getElementById("workspace-unit-title").textContent = parsed.metadata.unitTitle || activeChapterData.title;
+
+          document.getElementById("chapter-editor-workspace").style.display = "block";
+          const welcome = document.getElementById("chapter-editor-welcome");
+          if (welcome) welcome.style.display = "none";
+
+          loadContentToEditorForTab(activeEditorTab);
+          renderStructuredManager(activeEditorTab);
+
+          alert(`¡Capítulo "${activeChapterData.title}" importado exitosamente desde LaTeX!\n\nRevisa las pestañas y presiona "Guardar Capítulo" cuando estés listo para guardarlo en la base de datos.`);
+        } catch (err) {
+          console.error("Error al procesar el archivo .TEX:", err);
+          alert("Ocurrió un error al procesar el archivo .TEX. Por favor verifica el formato.");
+        }
+        inputTexFile.value = "";
+      };
+      reader.readAsText(file);
+    };
+  }
+
   // Botón: Añadir estructurado (Ejercicios o Fórmulas)
   const btnStructuredAdd = document.getElementById("btn-structured-add");
   if (btnStructuredAdd) {
@@ -1635,5 +1722,319 @@ function initCourseWysiwygEditor() {
       editorVisual.style.display = "block";
       editorVisual.focus();
     }
+  };
+}
+
+function parseLatexChapter(latexText) {
+  const getMeta = (key) => {
+    const re = new RegExp(`%\\s*${key}\\s*:\\s*(.+)`, 'i');
+    const m = latexText.match(re);
+    return m ? m[1].trim() : '';
+  };
+
+  const metadata = {
+    courseId: getMeta('ID_CURSO'),
+    unitIndex: getMeta('NUMERO_UNIDAD'),
+    unitTitle: getMeta('TITULO_UNIDAD'),
+    chapterIndex: getMeta('NUMERO_CAPITULO'),
+    chapterTitle: getMeta('TITULO_CAPITULO'),
+    isLocked: getMeta('ESTADO_BLOQUEADO').toLowerCase() === 'true',
+    isCompleted: getMeta('ESTADO_COMPLETADO').toLowerCase() === 'true'
+  };
+
+  const getEnvContent = (envName) => {
+    const re = new RegExp(`\\\\begin\\{${envName}\\}([\\s\\S]*?)\\\\end\\{${envName}\\}`, 'i');
+    const m = latexText.match(re);
+    return m ? m[1].trim() : '';
+  };
+
+  const rawMotiv = getEnvContent('motivacion');
+  const rawTeoria = getEnvContent('teoria');
+  const rawAplic = getEnvContent('aplicacion');
+  const rawExerc = getEnvContent('ejercicios');
+  const rawFormulas = getEnvContent('formulas');
+
+  function latexToHtml(raw) {
+    if (!raw) return '';
+    let html = raw;
+
+    // Custom boxes
+    html = html.replace(/\\begin\{definicion\}\{([^}]+)\}([\s\S]*?)\\end\{definicion\}/gi, (match, title, body) => {
+      return `<div class="caja-ram caja-definicion"><div class="caja-ram-title"><i class="fa-solid fa-book-bookmark"></i> Definición: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    });
+
+    html = html.replace(/\\begin\{teorema\}\{([^}]+)\}([\s\S]*?)\\end\{teorema\}/gi, (match, title, body) => {
+      return `<div class="caja-ram caja-teorema"><div class="caja-ram-title"><i class="fa-solid fa-square-root-variable"></i> Teorema: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    });
+
+    html = html.replace(/\\begin\{(?:proof|demostracion)\}(?:\[([^\]]+)\])?([\s\S]*?)\\end\{(?:proof|demostracion)\}/gi, (match, title, body) => {
+      const label = title || 'Demostración';
+      return `<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p><strong>${label}:</strong> ${latexToHtml(body)}</p></div>`;
+    });
+
+    html = html.replace(/\\begin\{alerta\}\{([^}]+)\}([\s\S]*?)\\end\{alerta\}/gi, (match, title, body) => {
+      return `<div class="caja-ram caja-choque-cognitivo"><div class="caja-ram-title"><i class="fa-solid fa-triangle-exclamation"></i> Alerta: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    });
+
+    html = html.replace(/\\begin\{procesamiento\}\{([^}]+)\}([\s\S]*?)\\end\{procesamiento\}/gi, (match, title, body) => {
+      return `<div class="caja-ram caja-procesamiento"><div class="caja-ram-title"><i class="fa-solid fa-gear"></i> Procedimiento: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    });
+
+    html = html.replace(/\\begin\{ejemplo\}\{([^}]+)\}([\s\S]*?)\\end\{ejemplo\}/gi, (match, title, body) => {
+      return `<div class="caja-ram caja-ejemplo"><div class="caja-ram-title"><i class="fa-solid fa-chalkboard-user"></i> Ejemplo: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    });
+
+    html = html.replace(/\\begin\{preguntaguia\}([\s\S]*?)\\end\{preguntaguia\}/gi, (match, body) => {
+      return `<div class="caja-ram caja-pregunta-guia"><div class="caja-ram-title"><i class="fa-solid fa-circle-question"></i> Pregunta Guía</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    });
+
+    // Quizzes
+    // 1. Alternativas
+    html = html.replace(/\\begin\{preguntaalternativas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaalternativas\}/gi, (match, title, body) => {
+      const options = [];
+      let statement = body.replace(/\\opcion\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, optText, isCorrect, feedback) => {
+        options.push({ text: optText.trim(), isCorrect: isCorrect.trim(), feedback: feedback.trim() });
+        return '';
+      }).trim();
+
+      const optionsHtml = options.map((opt) => `
+        <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
+          <input type="radio" name="quiz_alt_${title.replace(/\W+/g, '')}" value="${opt.isCorrect.toLowerCase() === 'correcto' ? '1' : '0'}" data-feedback="${opt.feedback.replace(/"/g, '&quot;')}" style="margin-right: 8px;">
+          ${latexToHtml(opt.text)}
+        </label>
+      `).join('');
+
+      return `
+        <div class="quiz-block quiz-alternativas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-list-check"></i> ${title}</h4>
+          <p>${latexToHtml(statement)}</p>
+          <div>${optionsHtml}</div>
+          <button type="button" class="btn btn-verify-quiz" onclick="verifyQuizAlternatives(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Respuesta</button>
+          <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
+        </div>
+      `;
+    });
+
+    // 2. Verdadero / Falso
+    html = html.replace(/\\begin\{preguntaverdaderofalso\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaverdaderofalso\}/gi, (match, title, body) => {
+      let correctVal = 'V';
+      let fbV = '';
+      let fbF = '';
+      let statement = body.replace(/\\verdaderofalso\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, cVal, fV, fF) => {
+        correctVal = cVal.trim().toUpperCase();
+        fbV = fV.trim();
+        fbF = fF.trim();
+        return '';
+      }).trim();
+
+      return `
+        <div class="quiz-block quiz-vf" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-circle-half-stroke"></i> ${title}</h4>
+          <p>${latexToHtml(statement)}</p>
+          <div style="display:flex; gap:12px; margin:10px 0;">
+            <button type="button" class="btn btn-vf-option" data-val="V" data-correct="${correctVal}" data-feedback="${fbV.replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Verdadero (V)</button>
+            <button type="button" class="btn btn-vf-option" data-val="F" data-correct="${correctVal}" data-feedback="${fbF.replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Falso (F)</button>
+          </div>
+          <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
+        </div>
+      `;
+    });
+
+    // 3. Casillas
+    html = html.replace(/\\begin\{preguntacasillas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntacasillas\}/gi, (match, title, body) => {
+      const items = [];
+      let statement = body.replace(/\\casilla\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, text, isCorrect, feedback) => {
+        items.push({ text: text.trim(), isCorrect: isCorrect.trim().toLowerCase() === 'correcto', feedback: feedback.trim() });
+        return '';
+      }).trim();
+
+      const itemsHtml = items.map((opt) => `
+        <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
+          <input type="checkbox" data-correct="${opt.isCorrect ? '1' : '0'}" data-feedback="${opt.feedback.replace(/"/g, '&quot;')}" style="margin-right: 8px;">
+          ${latexToHtml(opt.text)}
+        </label>
+      `).join('');
+
+      return `
+        <div class="quiz-block quiz-casillas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-square-check"></i> ${title}</h4>
+          <p>${latexToHtml(statement)}</p>
+          <div>${itemsHtml}</div>
+          <button type="button" class="btn btn-verify-casillas" onclick="verifyQuizCasillas(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Selección</button>
+          <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
+        </div>
+      `;
+    });
+
+    // 4. Términos Pareados 2 Col
+    html = html.replace(/\\begin\{pareadosdoscolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadosdoscolumnas\}/gi, (match, title, body) => {
+      let col1Text = '';
+      let col2Text = '';
+      const pareos = [];
+
+      body = body.replace(/\\columnaI\{([\s\S]*?)\}/gi, (m, content) => { col1Text = content; return ''; });
+      body = body.replace(/\\columnaII\{([\s\S]*?)\}/gi, (m, content) => { col2Text = content; return ''; });
+      body = body.replace(/\\pareo\{([^}]+)\}\{([^}]+)\}/gi, (m, pairKey, feedback) => {
+        pareos.push({ key: pairKey.trim(), feedback: feedback.trim() });
+        return '';
+      });
+
+      return `
+        <div class="quiz-block quiz-pareados-2col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-diagram-project"></i> ${title}</h4>
+          <p>${latexToHtml(body.trim())}</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+            <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="margin-top:0;">Columna 1 (Números)</h5>
+              ${latexToHtml(col1Text)}
+            </div>
+            <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="margin-top:0;">Columna 2 (Letras)</h5>
+              ${latexToHtml(col2Text)}
+            </div>
+          </div>
+          <div class="pareos-feedback-list" style="margin-top: 10px;">
+            ${pareos.map(p => `<div style="font-size: 13px; margin: 4px 0; color: var(--text-muted);"><strong>[${p.key}]:</strong> ${latexToHtml(p.feedback)}</div>`).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    // 5. Términos Pareados 3 Col
+    html = html.replace(/\\begin\{pareadostrescolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadostrescolumnas\}/gi, (match, title, body) => {
+      let col1Text = '';
+      let col2Text = '';
+      let col3Text = '';
+      const pareos = [];
+
+      body = body.replace(/\\columnaI\{([\s\S]*?)\}/gi, (m, content) => { col1Text = content; return ''; });
+      body = body.replace(/\\columnaII\{([\s\S]*?)\}/gi, (m, content) => { col2Text = content; return ''; });
+      body = body.replace(/\\columnaIII\{([\s\S]*?)\}/gi, (m, content) => { col3Text = content; return ''; });
+      body = body.replace(/\\pareotres\{([^}]+)\}\{([^}]+)\}/gi, (m, pairKey, feedback) => {
+        pareos.push({ key: pairKey.trim(), feedback: feedback.trim() });
+        return '';
+      });
+
+      return `
+        <div class="quiz-block quiz-pareados-3col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-network-wired"></i> ${title}</h4>
+          <p>${latexToHtml(body.trim())}</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 15px 0;">
+            <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="margin-top:0; font-size:13px;">Columna 1 (Números)</h5>
+              ${latexToHtml(col1Text)}
+            </div>
+            <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="margin-top:0; font-size:13px;">Columna 2 (Letras)</h5>
+              ${latexToHtml(col2Text)}
+            </div>
+            <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="margin-top:0; font-size:13px;">Columna 3 (Romanos)</h5>
+              ${latexToHtml(col3Text)}
+            </div>
+          </div>
+          <div class="pareos-feedback-list" style="margin-top: 10px;">
+            ${pareos.map(p => `<div style="font-size: 13px; margin: 4px 0; color: var(--text-muted);"><strong>[${p.key}]:</strong> ${latexToHtml(p.feedback)}</div>`).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    // Formatting items & lists
+    html = html.replace(/\\begin\{itemize\}/gi, '<ul style="margin: 8px 0; padding-left: 20px;">');
+    html = html.replace(/\\end\{itemize\}/gi, '</ul>');
+    html = html.replace(/\\begin\{enumerate\}/gi, '<ol style="margin: 8px 0; padding-left: 20px;">');
+    html = html.replace(/\\end\{enumerate\}/gi, '</ol>');
+    html = html.replace(/\\item\[([^\]]+)\]\s*([\s\S]*?)(?=(?:\\item|<\/ul>|<\/ol>|$))/gi, '<li style="margin: 4px 0;"><strong>$1</strong> $2</li>');
+    html = html.replace(/\\item\s+([\s\S]*?)(?=(?:\\item|<\/ul>|<\/ol>|$))/gi, '<li style="margin: 4px 0;">$1</li>');
+
+    // Basic text macros
+    html = html.replace(/\\textbf\{([^}]+)\}/gi, '<strong>$1</strong>');
+    html = html.replace(/\\textit\{([^}]+)\}/gi, '<em>$1</em>');
+    html = html.replace(/\\underline\{([^}]+)\}/gi, '<u>$1</u>');
+    html = html.replace(/\\subsection\*\{([^}]+)\}/gi, '<h4>$1</h4>');
+    html = html.replace(/\\section\*\{([^}]+)\}/gi, '<h3>$1</h3>');
+
+    return html.trim();
+  }
+
+  // Parse Ejercicios
+  const exercisesList = [];
+  if (rawExerc) {
+    // 1. Ejercicio Resuelto
+    const exResRegex = /\\begin\{ejercicioresuelto\}\{([^}]+)\}\{([^}]+)\}([\s\S]*?)\\end\{ejercicioresuelto\}/gi;
+    let match;
+    while ((match = exResRegex.exec(rawExerc)) !== null) {
+      const title = match[1].trim();
+      const level = match[2].trim();
+      const body = match[3];
+      const enunMatch = body.match(/\\enunciado\{([\s\S]*?)\}/i);
+      const solMatch = body.match(/\\solucion\{([\s\S]*?)\}/i);
+      exercisesList.push({
+        id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        title: title,
+        level: level || 'resuelto',
+        statement: enunMatch ? latexToHtml(enunMatch[1].trim()) : '',
+        solution: solMatch ? latexToHtml(solMatch[1].trim()) : ''
+      });
+    }
+
+    // 2. Ejercicio Demostración
+    const exDemoRegex = /\\begin\{ejerciciodemostracion\}\{([^}]+)\}\{([^}]+)\}([\s\S]*?)\\end\{ejerciciodemostracion\}/gi;
+    while ((match = exDemoRegex.exec(rawExerc)) !== null) {
+      const title = match[1].trim();
+      const level = match[2].trim();
+      const body = match[3];
+      const enunMatch = body.match(/\\enunciado\{([\s\S]*?)\}/i);
+      const demoMatch = body.match(/\\demostracion\{([\s\S]*?)\}/i);
+      exercisesList.push({
+        id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        title: title,
+        level: level || 'nivel-3',
+        statement: enunMatch ? latexToHtml(enunMatch[1].trim()) : '',
+        solution: demoMatch ? latexToHtml(demoMatch[1].trim()) : ''
+      });
+    }
+
+    // 3. Ejercicio Propuesto
+    const exPropRegex = /\\begin\{ejerciciopropuesto\}\{([^}]+)\}\{([^}]+)\}([\s\S]*?)\\end\{ejerciciopropuesto\}/gi;
+    while ((match = exPropRegex.exec(rawExerc)) !== null) {
+      const title = match[1].trim();
+      const level = match[2].trim();
+      const body = match[3];
+      const enunMatch = body.match(/\\enunciado\{([\s\S]*?)\}/i);
+      const pistaMatch = body.match(/\\pista\{([\s\S]*?)\}/i);
+      exercisesList.push({
+        id: `ex-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        title: title,
+        level: level || 'nivel-2',
+        statement: enunMatch ? latexToHtml(enunMatch[1].trim()) : '',
+        solution: pistaMatch ? latexToHtml(pistaMatch[1].trim()) : ''
+      });
+    }
+  }
+
+  // Parse Fórmulas
+  const formulasList = [];
+  if (rawFormulas) {
+    const formRegex = /\\formula\{([^}]+)\}\s*\{([^}]+)\}\s*\{([^}]+)\}/gi;
+    let match;
+    while ((match = formRegex.exec(rawFormulas)) !== null) {
+      formulasList.push({
+        id: `form-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        title: match[1].trim(),
+        latex: match[2].trim(),
+        description: match[3].trim()
+      });
+    }
+  }
+
+  return {
+    metadata,
+    contentMotivation: latexToHtml(rawMotiv),
+    contentTheory: latexToHtml(rawTeoria),
+    contentApplication: latexToHtml(rawAplic),
+    contentExercises: JSON.stringify(exercisesList, null, 2),
+    contentFormulas: JSON.stringify(formulasList, null, 2)
   };
 }
