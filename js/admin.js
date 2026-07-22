@@ -1770,9 +1770,9 @@ function parseLatexChapter(latexText) {
     const regex = new RegExp(`\\\\${macroName}\\s*\\{`, 'gi');
     let match;
     while ((match = regex.exec(text)) !== null) {
-      const startIndex = match.index + match[0].length - 1;
+      const startIndex = match.index;
+      let i = match.index + match[0].length - 1;
       const args = [];
-      let i = startIndex;
 
       while (i < text.length && args.length < argCount) {
         if (text[i] === '{') {
@@ -1785,19 +1785,40 @@ function parseLatexChapter(latexText) {
             i++;
           }
           args.push(text.substring(start, i - 1));
-        } else {
+        } else if (/\s/.test(text[i])) {
           i++;
+        } else {
+          break;
         }
       }
 
       if (args.length === argCount) {
         results.push({
-          fullMatch: text.substring(match.index, i),
+          startIndex: startIndex,
+          endIndex: i,
+          fullMatch: text.substring(startIndex, i),
           args: args
         });
       }
     }
     return results;
+  }
+
+  function processQuizBlock(body, macroName, argCount) {
+    const calls = extractMacroCalls(body, macroName, argCount);
+    if (calls.length === 0) {
+      return { statement: body.trim(), calls: [] };
+    }
+
+    let statement = '';
+    let lastIndex = 0;
+    calls.forEach(c => {
+      statement += body.substring(lastIndex, c.startIndex);
+      lastIndex = c.endIndex;
+    });
+    statement += body.substring(lastIndex);
+
+    return { statement: statement.trim(), calls };
   }
 
   function latexToHtml(raw) {
@@ -1854,17 +1875,12 @@ function parseLatexChapter(latexText) {
 
     // Quizzes & Pareados
     text = text.replace(/\\begin\{preguntaalternativas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaalternativas\}/gi, (m, title, body) => {
-      const options = [];
-      let statement = body;
-      const calls = extractMacroCalls(body, 'opcion', 3);
-      calls.forEach(c => {
-        statement = statement.replace(c.fullMatch, '');
-        options.push({
-          text: c.args[0].trim(),
-          isCorrect: c.args[1].trim(),
-          feedback: c.args[2].trim()
-        });
-      });
+      const { statement, calls } = processQuizBlock(body, 'opcion', 3);
+      const options = calls.map(c => ({
+        text: c.args[0].trim(),
+        isCorrect: c.args[1].trim(),
+        feedback: c.args[2].trim()
+      }));
 
       const optionsHtml = options.map((opt) => `
         <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
@@ -1876,7 +1892,7 @@ function parseLatexChapter(latexText) {
       return saveBlock(`
         <div class="quiz-block quiz-alternativas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-list-check"></i> ${title}</h4>
-          ${latexToHtml(statement.trim())}
+          ${latexToHtml(statement)}
           <div>${optionsHtml}</div>
           <button type="button" class="btn btn-verify-quiz" onclick="verifyQuizAlternatives(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Respuesta</button>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
@@ -1888,12 +1904,10 @@ function parseLatexChapter(latexText) {
       let correctVal = 'V';
       let fbV = '';
       let fbF = '';
-      let statement = body;
 
-      const calls = extractMacroCalls(body, 'verdaderofalso', 3);
+      const { statement, calls } = processQuizBlock(body, 'verdaderofalso', 3);
       if (calls.length > 0) {
         const c = calls[0];
-        statement = body.replace(c.fullMatch, '').trim();
         correctVal = c.args[0].trim().toUpperCase();
         fbF = c.args[1].trim(); // Arg 2: Si marca Falso
         fbV = c.args[2].trim(); // Arg 3: Si marca Verdadero
@@ -1913,17 +1927,12 @@ function parseLatexChapter(latexText) {
     });
 
     text = text.replace(/\\begin\{preguntacasillas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntacasillas\}/gi, (m, title, body) => {
-      const items = [];
-      let statement = body;
-      const calls = extractMacroCalls(body, 'casilla', 3);
-      calls.forEach(c => {
-        statement = statement.replace(c.fullMatch, '');
-        items.push({
-          text: c.args[0].trim(),
-          isCorrect: c.args[1].trim().toLowerCase() === 'correcto',
-          feedback: c.args[2].trim()
-        });
-      });
+      const { statement, calls } = processQuizBlock(body, 'casilla', 3);
+      const items = calls.map(c => ({
+        text: c.args[0].trim(),
+        isCorrect: c.args[1].trim().toLowerCase() === 'correcto',
+        feedback: c.args[2].trim()
+      }));
 
       const itemsHtml = items.map((opt) => `
         <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
@@ -1935,7 +1944,7 @@ function parseLatexChapter(latexText) {
       return saveBlock(`
         <div class="quiz-block quiz-casillas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-square-check"></i> ${title}</h4>
-          ${latexToHtml(statement.trim())}
+          ${latexToHtml(statement)}
           <div>${itemsHtml}</div>
           <button type="button" class="btn btn-verify-casillas" onclick="verifyQuizCasillas(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Selección</button>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
