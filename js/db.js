@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "3.1" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
+    if (dbVersion === "4.0" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Series de Potencias") && chapters.includes("Actividad de Prueba: Términos Pareados")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "3.1");
+    localStorage.setItem("alvaro_profemate_db_version", "4.0");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
@@ -1108,51 +1108,7 @@ const DB = {
           { id: u2Id, courseId: c.id, unitIndex: 2, title: 'Cálculo Diferencial Vectorial', isLocked: false }
         );
 
-        // Cap 1.0
-        defaultChapters.push({
-          id: chapterIdCounter++,
-          unitId: u1Id,
-          chapterIndex: '1.0',
-          title: 'Geometría Analítica del Espacio',
-          isCompleted: true,
-          isLocked: false,
-          contentMotivation: '<div class="caja-ram caja-motivacion"><div class="caja-ram-icon">💡</div><div class="caja-ram-body"><div class="caja-ram-title">Motivación geométrica</div><p>Para entender las funciones de varias variables, primero debemos dominar las tres dimensiones espaciales y cómo representamos planos, cilindros y esferas.</p></div></div>',
-          contentTheory: '<h3>Conceptos de R3</h3><p>Definimos el espacio tridimensional R3 como el conjunto de todas las ternas ordenadas (x,y,z) de números reales.</p>',
-          contentApplication: '<h3>Aplicaciones</h3><p>Modelado de piezas en CAD/CAM e ingeniería aeronáutica.</p>',
-          contentExercises: JSON.stringify([{ title: "Distancia en R3", level: "nivel-1", statement: "Calcule la distancia entre los puntos A(1, 2, 3) y B(4, 6, 8).", solution: "Distancia d = \\sqrt{3^2 + 4^2 + 5^2} = \\sqrt{50} = 5\\sqrt{2}." }]),
-          contentFormulas: JSON.stringify([{ title: "Distancia Espacial", latex: "d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2 + (z_2-z_1)^2}", description: "Fórmula de la distancia euclidiana en el espacio tridimensional." }])
-        });
-
-        // Cap 1.1
-        defaultChapters.push({
-          id: chapterIdCounter++,
-          unitId: u1Id,
-          chapterIndex: '1.1',
-          title: 'Campos Escalares y Topografía',
-          isCompleted: false,
-          isLocked: false,
-          contentMotivation: cap11Motivation,
-          contentTheory: cap11Theory,
-          contentApplication: cap11Application,
-          contentExercises: cap11Exercises,
-          contentFormulas: cap11Formulas
-        });
-
-        // Cap 1.2
-        defaultChapters.push({
-          id: chapterIdCounter++,
-          unitId: u1Id,
-          chapterIndex: '1.2',
-          title: 'Límites y Continuidad en 3D',
-          isCompleted: false,
-          isLocked: false,
-          contentMotivation: '<div class="caja-ram caja-motivacion"><div class="caja-ram-icon">💡</div><div class="caja-ram-body"><div class="caja-ram-title">Motivación</div><p>¿Qué significa acercarse a un punto en 2D? A diferencia de una sola variable (donde solo te acercas por izquierda y derecha), en dos variables hay infinitas trayectorias de aproximación.</p></div></div>',
-          contentTheory: '<h3>Definición formal del límite</h3><p>Decimos que el límite de f(x,y) cuando (x,y) tiende a (a,b) es L si para todo &epsilon; > 0 existe &delta; > 0 tal que...</p>',
-          contentApplication: '<h3>Aplicaciones</h3><p>Cálculo de tensiones continuas en puentes y estructuras de soporte.</p>',
-          contentExercises: JSON.stringify([{ title: "Inexistencia de Límite", level: "nivel-2", statement: "Demuestre que el límite no existe evaluando por diferentes parábolas.", solution: "Evalúe sobre las trayectorias y = mx^2 y compare los límites obtenidos." }]),
-          contentFormulas: JSON.stringify([{ title: "Límite Multivariable", latex: "\\lim_{(x,y)\\to(a,b)} f(x,y) = L", description: "Límite formal en R2." }])
-        });
-      } else if (c.id === 'calculo-diferencial') {
+        } else if (c.id === 'calculo-diferencial') {
         const u1Id = unitIdCounter++;
         const u2Id = unitIdCounter++;
 
