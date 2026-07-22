@@ -1616,14 +1616,8 @@
   </div>
 
   <!-- Javascript Modules -->
-  <script>
-    (function() {
-      const isFile = window.location.protocol === "file:" || window.location.href.startsWith("file:");
-      const prefix = isFile ? "" : "/";
-      document.write('<script src="' + prefix + 'js/config.js"><\/script>');
-      document.write('<script src="' + prefix + 'js/db.js"><\/script>');
-      document.write('<script src="' + prefix + 'js/course.js"><\/script>');
-    })();
-  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/db.js"></script>
+  <script src="/js/course.js"></script>
 </body>
 </html>
