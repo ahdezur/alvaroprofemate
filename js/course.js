@@ -1803,3 +1803,144 @@ window.verifyQuizCasillas = function(btn) {
     MathJax.typesetPromise([feedbackDiv]);
   }
 };
+
+window.verifyQuizPareados2Col = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const rows = Array.from(container.querySelectorAll('.pareo-row-item'));
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  let incomplete = false;
+  let correctCount = 0;
+  let details = [];
+
+  rows.forEach(row => {
+    const num = row.getAttribute('data-num');
+    const correctLetter = row.getAttribute('data-correct-letter');
+    const fb = row.getAttribute('data-feedback') || '';
+    const sel = row.querySelector('.pareo-select-col2');
+    const userVal = sel ? sel.value : '';
+
+    if (!userVal) {
+      incomplete = true;
+    }
+
+    const isMatch = userVal === correctLetter;
+    if (isMatch) correctCount++;
+
+    details.push({
+      num,
+      userVal,
+      correctLetter,
+      isMatch,
+      fb
+    });
+  });
+
+  if (incomplete) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor selecciona una letra para cada ítem antes de verificar.';
+    return;
+  }
+
+  const allCorrect = correctCount === rows.length;
+  feedbackDiv.style.display = 'block';
+  feedbackDiv.style.background = allCorrect ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+  feedbackDiv.style.border = allCorrect ? '1px solid #10b981' : '1px solid #ef4444';
+  feedbackDiv.style.color = 'var(--text-primary)';
+
+  const headerMsg = allCorrect
+    ? `<h5 style="margin:0 0 8px 0; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Excelente! Todas las parejas son correctas (${correctCount}/${rows.length})</h5>`
+    : `<h5 style="margin:0 0 8px 0; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Has acertado ${correctCount} de ${rows.length} parejas</h5>`;
+
+  const detailsHtml = details.map(d => `
+    <div style="margin: 6px 0; padding: 6px 10px; background: var(--bg-primary); border-radius: 4px; font-size: 13px;">
+      <strong>Ítem ${d.num}:</strong> ${d.isMatch ? `<span style="color:#10b981;">✓ Correcto (${d.userVal})</span>` : `<span style="color:#ef4444;">✗ Tu elección (${d.userVal || 'ninguna'}) | Correcta: ${d.correctLetter}</span>`}
+      ${d.fb ? `<div style="margin-top:4px; color:var(--text-muted);">${d.fb}</div>` : ''}
+    </div>
+  `).join('');
+
+  feedbackDiv.innerHTML = headerMsg + detailsHtml;
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};
+
+window.verifyQuizPareados3Col = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const rows = Array.from(container.querySelectorAll('.pareo-row-item'));
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  let incomplete = false;
+  let correctCount = 0;
+  let details = [];
+
+  rows.forEach(row => {
+    const num = row.getAttribute('data-num');
+    const correctLetter = row.getAttribute('data-correct-letter');
+    const correctRoman = row.getAttribute('data-correct-roman');
+    const fb = row.getAttribute('data-feedback') || '';
+    const selLet = row.querySelector('.pareo-select-col2');
+    const selRom = row.querySelector('.pareo-select-col3');
+    const userLet = selLet ? selLet.value : '';
+    const userRom = selRom ? selRom.value : '';
+
+    if (!userLet || !userRom) {
+      incomplete = true;
+    }
+
+    const isMatch = userLet === correctLetter && userRom === correctRoman;
+    if (isMatch) correctCount++;
+
+    details.push({
+      num,
+      userLet,
+      userRom,
+      correctLetter,
+      correctRoman,
+      isMatch,
+      fb
+    });
+  });
+
+  if (incomplete) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor selecciona una letra y un número romano para cada ítem antes de verificar.';
+    return;
+  }
+
+  const allCorrect = correctCount === rows.length;
+  feedbackDiv.style.display = 'block';
+  feedbackDiv.style.background = allCorrect ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+  feedbackDiv.style.border = allCorrect ? '1px solid #10b981' : '1px solid #ef4444';
+  feedbackDiv.style.color = 'var(--text-primary)';
+
+  const headerMsg = allCorrect
+    ? `<h5 style="margin:0 0 8px 0; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Espectacular! Todos los tríos de pareos son correctos (${correctCount}/${rows.length})</h5>`
+    : `<h5 style="margin:0 0 8px 0; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Has acertado ${correctCount} de ${rows.length} asociaciones</h5>`;
+
+  const detailsHtml = details.map(d => `
+    <div style="margin: 6px 0; padding: 6px 10px; background: var(--bg-primary); border-radius: 4px; font-size: 13px;">
+      <strong>Ítem ${d.num}:</strong> ${d.isMatch ? `<span style="color:#10b981;">✓ Correcto (${d.userLet}, ${d.userRom})</span>` : `<span style="color:#ef4444;">✗ Tu elección (${d.userLet || '-' }, ${d.userRom || '-' }) | Correcta: (${d.correctLetter}, ${d.correctRoman})</span>`}
+      ${d.fb ? `<div style="margin-top:4px; color:var(--text-muted);">${d.fb}</div>` : ''}
+    </div>
+  `).join('');
+
+  feedbackDiv.innerHTML = headerMsg + detailsHtml;
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};

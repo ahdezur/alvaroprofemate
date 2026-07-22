@@ -1804,6 +1804,15 @@ function parseLatexChapter(latexText) {
     return results;
   }
 
+  function parseColumnItems(colText) {
+    if (!colText) return [];
+    const rawItems = colText.split(/\\item\b/).map(s => s.trim()).filter(Boolean);
+    return rawItems.map(item => {
+      let clean = item.replace(/^\[[^\]]+\]\s*/, '');
+      return clean.trim();
+    });
+  }
+
   function processQuizBlock(body, macroName, argCount) {
     const calls = extractMacroCalls(body, macroName, argCount);
     if (calls.length === 0) {
@@ -1963,29 +1972,80 @@ function parseLatexChapter(latexText) {
       if (col2Calls.length > 0) col2Text = col2Calls[0].args[0];
 
       const pareoCalls = extractMacroCalls(body, 'pareo', 2);
-      const pareos = pareoCalls.map(c => ({ key: c.args[0].trim(), feedback: c.args[1].trim() }));
+      const pareoMap = {};
+      pareoCalls.forEach(c => {
+        const key = c.args[0].trim();
+        const fb = c.args[1].trim();
+        const parts = key.split('-');
+        if (parts.length >= 2) {
+          const num = parts[0].trim();
+          const letCode = parts[1].trim().toUpperCase();
+          pareoMap[num] = { letter: letCode, feedback: fb };
+        }
+      });
 
       let statement = body;
       col1Calls.concat(col2Calls).concat(pareoCalls).forEach(c => {
         statement = statement.replace(c.fullMatch, '');
       });
 
+      const col1Items = parseColumnItems(col1Text);
+      const col2Items = parseColumnItems(col2Text);
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+      const col1Html = col1Items.map((item, idx) => `
+        <div style="display: flex; gap: 10px; margin: 10px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+          <span style="background: var(--accent-color); color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; flex-shrink: 0;">${idx + 1}</span>
+          <div style="flex: 1;">${latexToHtml(item)}</div>
+        </div>
+      `).join('');
+
+      const col2Html = col2Items.map((item, idx) => `
+        <div style="display: flex; gap: 10px; margin: 10px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+          <span style="background: #10b981; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; flex-shrink: 0;">${letters[idx] || (idx+1)}</span>
+          <div style="flex: 1;">${latexToHtml(item)}</div>
+        </div>
+      `).join('');
+
+      const availableLetters = col2Items.map((_, idx) => letters[idx] || String(idx + 1));
+      const selectorsHtml = col1Items.map((_, idx) => {
+        const num = idx + 1;
+        const info = pareoMap[num] || pareoMap[String(num)] || { letter: '', feedback: '' };
+        const optionsHtml = availableLetters.map(letCode => `<option value="${letCode}">${letCode}</option>`).join('');
+
+        return `
+          <div class="pareo-row-item" data-num="${num}" data-correct-letter="${info.letter}" data-feedback="${latexToHtml(info.feedback).replace(/"/g, '&quot;')}" style="display: flex; align-items: center; gap: 12px; margin: 8px 0; padding: 10px 14px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; flex-wrap: wrap;">
+            <span style="font-weight: 700; min-width: 80px;">Ítem ${num}:</span>
+            <span style="color: var(--text-muted); font-size: 13px;">asociar con Letra:</span>
+            <select class="pareo-select-col2" style="padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-weight: 600; cursor: pointer;">
+              <option value="">-- Elegir --</option>
+              ${optionsHtml}
+            </select>
+          </div>
+        `;
+      }).join('');
+
       return saveBlock(`
-        <div class="quiz-block quiz-pareados-2col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
-          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-diagram-project"></i> ${title}</h4>
+        <div class="quiz-block quiz-pareados-2col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; margin: 20px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color); font-size: 1.1rem;"><i class="fa-solid fa-diagram-project"></i> Términos Pareados: ${title}</h4>
           ${latexToHtml(statement.trim())}
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
-            <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
-              <h5 style="margin-top:0;">Columna 1 (Números)</h5>
-              ${latexToHtml(col1Text)}
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 18px 0;">
+            <div>
+              <h5 style="margin-top:0; margin-bottom: 8px; color: var(--accent-color); font-size: 14px;"><i class="fa-solid fa-list-ol"></i> Columna 1 (Números)</h5>
+              ${col1Html}
             </div>
-            <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
-              <h5 style="margin-top:0;">Columna 2 (Letras)</h5>
-              ${latexToHtml(col2Text)}
+            <div>
+              <h5 style="margin-top:0; margin-bottom: 8px; color: #10b981; font-size: 14px;"><i class="fa-solid fa-font"></i> Columna 2 (Letras)</h5>
+              ${col2Html}
             </div>
           </div>
-          <div class="pareos-feedback-list" style="margin-top: 10px;">
-            ${pareos.map(p => `<div style="font-size: 13px; margin: 4px 0; color: var(--text-muted);"><strong>[${p.key}]:</strong> ${latexToHtml(p.feedback)}</div>`).join('')}
+
+          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border-color);">
+            <h5 style="margin-top:0; margin-bottom: 12px; color: var(--text-primary); font-size: 14px;"><i class="fa-solid fa-sliders"></i> Asocia los términos según corresponda:</h5>
+            ${selectorsHtml}
+            <button type="button" class="btn btn-verify-pareados" onclick="verifyQuizPareados2Col(this)" style="margin-top: 12px; padding: 8px 18px; background: var(--accent-color); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Verificar Asociaciones</button>
+            <div class="quiz-feedback" style="display:none; margin-top:14px; padding:12px; border-radius:8px;"></div>
           </div>
         </div>
       `);
@@ -2006,33 +2066,102 @@ function parseLatexChapter(latexText) {
       if (col3Calls.length > 0) col3Text = col3Calls[0].args[0];
 
       const pareoCalls = extractMacroCalls(body, 'pareotres', 2);
-      const pareos = pareoCalls.map(c => ({ key: c.args[0].trim(), feedback: c.args[1].trim() }));
+      const pareoMap = {};
+      pareoCalls.forEach(c => {
+        const key = c.args[0].trim();
+        const fb = c.args[1].trim();
+        const parts = key.split('-');
+        if (parts.length >= 3) {
+          const num = parts[0].trim();
+          const letCode = parts[1].trim().toUpperCase();
+          const romanCode = parts[2].trim().toUpperCase();
+          pareoMap[num] = { letter: letCode, roman: romanCode, feedback: fb };
+        }
+      });
 
       let statement = body;
       col1Calls.concat(col2Calls).concat(col3Calls).concat(pareoCalls).forEach(c => {
         statement = statement.replace(c.fullMatch, '');
       });
 
+      const col1Items = parseColumnItems(col1Text);
+      const col2Items = parseColumnItems(col2Text);
+      const col3Items = parseColumnItems(col3Text);
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+      const romans = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+
+      const col1Html = col1Items.map((item, idx) => `
+        <div style="display: flex; gap: 8px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+          <span style="background: var(--accent-color); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">${idx + 1}</span>
+          <div style="flex: 1; font-size: 13px;">${latexToHtml(item)}</div>
+        </div>
+      `).join('');
+
+      const col2Html = col2Items.map((item, idx) => `
+        <div style="display: flex; gap: 8px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+          <span style="background: #10b981; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">${letters[idx] || (idx+1)}</span>
+          <div style="flex: 1; font-size: 13px;">${latexToHtml(item)}</div>
+        </div>
+      `).join('');
+
+      const col3Html = col3Items.map((item, idx) => `
+        <div style="display: flex; gap: 8px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+          <span style="background: #a855f7; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">${romans[idx] || (idx+1)}</span>
+          <div style="flex: 1; font-size: 13px;">${latexToHtml(item)}</div>
+        </div>
+      `).join('');
+
+      const availableLetters = col2Items.map((_, idx) => letters[idx] || String(idx + 1));
+      const availableRomans = col3Items.map((_, idx) => romans[idx] || String(idx + 1));
+
+      const selectorsHtml = col1Items.map((_, idx) => {
+        const num = idx + 1;
+        const info = pareoMap[num] || pareoMap[String(num)] || { letter: '', roman: '', feedback: '' };
+        const optLetters = availableLetters.map(letCode => `<option value="${letCode}">${letCode}</option>`).join('');
+        const optRomans = availableRomans.map(rCode => `<option value="${rCode}">${rCode}</option>`).join('');
+
+        return `
+          <div class="pareo-row-item" data-num="${num}" data-correct-letter="${info.letter}" data-correct-roman="${info.roman}" data-feedback="${latexToHtml(info.feedback).replace(/"/g, '&quot;')}" style="display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 10px 14px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; flex-wrap: wrap;">
+            <span style="font-weight: 700; min-width: 70px;">Ítem ${num}:</span>
+            <span style="color: var(--text-muted); font-size: 13px;">Letra:</span>
+            <select class="pareo-select-col2" style="padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-weight: 600; cursor: pointer;">
+              <option value="">-- Letra --</option>
+              ${optLetters}
+            </select>
+            <span style="color: var(--text-muted); font-size: 13px; margin-left: 6px;">Romano:</span>
+            <select class="pareo-select-col3" style="padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-weight: 600; cursor: pointer;">
+              <option value="">-- Romano --</option>
+              ${optRomans}
+            </select>
+          </div>
+        `;
+      }).join('');
+
       return saveBlock(`
-        <div class="quiz-block quiz-pareados-3col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
-          <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-network-wired"></i> ${title}</h4>
+        <div class="quiz-block quiz-pareados-3col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; margin: 20px 0;">
+          <h4 style="margin-top:0; color: var(--accent-color); font-size: 1.1rem;"><i class="fa-solid fa-network-wired"></i> Términos Pareados (3 Columnas): ${title}</h4>
           ${latexToHtml(statement.trim())}
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 15px 0;">
-            <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
-              <h5 style="margin-top:0; font-size:13px;">Columna 1 (Números)</h5>
-              ${latexToHtml(col1Text)}
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 18px 0;">
+            <div>
+              <h5 style="margin-top:0; margin-bottom: 8px; color: var(--accent-color); font-size: 13px;"><i class="fa-solid fa-list-ol"></i> Columna 1 (Números)</h5>
+              ${col1Html}
             </div>
-            <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
-              <h5 style="margin-top:0; font-size:13px;">Columna 2 (Letras)</h5>
-              ${latexToHtml(col2Text)}
+            <div>
+              <h5 style="margin-top:0; margin-bottom: 8px; color: #10b981; font-size: 13px;"><i class="fa-solid fa-font"></i> Columna 2 (Letras)</h5>
+              ${col2Html}
             </div>
-            <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
-              <h5 style="margin-top:0; font-size:13px;">Columna 3 (Romanos)</h5>
-              ${latexToHtml(col3Text)}
+            <div>
+              <h5 style="margin-top:0; margin-bottom: 8px; color: #a855f7; font-size: 13px;"><i class="fa-solid fa-kaaba"></i> Columna 3 (Romanos)</h5>
+              ${col3Html}
             </div>
           </div>
-          <div class="pareos-feedback-list" style="margin-top: 10px;">
-            ${pareos.map(p => `<div style="font-size: 13px; margin: 4px 0; color: var(--text-muted);"><strong>[${p.key}]:</strong> ${latexToHtml(p.feedback)}</div>`).join('')}
+
+          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border-color);">
+            <h5 style="margin-top:0; margin-bottom: 12px; color: var(--text-primary); font-size: 14px;"><i class="fa-solid fa-sliders"></i> Asocia cada Ítem con su Letra y su Número Romano correspondiente:</h5>
+            ${selectorsHtml}
+            <button type="button" class="btn btn-verify-pareados" onclick="verifyQuizPareados3Col(this)" style="margin-top: 12px; padding: 8px 18px; background: var(--accent-color); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Verificar Asociaciones</button>
+            <div class="quiz-feedback" style="display:none; margin-top:14px; padding:12px; border-radius:8px;"></div>
           </div>
         </div>
       `);
@@ -2282,6 +2411,147 @@ window.verifyQuizCasillas = function(btn) {
     feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> La combinación seleccionada no es la adecuada.</p>` +
       (feedbackMessages.length ? `<ul style="margin:4px 0 0 18px;">${feedbackMessages.map(m => `<li>${m}</li>`).join('')}</ul>` : '');
   }
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};
+
+window.verifyQuizPareados2Col = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const rows = Array.from(container.querySelectorAll('.pareo-row-item'));
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  let incomplete = false;
+  let correctCount = 0;
+  let details = [];
+
+  rows.forEach(row => {
+    const num = row.getAttribute('data-num');
+    const correctLetter = row.getAttribute('data-correct-letter');
+    const fb = row.getAttribute('data-feedback') || '';
+    const sel = row.querySelector('.pareo-select-col2');
+    const userVal = sel ? sel.value : '';
+
+    if (!userVal) {
+      incomplete = true;
+    }
+
+    const isMatch = userVal === correctLetter;
+    if (isMatch) correctCount++;
+
+    details.push({
+      num,
+      userVal,
+      correctLetter,
+      isMatch,
+      fb
+    });
+  });
+
+  if (incomplete) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor selecciona una letra para cada ítem antes de verificar.';
+    return;
+  }
+
+  const allCorrect = correctCount === rows.length;
+  feedbackDiv.style.display = 'block';
+  feedbackDiv.style.background = allCorrect ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+  feedbackDiv.style.border = allCorrect ? '1px solid #10b981' : '1px solid #ef4444';
+  feedbackDiv.style.color = 'var(--text-primary)';
+
+  const headerMsg = allCorrect
+    ? `<h5 style="margin:0 0 8px 0; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Excelente! Todas las parejas son correctas (${correctCount}/${rows.length})</h5>`
+    : `<h5 style="margin:0 0 8px 0; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Has acertado ${correctCount} de ${rows.length} parejas</h5>`;
+
+  const detailsHtml = details.map(d => `
+    <div style="margin: 6px 0; padding: 6px 10px; background: var(--bg-primary); border-radius: 4px; font-size: 13px;">
+      <strong>Ítem ${d.num}:</strong> ${d.isMatch ? `<span style="color:#10b981;">✓ Correcto (${d.userVal})</span>` : `<span style="color:#ef4444;">✗ Tu elección (${d.userVal || 'ninguna'}) | Correcta: ${d.correctLetter}</span>`}
+      ${d.fb ? `<div style="margin-top:4px; color:var(--text-muted);">${d.fb}</div>` : ''}
+    </div>
+  `).join('');
+
+  feedbackDiv.innerHTML = headerMsg + detailsHtml;
+
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([feedbackDiv]);
+  }
+};
+
+window.verifyQuizPareados3Col = function(btn) {
+  const container = btn.closest('.quiz-block');
+  if (!container) return;
+
+  const rows = Array.from(container.querySelectorAll('.pareo-row-item'));
+  const feedbackDiv = container.querySelector('.quiz-feedback');
+  if (!feedbackDiv) return;
+
+  let incomplete = false;
+  let correctCount = 0;
+  let details = [];
+
+  rows.forEach(row => {
+    const num = row.getAttribute('data-num');
+    const correctLetter = row.getAttribute('data-correct-letter');
+    const correctRoman = row.getAttribute('data-correct-roman');
+    const fb = row.getAttribute('data-feedback') || '';
+    const selLet = row.querySelector('.pareo-select-col2');
+    const selRom = row.querySelector('.pareo-select-col3');
+    const userLet = selLet ? selLet.value : '';
+    const userRom = selRom ? selRom.value : '';
+
+    if (!userLet || !userRom) {
+      incomplete = true;
+    }
+
+    const isMatch = userLet === correctLetter && userRom === correctRoman;
+    if (isMatch) correctCount++;
+
+    details.push({
+      num,
+      userLet,
+      userRom,
+      correctLetter,
+      correctRoman,
+      isMatch,
+      fb
+    });
+  });
+
+  if (incomplete) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor selecciona una letra y un número romano para cada ítem antes de verificar.';
+    return;
+  }
+
+  const allCorrect = correctCount === rows.length;
+  feedbackDiv.style.display = 'block';
+  feedbackDiv.style.background = allCorrect ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+  feedbackDiv.style.border = allCorrect ? '1px solid #10b981' : '1px solid #ef4444';
+  feedbackDiv.style.color = 'var(--text-primary)';
+
+  const headerMsg = allCorrect
+    ? `<h5 style="margin:0 0 8px 0; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Espectacular! Todos los tríos de pareos son correctos (${correctCount}/${rows.length})</h5>`
+    : `<h5 style="margin:0 0 8px 0; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Has acertado ${correctCount} de ${rows.length} asociaciones</h5>`;
+
+  const detailsHtml = details.map(d => `
+    <div style="margin: 6px 0; padding: 6px 10px; background: var(--bg-primary); border-radius: 4px; font-size: 13px;">
+      <strong>Ítem ${d.num}:</strong> ${d.isMatch ? `<span style="color:#10b981;">✓ Correcto (${d.userLet}, ${d.userRom})</span>` : `<span style="color:#ef4444;">✗ Tu elección (${d.userLet || '-' }, ${d.userRom || '-' }) | Correcta: (${d.correctLetter}, ${d.correctRoman})</span>`}
+      ${d.fb ? `<div style="margin-top:4px; color:var(--text-muted);">${d.fb}</div>` : ''}
+    </div>
+  `).join('');
+
+  feedbackDiv.innerHTML = headerMsg + detailsHtml;
 
   if (window.MathJax && MathJax.typesetPromise) {
     MathJax.typesetPromise([feedbackDiv]);
