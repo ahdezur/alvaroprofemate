@@ -1748,15 +1748,26 @@ function parseLatexChapter(latexText) {
     return m ? m[1].trim() : '';
   };
 
+  function stripLatexComments(str) {
+    if (!str) return '';
+    // 1. Remove full line comments (lines starting with % after optional whitespace)
+    let clean = str.replace(/^[ \t]*%[^\r\n]*/gm, '');
+    // 2. Remove inline comments (starts with % not preceded by \)
+    clean = clean.replace(/(^|[^\\])%[^\r\n]*/g, '$1');
+    // 3. Unescape \% to %
+    clean = clean.replace(/\\%/g, '%');
+    return clean;
+  }
+
   const rawMotiv = getEnvContent('motivacion');
   const rawTeoria = getEnvContent('teoria');
   const rawAplic = getEnvContent('aplicacion');
-  const rawExerc = getEnvContent('ejercicios');
-  const rawFormulas = getEnvContent('formulas');
+  const rawExerc = stripLatexComments(getEnvContent('ejercicios'));
+  const rawFormulas = stripLatexComments(getEnvContent('formulas'));
 
   function latexToHtml(raw) {
     if (!raw) return '';
-    let html = raw;
+    let html = stripLatexComments(raw);
 
     // Custom boxes
     html = html.replace(/\\begin\{definicion\}\{([^}]+)\}([\s\S]*?)\\end\{definicion\}/gi, (match, title, body) => {
