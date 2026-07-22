@@ -1952,20 +1952,28 @@ function parseLatexChapter(latexText) {
       `);
     });
 
+    // 4. Términos Pareados 2 Col
     text = text.replace(/\\begin\{pareadosdoscolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadosdoscolumnas\}/gi, (m, title, body) => {
       let col1Text = '';
       let col2Text = '';
-      const pareos = [];
-      body = body.replace(/\\columnaI\{([\s\S]*?)\}/gi, (m, content) => { col1Text = content; return ''; });
-      body = body.replace(/\\columnaII\{([\s\S]*?)\}/gi, (m, content) => { col2Text = content; return ''; });
-      body = body.replace(/\\pareo\{([^}]+)\}\{([^}]+)\}/gi, (m, pairKey, feedback) => {
-        pareos.push({ key: pairKey.trim(), feedback: feedback.trim() });
-        return '';
+      const col1Calls = extractMacroCalls(body, 'columnaI', 1);
+      if (col1Calls.length > 0) col1Text = col1Calls[0].args[0];
+
+      const col2Calls = extractMacroCalls(body, 'columnaII', 1);
+      if (col2Calls.length > 0) col2Text = col2Calls[0].args[0];
+
+      const pareoCalls = extractMacroCalls(body, 'pareo', 2);
+      const pareos = pareoCalls.map(c => ({ key: c.args[0].trim(), feedback: c.args[1].trim() }));
+
+      let statement = body;
+      col1Calls.concat(col2Calls).concat(pareoCalls).forEach(c => {
+        statement = statement.replace(c.fullMatch, '');
       });
+
       return saveBlock(`
         <div class="quiz-block quiz-pareados-2col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-diagram-project"></i> ${title}</h4>
-          ${latexToHtml(body.trim())}
+          ${latexToHtml(statement.trim())}
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
             <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
               <h5 style="margin-top:0;">Columna 1 (Números)</h5>
@@ -1983,22 +1991,32 @@ function parseLatexChapter(latexText) {
       `);
     });
 
+    // 5. Términos Pareados 3 Col
     text = text.replace(/\\begin\{pareadostrescolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadostrescolumnas\}/gi, (m, title, body) => {
       let col1Text = '';
       let col2Text = '';
       let col3Text = '';
-      const pareos = [];
-      body = body.replace(/\\columnaI\{([\s\S]*?)\}/gi, (m, content) => { col1Text = content; return ''; });
-      body = body.replace(/\\columnaII\{([\s\S]*?)\}/gi, (m, content) => { col2Text = content; return ''; });
-      body = body.replace(/\\columnaIII\{([\s\S]*?)\}/gi, (m, content) => { col3Text = content; return ''; });
-      body = body.replace(/\\pareotres\{([^}]+)\}\{([^}]+)\}/gi, (m, pairKey, feedback) => {
-        pareos.push({ key: pairKey.trim(), feedback: feedback.trim() });
-        return '';
+      const col1Calls = extractMacroCalls(body, 'columnaI', 1);
+      if (col1Calls.length > 0) col1Text = col1Calls[0].args[0];
+
+      const col2Calls = extractMacroCalls(body, 'columnaII', 1);
+      if (col2Calls.length > 0) col2Text = col2Calls[0].args[0];
+
+      const col3Calls = extractMacroCalls(body, 'columnaIII', 1);
+      if (col3Calls.length > 0) col3Text = col3Calls[0].args[0];
+
+      const pareoCalls = extractMacroCalls(body, 'pareotres', 2);
+      const pareos = pareoCalls.map(c => ({ key: c.args[0].trim(), feedback: c.args[1].trim() }));
+
+      let statement = body;
+      col1Calls.concat(col2Calls).concat(col3Calls).concat(pareoCalls).forEach(c => {
+        statement = statement.replace(c.fullMatch, '');
       });
+
       return saveBlock(`
         <div class="quiz-block quiz-pareados-3col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-network-wired"></i> ${title}</h4>
-          ${latexToHtml(body.trim())}
+          ${latexToHtml(statement.trim())}
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 15px 0;">
             <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
               <h5 style="margin-top:0; font-size:13px;">Columna 1 (Números)</h5>
