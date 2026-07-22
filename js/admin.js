@@ -1820,12 +1820,21 @@ function parseLatexChapter(latexText) {
     return results;
   }
 
+  function cleanInlineLatex(str) {
+    if (!str) return '';
+    let clean = stripLatexComments(str).trim();
+    clean = clean.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
+    clean = clean.replace(/\\textit\{([^}]+)\}/g, '<em>$1</em>');
+    clean = clean.replace(/\\underline\{([^}]+)\}/g, '<u>$1</u>');
+    return clean;
+  }
+
   function parseColumnItems(colText) {
     if (!colText) return [];
     const rawItems = colText.split(/\\item\b/).map(s => s.trim()).filter(Boolean);
     return rawItems.map(item => {
       let clean = item.replace(/^\[[^\]]+\]\s*/, '');
-      return clean.trim();
+      return cleanInlineLatex(clean);
     });
   }
 
@@ -2010,16 +2019,16 @@ function parseLatexChapter(latexText) {
       const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
       const col1Html = col1Items.map((item, idx) => `
-        <div style="display: flex; gap: 10px; margin: 10px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+        <div style="display: flex; gap: 10px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
           <span style="background: var(--accent-color); color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; flex-shrink: 0;">${idx + 1}</span>
-          <div style="flex: 1;">${latexToHtml(item)}</div>
+          <div style="flex: 1;">${item}</div>
         </div>
       `).join('');
 
       const col2Html = col2Items.map((item, idx) => `
-        <div style="display: flex; gap: 10px; margin: 10px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
+        <div style="display: flex; gap: 10px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
           <span style="background: #10b981; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; flex-shrink: 0;">${letters[idx] || (idx+1)}</span>
-          <div style="flex: 1;">${latexToHtml(item)}</div>
+          <div style="flex: 1;">${item}</div>
         </div>
       `).join('');
 
@@ -2109,21 +2118,21 @@ function parseLatexChapter(latexText) {
       const col1Html = col1Items.map((item, idx) => `
         <div style="display: flex; gap: 8px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
           <span style="background: var(--accent-color); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">${idx + 1}</span>
-          <div style="flex: 1; font-size: 13px;">${latexToHtml(item)}</div>
+          <div style="flex: 1; font-size: 13px;">${item}</div>
         </div>
       `).join('');
 
       const col2Html = col2Items.map((item, idx) => `
         <div style="display: flex; gap: 8px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
           <span style="background: #10b981; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">${letters[idx] || (idx+1)}</span>
-          <div style="flex: 1; font-size: 13px;">${latexToHtml(item)}</div>
+          <div style="flex: 1; font-size: 13px;">${item}</div>
         </div>
       `).join('');
 
       const col3Html = col3Items.map((item, idx) => `
         <div style="display: flex; gap: 8px; margin: 8px 0; padding: 10px; background: var(--bg-primary); border-radius: 6px; border: 1px solid var(--border-color); align-items: center;">
           <span style="background: #a855f7; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; flex-shrink: 0;">${romans[idx] || (idx+1)}</span>
-          <div style="flex: 1; font-size: 13px;">${latexToHtml(item)}</div>
+          <div style="flex: 1; font-size: 13px;">${item}</div>
         </div>
       `).join('');
 
