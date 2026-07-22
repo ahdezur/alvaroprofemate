@@ -1767,67 +1767,81 @@ function parseLatexChapter(latexText) {
 
   function latexToHtml(raw) {
     if (!raw) return '';
-    let html = stripLatexComments(raw);
+    let text = stripLatexComments(raw).trim();
+    if (!text) return '';
 
-    // Custom boxes
-    html = html.replace(/\\begin\{definicion\}\{([^}]+)\}([\s\S]*?)\\end\{definicion\}/gi, (match, title, body) => {
-      return `<div class="caja-ram caja-definicion"><div class="caja-ram-title"><i class="fa-solid fa-book-bookmark"></i> Definición: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    const blocks = [];
+
+    function saveBlock(htmlStr) {
+      const idx = blocks.length;
+      blocks.push(htmlStr);
+      return `___BLOCK_${idx}___`;
+    }
+
+    // 1. Extract Display Math $$...$$ or \[...\]
+    text = text.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\])/g, (match) => {
+      return saveBlock(`<div class="formula-block" style="text-align:center; margin: 12px 0;">${match}</div>`);
     });
 
-    html = html.replace(/\\begin\{teorema\}\{([^}]+)\}([\s\S]*?)\\end\{teorema\}/gi, (match, title, body) => {
-      return `<div class="caja-ram caja-teorema"><div class="caja-ram-title"><i class="fa-solid fa-square-root-variable"></i> Teorema: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    // 2. Extract Headings
+    text = text.replace(/\\section\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h3>${title}</h3>`));
+    text = text.replace(/\\subsection\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h4>${title}</h4>`));
+
+    // 3. Extract Custom Boxes & Environments
+    text = text.replace(/\\begin\{definicion\}\{([^}]+)\}([\s\S]*?)\\end\{definicion\}/gi, (m, title, body) => {
+      return saveBlock(`<div class="caja-ram caja-definicion"><div class="caja-ram-title"><i class="fa-solid fa-book-bookmark"></i> Definición: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
     });
 
-    html = html.replace(/\\begin\{(?:proof|demostracion)\}(?:\[([^\]]+)\])?([\s\S]*?)\\end\{(?:proof|demostracion)\}/gi, (match, title, body) => {
+    text = text.replace(/\\begin\{teorema\}\{([^}]+)\}([\s\S]*?)\\end\{teorema\}/gi, (m, title, body) => {
+      return saveBlock(`<div class="caja-ram caja-teorema"><div class="caja-ram-title"><i class="fa-solid fa-square-root-variable"></i> Teorema: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+    });
+
+    text = text.replace(/\\begin\{(?:proof|demostracion)\}(?:\[([^\]]+)\])?([\s\S]*?)\\end\{(?:proof|demostracion)\}/gi, (m, title, body) => {
       const label = title || 'Demostración';
-      return `<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p><strong>${label}:</strong> ${latexToHtml(body)}</p></div>`;
+      return saveBlock(`<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p><strong>${label}:</strong> ${latexToHtml(body)}</p></div>`);
     });
 
-    html = html.replace(/\\begin\{alerta\}\{([^}]+)\}([\s\S]*?)\\end\{alerta\}/gi, (match, title, body) => {
-      return `<div class="caja-ram caja-choque-cognitivo"><div class="caja-ram-title"><i class="fa-solid fa-triangle-exclamation"></i> Alerta: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    text = text.replace(/\\begin\{alerta\}\{([^}]+)\}([\s\S]*?)\\end\{alerta\}/gi, (m, title, body) => {
+      return saveBlock(`<div class="caja-ram caja-choque-cognitivo"><div class="caja-ram-title"><i class="fa-solid fa-triangle-exclamation"></i> Alerta: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
     });
 
-    html = html.replace(/\\begin\{procesamiento\}\{([^}]+)\}([\s\S]*?)\\end\{procesamiento\}/gi, (match, title, body) => {
-      return `<div class="caja-ram caja-procesamiento"><div class="caja-ram-title"><i class="fa-solid fa-gear"></i> Procedimiento: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    text = text.replace(/\\begin\{procesamiento\}\{([^}]+)\}([\s\S]*?)\\end\{procesamiento\}/gi, (m, title, body) => {
+      return saveBlock(`<div class="caja-ram caja-procesamiento"><div class="caja-ram-title"><i class="fa-solid fa-gear"></i> Procedimiento: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
     });
 
-    html = html.replace(/\\begin\{ejemplo\}\{([^}]+)\}([\s\S]*?)\\end\{ejemplo\}/gi, (match, title, body) => {
-      return `<div class="caja-ram caja-ejemplo"><div class="caja-ram-title"><i class="fa-solid fa-chalkboard-user"></i> Ejemplo: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    text = text.replace(/\\begin\{ejemplo\}\{([^}]+)\}([\s\S]*?)\\end\{ejemplo\}/gi, (m, title, body) => {
+      return saveBlock(`<div class="caja-ram caja-ejemplo"><div class="caja-ram-title"><i class="fa-solid fa-chalkboard-user"></i> Ejemplo: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
     });
 
-    html = html.replace(/\\begin\{preguntaguia\}([\s\S]*?)\\end\{preguntaguia\}/gi, (match, body) => {
-      return `<div class="caja-ram caja-pregunta-guia"><div class="caja-ram-title"><i class="fa-solid fa-circle-question"></i> Pregunta Guía</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`;
+    text = text.replace(/\\begin\{preguntaguia\}([\s\S]*?)\\end\{preguntaguia\}/gi, (m, body) => {
+      return saveBlock(`<div class="caja-ram caja-pregunta-guia"><div class="caja-ram-title"><i class="fa-solid fa-circle-question"></i> Pregunta Guía</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
     });
 
-    // Quizzes
-    // 1. Alternativas
-    html = html.replace(/\\begin\{preguntaalternativas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaalternativas\}/gi, (match, title, body) => {
+    // Quizzes & Pareados
+    text = text.replace(/\\begin\{preguntaalternativas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaalternativas\}/gi, (m, title, body) => {
       const options = [];
       let statement = body.replace(/\\opcion\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, optText, isCorrect, feedback) => {
         options.push({ text: optText.trim(), isCorrect: isCorrect.trim(), feedback: feedback.trim() });
         return '';
       }).trim();
-
       const optionsHtml = options.map((opt) => `
         <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
           <input type="radio" name="quiz_alt_${title.replace(/\W+/g, '')}" value="${opt.isCorrect.toLowerCase() === 'correcto' ? '1' : '0'}" data-feedback="${opt.feedback.replace(/"/g, '&quot;')}" style="margin-right: 8px;">
           ${latexToHtml(opt.text)}
         </label>
       `).join('');
-
-      return `
+      return saveBlock(`
         <div class="quiz-block quiz-alternativas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-list-check"></i> ${title}</h4>
-          <p>${latexToHtml(statement)}</p>
+          ${latexToHtml(statement)}
           <div>${optionsHtml}</div>
           <button type="button" class="btn btn-verify-quiz" onclick="verifyQuizAlternatives(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Respuesta</button>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
         </div>
-      `;
+      `);
     });
 
-    // 2. Verdadero / Falso
-    html = html.replace(/\\begin\{preguntaverdaderofalso\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaverdaderofalso\}/gi, (match, title, body) => {
+    text = text.replace(/\\begin\{preguntaverdaderofalso\}\{([^}]+)\}([\s\S]*?)\\end\{preguntaverdaderofalso\}/gi, (m, title, body) => {
       let correctVal = 'V';
       let fbV = '';
       let fbF = '';
@@ -1837,63 +1851,56 @@ function parseLatexChapter(latexText) {
         fbF = fF.trim();
         return '';
       }).trim();
-
-      return `
+      return saveBlock(`
         <div class="quiz-block quiz-vf" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-circle-half-stroke"></i> ${title}</h4>
-          <p>${latexToHtml(statement)}</p>
+          ${latexToHtml(statement)}
           <div style="display:flex; gap:12px; margin:10px 0;">
             <button type="button" class="btn btn-vf-option" data-val="V" data-correct="${correctVal}" data-feedback="${fbV.replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Verdadero (V)</button>
             <button type="button" class="btn btn-vf-option" data-val="F" data-correct="${correctVal}" data-feedback="${fbF.replace(/"/g, '&quot;')}" onclick="verifyQuizVF(this)" style="padding: 8px 20px; border: 1px solid var(--border-color); background: var(--bg-primary); cursor: pointer; border-radius: 6px;">Falso (F)</button>
           </div>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
         </div>
-      `;
+      `);
     });
 
-    // 3. Casillas
-    html = html.replace(/\\begin\{preguntacasillas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntacasillas\}/gi, (match, title, body) => {
+    text = text.replace(/\\begin\{preguntacasillas\}\{([^}]+)\}([\s\S]*?)\\end\{preguntacasillas\}/gi, (m, title, body) => {
       const items = [];
-      let statement = body.replace(/\\casilla\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, text, isCorrect, feedback) => {
-        items.push({ text: text.trim(), isCorrect: isCorrect.trim().toLowerCase() === 'correcto', feedback: feedback.trim() });
+      let statement = body.replace(/\\casilla\{([^}]+)\}\{([^}]+)\}\{([^}]+)\}/gi, (m, t, isCorrect, feedback) => {
+        items.push({ text: t.trim(), isCorrect: isCorrect.trim().toLowerCase() === 'correcto', feedback: feedback.trim() });
         return '';
       }).trim();
-
       const itemsHtml = items.map((opt) => `
         <label style="display: block; margin: 8px 0; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer;">
           <input type="checkbox" data-correct="${opt.isCorrect ? '1' : '0'}" data-feedback="${opt.feedback.replace(/"/g, '&quot;')}" style="margin-right: 8px;">
           ${latexToHtml(opt.text)}
         </label>
       `).join('');
-
-      return `
+      return saveBlock(`
         <div class="quiz-block quiz-casillas" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-square-check"></i> ${title}</h4>
-          <p>${latexToHtml(statement)}</p>
+          ${latexToHtml(statement)}
           <div>${itemsHtml}</div>
           <button type="button" class="btn btn-verify-casillas" onclick="verifyQuizCasillas(this)" style="margin-top: 10px; padding: 6px 14px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">Verificar Selección</button>
           <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>
         </div>
-      `;
+      `);
     });
 
-    // 4. Términos Pareados 2 Col
-    html = html.replace(/\\begin\{pareadosdoscolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadosdoscolumnas\}/gi, (match, title, body) => {
+    text = text.replace(/\\begin\{pareadosdoscolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadosdoscolumnas\}/gi, (m, title, body) => {
       let col1Text = '';
       let col2Text = '';
       const pareos = [];
-
       body = body.replace(/\\columnaI\{([\s\S]*?)\}/gi, (m, content) => { col1Text = content; return ''; });
       body = body.replace(/\\columnaII\{([\s\S]*?)\}/gi, (m, content) => { col2Text = content; return ''; });
       body = body.replace(/\\pareo\{([^}]+)\}\{([^}]+)\}/gi, (m, pairKey, feedback) => {
         pareos.push({ key: pairKey.trim(), feedback: feedback.trim() });
         return '';
       });
-
-      return `
+      return saveBlock(`
         <div class="quiz-block quiz-pareados-2col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-diagram-project"></i> ${title}</h4>
-          <p>${latexToHtml(body.trim())}</p>
+          ${latexToHtml(body.trim())}
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
             <div style="background: var(--bg-primary); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
               <h5 style="margin-top:0;">Columna 1 (Números)</h5>
@@ -1908,16 +1915,14 @@ function parseLatexChapter(latexText) {
             ${pareos.map(p => `<div style="font-size: 13px; margin: 4px 0; color: var(--text-muted);"><strong>[${p.key}]:</strong> ${latexToHtml(p.feedback)}</div>`).join('')}
           </div>
         </div>
-      `;
+      `);
     });
 
-    // 5. Términos Pareados 3 Col
-    html = html.replace(/\\begin\{pareadostrescolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadostrescolumnas\}/gi, (match, title, body) => {
+    text = text.replace(/\\begin\{pareadostrescolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadostrescolumnas\}/gi, (m, title, body) => {
       let col1Text = '';
       let col2Text = '';
       let col3Text = '';
       const pareos = [];
-
       body = body.replace(/\\columnaI\{([\s\S]*?)\}/gi, (m, content) => { col1Text = content; return ''; });
       body = body.replace(/\\columnaII\{([\s\S]*?)\}/gi, (m, content) => { col2Text = content; return ''; });
       body = body.replace(/\\columnaIII\{([\s\S]*?)\}/gi, (m, content) => { col3Text = content; return ''; });
@@ -1925,11 +1930,10 @@ function parseLatexChapter(latexText) {
         pareos.push({ key: pairKey.trim(), feedback: feedback.trim() });
         return '';
       });
-
-      return `
+      return saveBlock(`
         <div class="quiz-block quiz-pareados-3col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; margin: 15px 0;">
           <h4 style="margin-top:0; color: var(--accent-color);"><i class="fa-solid fa-network-wired"></i> ${title}</h4>
-          <p>${latexToHtml(body.trim())}</p>
+          ${latexToHtml(body.trim())}
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 15px 0;">
             <div style="background: var(--bg-primary); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
               <h5 style="margin-top:0; font-size:13px;">Columna 1 (Números)</h5>
@@ -1948,37 +1952,50 @@ function parseLatexChapter(latexText) {
             ${pareos.map(p => `<div style="font-size: 13px; margin: 4px 0; color: var(--text-muted);"><strong>[${p.key}]:</strong> ${latexToHtml(p.feedback)}</div>`).join('')}
           </div>
         </div>
-      `;
+      `);
     });
 
-    // Formatting items & lists
-    html = html.replace(/\\begin\{itemize\}/gi, '<ul style="margin: 8px 0; padding-left: 20px;">');
-    html = html.replace(/\\end\{itemize\}/gi, '</ul>');
-    html = html.replace(/\\begin\{enumerate\}/gi, '<ol style="margin: 8px 0; padding-left: 20px;">');
-    html = html.replace(/\\end\{enumerate\}/gi, '</ol>');
-    html = html.replace(/\\item\[([^\]]+)\]\s*([\s\S]*?)(?=(?:\\item|<\/ul>|<\/ol>|$))/gi, '<li style="margin: 4px 0;"><strong>$1</strong> $2</li>');
-    html = html.replace(/\\item\s+([\s\S]*?)(?=(?:\\item|<\/ul>|<\/ol>|$))/gi, '<li style="margin: 4px 0;">$1</li>');
+    // Extract Lists
+    text = text.replace(/\\begin\{itemize\}([\s\S]*?)\\end\{itemize\}/gi, (m, body) => {
+      let listItems = body.replace(/\\item\[([^\]]+)\]\s*([\s\S]*?)(?=(?:\\item|$))/gi, '<li><strong>$1</strong> $2</li>');
+      listItems = listItems.replace(/\\item\s+([\s\S]*?)(?=(?:\\item|$))/gi, '<li>$1</li>');
+      return saveBlock(`<ul style="margin: 8px 0; padding-left: 20px;">${listItems}</ul>`);
+    });
 
-    // Basic text macros
-    html = html.replace(/\\textbf\{([^}]+)\}/gi, '<strong>$1</strong>');
-    html = html.replace(/\\textit\{([^}]+)\}/gi, '<em>$1</em>');
-    html = html.replace(/\\underline\{([^}]+)\}/gi, '<u>$1</u>');
-    html = html.replace(/\\subsection\*\{([^}]+)\}/gi, '<h4>$1</h4>');
-    html = html.replace(/\\section\*\{([^}]+)\}/gi, '<h3>$1</h3>');
+    text = text.replace(/\\begin\{enumerate\}([\s\S]*?)\\end\{enumerate\}/gi, (m, body) => {
+      let listItems = body.replace(/\\item\[([^\]]+)\]\s*([\s\S]*?)(?=(?:\\item|$))/gi, '<li><strong>$1</strong> $2</li>');
+      listItems = listItems.replace(/\\item\s+([\s\S]*?)(?=(?:\\item|$))/gi, '<li>$1</li>');
+      return saveBlock(`<ol style="margin: 8px 0; padding-left: 20px;">${listItems}</ol>`);
+    });
 
-    // Paragraph formatting: Split text by double newlines or blank lines into <p>...</p> blocks
-    const blocks = html.split(/\n\s*\n/);
-    const formattedBlocks = blocks.map(block => {
-      let b = block.trim();
-      if (!b) return '';
-      if (/^<(div|ul|ol|h3|h4|p|blockquote|table)\b/i.test(b)) {
-        return b;
+    // Split plain text chunks by double newlines or \par
+    const rawChunks = text.split(/(?:\r?\n\s*\r?\n|\\par\b)/);
+    const processedChunks = rawChunks.map(chunk => {
+      let c = chunk.trim();
+      if (!c) return '';
+
+      const tokenMatch = c.match(/^___BLOCK_(\d+)___$/);
+      if (tokenMatch) {
+        return blocks[parseInt(tokenMatch[1], 10)];
       }
-      b = b.replace(/\n/g, ' ');
-      return `<p>${b}</p>`;
+
+      c = c.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
+      c = c.replace(/\\textit\{([^}]+)\}/g, '<em>$1</em>');
+      c = c.replace(/\\underline\{([^}]+)\}/g, '<u>$1</u>');
+      c = c.replace(/\r?\n/g, ' ');
+
+      return `<p>${c}</p>`;
     });
 
-    return formattedBlocks.filter(Boolean).join('\n');
+    let resultHtml = processedChunks.filter(Boolean).join('\n');
+
+    let previousHtml = '';
+    while (resultHtml !== previousHtml) {
+      previousHtml = resultHtml;
+      resultHtml = resultHtml.replace(/___BLOCK_(\d+)___/g, (m, idx) => blocks[parseInt(idx, 10)]);
+    }
+
+    return resultHtml;
   }
 
   // Parse Ejercicios
