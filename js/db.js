@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "4.7" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Curvas de Nivel y Grafos")) {
+    if (dbVersion === "4.8" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Curvas de Nivel y Grafos")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "4.7");
+    localStorage.setItem("alvaro_profemate_db_version", "4.8");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
