@@ -1876,12 +1876,40 @@ function parseLatexChapter(latexText) {
     return results;
   }
 
+  function replaceLatexInlineFormat(text) {
+    if (!text) return '';
+    const macros = ['textbf', 'textit', 'underline'];
+    let result = text;
+
+    macros.forEach(macro => {
+      const tag = macro === 'textbf' ? 'strong' : (macro === 'textit' ? 'em' : 'u');
+      const target = `\\${macro}{`;
+      let idx;
+      while ((idx = result.indexOf(target)) !== -1) {
+        let depth = 1;
+        let i = idx + target.length;
+        let start = i;
+        while (i < result.length && depth > 0) {
+          if (result[i] === '{') depth++;
+          else if (result[i] === '}') depth--;
+          i++;
+        }
+        if (depth === 0) {
+          const inner = result.substring(start, i - 1);
+          result = result.substring(0, idx) + `<${tag}>${inner}</${tag}>` + result.substring(i);
+        } else {
+          break;
+        }
+      }
+    });
+
+    return result;
+  }
+
   function cleanInlineLatex(str) {
     if (!str) return '';
     let clean = stripLatexComments(str).trim();
-    clean = clean.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
-    clean = clean.replace(/\\textit\{([^}]+)\}/g, '<em>$1</em>');
-    clean = clean.replace(/\\underline\{([^}]+)\}/g, '<u>$1</u>');
+    clean = replaceLatexInlineFormat(clean);
     return clean;
   }
 
@@ -1915,6 +1943,7 @@ function parseLatexChapter(latexText) {
     if (!raw) return '';
     let text = stripLatexComments(raw).trim();
     if (!text) return '';
+    text = replaceLatexInlineFormat(text);
 
     const blocks = [];
 
@@ -1924,12 +1953,7 @@ function parseLatexChapter(latexText) {
       return `___BLOCK_${idx}___`;
     }
 
-    // 1. Extract Display Math $$...$$ or \[...\]
-    text = text.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\])/g, (match) => {
-      return saveBlock(`<div class="formula-block" style="text-align:center; margin: 12px 0;">${match}</div>`);
-    });
-
-    // 2. Extract Headings
+    // 1. Extract Headings
     text = text.replace(/\\section\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h3>${title}</h3>`));
     text = text.replace(/\\subsection\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h4>${title}</h4>`));
 
