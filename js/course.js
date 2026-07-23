@@ -1733,20 +1733,21 @@ window.verifyQuizAlternatives = function(btn) {
     return;
   }
 
-  const isCorrect = selected.value === '1';
-  const feedbackText = selected.getAttribute('data-feedback') || '';
+  const label = selected.closest('label');
+  const isCorrect = selected.value === '1' || selected.getAttribute('data-correct') === 'true' || (label && label.getAttribute('data-correct') === 'true');
+  const feedbackText = selected.getAttribute('data-feedback') || (label ? label.getAttribute('data-feedback') : '') || '';
 
   feedbackDiv.style.display = 'block';
   if (isCorrect) {
     feedbackDiv.style.background = 'rgba(16, 185, 129, 0.15)';
     feedbackDiv.style.border = '1px solid #10b981';
     feedbackDiv.style.color = 'var(--text-primary)';
-    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Correcto!</p><p style="margin:0;">${feedbackText}</p>`;
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#10b981;"><i class="fa-solid fa-circle-check"></i> ¡Respuesta Correcta!</p><p style="margin:0;">${feedbackText}</p>`;
   } else {
     feedbackDiv.style.background = 'rgba(239, 68, 68, 0.15)';
     feedbackDiv.style.border = '1px solid #ef4444';
     feedbackDiv.style.color = 'var(--text-primary)';
-    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Incorrecto</p><p style="margin:0;">${feedbackText}</p>`;
+    feedbackDiv.innerHTML = `<p style="margin:0 0 4px 0; font-weight:bold; color:#ef4444;"><i class="fa-solid fa-circle-xmark"></i> Respuesta Incorrecta</p><p style="margin:0;">${feedbackText}</p>`;
   }
 
   if (window.MathJax && MathJax.typesetPromise) {
@@ -1758,13 +1759,27 @@ window.verifyQuizVF = function(btn) {
   const container = btn.closest('.quiz-block');
   if (!container) return;
 
-  const selectedVal = btn.getAttribute('data-val');
-  const correctVal = btn.getAttribute('data-correct');
-  const feedbackText = btn.getAttribute('data-feedback') || '';
   const feedbackDiv = container.querySelector('.quiz-feedback');
   if (!feedbackDiv) return;
 
-  const isCorrect = selectedVal === correctVal;
+  const selected = container.querySelector('input[type="radio"]:checked');
+  let selectedVal = selected ? selected.value.toUpperCase() : btn.getAttribute('data-val');
+
+  if (!selectedVal) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+    feedbackDiv.style.border = '1px solid #f59e0b';
+    feedbackDiv.style.color = 'var(--text-primary)';
+    feedbackDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Por favor selecciona Verdadero (V) o Falso (F) antes de verificar.';
+    return;
+  }
+
+  const correctVal = container.getAttribute('data-correct') || btn.getAttribute('data-correct') || '';
+  const fbTrue = container.getAttribute('data-feedback-true') || btn.getAttribute('data-feedback-true') || '';
+  const fbFalse = container.getAttribute('data-feedback-false') || btn.getAttribute('data-feedback-false') || '';
+
+  const isCorrect = selectedVal === correctVal.toUpperCase();
+  const feedbackText = (selectedVal === 'V') ? fbTrue : fbFalse;
 
   feedbackDiv.style.display = 'block';
   if (isCorrect) {
