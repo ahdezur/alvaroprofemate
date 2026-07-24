@@ -1959,9 +1959,12 @@ function parseLatexChapter(latexText) {
       text = text.replace(c.fullMatch, token);
     });
 
-    // 1. Extract Headings
+    // 1. Extract Headings & Center
     text = text.replace(/\\section\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h3>${title}</h3>`));
     text = text.replace(/\\subsection\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h4>${title}</h4>`));
+    text = text.replace(/\\begin\{center\}([\s\S]*?)\\end\{center\}/gi, (m, body) => {
+      return saveBlock(`<div style="text-align:center; margin: 12px 0;">${latexToHtml(body)}</div>`);
+    });
 
     // 3. Extract Custom Boxes & Environments
     text = text.replace(/\\begin\{definicion\}\{([^}]+)\}([\s\S]*?)\\end\{definicion\}/gi, (m, title, body) => {
