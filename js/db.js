@@ -788,10 +788,10 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "13.0" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Determinación de Dominio con Múltiples Restricciones")) {
+    if (dbVersion === "14.0" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Determinación de Dominio con Múltiples Restricciones")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "13.0");
+    localStorage.setItem("alvaro_profemate_db_version", "14.0");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
@@ -1105,7 +1105,7 @@ const DB = {
 
         defaultUnits.push(
           { id: u1Id, courseId: c.id, unitIndex: 1, title: 'Funciones de Varias Variables', isLocked: false },
-          { id: u2Id, courseId: c.id, unitIndex: 2, title: 'Cálculo Diferencial Vectorial', isLocked: false }
+          { id: u2Id, courseId: c.id, unitIndex: 2, title: 'Continuidad', isLocked: false }
         );
 
         defaultChapters.push({
