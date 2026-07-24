@@ -1,0 +1,397 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=yellow!10,colframe=orange!80!black,title=Alerta: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{procesamiento}[1]{%
+  \begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Procedimiento: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+\newenvironment{ejemplo}[1]{%
+  \begin{tcolorbox}[colback=white,colframe=gray!40,title=Ejemplo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+% Comandos para preguntas interactivas
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+% Entorno Términos Pareados (2 Columnas)
+\newenvironment{pareados}[1]{\subsection*{Términos Pareados: #1}}{\vspace{0.3cm}}
+\newcommand{\columnaI}[1]{\textbf{Columna 1:}\begin{enumerate}#1\end{enumerate}}
+\newcommand{\columnaII}[1]{\textbf{Columna 2:}\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\textbf{Cruce #1:} #2\par}
+
+% Entornos para ejercicios
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \small{[#2]}}}{}
+
+\newcommand{\enunciado}[1]{\textbf{Enunciado:} #1\par\vspace{0.2cm}}
+\newcommand{\solucion}[1]{\textbf{Solución:} #1\par\vspace{0.4cm}}
+\newcommand{\demostracion}[1]{\textbf{Demostración:} #1\par\vspace{0.4cm}}
+\newcommand{\pista}[1]{\textbf{Pista:} #1\par\vspace{0.4cm}}
+
+% Entorno Fórmulas
+\newenvironment{formulas}{\subsection*{Fórmulas Clave}\begin{description}}{\end{description}}
+\newcommand{\formula}[3]{\item[#1:] $#2$ \\ \textit{#3} \vspace{0.2cm}}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE (COMPLETAR OBLIGATORIAMENTE)
+% ==============================================================================
+% ID_CURSO: calculo-multivariable
+% NUMERO_UNIDAD: 2
+% TITULO_UNIDAD: Continuidad en Campos Escalares
+% NUMERO_CAPITULO: 2.1
+% TITULO_CAPITULO: Continuidad: Definiciones y Tipos de Discontinuidad
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  \textbf{¿Es posible reparar un "agujero" en el espacio?}
+
+  En Cálculo de una variable, la continuidad evocaba la idea intuitiva de "trazar una curva sin levantar el lápiz del papel". Al pasar a campos escalares $f(x,y)$, la continuidad significa que la superficie $z = f(x,y)$ no presenta rupturas abruptas, grietas o acantilados infranqueables: pequeños cambios en la posición $(x,y)$ en el dominio deben producir pequeños cambios en la altura $z$.
+
+  Sin embargo, en el plano bidimensional surgen comportamientos fascinantes. A veces, una superficie es perfectamente suave en todas partes salvo en un único punto $(x_0, y_0)$, donde hay una "perforación" puntual. Si el comportamiento de la superficie alrededor de ese agujero tiende a una altura bien definida $L$, podemos simplemente "tapar" el agujero asignándole dicho valor: estamos ante una \textbf{discontinuidad reparable}.
+
+  Por el contrario, si la superficie se fractura y genera un acantilado donde acercarse por distintos caminos nos lleva a alturas completamente diferentes, la grieta es estructural y el límite no existe: estamos frente a una \textbf{discontinuidad irreparable}.
+
+  \begin{preguntaguia}
+    Si un campo escalar $f(x,y)$ no está definido en el origen $(0,0)$, pero sabemos que el límite $\lim_{(x,y)\to(0,0)} f(x,y) = 5$, ¿qué valor exacto debemos asignarle a $f(0,0)$ para transformarla en una función continua en todo el plano?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  La continuidad es la propiedad que garantiza la "suavidad" de una superficie sin saltos ni interrupciones abruptas. Analíticamente, vincula el valor real que toma la función en un punto con la tendencia del campo escalar a su alrededor.
+
+  % --- DEFINICIÓN 1: CONTINUIDAD PUNTUAL ---
+  \begin{definicion}{Continuidad de un Campo Escalar en un Punto}
+    Sea $f \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ un campo escalar y sea $(x_0, y_0) \in \operatorname{dom}(f)$ un punto de acumulación de $\operatorname{dom}(f)$. Decimos que $f$ es \textbf{continua} en $(x_0, y_0)$ si y solo si:
+    $$ \lim_{(x,y) \to (x_0, y_0)} f(x,y) = f(x_0, y_0) $$
+    
+    Esta igualdad implica necesariamente el cumplimiento simultáneo de tres condiciones:
+    \begin{enumerate}
+      \item $(x_0, y_0) \in \operatorname{dom}(f)$ \quad (El punto está bien definido en la función).
+      \item Existe el límite $\lim_{(x,y) \to (x_0, y_0)} f(x,y) = L \in \mathbb{R}$.
+      \item $L = f(x_0, y_0)$ \quad (El límite coincide con el valor evaluado).
+    \end{enumerate}
+  \end{definicion}
+
+  % --- CARACTERIZACIÓN SECUENCIAL ---
+  \begin{teorema}{Caracterización Secuencial de la Continuidad}
+    Un campo escalar $f$ es continuo en el punto $(x_0, y_0)$ \textbf{si y solo si} para toda sucesión de puntos $(x_n, y_n) \in \operatorname{dom}(f)$ que converja a $(x_0, y_0)$, la sucesión de valores reales correspondientes $f(x_n, y_n)$ converge a $f(x_0, y_0)$. Es decir:
+    $$ \lim_{n \to \infty} (x_n, y_n) = (x_0, y_0) \implies \lim_{n \to \infty} f(x_n, y_n) = f(x_0, y_0) $$
+  \end{teorema}
+
+  % --- EJEMPLO DE SUCESIONES ---
+  \begin{ejemplo}{Uso de Sucesiones para Descartar Continuidad}
+    Estudie la continuidad en el origen de la función:
+    $$ f(x,y) = \begin{cases} \frac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\[0.5em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+    
+    \textbf{Desarrollo por caracterización secuencial:}
+    Consideremos la sucesión de puntos $(x_n, y_n) = \left(\frac{1}{n}, \frac{1}{n}\right)$.
+    Es evidente que cuando $n \to \infty$, la sucesión converge al origen: $\lim_{n \to \infty} \left(\frac{1}{n}, \frac{1}{n}\right) = (0,0)$.
+    
+    Evaluamos la función en los términos de la sucesión:
+    $$ f\left(\frac{1}{n}, \frac{1}{n}\right) = \frac{\left(\frac{1}{n}\right)\left(\frac{1}{n}\right)}{\left(\frac{1}{n}\right)^2 + \left(\frac{1}{n}\right)^2} = \frac{\frac{1}{n^2}}{\frac{2}{n^2}} = \frac{1}{2} $$
+    
+    Tomando el límite cuando $n \to \infty$, obtenemos:
+    $$ \lim_{n \to \infty} f\left(\frac{1}{n}, \frac{1}{n}\right) = \frac{1}{2} $$
+    
+    Como $\frac{1}{2} \neq f(0,0) = 0$, la sucesión de imágenes no converge al valor de la función en el punto. Por lo tanto, el campo escalar $f$ \textbf{no es continuo} en $(0,0)$.
+  \end{ejemplo}
+
+  % --- DEFINICIÓN 2: CLASIFICACIÓN DE DISCONTINUIDADES ---
+  \begin{definicion}{Tipos de Discontinuidad}
+    Si una función $f$ no es continua en un punto de acumulación $(x_0, y_0)$, decimos que presenta una \textbf{discontinuidad} en dicho punto:
+    \begin{itemize}
+      \item \textbf{Discontinuidad Reparable (o Evitable):} Ocurre cuando el límite existe ($\lim_{(x,y) \to (x_0, y_0)} f(x,y) = L \in \mathbb{R}$), pero se cumple que:
+      $$ (x_0, y_0) \notin \operatorname{dom}(f) \quad \vee \quad \lim_{(x,y) \to (x_0, y_0)} f(x,y) \neq f(x_0, y_0) $$
+      \item \textbf{Discontinuidad Irreparable (o Esencial):} Ocurre cuando el límite no existe:
+      $$ \nexists \lim_{(x,y) \to (x_0, y_0)} f(x,y) $$
+    \end{itemize}
+  \end{definicion}
+
+  % --- DEFINICIÓN 3: EXTENSIÓN POR CONTINUIDAD ---
+  \begin{procesamiento}{Redefinición de una Discontinuidad Reparable}
+    Cuando un campo escalar $f$ posee una discontinuidad reparable en $(x_0, y_0)$, es posible construir una nueva función $\tilde{f}$ denominada \textbf{extensión por continuidad}, redefiniendo el punto problemático mediante:
+    $$ \tilde{f}(x,y) = \begin{cases} f(x,y) & \text{si } (x,y) \neq (x_0, y_0) \\[0.5em] \lim_{(u,v) \to (x_0, y_0)} f(u,v) & \text{si } (x,y) = (x_0, y_0) \end{cases} $$
+    De este modo, $\tilde{f}$ resulta ser continua en $(x_0, y_0)$.
+  \end{procesamiento}
+
+  % --- EJEMPLO ILUSTRATIVO DE LAS TRES CONDICIONES ---
+  \begin{ejemplo}{Análisis de Casos en el Origen}
+    Estudie la continuidad en $(0,0)$ de las siguientes funciones basadas en $\frac{x^2}{\sqrt{x^2+y^2}}$:
+    
+    \begin{enumerate}
+      \item $f_1(x,y) = \frac{x^2}{\sqrt{x^2+y^2}}$: \textbf{No es continua} en $(0,0)$ pues $(0,0) \notin \operatorname{dom}(f_1)$. Al existir su límite (que es $0$), presenta una discontinuidad \textbf{reparable}.
+      \item $f_2(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{Es continua} en $(0,0)$, pues $f_2(0,0) = 0$ coincide con el límite. (De hecho, esta es la extensión $\tilde{f}_1$).
+      \item $f_3(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 1 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{No es continua} en $(0,0)$, ya que $\underbrace{f_3(0,0)}_{1} \neq \underbrace{\lim_{(x,y)\to(0,0)} f_3(x,y)}_{0}$.
+    \end{enumerate}
+  \end{ejemplo}
+
+  % --- TEOREMA: ÁLGEBRA Y COMPOSICIÓN DE FUNCIONES CONTINUAS ---
+  \begin{teorema}{Propiedades de las Funciones Continuas}
+    Sean $f, g \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ continuas en $(x_0, y_0)$:
+    \begin{itemize}
+      \item \textbf{Álgebra:} Las funciones $f \pm g$, $f \cdot g$ y $\frac{f}{g}$ (si $g(x_0, y_0) \neq 0$) son continuas en $(x_0, y_0)$.
+      \item \textbf{Composición:} Si $f \colon \mathbb{R}^2 \to \mathbb{R}$ es continua en $(x_0, y_0)$ y $h \colon \mathbb{R} \to \mathbb{R}$ es una función escalar continua en $u_0 = f(x_0, y_0)$, entonces la función compuesta $(h \circ f)(x,y) = h(f(x,y))$ es continua en $(x_0, y_0)$.
+    \end{itemize}
+  \end{teorema}
+
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  En esta sección pondremos a prueba tu comprensión sobre las tres condiciones de continuidad y la clasificación de las discontinuidades. Veremos cómo una simple evaluación puede engañarnos si no somos rigurosos con el límite.
+
+  % --- TIPO 1: PREGUNTA DE ALTERNATIVAS (Extensión por Continuidad) ---
+  \begin{preguntaalternativas}{Reparando el Espacio}
+    Considere el campo escalar $f(x,y) = \frac{\sin(xy)}{xy}$. Sabemos que la función no está definida en los ejes coordenados (donde $x=0$ o $y=0$). Si analizamos el comportamiento exclusivamente en el origen $(0,0)$, ¿cuál de las siguientes afirmaciones es matemáticamente correcta?
+    
+    \opcion{La función es continua en el origen, porque el límite notable garantiza que el resultado es 1.}{Incorrecto}{Recuerda la primera condición de continuidad: el punto debe pertenecer al dominio. Como $(0,0) \notin \operatorname{dom}(f)$, es imposible que sea continua directamente.}
+    \opcion{Presenta una discontinuidad irreparable, ya que al acercarnos por el eje X ($y=0$) la función se indefine y por tanto el límite no existe.}{Incorrecto}{Cuidado, el límite sí existe. Al hacer la sustitución $u = xy$, cuando $(x,y) \to (0,0)$, la variable $u \to 0$. El límite es $\lim_{u\to 0}\frac{\sin(u)}{u} = 1$.}
+    \opcion{Presenta una discontinuidad reparable. Podemos definir la extensión continua $\tilde{f}(0,0) = 1$ para que la superficie no tenga un "agujero" en el origen.}{Correcto}{¡Excelente! El límite existe y vale $1$. Dado que la discontinuidad se debe puramente a un fallo en el dominio, podemos "tapar" el agujero asignándole a la función exactamente el valor del límite.}
+  \end{preguntaalternativas}
+
+  % --- TIPO 2: PREGUNTA DE VERDADERO O FALSO (La Trampa de los Ejes) ---
+  \begin{preguntaverdaderofalso}{La Falsa Sensación de Continuidad}
+    Considere la función definida a trozos:
+    $$ f(x,y) = \begin{cases} \frac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+    Un estudiante argumenta lo siguiente: \textit{"Dado que $f(0,0) = 0$, y al acercarnos por el eje X ($y=0$) obtenemos $\lim_{x\to 0} \frac{0}{x^2} = 0$, y por el eje Y ($x=0$) obtenemos $\lim_{y\to 0} \frac{0}{y^2} = 0$, los límites coinciden con la función evaluada. Por lo tanto, $f$ es continua en el origen."}
+    
+    \verdaderofalso{F}
+      {¡Correcto! Has detectado la "trampa de los ejes". Acercarse por los ejes no es suficiente en $\mathbb{R}^2$. Si te acercas por la recta diagonal $y = x$, el límite es $\lim_{x\to 0}\frac{x^2}{2x^2} = \frac{1}{2}$. Como $1/2 \neq 0$, el límite global no existe, lo que significa que estamos ante una \textbf{discontinuidad irreparable} (esencial), a pesar de que la función valga cero en el origen.}
+      {Incorrecto. Estás asumiendo que la continuidad direccional (por los ejes) implica continuidad bidimensional. Intenta evaluar el límite acercándote por la trayectoria $y = x$ y compara el resultado con $f(0,0)$.}
+  \end{preguntaverdaderofalso}
+
+  % --- TIPO 3: PREGUNTA DE CASILLAS (Continuidad en Regiones) ---
+  \begin{preguntacasillas}{Continuidad más allá del origen}
+    Analice el campo escalar $g(x,y) = \ln(x^2 + y^2 - 1)$. Seleccione \textbf{todas} las afirmaciones correctas respecto a la continuidad de esta función en el plano:
+    
+    \casilla{La función es continua en $(0,0)$.}{Incorrecto}{Falso. En el origen, el argumento del logaritmo es $0^2+0^2-1 = -1$, lo cual no pertenece al dominio del logaritmo real. No puede ser continua allí.}
+    \casilla{La función es continua en cualquier punto $(x,y)$ que satisfaga la inecuación $x^2 + y^2 > 1$.}{Correcto}{¡Correcto! En el exterior de la circunferencia de radio 1, el argumento del logaritmo es estrictamente positivo, por lo que la composición de funciones continuas (logaritmo y polinomio) genera una función continua.}
+    \casilla{Presenta una discontinuidad irreparable en todos los puntos de la frontera $x^2 + y^2 = 1$.}{Correcto}{¡Exacto! En la frontera el límite tiende a $-\infty$ (no es un número real finito), por lo que es una discontinuidad de tipo irreparable o esencial.}
+  \end{preguntacasillas}
+
+  % --- TIPO 4: TÉRMINOS PAREADOS (2 Columnas - Expandido) ---
+  \begin{pareados}{Clasificando Discontinuidades}
+    Clasifica las siguientes funciones respecto a su comportamiento de continuidad \textbf{exclusivamente en el origen $(0,0)$}. Asuma que todas valen $0$ en el origen a menos que se indique que no están definidas allí.
+    
+    % COLUMNA 1: Funciones
+    \columnaI{
+      \item $\displaystyle f(x,y) = \frac{\sin(x^2+y^2)}{x^2+y^2}$ (no definida en el origen)
+      \item $\displaystyle f(x,y) = \begin{cases} \frac{x^2}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases}$
+      \item $\displaystyle f(x,y) = \begin{cases} \frac{xy^2}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases}$
+      \item $\displaystyle f(x,y) = \frac{x^2-y^2}{x^2+y^2}$ (no definida en el origen)
+      \item $\displaystyle f(x,y) = \frac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$ (no definida en el origen)
+    }
+    
+    % COLUMNA 2: Clasificación
+    \columnaII{
+      \item Discontinua Reparable (límite es 1)
+      \item Discontinua Irreparable (límite no existe)
+      \item Completamente Continua
+      \item Discontinua Irreparable (límite no existe por caminos)
+      \item Discontinua Reparable (límite es 1/2)
+    }
+
+    % --- SOLUCIONES Y RETROALIMENTACIÓN ---
+    \pareo{1-A}{¡Excelente! Al no estar definida en $(0,0)$ es discontinua, pero el límite notable $\sin(u)/u$ existe y vale 1. Se puede reparar.}
+    \pareo{2-B}{¡Perfecto! El límite general no existe (evaluar por el eje X da 1, por el eje Y da 0). Al no haber límite, es irreparable.}
+    \pareo{3-C}{¡Muy bien! $f(0,0) = 0$, y por el Teorema de Cero por Acotado, el límite existe y vale $0$. Es continua.}
+    \pareo{4-D}{¡Correcto! Acercarse por el eje X da 1 y por el eje Y da -1. Una grieta estructural que la hace irreparable.}
+    \pareo{5-E}{¡Gran análisis! Haciendo $u=x^2+y^2$, el límite notable $(1-\cos u)/u^2$ tiende a 1/2. Basta con asignarle ese valor para hacerla continua.}
+  \end{pareados}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+
+  % --- EJERCICIO RESUELTO: Estudio Paramétrico ---
+  \begin{ejercicioresuelto}{Continuidad con Parámetros $\alpha$ y $\beta$}{nivel-3}
+    \enunciado{
+      Dados los parámetros $\alpha > 0$ y $\beta > 0$, defina la función:
+      $$ f(x,y) = \begin{cases} \frac{(xy)^\alpha}{(x^2+y^2)^\beta} & \text{si } (x,y) \neq (0,0) \\[0.5em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      Muestre formalmente que $f$ es continua en el origen si y solo si $\alpha > \beta$.
+    }
+    \solucion{
+      Para que $f$ sea continua en el origen, debe cumplirse que $\lim_{(x,y)\to(0,0)} f(x,y) = f(0,0) = 0$.
+      
+      Aplicamos el cambio a coordenadas polares ($x = \rho\cos\theta$, $y = \rho\sin\theta$) notando que $x^2+y^2 = \rho^2$. 
+      Sustituimos en la expresión tomando el valor absoluto para analizar el acotamiento:
+      $$ \left| \frac{(\rho\cos\theta \cdot \rho\sin\theta)^\alpha}{(\rho^2)^\beta} \right| = \frac{\rho^{2\alpha} |\cos\theta\sin\theta|^\alpha}{\rho^{2\beta}} = \rho^{2(\alpha-\beta)} |\cos\theta\sin\theta|^\alpha $$
+      
+      Para que el límite exista y sea igual a $0$, el comportamiento respecto al radio $\rho \to 0^+$ debe anular la expresión \textbf{independientemente} del ángulo $\theta$. Evaluamos los tres casos posibles para el exponente de $\rho$:
+      
+      \begin{enumerate}
+        \item \textbf{Si $\alpha > \beta$:} El exponente $2(\alpha-\beta)$ es estrictamente positivo. Cuando $\rho \to 0^+$, el término $\rho^{2(\alpha-\beta)} \to 0$. Al estar multiplicado por una función trigonométrica acotada ($|\cos\theta\sin\theta|^\alpha \leq 1$), el límite es $0$. En este caso, $f$ es continua.
+        \item \textbf{Si $\alpha = \beta$:} El exponente es $0$, por lo que $\rho^0 = 1$. El límite depende exclusivamente de $\theta$ (específicamente vale $\cos^\alpha\theta \sin^\alpha\theta$). Como el valor cambia según la trayectoria, el límite \textbf{no existe}.
+        \item \textbf{Si $\alpha < \beta$:} El exponente es negativo. La expresión $\rho^{2(\alpha-\beta)}$ se va al denominador, por lo que cuando $\rho \to 0^+$, la función diverge hacia infinito para ángulos donde el numerador no se anule. El límite \textbf{no existe}.
+      \end{enumerate}
+      
+      \textbf{Conclusión:} La única forma de que el límite exista y sea igual a $0$ (coincidiendo con $f(0,0)$) es que $\alpha > \beta$.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO MULTI-ITEM 1 ---
+  \begin{ejercicioresuelto}{Redefinición y Extensión por Continuidad}{nivel-2}
+    \enunciado{
+      Estudie el límite $\lim_{(x,y)\to(0,0)} f(x,y)$ para cada una de las siguientes funciones. En base a su respuesta, decida si es posible dar un valor a $f(0,0)$ de tal manera que la función quede continua en $(0,0)$ (discontinuidad reparable).
+      
+      \begin{enumerate}
+        \item $\displaystyle f(x,y) = \frac{\tan(x^2+y^2)}{x^2+y^2}$
+        \item $\displaystyle f(x,y) = \frac{\tan(xy)}{y}$
+        \item $\displaystyle f(x,y) = \frac{x}{y}$
+        \item $\displaystyle f(x,y) = \frac{xy+y^3}{x^2+y^2}$
+      \end{enumerate}
+    }
+    \solucion{
+      \begin{enumerate}
+        \item \textbf{Análisis:} Haciendo el cambio $u = x^2+y^2$, tenemos $\lim_{u\to 0}\frac{\tan u}{u} = 1$. El límite existe (inspección directa y límites notables).\\
+        \textbf{Conclusión:} Discontinuidad reparable. Es posible hacerla continua definiendo $f(0,0) = 1$.
+        
+        \item \textbf{Análisis:} Multiplicando y dividiendo por $x$, obtenemos $x \cdot \frac{\tan(xy)}{xy}$. Usando el límite notable $\tan(u)/u \to 1$, nos queda $\lim_{(x,y)\to(0,0)} (x \cdot 1) = 0$. El límite existe.\\
+        \textbf{Conclusión:} Discontinuidad reparable. Es posible hacerla continua definiendo $f(0,0) = 0$.
+        
+        \item \textbf{Análisis:} Evaluando por la familia de rectas $y = mx$, el límite resulta $\frac{x}{mx} = \frac{1}{m}$. Como el resultado depende de la pendiente $m$, el límite no existe.\\
+        \textbf{Conclusión:} Discontinuidad irreparable. No es posible dar un valor a $f(0,0)$.
+        
+        \item \textbf{Análisis:} Pasando a polares, obtenemos $\frac{\rho^2\cos\theta\sin\theta + \rho^3\sin^3\theta}{\rho^2} = \cos\theta\sin\theta + \rho\sin^3\theta$. Cuando $\rho \to 0$, el límite es $\cos\theta\sin\theta$, el cual depende del ángulo de aproximación.\\
+        \textbf{Conclusión:} Discontinuidad irreparable. No es posible dar un valor a $f(0,0)$.
+      \end{enumerate}
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO MULTI-ITEM 2 ---
+  \begin{ejercicioresuelto}{Continuidad en Regiones Definidas a Trozos}{nivel-3}
+    \enunciado{
+      Sea $f \colon \mathbb{R}^2 \to \mathbb{R}$ el campo escalar definido por:
+      $$ f(x,y) = \begin{cases} \alpha(x^2+y^2) & \text{si } x^2+y^2 < 2 \\[0.5em] \frac{1}{\beta\sqrt{x^2+y^2}} & \text{si } x^2+y^2 \ge 2 \end{cases} $$
+      \begin{itemize}
+        \item[a)] Estudie la continuidad de $f$ en el conjunto $D = \{ (x,y) \in \mathbb{R}^2 \colon x^2+y^2 \neq 2 \}$.
+        \item[b)] ¿Qué relación deben satisfacer $\alpha$ y $\beta$ de modo que $f$ sea continua en todo $\mathbb{R}^2$?
+      \end{itemize}
+    }
+    \solucion{
+      \textbf{Parte a) Continuidad en $D$:} 
+      El conjunto $D$ representa todo el plano excepto la circunferencia de radio $\sqrt{2}$. 
+      \begin{itemize}
+        \item Para la región interior ($x^2+y^2 < 2$), la función es $\alpha(x^2+y^2)$, que es un polinomio y, por definición, \textbf{continua} en todo su subdominio.
+        \item Para la región exterior ($x^2+y^2 > 2$), la función es una composición de funciones racionales y raíces cuadradas. Como el denominador $\beta\sqrt{x^2+y^2}$ jamás se anula en esta región (es estrictamente mayor que $\beta\sqrt{2}$), la función también es \textbf{continua}.
+      \end{itemize}
+      
+      \textbf{Parte b) Continuidad en $\mathbb{R}^2$:}
+      Para que sea continua en todo $\mathbb{R}^2$, los límites laterales deben coincidir en la frontera $x^2+y^2 = 2$. Tomemos un punto $(x_0, y_0)$ cualquiera que pertenezca a dicha frontera.
+      
+      Evaluamos el límite acercándonos desde el \textbf{interior}:
+      $$ \lim_{(x,y) \to (x_0,y_0)^-} \alpha(x^2+y^2) = \alpha(2) = 2\alpha $$
+      
+      Evaluamos el límite acercándonos desde el \textbf{exterior} (y el valor de la función):
+      $$ \lim_{(x,y) \to (x_0,y_0)^+} \frac{1}{\beta\sqrt{x^2+y^2}} = \frac{1}{\beta\sqrt{2}} $$
+      
+      Para garantizar la continuidad (ausencia de salto en la frontera), ambos límites deben ser idénticos:
+      $$ 2\alpha = \frac{1}{\beta\sqrt{2}} \implies \alpha\beta = \frac{1}{2\sqrt{2}} = \frac{\sqrt{2}}{4} $$
+      Por lo tanto, la relación exigida es $\alpha\beta = \frac{\sqrt{2}}{4}$.
+    }
+  \end{ejercicioresuelto}
+
+\end{ejercicios}
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+    \formula{Condiciones de Continuidad en $(x_0, y_0)$}
+      {(x_0,y_0) \in \operatorname{dom}(f) \;\wedge\; \exists \lim_{(x,y)\to(x_0,y_0)} f(x,y) \;\wedge\; \lim_{(x,y)\to(x_0,y_0)} f(x,y) = f(x_0,y_0)}
+      {Las tres reglas de oro: El punto debe existir, la tendencia debe existir unívocamente, y ambas alturas deben ser exactamente la misma.}
+
+    \formula{Discontinuidad Reparable}
+      {\lim_{(x,y)\to(x_0,y_0)} f(x,y) = L \in \mathbb{R} \quad \text{pero} \quad f(x_0,y_0) \neq L \;\text{ o }\; \nexists f(x_0,y_0)}
+      {El límite existe y es finito, lo que permite "tapar el agujero" redefiniendo el punto con el valor $L$.}
+
+    \formula{Extensión por Continuidad ($\tilde{f}$)}
+      {\tilde{f}(x,y) = \begin{cases} f(x,y) & (x,y) \neq (x_0,y_0) \\ \lim_{(u,v)\to(x_0,y_0)} f(u,v) & (x,y) = (x_0,y_0) \end{cases}}
+      {La nueva función matemáticamente pulida que repara la discontinuidad original y hace a la superficie totalmente continua.}
+
+  \end{formulas}
+
+\end{document}
