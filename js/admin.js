@@ -2081,7 +2081,7 @@ function parseLatexChapter(latexText) {
     });
 
     // 4. Términos Pareados 2 Col
-    text = text.replace(/\\begin\{pareadosdoscolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadosdoscolumnas\}/gi, (m, title, body) => {
+    const parsePareados2ColAdmin = (title, body) => {
       let col1Text = '';
       let col2Text = '';
       const col1Calls = extractMacroCalls(body, 'columnaI', 1);
@@ -2146,7 +2146,7 @@ function parseLatexChapter(latexText) {
 
       return saveBlock(`
         <div class="quiz-block quiz-pareados-2col" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; margin: 20px 0;">
-          <h4 style="margin-top:0; color: var(--accent-color); font-size: 1.1rem;"><i class="fa-solid fa-diagram-project"></i> Términos Pareados: ${title}</h4>
+          <h4 style="margin-top:0; color: var(--accent-color); font-size: 1.1rem;"><i class="fa-solid fa-diagram-project"></i> Términos Pareados: ${cleanInlineLatex(title)}</h4>
           ${latexToHtml(statement.trim())}
           
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 18px 0;">
@@ -2168,7 +2168,10 @@ function parseLatexChapter(latexText) {
           </div>
         </div>
       `);
-    });
+    };
+
+    text = replaceEnvWithTitle(text, 'pareados', parsePareados2ColAdmin);
+    text = replaceEnvWithTitle(text, 'pareadosdoscolumnas', parsePareados2ColAdmin);
 
     // 5. Términos Pareados 3 Col
     text = text.replace(/\\begin\{pareadostrescolumnas\}\{([^}]+)\}([\s\S]*?)\\end\{pareadostrescolumnas\}/gi, (m, title, body) => {

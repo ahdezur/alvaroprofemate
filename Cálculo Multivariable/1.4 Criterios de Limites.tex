@@ -1,0 +1,480 @@
+
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=yellow!10,colframe=orange!80!black,title=Alerta: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{procesamiento}[1]{%
+  \begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Procedimiento: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+\newenvironment{ejemplo}[1]{%
+  \begin{tcolorbox}[colback=white,colframe=gray!40,title=Ejemplo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+% Comandos para preguntas interactivas
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+% Entorno Términos Pareados (2 Columnas)
+\newenvironment{pareados}[1]{\subsection*{Términos Pareados: #1}}{\vspace{0.3cm}}
+\newcommand{\columnaI}[1]{\textbf{Columna 1:}\begin{enumerate}#1\end{enumerate}}
+\newcommand{\columnaII}[1]{\textbf{Columna 2:}\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\textbf{Cruce #1:} #2\par}
+
+% Entornos para ejercicios
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \small{[#2]}}}{}
+
+\newcommand{\enunciado}[1]{\textbf{Enunciado:} #1\par\vspace{0.2cm}}
+\newcommand{\solucion}[1]{\textbf{Solución:} #1\par\vspace{0.4cm}}
+\newcommand{\demostracion}[1]{\textbf{Demostración:} #1\par\vspace{0.4cm}}
+\newcommand{\pista}[1]{\textbf{Pista:} #1\par\vspace{0.4cm}}
+
+% Entorno Fórmulas
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}\begin{description}}{\end{description}}
+\newcommand{\formula}[3]{\item[#1:] $#2$ \\ \textit{#3} \vspace{0.2cm}}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE (COMPLETAR OBLIGATORIAMENTE)
+% ==============================================================================
+% ID_CURSO: calculo-multivariable
+% NUMERO_UNIDAD: 1
+% TITULO_UNIDAD: Funciones de Varias Variables
+% NUMERO_CAPITULO: 1.4
+% TITULO_CAPITULO: Criterios de Límites
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  \textbf{El laberinto de las infinitas dimensiones}
+
+  En el capítulo anterior, vimos que para que un límite exista en $\mathbb{R}^2$, el valor al cual nos aproximamos debe ser exactamente el mismo sin importar el camino que elijamos para llegar al punto de destino. 
+  
+  Esto presenta un desafío monumental: no podemos evaluar \textit{infinitas} trayectorias manualmente para demostrar que un límite existe. Sin embargo, esta misma dificultad se convierte en nuestra mejor arma cuando queremos demostrar que un límite \textbf{no existe}. 
+
+  Basta con encontrar dos simples caminos (ya sean rectas, parábolas o iteraciones en los ejes) que nos lleven a destinos diferentes para afirmar con total seguridad matemática que el límite global es una ilusión. Además, introduciremos las coordenadas polares, una herramienta poderosa que "agrupa" todas esas infinitas trayectorias lineales en un solo radio y nos facilita la vida en los casos más complejos.
+
+  \begin{preguntaguia}
+    Si evalúas un límite acercándote al origen por el eje $X$ y obtienes un valor de $1$, pero al acercarte por el eje $Y$ obtienes un valor de $0$, ¿qué puedes concluir sobre el comportamiento global de esa función en el origen?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  En este capítulo estudiaremos los criterios analíticos fundamentales para demostrar la \textbf{inexistencia} de límites de campos escalares, así como la técnica de transformación a \textbf{coordenadas polares} para abordar el estudio de límites en el origen.
+
+  % --- TEMA 1: LÍMITES POR CAMINOS ---
+  \subsection*{1. Criterio de Límites por Caminos (Trayectorias)}
+  
+  \begin{teorema}{Inexistencia por Caminos}
+    Sean $f \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ y $(a,b)$ un punto de acumulación de $\operatorname{dom}(f)$. Si existen dos trayectorias continuas $\vec{r}_1, \vec{r}_2 \colon [t_0, t_1] \to D \setminus \{(a,b)\}$ tales que:
+    $$ \displaystyle\lim_{t \to t_0^+} \vec{r}_1(t) = (a,b) \quad \wedge \quad \displaystyle\lim_{t \to t_0^+} \vec{r}_2(t) = (a,b) $$
+    y se cumple que:
+    $$ \displaystyle\lim_{t \to t_0^+} f(\vec{r}_1(t)) = L_1 \quad \wedge \quad \displaystyle\lim_{t \to t_0^+} f(\vec{r}_2(t)) = L_2 $$
+    con $L_1 \neq L_2$, entonces el límite doble $\displaystyle\lim_{(x,y) \to (a,b)} f(x,y)$ \textbf{no existe}.
+  \end{teorema}
+
+  \begin{proof}[\textbf{Demostración:}]
+    Procederemos por contradicción. Supongamos que el límite doble existe y es igual a $L \in \mathbb{R}$, es decir:
+    $$ \displaystyle\lim_{(x,y) \to (a,b)} f(x,y) = L $$
+    Por la definición formal $\varepsilon$-$\delta$, para todo $\varepsilon > 0$ existe un $\delta > 0$ tal que si $(x,y) \in \operatorname{dom}(f) \wedge 0 < \|(x,y) - (a,b)\| < \delta$, entonces:
+    $$ |f(x,y) - L| < \varepsilon $$
+
+    Sea $\vec{r}_1(t)$ la primera trayectoria continua en $\operatorname{dom}(f)$ tal que $\displaystyle\lim_{t \to t_0^+} \vec{r}_1(t) = (a,b)$. Dado el mismo $\delta > 0$, por continuidad de la curva existe un $\eta > 0$ tal que si $t_0 < t < t_0 + \eta$, entonces:
+    $$ 0 < \|\vec{r}_1(t) - (a,b)\| < \delta $$
+
+    En consecuencia, para todo $t \in (t_0, t_0 + \eta)$, se satisface la desigualdad:
+    $$ |f(\vec{r}_1(t)) - L| < \varepsilon $$
+    Lo que por definición de límite de una variable real implica que:
+    $$ \displaystyle\lim_{t \to t_0^+} f(\vec{r}_1(t)) = L \implies L_1 = L $$
+
+    Repitiendo exactamente el mismo argumento para la trayectoria $\vec{r}_2(t)$, deducimos que $L_2 = L$. Por lo tanto, $L_1 = L_2 = L$, lo cual contradice el supuesto inicial de que $L_1 \neq L_2$.
+    Se concluye que el límite doble $\displaystyle\lim_{(x,y) \to (a,b)} f(x,y)$ no existe.
+  \end{proof}
+
+  \begin{alerta}{Observación Fundamental sobre Caminos}
+    Si evalúas el límite por dos caminos distintos $A_1$ y $A_2$ y obtienes el mismo resultado ($L_1 = L_2$), \textbf{no se puede concluir nada} sobre la existencia del límite original. La coincidencia sobre un conjunto infinito de caminos no demuestra la existencia; sin embargo, un solo desacuerdo la refuta.
+  \end{alerta}
+
+  \begin{procesamiento}{Caminos Usuales de Aproximación al {$(0,0)$}}
+    Para evaluar límites en el origen, las familias de curvas más utilizadas son:
+    \begin{itemize}
+      \item \textbf{Ejes coordenados:} $A_1 = \{ (x,y) \in \mathbb{R}^2 \colon y = 0 \}$ (Eje X) $\wedge$ $A_2 = \{ (x,y) \in \mathbb{R}^2 \colon x = 0 \}$ (Eje Y).
+      \item \textbf{Familia de rectas oblicuas:} $A_m = \{ (x,y) \in \mathbb{R}^2 \colon y = mx \}$, con $m \in \mathbb{R}$.
+      \item \textbf{Familia de parábolas:} $A_a = \{ (x,y) \in \mathbb{R}^2 \colon y = ax^2 \}$ $\vee$ $A_a = \{ (x,y) \in \mathbb{R}^2 \colon x = ay^2 \}$, con $a \neq 0$.
+    \end{itemize}
+  \end{procesamiento}
+
+  % --- TEMA 2: LÍMITES ITERADOS ---
+  \subsection*{2. Límites Iterados}
+  
+  \begin{teorema}{Criterio de Inexistencia por Límites Iterados}
+    Sea $f \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ un campo escalar y sea $(a,b)$ un punto de acumulación de $\operatorname{dom}(f)$. Definimos los dos límites iterados mediante:
+    $$ L_1 = \displaystyle\lim_{x \to a} \left( \displaystyle\lim_{y \to b} f(x,y) \right) \quad \wedge \quad L_2 = \displaystyle\lim_{y \to b} \left( \displaystyle\lim_{x \to a} f(x,y) \right) $$
+    Si ambos límites iterados existen y son \textbf{distintos} ($L_1 \neq L_2$), entonces el límite doble $\displaystyle\lim_{(x,y) \to (a,b)} f(x,y)$ \textbf{no existe}.
+  \end{teorema}
+
+  \begin{proof}[\textbf{Demostración:}]
+    Supongamos por contradicción que el límite doble existe y vale $L \in \mathbb{R}$, es decir, $\displaystyle\lim_{(x,y) \to (a,b)} f(x,y) = L$, y asumamos que existe el límite interno $g(x) = \displaystyle\lim_{y \to b} f(x,y)$ para todo $x \neq a$ en un entorno de $a$.
+
+    Dado $\varepsilon > 0$, existe $\delta > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, entonces:
+    $$ |f(x,y) - L| < \frac{\varepsilon}{2} $$
+
+    Para cualquier $x$ fijo que cumpla $0 < |x - a| < \frac{\delta}{\sqrt{2}}$, consideramos los valores de $y$ que satisfacen $0 < |y - b| < \frac{\delta}{\sqrt{2}}$. Para dichos puntos, la distancia euclidiana satisface $\sqrt{(x-a)^2 + (y-b)^2} < \delta$, por lo que la desigualdad del límite se sostiene.
+
+    Tomando el límite cuando $y \to b$ en la desigualdad $|f(x,y) - L| < \frac{\varepsilon}{2}$, y aprovechando que $\displaystyle\lim_{y \to b} f(x,y) = g(x)$, obtenemos por propiedades de desigualdades en límites:
+    $$ |g(x) - L| \leq \frac{\varepsilon}{2} < \varepsilon $$
+
+    Como esto es válido para todo $x$ tal que $0 < |x - a| < \frac{\delta}{\sqrt{2}}$, por definición formal tenemos que:
+    $$ \displaystyle\lim_{x \to a} g(x) = L \implies \displaystyle\lim_{x \to a} \left( \displaystyle\lim_{y \to b} f(x,y) \right) = L $$
+
+    De manera totalmente análoga, si el límite interno $h(y) = \displaystyle\lim_{x \to a} f(x,y)$ existe, se demuestra que $\displaystyle\lim_{y \to b} \left( \displaystyle\lim_{x \to a} f(x,y) \right) = L$.
+    Por ende, $L_1 = L$ y $L_2 = L$, lo cual implica $L_1 = L_2$. Esto contradice el hecho de que $L_1 \neq L_2$.
+    En consecuencia, el límite doble $\displaystyle\lim_{(x,y) \to (a,b)} f(x,y)$ no existe.
+  \end{proof}
+
+  \begin{alerta}{Observación sobre Iterados}
+    Si los límites iterados son iguales ($L_1 = L_2$), o si alguno de los límites internos no existe, \textbf{no es posible concluir nada} respecto a la existencia del límite doble original.
+  \end{alerta}
+
+  % --- TEMA 3: COORDENADAS POLARES ---
+  \subsection*{3. Cambio a Coordenadas Polares}
+
+  \begin{definicion}{Transformación Polar y Equivalencia de Límite}
+    Consideremos la transformación a coordenadas polares en el plano:
+    $$ x = r\cos(\theta) \quad \wedge \quad y = r\sin(\theta) $$
+    donde $r = \sqrt{x^2+y^2} \ge 0$ e $\theta \in [0, 2\pi)$.
+    
+    El límite $\displaystyle\lim_{(x,y) \to (0,0)} f(x,y)$ existe y es igual a $L \in \mathbb{R}$ \textbf{si y solo si} el límite en coordenadas polares se satisface de manera \textbf{uniforme} con respecto al ángulo $\theta$, es decir:
+    $$ \displaystyle\lim_{r \to 0^+} \Big( \sup_{\theta \in [0, 2\pi)} |f(r\cos\theta, r\sin\theta) - L| \Big) = 0 $$
+  \end{definicion}
+
+  \begin{proof}[\textbf{Demostración:}]
+    $(\Rightarrow)$ Asumamos que $\displaystyle\lim_{(x,y) \to (0,0)} f(x,y) = L$.
+    Dado $\varepsilon > 0$, existe $\delta > 0$ tal que para todo $(x,y) \in \operatorname{dom}(f)$, si $0 < \sqrt{x^2+y^2} < \delta$, entonces:
+    $$ |f(x,y) - L| < \varepsilon $$
+    Sustituyendo $x = r\cos\theta$ e $y = r\sin\theta$, notamos que $\sqrt{x^2+y^2} = r$. Por ende, si $0 < r < \delta$, se cumple que:
+    $$ |f(r\cos\theta, r\sin\theta) - L| < \varepsilon $$
+    para todo $\theta \in [0, 2\pi)$ simultáneamente. Tomando el supremo sobre $\theta$, mantenemos la cota:
+    $$ \sup_{\theta \in [0, 2\pi)} |f(r\cos\theta, r\sin\theta) - L| \leq \varepsilon $$
+    Lo que demuestra que $\displaystyle\lim_{r \to 0^+} \sup_{\theta \in [0, 2\pi)} |f(r\cos\theta, r\sin\theta) - L| = 0$.
+
+    \vspace{0.2cm}
+    $(\Leftarrow)$ Supongamos ahora que $\displaystyle\lim_{r \to 0^+} \sup_{\theta \in [0, 2\pi)} |f(r\cos\theta, r\sin\theta) - L| = 0$.
+    Entonces, para todo $\varepsilon > 0$, existe $\delta > 0$ tal que si $0 < r < \delta$, entonces:
+    $$ |f(r\cos\theta, r\sin\theta) - L| \leq \sup_{\theta \in [0, 2\pi)} |f(r\cos\theta, r\sin\theta) - L| < \varepsilon $$
+    Dado cualquier punto $(x,y) \neq (0,0)$ tal que $\|(x,y) - (0,0)\| = \sqrt{x^2+y^2} < \delta$, podemos expresarlo en polares con $r = \sqrt{x^2+y^2} < \delta$ y algún ángulo $\theta$. De lo anterior se deduce que:
+    $$ |f(x,y) - L| = |f(r\cos\theta, r\sin\theta) - L| < \varepsilon $$
+    Quedando demostrado por definición $\varepsilon$-$\delta$ que $\displaystyle\lim_{(x,y) \to (0,0)} f(x,y) = L$.
+  \end{proof}
+
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  A continuación, pondremos en práctica los tres criterios desarrollados en la teoría. Observa detenidamente cómo la elección de la herramienta correcta nos permite concluir si un límite existe o, en la mayoría de los casos, demostrar su inexistencia.
+
+  % --- EJEMPLOS DE LOS 3 CRITERIOS ---
+  \begin{ejemplo}{Criterio 1: Inexistencia por Caminos (Rectas)}
+    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^2}{x^2 + y^2}$
+    
+    \textbf{Desarrollo:}
+    Tomemos la recta $y = x$, que viene a ser nuestra trayectoria $A_1$:
+    $$ \displaystyle\lim_{x \to 0} \frac{x^2}{x^2 + x^2} = \displaystyle\lim_{x \to 0} \frac{x^2}{2x^2} = \frac{1}{2} $$
+    
+    Tomemos otra recta, digamos el eje X ($y = 0$), la cual viene a ser nuestra trayectoria $A_2$:
+    $$ \displaystyle\lim_{x \to 0} \frac{x^2}{x^2 + 0} = \displaystyle\lim_{x \to 0} \frac{x^2}{x^2} = 1 $$
+    
+    Notamos que los límites por caminos existen y son distintos ($1/2 \neq 1$). Por lo tanto, el límite doble \textbf{no existe}.
+  \end{ejemplo}
+
+  \begin{ejemplo}{Criterio 2: Inexistencia por Límites Iterados}
+    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{y}{y + x^2}$
+    
+    \textbf{Desarrollo:}
+    Calculamos el primer límite iterado (evaluando primero $y \to 0$ y luego $x \to 0$):
+    $$ \displaystyle\lim_{x \to 0} \left( \displaystyle\lim_{y \to 0} \frac{y}{y + x^2} \right) = \displaystyle\lim_{x \to 0} \left( \frac{0}{0 + x^2} \right) = \displaystyle\lim_{x \to 0} (0) = 0 $$
+    
+    Calculamos el segundo límite iterado (evaluando primero $x \to 0$ y luego $y \to 0$):
+    $$ \displaystyle\lim_{y \to 0} \left( \displaystyle\lim_{x \to 0} \frac{y}{y + x^2} \right) = \displaystyle\lim_{y \to 0} \left( \frac{y}{y + 0} \right) = \displaystyle\lim_{y \to 0} (1) = 1 $$
+    
+    Como los límites iterados arrojan valores distintos ($0 \neq 1$), el límite doble \textbf{no existe}.
+  \end{ejemplo}
+
+  \begin{ejemplo}{Criterio 3: Existencia vía Coordenadas Polares}
+    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^4 + 3(x^2 + y^2)}{x^2 + y^2}$
+    
+    \textbf{Desarrollo:}
+    Aplicamos el cambio a coordenadas polares: $x = r\cos\theta$, $y = r\sin\theta$, sabiendo que $x^2 + y^2 = r^2$.
+    Sustituimos en la expresión:
+    $$ \displaystyle\lim_{r \to 0^+} \frac{(r\cos\theta)^4 + 3r^2}{r^2} = \displaystyle\lim_{r \to 0^+} \frac{r^4\cos^4\theta + 3r^2}{r^2} $$
+    Factorizando y simplificando $r^2$ (ya que $r \neq 0$ en la aproximación):
+    $$ \displaystyle\lim_{r \to 0^+} (r^2\cos^4\theta + 3) = 0 \cdot \cos^4\theta + 3 = 3 $$
+    Dado que el resultado es una constante numérica exacta ($L=3$), absolutamente independiente del ángulo de aproximación $\theta$, el límite doble \textbf{existe y es igual a 3}.
+  \end{ejemplo}
+
+  % --- EVALUACIONES FORMATIVAS ---
+
+  % TIPO 1: PREGUNTA DE ALTERNATIVAS
+  \begin{preguntaalternativas}{La Elección del Camino Adecuado}
+    ¿Cuál es el argumento correcto respecto al límite $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{xy^2}{x^2 + y^4}$?
+    
+    \opcion{El límite es $0$, porque al evaluarlo por cualquier recta de la familia $y = mx$, el resultado tiende a cero.}{Incorrecto}{Cuidado. Aunque todas las rectas $y=mx$ arrojan 0, las rectas no son las únicas trayectorias posibles. Debes probar curvas de mayor grado.}
+    \opcion{El límite no existe, porque los límites iterados son distintos.}{Incorrecto}{Si calculas los límites iterados para esta función, verás que $\displaystyle\lim_{x\to 0}(\displaystyle\lim_{y\to 0}) = 0$ y $\displaystyle\lim_{y\to 0}(\displaystyle\lim_{x\to 0}) = 0$. Son iguales, lo que hace al criterio no concluyente.}
+    \opcion{El límite no existe, porque al aproximarse por la curva $x = y^2$ se obtiene $1/2$, mientras que por el eje X ($y=0$) se obtiene $0$.}{Correcto}{¡Brillante! Al sustituir la parábola horizontal $x = y^2$, el límite se convierte en $\displaystyle\lim_{y \to 0} \frac{y^2 \cdot y^2}{(y^2)^2 + y^4} = \frac{y^4}{2y^4} = \frac{1}{2}$. Como $1/2 \neq 0$, el límite se destruye.}
+  \end{preguntaalternativas}
+
+  % TIPO 2: PREGUNTA DE VERDADERO O FALSO
+  \begin{preguntaverdaderofalso}{Conclusión sobre Límites Iterados}
+    Considere la función $f(x,y) = \frac{xy}{x^2 + y^2}$. Dado que ambos límites iterados son iguales a cero (es decir, $\displaystyle\lim_{x \to 0} (\displaystyle\lim_{y \to 0} f(x,y)) = 0$ y $\displaystyle\lim_{y \to 0} (\displaystyle\lim_{x \to 0} f(x,y)) = 0$), podemos concluir matemáticamente que el límite doble existe y vale cero.
+    
+    \verdaderofalso{F}
+      {¡Excelente! Recordaste la alerta teórica: si los límites iterados son iguales, \textbf{no se puede concluir nada}. De hecho, si evalúas este límite por rectas $y = mx$, el resultado es $\frac{m}{1+m^2}$, lo que demuestra que depende de la pendiente $m$ y, por ende, el límite no existe.}
+      {Incorrecto. Caíste en la trampa más común. Que los límites iterados coincidan significa únicamente que acercarse por el eje X o por el eje Y da el mismo resultado. No te garantiza lo que ocurre si te acercas por una diagonal como $y=x$ (donde el límite da $1/2$).}
+  \end{preguntaverdaderofalso}
+
+  % TIPO 3: PREGUNTA DE CASILLAS
+  \begin{preguntacasillas}{Dependencia Angular en Polares}
+    Se requiere evaluar el límite $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \arccos\left(\frac{x}{\sqrt{x^2 + y^2}}\right)$. Al realizar el cambio a coordenadas polares, selecciona \textbf{todas} las afirmaciones correctas:
+    
+    \casilla{La expresión se reduce algebraicamente a $\arccos(\cos\theta)$.}{Correcto}{¡Correcto! Sustituyendo $x = r\cos\theta$ y $\sqrt{x^2+y^2} = r$, nos queda $\arccos(\frac{r\cos\theta}{r}) = \arccos(\cos\theta)$.}
+    \casilla{Como $\arccos(\cos\theta) = \theta$ en el intervalo principal, el límite no existe porque depende exclusivamente de $\theta$.}{Correcto}{¡Exacto! El resultado es directamente el ángulo de aproximación. Acercarse por distintos ángulos da distintos resultados.}
+    \casilla{El límite existe y vale $1$, porque las funciones trigonométricas están acotadas.}{Incorrecto}{Falso. El concepto de acotamiento se usa en multiplicaciones con términos que tienden a cero (Teorema de Cero por Acotado), aquí la función completa depende del ángulo.}
+    \casilla{Geométricamente, acercarse por el eje X positivo ($\theta=0$) da como límite $0$, pero por el eje Y positivo ($\theta=\pi/2$) da $\pi/2$.}{Correcto}{¡Correcto! Esto confirma explícitamente mediante caminos que el límite no puede existir.}
+  \end{preguntacasillas}
+
+  % TIPO 4: TÉRMINOS PAREADOS (2 Columnas)
+  \begin{pareados}{Asociación: Límite y Herramienta de Análisis}
+    
+    % COLUMNA 1: Límites
+    \columnaI{
+      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \frac{x^2y}{x^2+y^2}$
+      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \frac{xy^2}{x^2+y^4}$
+      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \frac{y}{y+x^2}$
+    }
+    
+    % COLUMNA 2: Conclusión y Herramienta - Mezcladas
+    \columnaII{
+      \item No existe el límite, demostrado al probar Límites Iterados (uno da 0, otro da 1).
+      \item No existe el límite, demostrado al evaluar caminos parabólicos ($x=y^2$).
+      \item El límite existe y es $0$, comprobado mediante cambio a Coordenadas Polares y acotamiento.
+    }
+
+    % --- SOLUCIONES Y RETROALIMENTACIÓN ---
+    \pareo{1-C}{¡Excelente! Al usar polares obtienes $\displaystyle\lim_{r \to 0^+} r\cos^2\theta \sin\theta$. Como $r \to 0$ y la parte trigonométrica está acotada, el límite es firmemente 0.}
+    \pareo{2-B}{¡Correcto! Las rectas engañan en esta función dando siempre 0. La única forma de revelar que no existe es usar la parábola $x=y^2$, lo que arroja 1/2.}
+    \pareo{3-A}{¡Perfecto! Esta función es el clásico ejemplo donde los iterados fallan de manera asimétrica ($0 \neq 1$), lo que destruye el límite doble inmediatamente.}
+
+  \end{pareados}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+
+  % --- 1. EJERCICIO RESUELTO: Caminos Avanzados ---
+  \begin{ejercicioresuelto}{Inexistencia por Trayectorias no Lineales}{nivel-3}
+    \enunciado{
+      Estudie la existencia del siguiente límite utilizando el criterio de caminos:
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^6 y^3}{x^{12} + y^6} $$
+    }
+    \solucion{
+      \textbf{1. Prueba con rectas oblicuas ($y = mx$):}
+      Si nos aproximamos por cualquier recta que pase por el origen, sustituimos $y = mx$:
+      $$ \displaystyle\lim_{x \to 0} \frac{x^6 (mx)^3}{x^{12} + (mx)^6} = \displaystyle\lim_{x \to 0} \frac{m^3 x^9}{x^{12} + m^6 x^6} = \displaystyle\lim_{x \to 0} \frac{m^3 x^3}{x^6 + m^6} $$
+      Evaluando cuando $x \to 0$, el numerador se anula y el denominador tiende a $m^6 \neq 0$ (si $m \neq 0$). Por lo tanto, el límite por cualquier recta es $0$. Si nos confiáramos, diríamos que el límite es $0$.
+
+      \textbf{2. Elección de una trayectoria óptima:}
+      Observamos los exponentes en el denominador: $x^{12}$ y $y^6$. Para lograr que ambos términos tengan el mismo grado algebraico y puedan sumarse, necesitamos una trayectoria donde $y^6$ se comporte como $x^{12}$. Esto se logra si $y^3 = x^6$, es decir, la parábola cúbica $y = x^2$.
+      
+      Evaluamos el límite a lo largo de la trayectoria $A = \{ (x,y) \in \mathbb{R}^2 \colon y = x^2 \}$:
+      $$ \displaystyle\lim_{x \to 0} \frac{x^6 (x^2)^3}{x^{12} + (x^2)^6} = \displaystyle\lim_{x \to 0} \frac{x^6 \cdot x^6}{x^{12} + x^{12}} = \displaystyle\lim_{x \to 0} \frac{x^{12}}{2x^{12}} = \frac{1}{2} $$
+
+      \textbf{3. Conclusión:}
+      Como el límite a lo largo de las rectas es $0$, pero a lo largo de la curva $y = x^2$ es $1/2$, hemos encontrado dos caminos continuos que arrojan valores distintos ($0 \neq 1/2$). Por lo tanto, el límite doble \textbf{no existe}.
+    }
+  \end{ejercicioresuelto}
+
+  % --- 2. EJERCICIO RESUELTO: Coordenadas Polares ---
+  \begin{ejercicioresuelto}{Existencia vía Coordenadas Polares}{nivel-2}
+    \enunciado{
+      Estudie la existencia del límite y determine su valor si es posible:
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^3}{x^2 + y^2} $$
+    }
+    \solucion{
+      \textbf{1. Transformación al Sistema Polar:}
+      Sea $x = r\cos\theta$ e $y = r\sin\theta$. Sabemos que el límite en $(x,y) \to (0,0)$ es equivalente a evaluar el comportamiento cuando $r \to 0^+$.
+      Sustituyendo en la función:
+      $$ f(r\cos\theta, r\sin\theta) = \frac{(r\cos\theta)^3}{(r\cos\theta)^2 + (r\sin\theta)^2} = \frac{r^3\cos^3\theta}{r^2(\cos^2\theta + \sin^2\theta)} = r\cos^3\theta $$
+
+      \textbf{2. Análisis de Acotamiento:}
+      Debemos verificar si la expresión resultante tiende a un valor constante de manera independiente al ángulo $\theta$.
+      Tomamos el valor absoluto y acotamos:
+      $$ |r\cos^3\theta - 0| = r|\cos^3\theta| \leq r \cdot 1 = r $$
+      
+      \textbf{3. Conclusión:}
+      Puesto que $\displaystyle\lim_{r \to 0^+} r = 0$, el Teorema de Cero por Acotado garantiza que el límite en coordenadas polares tiende a $0$ de manera uniforme para todo $\theta \in [0, 2\pi)$. En consecuencia, el límite doble \textbf{existe y es igual a 0}.
+    }
+  \end{ejercicioresuelto}
+
+  % --- 3. EJERCICIOS PROPUESTOS: Límites Iterados ---
+  \begin{ejerciciopropuesto}{Criterio de Límites Iterados}{nivel-2}
+    \enunciado{
+      Analice los siguientes límites intentando aplicar el criterio de límites iterados. Determine si el criterio le permite concluir la inexistencia del límite o si resulta no concluyente.
+      \begin{enumerate}
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^2}{x^2 + y^2}$
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} x\sin\left(\frac{1}{x}\right)\sin\left(\frac{1}{y}\right)$
+      \end{enumerate}
+    }
+    \pista{
+      \textbf{Para (1):} Evalúa $\displaystyle\lim_{x\to 0}(\displaystyle\lim_{y\to 0} f(x,y))$ y luego invierte el orden. Obtendrás $1$ y $0$. Como son distintos, \textbf{el límite no existe}. \\
+      \textbf{Para (2):} Al intentar calcular el límite interno $\displaystyle\lim_{y\to 0} \sin(1/y)$, descubrirás que este no existe por su infinita oscilación. Dado que los iterados no pueden ser calculados, \textbf{el criterio de iterados no es concluyente}. (Nota: el límite doble general sí existe y es $0$ aplicando el Teorema del Sándwich / Cero por Acotado).
+    }
+  \end{ejerciciopropuesto}
+
+  % --- 4. EJERCICIOS PROPUESTOS: Coordenadas Polares (Inexistencia) ---
+  \begin{ejerciciopropuesto}{Inexistencia en Coordenadas Polares}{nivel-2}
+    \enunciado{
+      Estudie la existencia del límite mediante el cambio a coordenadas polares:
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{(x-y)^2}{x^2 + y^2} $$
+    }
+    \pista{
+      Al sustituir $x = r\cos\theta$ e $y = r\sin\theta$, el denominador $r^2$ se simplificará completamente con el $r^2$ factorizado del numerador. Te quedará la expresión matemática $L(\theta) = (\cos\theta - \sin\theta)^2$. Como el resultado depende estrictamente del ángulo $\theta$ (por ejemplo, vale $1$ si $\theta = 0$, pero vale $0$ si $\theta = \pi/4$), \textbf{el límite no existe}.
+    }
+  \end{ejerciciopropuesto}
+
+  % --- 5. EJERCICIOS PROPUESTOS: Inspección Directa (Factorización) ---
+  \begin{ejerciciopropuesto}{Resolución por Inspección Directa (Factorización)}{nivel-1}
+    \enunciado{
+      Utilice herramientas de factorización algebraica para demostrar rigurosamente la existencia de los siguientes límites:
+      \begin{enumerate}
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^4 - y^4}{x^2 + y^2}$
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^3 - y^3}{x^2 + xy + y^2}$
+      \end{enumerate}
+    }
+    \pista{
+      En ambos casos es un error complicarse con caminos o iterados. \\
+      \textbf{Para (1):} Factoriza el numerador como diferencia de cuadrados $(x^2-y^2)(x^2+y^2)$. Al simplificar, te quedará $\displaystyle\lim (x^2-y^2)$, cuyo valor es \textbf{0}. \\
+      \textbf{Para (2):} Factoriza el numerador como diferencia de cubos $(x-y)(x^2+xy+y^2)$. Al simplificar, evaluarás $\displaystyle\lim (x-y)$, cuyo valor también es \textbf{0}.
+    }
+  \end{ejerciciopropuesto}
+
+  % --- 6. EJERCICIOS PROPUESTOS: Caminos Simples ---
+  \begin{ejerciciopropuesto}{Inexistencia por Caminos Simples (Ejes)}{nivel-1}
+    \enunciado{
+      Demuestre que el siguiente límite no existe evaluándolo a lo largo de los ejes coordenados:
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^2 - y^2}{x^2 + y^2} $$
+    }
+    \pista{
+      Toma la trayectoria $A_1$ como el eje X (es decir, fija $y=0$ y evalúa el límite sobre $x$). El resultado será $1$. Luego toma la trayectoria $A_2$ como el eje Y (fija $x=0$ y evalúa sobre $y$). El resultado será $-1$. Al ser diferentes, \textbf{el límite no existe}.
+    }
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Criterio de Inexistencia por Caminos}
+    {\displaystyle\lim_{\substack{(x,y) \to (a,b) \\ (x,y) \in A_1}} f(x,y) = L_1 \;\wedge\; \displaystyle\lim_{\substack{(x,y) \to (a,b) \\ (x,y) \in A_2}} f(x,y) = L_2 \;\wedge\; L_1 \neq L_2 \implies \nexists \displaystyle\lim_{(x,y) \to (a,b)} f(x,y)}
+    {Si el campo escalar tiende a valores distintos a lo largo de dos trayectorias continuas $A_1$ y $A_2$, el límite doble no existe.}
+
+  \formula{Criterio de Inexistencia por Límites Iterados}
+    {\displaystyle\lim_{x \to a} \left( \displaystyle\lim_{y \to b} f(x,y) \right) \neq \displaystyle\lim_{y \to b} \left( \displaystyle\lim_{x \to a} f(x,y) \right) \implies \nexists \displaystyle\lim_{(x,y) \to (a,b)} f(x,y)}
+    {Si los dos límites direccionales ordenados secuencialmente a lo largo de los ejes existen pero difieren entre sí, el límite global no existe.}
+
+  \formula{Sustitución en Coordenadas Polares}
+    {\begin{aligned}
+      x &= r\cos(\theta) \\[0.3em]
+      y &= r\sin(\theta)
+    \end{aligned} \implies x^2 + y^2 = r^2}
+    {Transformación analítica que reduce la aproximación multidireccional al origen $(0,0)$ a un único límite de variable escalar $r \to 0^+$.}
+
+  \formula{Condición de Existencia Uniforme en Polares}
+    {\displaystyle\lim_{(x,y) \to (0,0)} f(x,y) = L \iff \displaystyle\lim_{r \to 0^+} \Big( \sup_{\theta \in [0, 2\pi)} |f(r\cos\theta, r\sin\theta) - L| \Big) = 0}
+    {Garantiza que la aproximación al valor $L$ en coordenadas polares sea válida para todas las direcciones posibles simultáneamente, de forma independiente de $\theta$.}
+
+\end{formulas}
+
+\end{document}
