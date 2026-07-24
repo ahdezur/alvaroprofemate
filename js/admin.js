@@ -1910,6 +1910,10 @@ function parseLatexChapter(latexText) {
     if (!str) return '';
     let clean = stripLatexComments(str).trim();
     clean = replaceLatexInlineFormat(clean);
+    clean = clean.replace(/\\vspace\*?\{[^}]*\}/gi, '');
+    clean = clean.replace(/\\hspace\*?\{[^}]*\}/gi, '');
+    clean = clean.replace(/\s*\\colon\b/g, ':');
+    clean = clean.replace(/\s+:/g, ':');
     return clean;
   }
 
