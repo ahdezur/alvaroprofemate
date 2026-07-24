@@ -1976,8 +1976,13 @@ function parseLatexChapter(latexText) {
     });
 
     text = text.replace(/\\begin\{(?:proof|demostracion)\}(?:\[([^\]]+)\])?([\s\S]*?)\\end\{(?:proof|demostracion)\}/gi, (m, title, body) => {
-      const label = title || 'Demostración';
-      return saveBlock(`<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p><strong>${label}:</strong> ${latexToHtml(body, blocks)}</p></div>`);
+      let rawLabel = title ? title.trim() : 'Demostración';
+      let cleanLabel = cleanInlineLatex(rawLabel);
+      cleanLabel = cleanLabel.replace(/<[^>]+>/g, '').trim();
+      if (!cleanLabel.endsWith(':')) {
+        cleanLabel += ':';
+      }
+      return saveBlock(`<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p style="margin:0 0 8px 0;"><strong>${cleanLabel}</strong></p><div>${latexToHtml(body, blocks)}</div></div>`);
     });
 
     text = text.replace(/\\begin\{alerta\}\{([^}]+)\}([\s\S]*?)\\end\{alerta\}/gi, (m, title, body) => {
