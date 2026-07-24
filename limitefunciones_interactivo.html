@@ -165,7 +165,7 @@
     .exercise-pane { flex: 1; transition: all 0.4s ease; }
     .formula-pane { width: 0; opacity: 0; overflow: hidden; background: #f8fafc; border-radius: 8px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s ease; display: flex; flex-direction: column; }
     .split-active .split-wrapper { gap: 2rem; }
-    .split-active .formula-pane { width: 380px; opacity: 1; padding: 1.2rem; border: 2px dashed var(--dem-border); overflow-y: auto; position: sticky; top: 2rem; max-height: calc(100vh - 4rem); align-self: flex-start; }
+    .split-active .formula-pane { flex: 0 1 auto; width: fit-content; min-width: 340px; max-width: 55%; opacity: 1; padding: 1.2rem; border: 2px dashed var(--dem-border); overflow-y: auto; overflow-x: auto; position: sticky; top: 2rem; max-height: calc(100vh - 4rem); align-self: flex-start; }
     .solucion-desplegable { display: none; margin-top: 1rem; padding: 1.2rem; background: #f8fafc; border-radius: 6px; border: 1px solid var(--border); }
 
     @media (max-width: 768px) {

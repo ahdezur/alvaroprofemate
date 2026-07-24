@@ -575,14 +575,16 @@
     }
 
     .split-active .formula-pane {
-      width: 35vw;
-      min-width: 360px;
-      max-width: 600px;
+      flex: 0 1 auto;
+      width: fit-content;
+      min-width: 340px;
+      max-width: 55%;
       opacity: 1;
       padding: 1.4rem;
       border-color: var(--border);
       box-shadow: var(--shadow);
       overflow-y: auto;
+      overflow-x: auto;
     }
 
     @media (max-width: 900px) {

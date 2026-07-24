@@ -1992,3 +1992,110 @@ textarea.form-control {
 .booking-details-summary strong {
   color: var(--text-muted);
 }
+
+/* ==========================================================================
+   GLOBAL ADAPTIVE SPLIT SCREEN & FORMULA PANE
+   ========================================================================== */
+.content-viewport.viewport-wide {
+  max-width: 1600px !important;
+}
+
+.split-container, .split-wrapper {
+  display: flex;
+  gap: 0;
+  transition: gap 0.4s ease;
+  position: relative;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.split-active.split-container, .split-active .split-wrapper {
+  gap: 24px;
+}
+
+.exercise-pane {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.4s ease;
+}
+
+.formula-pane {
+  flex: 0 0 0px;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  background: var(--bg-card, #ffffff);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md, 12px);
+  transition: flex-basis 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 120px);
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.split-active .formula-pane {
+  flex: 0 1 auto;
+  width: fit-content;
+  min-width: 340px;
+  max-width: 55%;
+  opacity: 1;
+  padding: 24px;
+  border-color: var(--border-color, #e2e8f0);
+  box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.formula-card {
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-sm, 8px);
+  padding: 14px;
+  background: var(--bg-primary, #ffffff);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.formula-card h4 {
+  margin: 0 0 8px 0;
+  font-family: var(--font-display, sans-serif);
+  color: var(--accent-color, #3b82f6);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.formula-card-latex {
+  text-align: center;
+  font-size: 0.98rem;
+  overflow-x: auto;
+  margin: 8px 0;
+  padding: 8px 12px;
+  background-color: var(--bg-card, #f8fafc);
+  border-radius: var(--radius-sm, 6px);
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+@media (max-width: 992px) {
+  .split-active.split-container, .split-active .split-wrapper {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .split-active .formula-pane {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    position: static;
+    max-height: none;
+  }
+}
+
