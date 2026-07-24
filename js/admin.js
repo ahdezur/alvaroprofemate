@@ -1953,6 +1953,12 @@ function parseLatexChapter(latexText) {
       return `___BLOCK_${idx}___`;
     }
 
+    const htmlCalls = extractMacroCalls(text, 'html', 1);
+    htmlCalls.forEach(c => {
+      const token = saveBlock(c.args[0]);
+      text = text.replace(c.fullMatch, token);
+    });
+
     // 1. Extract Headings
     text = text.replace(/\\section\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h3>${title}</h3>`));
     text = text.replace(/\\subsection\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h4>${title}</h4>`));

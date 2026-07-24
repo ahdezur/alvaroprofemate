@@ -1,0 +1,416 @@
+
+
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=yellow!10,colframe=orange!80!black,title=Alerta: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{procesamiento}[1]{%
+  \begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Procedimiento: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+\newenvironment{ejemplo}[1]{%
+  \begin{tcolorbox}[colback=white,colframe=gray!40,title=Ejemplo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+% Comandos para preguntas interactivas
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+% Entorno Términos Pareados (3 Columnas)
+\newenvironment{pareadostrescolumnas}[1]{\subsection*{Términos Pareados: #1}}{\vspace{0.3cm}}
+\newcommand{\columnaI}[1]{\textbf{Columna 1:}\begin{enumerate}#1\end{enumerate}}
+\newcommand{\columnaII}[1]{\textbf{Columna 2:}\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaIII}[1]{\textbf{Columna 3:}\begin{itemize}#1\end{itemize}}
+\newcommand{\pareotres}[2]{\textbf{Cruce #1:} #2\par}
+
+% Entornos para ejercicios
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \small{[#2]}}}{}
+
+\newcommand{\enunciado}[1]{\textbf{Enunciado:} #1\par\vspace{0.2cm}}
+\newcommand{\solucion}[1]{\textbf{Solución:} #1\par\vspace{0.4cm}}
+\newcommand{\demostracion}[1]{\textbf{Demostración:} #1\par\vspace{0.4cm}}
+\newcommand{\pista}[1]{\textbf{Pista:} #1\par\vspace{0.4cm}}
+
+% Entorno Fórmulas
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}\begin{description}}{\end{description}}
+\newcommand{\formula}[3]{\item[#1:] $#2$ \\ \textit{#3} \vspace{0.2cm}}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE (COMPLETAR OBLIGATORIAMENTE)
+% ==============================================================================
+% ID_CURSO: calculo-multivariable
+% NUMERO_UNIDAD: 1
+% TITULO_UNIDAD: Funciones de Varias Variables
+% NUMERO_CAPITULO: 1.2
+% TITULO_CAPITULO: Curvas de Nivel y Grafos
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  \textbf{¿Cómo dibujamos una montaña en una hoja de papel?}
+  
+  Imagina que estás planeando una expedición a la cordillera. Tienes un mapa impreso completamente plano, pero necesitas saber dónde están los acantilados más empinados y dónde se encuentran las llanuras seguras para caminar. ¿Cómo puede un simple trozo de papel de dos dimensiones mostrarte el relieve tridimensional?
+  
+  La respuesta que encontraron los topógrafos hace siglos son las \textbf{líneas de contorno}. Cada línea en el mapa conecta todos los puntos que están exactamente a la misma altitud. Si caminaras físicamente siguiendo esa línea, no subirías ni bajarías; te mantendrías al mismo "nivel".
+  
+  En matemáticas, hacemos exactamente lo mismo. Tomamos un grafo tridimensional (una superficie $z = f(x,y)$) y lo "rebanamos" con planos horizontales a distintas alturas constantes ($z = k$). Al proyectar esos cortes hacia el suelo bidimensional, obtenemos un mapa de curvas de nivel que nos revela los secretos del espacio.
+
+  \begin{preguntaguia}
+    Si miras un mapa topográfico, ¿qué significa geométricamente que dos curvas de nivel estén dibujadas muy juntas en comparación a cuando están muy separadas?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  Para entender el comportamiento de un campo escalar de dos variables $f(x,y)$, necesitamos visualizarlo. Sin embargo, dibujar directamente en tres dimensiones puede ser complejo, por lo que recurrimos a dos herramientas geométricas fundamentales: el grafo y las curvas de nivel.
+
+  % --- DEFINICIÓN 1: GRAFO DE LA FUNCIÓN ---
+  \begin{definicion}{Grafo de un Campo Escalar (Superficie)}
+    El \textbf{grafo} de una función de dos variables $f(x,y)$ es el conjunto de todos los puntos $(x,y,z)$ en el espacio tridimensional $\mathbb{R}^3$ para los cuales la altura $z$ es igual al valor de la función evaluada en $(x,y)$.
+    
+    Formalmente:
+    $$ \text{Gr}(f) = \{ (x,y,z) \in \mathbb{R}^3 \colon z = f(x,y) \wedge (x,y) \in \operatorname{dom}(f) \} $$
+    En gran parte de los ejemplos que veremos, este conjunto de puntos forma una \textbf{superficie} en el espacio.
+  \end{definicion}
+
+  % --- DEFINICIÓN 2: CURVAS DE NIVEL ---
+  \begin{definicion}{Curvas de Nivel}
+    Una \textbf{curva de nivel} de un campo escalar $f(x,y)$ es el conjunto de todos los puntos en el dominio (plano XY) que devuelven exactamente el mismo valor constante $k$.
+    
+    Formalmente, la curva de nivel para una constante $k$ se define como:
+    $$ C_k = \{ (x,y) \in \operatorname{dom}(f) \colon f(x,y) = k \} $$
+    El valor $k$ debe pertenecer obligatoriamente a la imagen $\operatorname{im}(f)$ de la función. Al dibujar varias curvas de nivel para distintos valores de $k$ en un mismo plano cartesiano, obtenemos lo que se conoce como un \textbf{mapa de contorno}.
+  \end{definicion}
+
+  % --- ALERTA CONCEPTUAL ---
+  \begin{alerta}{Curva de Nivel vs. Traza}
+    ¡No confundas la dimensión! Una \textbf{traza} horizontal es la intersección física de la superficie con el plano $z = k$, es decir, es un corte que vive en el espacio \textbf{3D}. 
+    
+    En cambio, una \textbf{curva de nivel} es la proyección de ese corte hacia abajo, aplastado contra el piso. Por lo tanto, las curvas de nivel se dibujan \textbf{siempre en el plano 2D} (el plano $XY$).
+  \end{alerta}
+
+  % --- PROCEDIMIENTO TÍPICO ---
+  \begin{procesamiento}{¿Cómo construir un Mapa de Contorno?}
+    Para graficar analíticamente la familia de curvas de nivel de $f(x,y)$:
+    \begin{enumerate}
+      \item \textbf{Verifica la imagen:} Asegúrate de elegir valores de $k \in \operatorname{im}(f)$ que la función efectivamente pueda alcanzar.
+      \item \textbf{Iguala a la constante:} Plantea la ecuación algebraica $f(x,y) = k$.
+      \item \textbf{Identifica la cónica:} Manipula algebraicamente la ecuación hasta reconocer una figura geométrica conocida en 2D (rectas, parábolas, circunferencias, elipses, hipérbolas).
+      \item \textbf{Grafica en el plano:} Dibuja la curva en el plano $XY$ y etiquétala explícitamente con su valor de $k$ correspondiente. Repite para distintos valores de $k$ uniformemente espaciados.
+    \end{enumerate}
+  \end{procesamiento}
+
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  A continuación, aplicaremos los conceptos de curvas de nivel y grafos mediante un ejemplo guiado, un laboratorio 3D interactivo y una serie de ejercicios interactivos diseñados para poner a prueba tu interpretación geométrica y algebraica.
+
+  % --- LABORATORIO 3D INTERACTIVO ---
+  \begin{procesamiento}{Laboratorio 3D Interactivo \colon Planos de Corte y Curvas de Nivel}
+    Manipula la superficie 3D en tiempo real, desplaza el plano de corte $z=k$ y observa cómo se generan las curvas de nivel proyectadas en el plano $XY$. Puedes seleccionar diferentes superficies (dos colinas, paraboloide, silla de montar, sombrero radial):
+    
+    \begin{center}
+      \html{<div style="position:relative; width:100%; height:580px; border-radius:10px; overflow:hidden; border:1px solid var(--border-color); box-shadow:0 4px 16px rgba(0,0,0,0.12); margin-top:12px;">
+        <iframe src="animaciones/curvas_nivel/index.html" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>
+      </div>
+      <div style="margin-top:10px; text-align:right;">
+        <a href="animaciones/curvas_nivel/index.html" target="_blank" style="padding:6px 14px; background:var(--accent-color); color:white; border-radius:6px; font-weight:600; text-decoration:none; font-size:13px; display:inline-flex; align-items:center; gap:6px;">
+          🔍 Abrir Laboratorio 3D en Pantalla Completa
+        </a>
+      </div>}
+    \end{center}
+  \end{procesamiento}
+
+  % --- EJEMPLO SIMPLE ---
+  \begin{ejemplo}{Construcción de Curvas de Nivel para un Paraboloide}
+    Consideremos el campo escalar dado por la función:
+    $$ f(x,y) = 4 - x^2 - y^2 $$
+    
+    \textbf{1. Determinación de Dominio e Imagen:}
+    Como la expresión es polinómica, no posee restricciones algebraicas, por lo que $\operatorname{dom}(f) = \mathbb{R}^2$. Dado que $x^2 + y^2 \geq 0$, el valor máximo de la función es $4$ (alcanzado en el origen), de modo que $\operatorname{im}(f) = (-\infty, 4]$.
+    
+    \textbf{2. Obtención de las Curvas de Nivel:}
+    Para un valor $k \in \operatorname{im}(f)$, igualamos la función a la constante $k$:
+    $$ 4 - x^2 - y^2 = k \implies x^2 + y^2 = 4 - k $$
+    
+    \textbf{3. Análisis Geométrico según el valor de $k$:}
+    \begin{itemize}
+      \item \textbf{Para $k = 4$:} Obtenemos $x^2 + y^2 = 0$, lo que representa un único punto en el origen $(0,0)$.
+      \item \textbf{Para $k = 3$:} Obtenemos $x^2 + y^2 = 1$, una circunferencia de radio $1$ centrada en el origen.
+      \item \textbf{Para $k = 0$:} Obtenemos $x^2 + y^2 = 4$, una circunferencia de radio $2$ centrada en el origen.
+      \item \textbf{Para $k > 4$:} La ecuación $x^2 + y^2 = 4 - k$ carece de solución en los números reales, por lo que $C_k = \emptyset$.
+    \end{itemize}
+    Geométricamente, la familia de curvas de nivel corresponde a una serie de \textbf{circunferencias concéntricas} en el plano $XY$ que se expanden a medida que el valor de altura $k$ disminuye.
+  \end{ejemplo}
+
+  % --- TIPO 1: PREGUNTA DE ALTERNATIVAS ---
+  \begin{preguntaalternativas}{Identificación de Geometría de Contorno}
+    ¿Qué figura geométrica representan las curvas de nivel del campo escalar $f(x,y) = y - x^2$?
+    
+    \opcion{Una familia de parábolas verticales desplazadas en el eje $Y$.}{Correcto}{¡Excelente! Al plantear $y - x^2 = k \implies y = x^2 + k$, vemos que cada curva de nivel es la parábola canónica $y = x^2$ trasladada verticalmente en $k$ unidades.}
+    \opcion{Una familia de circunferencias concéntricas centradas en el origen.}{Incorrecto}{Recuerda que para obtener circunferencias ambas variables deben estar elevadas al cuadrado con el mismo signo ($x^2 + y^2 = r^2$).}
+    \opcion{Una familia de rectas paralelas con pendiente positiva.}{Incorrecto}{La presencia del término cuadrático $x^2$ impide que la relación sea lineal.}
+  \end{preguntaalternativas}
+
+  % --- TIPO 2: PREGUNTA DE VERDADERO O FALSO ---
+  \begin{preguntaverdaderofalso}{Intersección de Curvas de Nivel}
+    Dos curvas de nivel $C_{k_1}$ y $C_{k_2}$ correspondientes a valores distintos $k_1 \neq k_2$ de un mismo campo escalar $f(x,y)$ nunca pueden cruzarse ni intersectarse en el plano.
+    
+    \verdaderofalso{V}
+      {¡Correcto! Si dos curvas de nivel se cruzaran en un punto $(x_0, y_0)$, la función tendría que tomar dos valores distintos $f(x_0, y_0) = k_1 \wedge f(x_0, y_0) = k_2$ simultáneamente, lo cual contradice la definición formal de función.}
+      {Incorrecto. Piensa en la definición de función: a cada punto del dominio le corresponde una y solo una salida escalar. Si se cruzaran, habría dos alturas distintas para un mismo punto $(x_0,y_0)$.}
+  \end{preguntaverdaderofalso}
+
+  % --- TIPO 3: PREGUNTA DE CASILLAS ---
+  \begin{preguntacasillas}{Propiedades de Campos Racionales}
+    Considera la función $f(x,y) = \frac{y}{x}$. Selecciona \textbf{todas} las afirmaciones matemáticamente correctas respecto a su dominio y curvas de nivel:
+    
+    \casilla{El dominio natural de la función es $\operatorname{dom}(f) = \{ (x,y) \in \mathbb{R}^2 \colon x \neq 0 \}$.}{Correcto}{Correcto. La única restricción algebraica es la división por cero, por lo que debemos excluir todo el eje $Y$.}
+    \casilla{Las curvas de nivel $f(x,y) = k$ corresponden a rectas que pasan por el origen (excluyendo el punto $(0,0)$).}{Correcto}{Correcto. La ecuación $\frac{y}{x} = k \implies y = kx$ representa rectas de pendiente $k$, pero como $x \neq 0$, el origen no pertenece al dominio.}
+    \casilla{La curva de nivel para $k = 0$ es todo el eje $X$.}{Incorrecto}{¡Cuidado! Aunque $y = 0 \cdot x \implies y = 0$ (el eje $X$), el punto $(0,0)$ debe ser excluido porque no pertenece al dominio.}
+    \casilla{El recorrido de la función es únicamente $\operatorname{im}(f) = [0, \infty)$.}{Incorrecto}{Incorrecto. La constante $k$ puede tomar cualquier número real (positivo, negativo o cero), por lo que $\operatorname{im}(f) = \mathbb{R}$.}
+  \end{preguntacasillas}
+
+  % --- TIPO 4: TÉRMINOS PAREADOS (3 Columnas - 5 Opciones) ---
+  \begin{pareadostrescolumnas}{Asociación Avanzada: Función, Geometría de $C_k$ y Restricción de $k$}
+    
+    % COLUMNA 1: Funciones
+    \columnaI{
+      \item $f(x,y) = x^2 - y^2$
+      \item $f(x,y) = \sin(x - y)$
+      \item $f(x,y) = \sqrt{4x^2 + y^2}$
+      \item $f(x,y) = e^{y - x^2}$
+      \item $f(x,y) = \frac{-1}{x^2 + y^2}$
+    }
+    
+    % COLUMNA 2: Geometría de la Curva de Nivel - Mezclados
+    \columnaII{
+      \item Parábolas cóncavas hacia arriba
+      \item Hipérbolas (o par de rectas secantes si $k=0$)
+      \item Circunferencias concéntricas centradas en el origen
+      \item Elipses concéntricas centradas en el origen
+      \item Rectas paralelas de pendiente $m=1$
+    }
+    
+    % COLUMNA 3: Rango de constantes $k \in \operatorname{im}(f)$ - Mezclados
+    \columnaIII{
+      \item $k \in [-1, 1]$
+      \item $k > 0$
+      \item $k \in \mathbb{R}$
+      \item $k < 0$
+      \item $k \geq 0$
+    }
+
+    % --- SOLUCIONES Y RETROALIMENTACIÓN ---
+    \pareotres{1-B-III}{¡Correcto! La ecuación $x^2 - y^2 = k$ representa una familia de hipérbolas con asíntotas $y = \pm x$ (las cuales forman la curva de nivel degenerada para $k=0$). Como la diferencia de cuadrados puede tomar cualquier valor real, $k \in \mathbb{R}$.}
+    \pareotres{2-E-I}{¡Excelente! Al igualar $\sin(x-y) = k$, obtenemos $x-y = \arcsin(k) \implies y = x - \arcsin(k)$, lo que define una familia de rectas paralelas con pendiente $1$. Dado el comportamiento de la función seno, esto solo es válido si $k \in [-1, 1]$.}
+    \pareotres{3-D-V}{¡Muy bien! Elevando al cuadrado $\sqrt{4x^2 + y^2} = k \implies 4x^2 + y^2 = k^2$, obtenemos la ecuación canónica de elipses centradas en el origen. Debido a la raíz cuadrada de índice par, $k$ debe ser obligatoriamente no negativo ($k \geq 0$).}
+    \pareotres{4-A-II}{¡Perfecto! Aplicando logaritmo natural a $e^{y - x^2} = k$, obtenemos $y - x^2 = \ln(k) \implies y = x^2 + \ln(k)$, lo que corresponde a parábolas trasladadas verticalmente. Como la función exponencial siempre es positiva, $k > 0$.}
+    \pareotres{5-C-IV}{¡Magistral! Al igualar $\frac{-1}{x^2 + y^2} = k \implies x^2 + y^2 = -\frac{1}{k}$, obtenemos circunferencias. Como $x^2 + y^2$ es estrictamente positivo en su dominio (excluyendo el origen), la fracción completa es estrictamente negativa, por lo que $k < 0$.}
+
+  \end{pareadostrescolumnas}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+
+  % --- 1. EJERCICIO RESUELTO (Analítico / Avanzado) ---
+  \begin{ejercicioresuelto}{Círculos Tangentes y Completación de Cuadrados}{nivel-3}
+    \enunciado{
+      Determine el dominio natural, el recorrido y describa analíticamente la familia de curvas de nivel del campo escalar definido por:
+      $$ f(x,y) = \frac{2y}{x^2 + y^2} $$
+    }
+    \solucion{
+      \textbf{1. Dominio e Imagen:}
+      La única restricción es que el denominador sea distinto de cero. Como la suma de cuadrados solo es cero en el origen, el dominio es todo el plano menos ese punto:
+      $$ \operatorname{dom}(f) = \{ (x,y) \in \mathbb{R}^2 \colon x^2 + y^2 \neq 0 \} = \mathbb{R}^2 \setminus \{(0,0)\} $$
+      Al evaluar a lo largo del eje Y (donde $x=0$), la función se reduce a $f(0,y) = \frac{2y}{y^2} = \frac{2}{y}$. Como $y$ puede ser cualquier valor real distinto de cero, la fracción $\frac{2}{y}$ puede tomar cualquier valor real, por lo tanto, $\operatorname{im}(f) = \mathbb{R}$.
+
+      \textbf{2. Curvas de Nivel ($C_k$):}
+      Planteamos la ecuación $f(x,y) = k$ para cualquier $k \in \operatorname{im}(f)$:
+      $$ \frac{2y}{x^2 + y^2} = k $$
+      
+      Debemos separar el análisis en dos casos:
+      
+      \textit{Caso A ($k = 0$):}
+      $$ \frac{2y}{x^2 + y^2} = 0 \implies 2y = 0 \implies y = 0 $$
+      La curva de nivel $C_0$ es el eje X ($y=0$), pero recordando la restricción del dominio, debemos excluir el origen. Así, $C_0$ corresponde a todo el eje X perforado en $(0,0)$.
+
+      \textit{Caso B ($k \neq 0$):}
+      Multiplicamos por el denominador y reordenamos los términos para completar cuadrados respecto a la variable $y$:
+      \[
+      \begin{aligned}
+        k(x^2 + y^2) &= 2y \\
+        x^2 + y^2 - \frac{2}{k}y &= 0 \\
+        x^2 + \left( y^2 - \frac{2}{k}y + \frac{1}{k^2} \right) &= \frac{1}{k^2} \\
+        x^2 + \left( y - \frac{1}{k} \right)^2 &= \left( \frac{1}{k} \right)^2
+      \end{aligned}
+      \]
+      
+      \textbf{Conclusión:}
+      Para cada $k \neq 0$, la curva de nivel $C_k$ es una \textbf{circunferencia} de radio $R = \frac{1}{|k|}$, centrada en el punto $(0, \frac{1}{k})$. Notemos que todas estas circunferencias pasan por el origen (ya que $0^2 + (0 - 1/k)^2 = 1/k^2$), pero el origen $(0,0) \notin \operatorname{dom}(f)$, por lo que es un punto excluido ("agujero") en cada una de ellas.
+    }
+  \end{ejercicioresuelto}
+
+  % --- 2. EJERCICIO DE DEMOSTRACIÓN (Teórico) ---
+  \begin{ejerciciodemostracion}{Curvas de Nivel de Campos Radiales}{nivel-3}
+    \enunciado{
+      Sea $f \colon \mathbb{R}^2 \to \mathbb{R}$ un campo escalar con simetría radial, definido como $f(x,y) = g(x^2 + y^2)$, donde $g \colon [0, \infty) \to \mathbb{R}$ es una función estrictamente creciente. Demuestre formalmente que cualquier curva de nivel no vacía $C_k$ de $f$ es una circunferencia centrada en el origen, y determine su radio.
+    }
+    \demostracion{
+      Por definición, la curva de nivel $C_k$ es el conjunto:
+      $$ C_k = \{ (x,y) \in \operatorname{dom}(f) \colon f(x,y) = k \} $$
+      Sustituyendo la regla de correspondencia de $f$:
+      $$ C_k = \{ (x,y) \in \mathbb{R}^2 \colon g(x^2 + y^2) = k \} $$
+      
+      Dado que la función $g$ es estrictamente creciente en su dominio, sabemos que $g$ es una función \textbf{inyectiva} (uno a uno). Esto garantiza que posee una función inversa bien definida $g^{-1} \colon \operatorname{im}(g) \to [0, \infty)$.
+      
+      Supongamos que $k \in \operatorname{im}(f)$. Entonces, podemos aplicar la inversa $g^{-1}$ a la ecuación de la curva de nivel:
+      $$ g(x^2 + y^2) = k \implies x^2 + y^2 = g^{-1}(k) $$
+      
+      Puesto que el dominio de $g$ (y por tanto el recorrido de $g^{-1}$) es $[0, \infty)$, sabemos con certeza que $g^{-1}(k) \geq 0$.
+      Definamos la constante $R^2 = g^{-1}(k)$. Entonces la ecuación se convierte en:
+      $$ x^2 + y^2 = R^2 $$
+      Lo cual es exactamente la ecuación analítica de una circunferencia centrada en el origen $(0,0)$ con radio $R = \sqrt{g^{-1}(k)}$. (Si $g^{-1}(k) = 0$, la curva degenera en el único punto origen). Queda así demostrado.
+    }
+  \end{ejerciciodemostracion}
+
+  % --- 3. EJERCICIO PROPUESTO 1 ---
+  \begin{ejerciciopropuesto}{Curvas de Nivel Exponenciales}{nivel-2}
+    \enunciado{
+      Determine analíticamente la familia de curvas de nivel del campo escalar $f(x,y) = e^{xy}$. Identifique la geometría de las curvas dependiendo del signo de la constante $k$.
+    }
+    \pista{
+      Recuerda que $\operatorname{im}(f) = (0, \infty)$, por lo que debes igualar $e^{xy} = k$ asumiendo que $k > 0$. Al aplicar logaritmo natural, obtendrás $xy = \ln(k)$. 
+      Analiza qué sucede si $\ln(k) > 0$ (es decir, $k > 1$), si $\ln(k) < 0$ ($0 < k < 1$) y si $\ln(k) = 0$ ($k = 1$). Deberías obtener familias de hipérbolas equiláteras y, en el caso especial, los ejes coordenados (rectas $x=0 \vee y=0$).
+    }
+  \end{ejerciciopropuesto}
+
+  % --- 4. EJERCICIO PROPUESTO 2 ---
+  \begin{ejerciciopropuesto}{Cónicas y Combinación Lineal}{nivel-2}
+    \enunciado{
+      Considere el campo escalar $h(x,y) = 4x^2 + 9y^2$. Describa detalladamente el mapa de contorno que se genera al graficar las curvas de nivel para $k \in \{0, 36, 144\}$.
+    }
+    \pista{
+      Aquí $\operatorname{im}(h) = [0, \infty)$. Al igualar $4x^2 + 9y^2 = k$, deberás dividir toda la ecuación por $k$ para llevarla a la forma canónica $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$. Verás que para $k>0$ el mapa de contorno corresponde a elipses centradas en el origen, donde su eje mayor descansa sobre el eje X y su eje menor sobre el eje Y. Para $k=0$, obtendrás un único punto.
+    }
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Grafo de un Campo Escalar}
+    {\operatorname{Gr}(f) = \{ (x,y,z) \in \mathbb{R}^3 \colon z = f(x,y) \wedge (x,y) \in \operatorname{dom}(f) \}}
+    {Superficie tridimensional generada por la función de dos variables en el espacio.}
+
+  \formula{Curva de Nivel}
+    {C_k = \{ (x,y) \in \operatorname{dom}(f) \colon f(x,y) = k \}}
+    {Conjunto de puntos en el plano $XY$ donde la función toma un valor constante $k \in \operatorname{im}(f)$.}
+
+  \formula{Completación de Cuadrados}
+    {\begin{aligned}
+      x^2 + bx &= \left(x + \frac{b}{2}\right)^2 - \left(\frac{b}{2}\right)^2 \\[0.5em]
+      ax^2 + bx &= a\left(x + \frac{b}{2a}\right)^2 - \frac{b^2}{4a}
+    \end{aligned}}
+    {Técnica algebraica indispensable para transformar expresiones cuadráticas dispersas a la forma canónica de circunferencias, elipses o parábolas desplazadas.}
+
+  \formula{Relación Geométrica Clave}
+    {\begin{aligned}
+      \text{Pendiente pronunciada } &\implies \text{Curvas de nivel muy juntas} \\[0.5em]
+      \text{Región plana o suave } &\implies \text{Curvas de nivel muy separadas}
+    \end{aligned}}
+    {Interpretación visual fundamental para conectar el mapa de contorno bidimensional con la pendiente tridimensional del grafo.}
+
+  \formula{Invarianza por Simetría Radial}
+    {f(x,y) = g(x^2 + y^2) \implies C_k \text{ son circunferencias}}
+    {Cuando el campo escalar depende exclusivamente de la distancia al origen, las curvas de nivel forman circunferencias concéntricas centradas en $(0,0)$.}
+
+\end{formulas}
+
+\end{document}

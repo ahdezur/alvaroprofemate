@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curvas de Nivel de Campos Escalares 3D - z = f(x,y)</title>
+    
+    <!-- Link to local stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- MathJax configuration and library for LaTeX rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Local Three.js and OrbitControls Libraries -->
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+</head>
+<body>
+
+    <!-- 3D Canvas Viewport Container -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay Wrapper -->
+    <div class="ui-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-logo-section">
+                <div class="header-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                    <h1>Curvas de Nivel $z = f(x,y)$</h1>
+                </div>
+                <p>Campos Escalares y Planos de Corte</p>
+            </div>
+            
+            <div class="header-toggles">
+                <!-- Font size scaling buttons -->
+                <button id="btn-font-decrease" class="btn-header-toggle" title="Disminuir tamaño de letra">A-</button>
+                <button id="btn-font-increase" class="btn-header-toggle" title="Aumentar tamaño de letra">A+</button>
+                
+                <!-- Panel collapse toggles -->
+                <button id="btn-toggle-info" class="btn-header-toggle active" title="Mostrar/Ocultar Teoría">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </button>
+                <button id="btn-toggle-controls" class="btn-header-toggle active" title="Mostrar/Ocultar Controles">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Layout -->
+        <main class="dashboard-layout">
+            
+            <!-- Left Panel: Math Explanation Card -->
+            <section class="info-card glass-panel fade-in-left">
+                <div class="card-header">
+                    <h2>Análisis Matemático</h2>
+                </div>
+                <div class="card-content">
+                    
+                    <!-- Function Selector -->
+                    <div class="equation-block">
+                        <div class="equation-title">
+                            <span class="color-dot dot-surface"></span>
+                            <strong>Superficie $z = f(x,y)$</strong>
+                        </div>
+                        <select id="select-function" class="select-input">
+                            <option value="two_peaks" selected>Dos Colinas (Dos Picos)</option>
+                            <option value="paraboloid">Paraboloide: z = x² + y²</option>
+                            <option value="saddle">Silla de Montar: z = x² - y²</option>
+                            <option value="sombrero">Ondas Radiales / Sombrero</option>
+                        </select>
+                    </div>
+
+                    <!-- Level Curves Definition -->
+                    <div class="equation-block">
+                        <div class="equation-title">
+                            <span class="color-dot dot-contour"></span>
+                            <strong>Definición de Curva de Nivel</strong>
+                        </div>
+                        <p class="eq-desc">Una <strong>curva de nivel</strong> de una función de dos variables $z = f(x,y)$ es el conjunto de puntos $(x,y)$ en el dominio donde la función toma un valor constante $k$:</p>
+                        <div class="math-eq">
+                            \[f(x,y) = k\]
+                        </div>
+                        <p class="eq-desc">Geometricamente, es la curva resultado de intersectar la superficie $z = f(x,y)$ con el plano horizontal $z = k$, proyectada sobre el plano $XY$.</p>
+                    </div>
+
+                    <!-- Projections explanation -->
+                    <div class="equation-block">
+                        <div class="equation-title">
+                            <span class="color-dot dot-plane"></span>
+                            <strong>Proyección al Plano $z = 0$</strong>
+                        </div>
+                        <p class="eq-desc">Las líneas de trazos muestran cómo cada contorno a la altura $z = k$ se proyecta directamente sobre el plano $XY$, formando el mapa topográfico de curvas de nivel etiquetadas.</p>
+                    </div>
+
+                    <!-- Live Value Display -->
+                    <div class="coord-values-list">
+                        <div class="equation-title">
+                            <strong>Estado Actual del Corte</strong>
+                        </div>
+                        <div class="coord-value-row">
+                            <span>Altura del Plano ($k$):</span>
+                            <span id="readout-height" style="color: var(--accent-contour);">20.0</span>
+                        </div>
+                        <div class="coord-value-row">
+                            <span>Ecuación del Corte:</span>
+                            <span id="readout-eq" style="color: var(--text-primary);">f(x,y) = 20.0</span>
+                        </div>
+                        <div class="coord-value-row">
+                            <span>Nivel de Contorno:</span>
+                            <span id="readout-levels-count" style="color: var(--text-muted);">5 Niveles</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Visual Controls Card -->
+            <section class="controls-card glass-panel fade-in-right">
+                <div class="card-header">
+                    <h2>Controles del Simulador</h2>
+                </div>
+                <div class="card-content">
+                    
+                    <!-- Height Plane Slider -->
+                    <div class="control-group">
+                        <h3>Plano de Corte $z = k$</h3>
+                        
+                        <div class="slider-container">
+                            <div class="slider-info">
+                                <span>Altura del Plano ($k$)</span>
+                                <span id="val-height">20.0</span>
+                            </div>
+                            <input type="range" id="slider-height" min="0" max="50" step="0.5" value="20.0">
+                        </div>
+
+                        <div class="slider-container">
+                            <div class="slider-info">
+                                <span>Cantidad de Niveles</span>
+                                <span id="val-levels">5</span>
+                            </div>
+                            <input type="range" id="slider-levels" min="3" max="10" step="1" value="5">
+                        </div>
+                    </div>
+
+                    <!-- Opacity Controls -->
+                    <div class="control-group">
+                        <h3>Transparencia de Capas</h3>
+                        
+                        <div class="slider-container">
+                            <div class="slider-info">
+                                <span>Opacidad Superficie $z=f(x,y)$</span>
+                                <span id="val-surface-opacity">0.65</span>
+                            </div>
+                            <input type="range" id="slider-surface-opacity" min="0.0" max="1.0" step="0.05" value="0.65">
+                        </div>
+
+                        <div class="slider-container">
+                            <div class="slider-info">
+                                <span>Opacidad Plano de Corte $z=k$</span>
+                                <span id="val-plane-opacity">0.45</span>
+                            </div>
+                            <input type="range" id="slider-plane-opacity" min="0.0" max="1.0" step="0.05" value="0.45">
+                        </div>
+                    </div>
+
+                    <!-- Animation Playback -->
+                    <div class="control-group">
+                        <h3>Animación de Barrido</h3>
+                        <button id="btn-play-sweep" class="btn-action btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <span>Animar Barrido $z = k$</span>
+                        </button>
+                    </div>
+
+                    <!-- Camera Presets -->
+                    <div class="control-group">
+                        <h3>Puntos de Vista Cámara</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+                            <button id="btn-view-iso" class="btn-action btn-preset active">3D (Iso)</button>
+                            <button id="btn-view-top" class="btn-action btn-preset">Plano XY</button>
+                            <button id="btn-view-front" class="btn-action btn-preset">Plano XZ</button>
+                        </div>
+                    </div>
+
+                    <!-- Visibility Toggles -->
+                    <div class="control-group">
+                        <h3>Visualización de Capas</h3>
+                        
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-surface" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Superficie 3D $z = f(x,y)$</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-plane" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Plano de corte $z = k$</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-contours-3d" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Curvas de nivel en la superficie 3D</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-projections" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Líneas de proyección vertical</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-contours-2d" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Mapa de curvas 2D en plano $z = 0$</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-grid" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Plano de referencia $z = 0$</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-axes" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Ejes coordenados XYZ</span>
+                        </label>
+
+                        <label class="control-toggle">
+                            <input type="checkbox" id="toggle-labels" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Etiquetas numéricas ($10, 20, 30...$)</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Interactive Help Instructions -->
+        <footer class="app-footer glass-panel">
+            <p>Usa **Arrastrar Clic Izquierdo** para rotar la cámara, la **Rueda del Mouse** para hacer zoom, y **Arrastrar Clic Derecho** para desplazar la escena.</p>
+        </footer>
+    </div>
+
+    <!-- Script de Control Gráfico y Lógica 3D -->
+    <script src="script.js"></script>
+</body>
+</html>
