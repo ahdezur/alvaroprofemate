@@ -1939,13 +1939,13 @@ function parseLatexChapter(latexText) {
     return { statement: statement.trim(), calls };
   }
 
-  function latexToHtml(raw) {
+  function latexToHtml(raw, sharedBlocks = null) {
     if (!raw) return '';
     let text = stripLatexComments(raw).trim();
     if (!text) return '';
     text = replaceLatexInlineFormat(text);
 
-    const blocks = [];
+    const blocks = sharedBlocks || [];
 
     function saveBlock(htmlStr) {
       const idx = blocks.length;
@@ -1963,37 +1963,37 @@ function parseLatexChapter(latexText) {
     text = text.replace(/\\section\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h3>${title}</h3>`));
     text = text.replace(/\\subsection\*\{([^}]+)\}/gi, (m, title) => saveBlock(`<h4>${title}</h4>`));
     text = text.replace(/\\begin\{center\}([\s\S]*?)\\end\{center\}/gi, (m, body) => {
-      return saveBlock(`<div style="text-align:center; margin: 12px 0;">${latexToHtml(body)}</div>`);
+      return saveBlock(`<div style="text-align:center; margin: 12px 0;">${latexToHtml(body, blocks)}</div>`);
     });
 
     // 3. Extract Custom Boxes & Environments
     text = text.replace(/\\begin\{definicion\}\{([^}]+)\}([\s\S]*?)\\end\{definicion\}/gi, (m, title, body) => {
-      return saveBlock(`<div class="caja-ram caja-definicion"><div class="caja-ram-title"><i class="fa-solid fa-book-bookmark"></i> Definición: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+      return saveBlock(`<div class="caja-ram caja-definicion"><div class="caja-ram-title"><i class="fa-solid fa-book-bookmark"></i> Definición: ${title}</div><div class="caja-ram-body">${latexToHtml(body, blocks)}</div></div>`);
     });
 
     text = text.replace(/\\begin\{teorema\}\{([^}]+)\}([\s\S]*?)\\end\{teorema\}/gi, (m, title, body) => {
-      return saveBlock(`<div class="caja-ram caja-teorema"><div class="caja-ram-title"><i class="fa-solid fa-square-root-variable"></i> Teorema: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+      return saveBlock(`<div class="caja-ram caja-teorema"><div class="caja-ram-title"><i class="fa-solid fa-square-root-variable"></i> Teorema: ${title}</div><div class="caja-ram-body">${latexToHtml(body, blocks)}</div></div>`);
     });
 
     text = text.replace(/\\begin\{(?:proof|demostracion)\}(?:\[([^\]]+)\])?([\s\S]*?)\\end\{(?:proof|demostracion)\}/gi, (m, title, body) => {
       const label = title || 'Demostración';
-      return saveBlock(`<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p><strong>${label}:</strong> ${latexToHtml(body)}</p></div>`);
+      return saveBlock(`<div class="caja-ram caja-demostracion" style="border-left: 3px solid var(--accent-color); padding-left: 12px; margin: 10px 0;"><p><strong>${label}:</strong> ${latexToHtml(body, blocks)}</p></div>`);
     });
 
     text = text.replace(/\\begin\{alerta\}\{([^}]+)\}([\s\S]*?)\\end\{alerta\}/gi, (m, title, body) => {
-      return saveBlock(`<div class="caja-ram caja-choque-cognitivo"><div class="caja-ram-title"><i class="fa-solid fa-triangle-exclamation"></i> Alerta: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+      return saveBlock(`<div class="caja-ram caja-choque-cognitivo"><div class="caja-ram-title"><i class="fa-solid fa-triangle-exclamation"></i> Alerta: ${title}</div><div class="caja-ram-body">${latexToHtml(body, blocks)}</div></div>`);
     });
 
     text = text.replace(/\\begin\{procesamiento\}\{([^}]+)\}([\s\S]*?)\\end\{procesamiento\}/gi, (m, title, body) => {
-      return saveBlock(`<div class="caja-ram caja-procesamiento"><div class="caja-ram-title"><i class="fa-solid fa-gear"></i> Procedimiento: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+      return saveBlock(`<div class="caja-ram caja-procesamiento"><div class="caja-ram-title"><i class="fa-solid fa-gear"></i> Procedimiento: ${title}</div><div class="caja-ram-body">${latexToHtml(body, blocks)}</div></div>`);
     });
 
     text = text.replace(/\\begin\{ejemplo\}\{([^}]+)\}([\s\S]*?)\\end\{ejemplo\}/gi, (m, title, body) => {
-      return saveBlock(`<div class="caja-ram caja-ejemplo"><div class="caja-ram-title"><i class="fa-solid fa-chalkboard-user"></i> Ejemplo: ${title}</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+      return saveBlock(`<div class="caja-ram caja-ejemplo"><div class="caja-ram-title"><i class="fa-solid fa-chalkboard-user"></i> Ejemplo: ${title}</div><div class="caja-ram-body">${latexToHtml(body, blocks)}</div></div>`);
     });
 
     text = text.replace(/\\begin\{preguntaguia\}([\s\S]*?)\\end\{preguntaguia\}/gi, (m, body) => {
-      return saveBlock(`<div class="caja-ram caja-pregunta-guia"><div class="caja-ram-title"><i class="fa-solid fa-circle-question"></i> Pregunta Guía</div><div class="caja-ram-body">${latexToHtml(body)}</div></div>`);
+      return saveBlock(`<div class="caja-ram caja-pregunta-guia"><div class="caja-ram-title"><i class="fa-solid fa-circle-question"></i> Pregunta Guía</div><div class="caja-ram-body">${latexToHtml(body, blocks)}</div></div>`);
     });
 
     // Quizzes & Pareados
