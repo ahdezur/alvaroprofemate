@@ -61,11 +61,11 @@ function getReminderEmailTemplate(name, date, time, subject) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
       <div style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
-        <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Recordatorio de Consulta</h1>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Recordatorio de Consulta Hoy</h1>
       </div>
       <div style="padding: 25px; line-height: 1.6;">
         <p>Hola <strong>${name}</strong>,</p>
-        <p>Te escribo para recordarte que tu sesión de consulta personalizada está programada para comenzar en <strong>10 minutos</strong>.</p>
+        <p>Te escribo para recordarte que tienes una sesión de consulta personalizada programada para hoy a las <strong>${time} hrs</strong>.</p>
         
         <div style="background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
           <h3 style="margin-top: 0; color: #d97706; font-size: 16px;">Detalles de la Reunión:</h3>
@@ -74,10 +74,10 @@ function getReminderEmailTemplate(name, date, time, subject) {
           <p style="margin: 5px 0;"><strong>Hora de Inicio:</strong> ${time} hrs</p>
         </div>
 
-        <p>Por favor, ten listos tus apuntes, lápiz, y conéctate puntualmente utilizando el enlace (Zoom/Teams) acordado.</p>
+        <p>Por favor, ten listos tus apuntes y conéctate puntualmente utilizando el enlace (Zoom/Teams) acordado.</p>
         
         <p style="margin-top: 30px; font-size: 13px; color: #64748b;">
-          Si tienes algún inconveniente de última hora, contáctame respondiendo directamente a este correo o al número de contacto de Álvaro ProfeMate.
+          Si tienes algún inconveniente, contáctame respondiendo a este correo.
         </p>
       </div>
       <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 8px 8px;">
@@ -102,11 +102,11 @@ function getReminderAdminEmailTemplate(name, date, time, subject) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff; color: #1e293b;">
       <div style="background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%); padding: 25px; border-radius: 6px 6px 0 0; text-align: center; color: white;">
-        <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Recordatorio: Consulta por Comenzar</h1>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700;">Recordatorio: Consulta Hoy</h1>
       </div>
       <div style="padding: 25px; line-height: 1.6;">
         <p>Hola <strong>Álvaro</strong>,</p>
-        <p>Te recordamos que tienes una sesión de consulta que comienza en <strong>10 minutos</strong>:</p>
+        <p>Te recordamos que tienes una sesión de consulta programada para hoy a las <strong>${time} hrs</strong>:</p>
         
         <div style="background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;">
           <h3 style="margin-top: 0; color: #d97706; font-size: 16px;">Detalles de la Cita:</h3>
@@ -116,7 +116,7 @@ function getReminderAdminEmailTemplate(name, date, time, subject) {
           <p style="margin: 5px 0;"><strong>Hora de Inicio:</strong> ${time} hrs</p>
         </div>
 
-        <p>Por favor, conéctate puntualmente utilizando el enlace de conexión acordado con el alumno.</p>
+        <p>Por favor, conéctate puntualmente utilizando el enlace acordado con el alumno.</p>
       </div>
       <div style="background-color: #f1f5f9; padding: 15px; text-align: center; font-size: 12px; color: #64748b; border-radius: 0 0 8px 8px;">
         © 2026 Álvaro Hernández Profemate. Todos los derechos reservados.
@@ -126,7 +126,7 @@ function getReminderAdminEmailTemplate(name, date, time, subject) {
 }
 
 const handler = async (event, context) => {
-  console.log("Iniciando cron de recordatorios de agendamiento...");
+  console.log("Iniciando cron diario de recordatorios de agendamiento...");
   
   if (!process.env.DATABASE_URL) {
     console.warn("DATABASE_URL no configurada. Saltando verificación de base de datos Postgres.");
@@ -164,24 +164,23 @@ const handler = async (event, context) => {
       const [bH, bM] = row.time.split(':').map(Number);
       const bookingInMinutes = bH * 60 + bM;
       
-      // Si la consulta empieza en los próximos 15 minutos (y no está en el pasado lejano, ej. margen de -5 mins por si el cron se retrasa)
-      const diff = bookingInMinutes - nowInMinutes;
-      if (diff >= -5 && diff <= 15) {
+      // Enviamos recordatorio a las consultas agendadas para el bloque correspondiente
+      if (bookingInMinutes >= nowInMinutes - 30) {
         bookingsToRemind.push(row);
       }
     }
 
-    console.log(`Encontradas ${bookingsToRemind.length} consultas por recordar en los próximos 15 minutos.`);
+    console.log(`Encontradas ${bookingsToRemind.length} consultas pendientes de recordatorio para la jornada.`);
 
     for (const booking of bookingsToRemind) {
       console.log(`Enviando recordatorio a ${booking.name} (${booking.email}) para la consulta de las ${booking.time}`);
       
       const emailHtml = getReminderEmailTemplate(booking.name, booking.date, booking.time, booking.subject);
-      await sendEmail(booking.email, "Recordatorio: Tu consulta comienza en 10 minutos 🚀", emailHtml);
+      await sendEmail(booking.email, `Recordatorio: Tu consulta de hoy es a las ${booking.time} hrs 🚀`, emailHtml);
       
       // Enviar recordatorio al profesor (Álvaro)
       const adminEmailHtml = getReminderAdminEmailTemplate(booking.name, booking.date, booking.time, booking.subject);
-      await sendEmail(process.env.SMTP_USER || "contacto@alvaroprofemate.cl", `Recordatorio: Consulta con ${booking.name} en 10 minutos 🚀`, adminEmailHtml);
+      await sendEmail(process.env.SMTP_USER || "contacto@alvaroprofemate.cl", `Recordatorio: Consulta hoy con ${booking.name} (${booking.time} hrs) 🚀`, adminEmailHtml);
 
       // Marcar recordatorio como enviado en la base de datos
       await client.query("UPDATE bookings SET reminder_sent = TRUE WHERE id = $1", [booking.id]);
@@ -205,4 +204,5 @@ const handler = async (event, context) => {
   }
 };
 
-exports.handler = schedule("*/10 * * * *", handler);
+// Cron optimizado: Ejecuta 2 veces al día (08:00 AM y 14:00 PM hora Santiago, equivalentes a 11:00 UTC y 17:00 UTC)
+exports.handler = schedule("0 11,17 * * *", handler);
