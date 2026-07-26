@@ -792,10 +792,13 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "15.0" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Determinación de Dominio con Múltiples Restricciones")) {
+    if (dbVersion === "16.0" && courses && courses.includes("calculo-multivariable") && chapters && chapters.includes("Determinación de Dominio con Múltiples Restricciones")) {
       return;
     }
-    localStorage.setItem("alvaro_profemate_db_version", "15.0");
+    localStorage.removeItem("alvaro_profemate_courses");
+    localStorage.removeItem("alvaro_profemate_units");
+    localStorage.removeItem("alvaro_profemate_chapters");
+    localStorage.setItem("alvaro_profemate_db_version", "16.0");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
