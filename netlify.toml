@@ -23,8 +23,25 @@
   to = "/.netlify/functions/courses"
   status = 200
 
+# Excepciones para archivos estáticos dentro de la subruta /curso/
+[[redirects]]
+  from = "/curso/animaciones/*"
+  to = "/animaciones/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/curso/js/*"
+  to = "/js/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/curso/css/*"
+  to = "/css/:splat"
+  status = 200
+
 [[redirects]]
   from = "/curso/:courseId"
   to = "/curso.html?courseId=:courseId"
   status = 200
+
 
