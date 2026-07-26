@@ -22,23 +22,29 @@ function initCoursePage() {
      A. GESTIÓN DEL TEMA (LIGHT / DARK MODE)
      ========================================================================== */
   function initTheme() {
-    const themeToggleBtn = document.getElementById("theme-toggle-btn");
-    const htmlElement = document.documentElement;
+    try {
+      const themeToggleBtn = document.getElementById("theme-toggle-btn");
+      const htmlElement = document.documentElement;
 
-    const currentTheme = localStorage.getItem("theme") || 
-      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    
-    htmlElement.setAttribute("data-theme", currentTheme);
-    updateThemeIcon(themeToggleBtn, currentTheme);
-
-    themeToggleBtn.addEventListener("click", () => {
-      const activeTheme = htmlElement.getAttribute("data-theme");
-      const newTheme = activeTheme === "light" ? "dark" : "light";
+      const currentTheme = localStorage.getItem("theme") || 
+        (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       
-      htmlElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-      updateThemeIcon(themeToggleBtn, newTheme);
-    });
+      htmlElement.setAttribute("data-theme", currentTheme);
+      if (themeToggleBtn) {
+        updateThemeIcon(themeToggleBtn, currentTheme);
+
+        themeToggleBtn.onclick = () => {
+          const activeTheme = htmlElement.getAttribute("data-theme");
+          const newTheme = activeTheme === "light" ? "dark" : "light";
+          
+          htmlElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+          updateThemeIcon(themeToggleBtn, newTheme);
+        };
+      }
+    } catch (e) {
+      console.warn("initTheme notice:", e);
+    }
   }
 
   function updateThemeIcon(btn, theme) {
@@ -216,11 +222,11 @@ function initCoursePage() {
 
   function renderSidebar(data) {
     const menuContainer = document.getElementById("sidebar-menu-container");
-    if (!menuContainer) return;
+    if (!menuContainer || !data || !data.units) return;
 
     menuContainer.innerHTML = "";
 
-    data.units.forEach((unit, i) => {
+    (data.units || []).forEach((unit, i) => {
       const accordion = document.createElement("div");
       
       // La primera unidad no bloqueada se expande por defecto
@@ -232,7 +238,7 @@ function initCoursePage() {
         <button class="unit-header-btn" aria-expanded="${isFirstActive}" aria-controls="chapter-list-${unit.id}">
           <div class="unit-info">
             <span class="unit-tag">Unidad ${unit.unitIndex}</span>
-            <span class="unit-title">${escapeHtml(unit.title)}</span>
+            <span class="unit-title">${escapeHtml(unit.title || '')}</span>
           </div>
           <div class="unit-icon-wrapper">
             ${unit.isLocked ? `
@@ -253,7 +259,7 @@ function initCoursePage() {
 
       const chapterListContainer = accordion.querySelector(".chapter-list");
 
-      unit.chapters.forEach(ch => {
+      (unit.chapters || []).forEach(ch => {
         const item = document.createElement("a");
         item.href = "#";
         item.className = `chapter-item ${ch.isCompleted ? 'completed' : ''} ${ch.isLocked ? 'locked' : ''}`;
@@ -286,7 +292,7 @@ function initCoursePage() {
           <span class="status-badge ${ch.isCompleted ? 'completed-badge' : ''}" title="${ch.isCompleted ? 'Completado' : ch.isLocked ? 'Bloqueado' : 'Pendiente'}">
             ${iconMarkup}
           </span>
-          <span class="chapter-title">Cap ${ch.chapterIndex}: ${escapeHtml(ch.title)}</span>
+          <span class="chapter-title">Cap ${ch.chapterIndex}: ${escapeHtml(ch.title || '')}</span>
         `;
 
         // Click handler para capítulos
@@ -336,17 +342,19 @@ function initCoursePage() {
   }
 
   function triggerShake(element) {
+    if (!element) return;
     element.style.animation = "none";
     element.offsetHeight; // trigger reflow
     element.style.animation = "shake 0.4s ease-out";
   }
 
   function calculateProgress(data) {
+    if (!data || !data.units) return;
     let total = 0;
     let completed = 0;
 
-    data.units.forEach(u => {
-      u.chapters.forEach(ch => {
+    (data.units || []).forEach(u => {
+      (u.chapters || []).forEach(ch => {
         total++;
         if (ch.isCompleted) completed++;
       });
@@ -402,8 +410,8 @@ function initCoursePage() {
 
       // Buscar el título de la unidad en la estructura
       let unitTitle = "Curso";
-      if (courseStructure) {
-        const matchingUnit = courseStructure.units.find(u => u.chapters.some(chap => chap.chapterIndex === chapterIndex));
+      if (courseStructure && courseStructure.units) {
+        const matchingUnit = courseStructure.units.find(u => u.chapters && u.chapters.some(chap => chap.chapterIndex === chapterIndex));
         if (matchingUnit) {
           unitTitle = `Unidad ${matchingUnit.unitIndex}`;
         }
