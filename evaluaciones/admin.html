@@ -112,10 +112,11 @@
       <table class="admin-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Curso</th>
-            <th>Año / Sem.</th>
+            <th onclick="window.sortAdminTable('id')" style="cursor: pointer; user-select: none;">ID <i class="fa-solid fa-sort" style="font-size: 0.8em; margin-left: 5px; color: var(--text-secondary);"></i></th>
+            <th onclick="window.sortAdminTable('titulo')" style="cursor: pointer; user-select: none;">Título <i class="fa-solid fa-sort" style="font-size: 0.8em; margin-left: 5px; color: var(--text-secondary);"></i></th>
+            <th onclick="window.sortAdminTable('universidad')" style="cursor: pointer; user-select: none;">Universidad <i class="fa-solid fa-sort" style="font-size: 0.8em; margin-left: 5px; color: var(--text-secondary);"></i></th>
+            <th onclick="window.sortAdminTable('curso')" style="cursor: pointer; user-select: none;">Curso <i class="fa-solid fa-sort" style="font-size: 0.8em; margin-left: 5px; color: var(--text-secondary);"></i></th>
+            <th onclick="window.sortAdminTable('ano')" style="cursor: pointer; user-select: none;">Año / Sem. <i class="fa-solid fa-sort" style="font-size: 0.8em; margin-left: 5px; color: var(--text-secondary);"></i></th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -135,6 +136,10 @@
         <div class="form-group">
           <label>Título</label>
           <input type="text" id="edit-titulo" class="lib-input" required>
+        </div>
+        <div class="form-group">
+          <label>Reseña / Descripción</label>
+          <textarea id="edit-descripcion" class="lib-input" rows="3" style="width: 100%; resize: vertical;"></textarea>
         </div>
         <div style="display: flex; gap: 15px;">
           <div class="form-group" style="flex: 1;">
@@ -233,9 +238,15 @@
         
         <div style="display: flex; gap: 20px; margin-bottom: 15px;">
           <!-- Columna Editor -->
-          <div style="flex: 1;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Enunciado (Código fuente)</label>
-            <textarea id="q-edit-enunciado" class="lib-input" rows="14" required style="font-family: monospace; font-size: 13px; line-height: 1.4; width: 100%; resize: vertical;"></textarea>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+            <div>
+              <label style="display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.9rem;">Contexto Común (Opcional)</label>
+              <textarea id="q-edit-contexto" class="lib-input" rows="5" style="font-family: monospace; font-size: 13px; line-height: 1.4; width: 100%; resize: vertical;"></textarea>
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.9rem;">Enunciado de la Pregunta</label>
+              <textarea id="q-edit-enunciado" class="lib-input" rows="8" required style="font-family: monospace; font-size: 13px; line-height: 1.4; width: 100%; resize: vertical;"></textarea>
+            </div>
           </div>
           <!-- Columna Preview -->
           <div style="flex: 1; display: flex; flex-direction: column;">

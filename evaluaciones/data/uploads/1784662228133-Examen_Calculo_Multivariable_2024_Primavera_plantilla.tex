@@ -1,0 +1,453 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\geometry{a4paper,margin=2cm}
+
+% ==========================================
+% COMANDOS DE ESTRUCTURA PARA EL PARSER (AI)
+% ==========================================
+
+% Uso: \evalMeta{ID}{Título}{Descripción}{Curso}{Universidad}{Año}{Semestre}{Nombre de la Evaluación}{Minutos}
+\newcommand{\evalMeta}[9]{
+  \begin{center}
+    {\Large \textbf{#2}}\\[0.2cm]
+    \textbf{Curso:} #4 \quad \textbf{Universidad:} #5 \quad \textbf{Año:} #6 - #7\\[0.1cm]
+    \textbf{Evaluación:} #8 \quad \textbf{Tiempo límite:} #9 minutos\\[0.3cm]
+    \textit{#3}
+  \end{center}
+  \vspace{0.5cm}
+}
+
+\newcommand{\evalTags}[1]{
+  \textbf{Etiquetas Generales:} #1 \vspace{0.5cm}
+}
+
+\newenvironment{bloqueContexto}[1]{
+  \vspace{0.5cm}\noindent\hrulefill\vspace{0.2cm}\\
+  \noindent \textbf{Contexto General:}\\
+  #1
+  \vspace{0.3cm}
+}{
+  \vspace{0.5cm}
+}
+
+\newenvironment{pregunta}[4]{
+  \vspace{0.3cm}\noindent\textbf{Pregunta (#2 pts) - Dificultad: #3}\\
+  \textbf{Temas:} #4\\[0.2cm]
+}{
+  \vspace{0.3cm}
+}
+
+\newcommand{\numeracion}[1]{
+  \vspace{-0.3cm}\noindent\textbf{Numeración:} #1 \\
+}
+
+\newcommand{\pista}[1]{
+  \noindent \textbf{\textsl{Pista:}} #1 \\
+}
+
+\newenvironment{solucion}{
+  \vspace{0.2cm}
+  \noindent \textbf{Solución Paso a Paso:}\\[0.1cm]
+}{
+  \vspace{0.2cm}
+}
+
+\newcommand{\criterio}[2]{
+  \noindent $\square$ \textbf{Criterio (#2 pts):} #1 \\
+}
+
+\newcommand{\errorfrecuente}[1]{
+  \noindent \textbf{Error Frecuente:} #1 \\
+}
+
+% ==========================================
+% INICIO DEL DOCUMENTO
+% ==========================================
+\begin{document}
+
+\evalMeta
+  {examen-calculo-multivariable-2024-primavera}
+  {Examen de Cálculo Multivariable}
+  {Examen de Cálculo Multivariable sobre regla de la cadena, extremos de funciones de varias variables, integración triple en coordenadas esféricas e integrales de línea.}
+  {Cálculo Multivariable}
+  {Universidad del Desarrollo}
+  {2024}
+  {Primavera}
+  {Examen}
+  {120}
+
+\evalTags{Regla de la cadena, Derivadas parciales, Puntos críticos, Extremos globales, Coordenadas esféricas, Integral triple, Integrales de línea, Teorema de Green}
+
+% =========================================================
+% PREGUNTA 1
+% =========================================================
+\begin{pregunta}{examen-mv-2024-p1}{25}{Media}{Regla de la cadena, Derivadas parciales, Funciones compuestas}
+\numeracion{1.}
+Dado
+$$
+z=e^{xy},\qquad x=2u+v,\qquad y=\frac{u}{v}
+$$
+determine $\frac{\partial z}{\partial u}$ y $\frac{\partial z}{\partial v}$ en términos de $u$ y $v$, en la forma más reducida posible.
+
+\pista{Aplica la regla de la cadena a $z(x(u,v),y(u,v))$ y sustituye $x=2u+v$ e $y=u/v$ solo después de calcular las derivadas parciales necesarias.}
+
+\begin{solucion}
+Por la regla de la cadena,
+$$
+\begin{aligned}
+\frac{\partial z}{\partial u}
+&=\frac{\partial z}{\partial x}\frac{\partial x}{\partial u}
+ +\frac{\partial z}{\partial y}\frac{\partial y}{\partial u}\\
+&=(ye^{xy})(2)+(xe^{xy})\left(\frac{1}{v}\right)\\
+&=\left(2y+\frac{x}{v}\right)e^{xy}\\
+&=\left(\frac{2u}{v}+\frac{2u+v}{v}\right)e^{(2u+v)(u/v)}\\
+&=\left(\frac{4u}{v}+1\right)e^{(2u+v)(u/v)}
+\end{aligned}
+$$
+Asimismo,
+$$
+\begin{aligned}
+\frac{\partial z}{\partial v}
+&=\frac{\partial z}{\partial x}\frac{\partial x}{\partial v}
+ +\frac{\partial z}{\partial y}\frac{\partial y}{\partial v}\\
+&=(ye^{xy})(1)+(xe^{xy})\left(-\frac{u}{v^2}\right)\\
+&=\left(y-x\frac{u}{v^2}\right)e^{xy}\\
+&=\left(\frac{u}{v}-(2u+v)\frac{u}{v^2}\right)e^{(2u+v)(u/v)}\\
+&=-\frac{2u^2}{v^2}e^{(2u+v)(u/v)}
+\end{aligned}
+$$
+\end{solucion}
+
+\criterio{Plantea correctamente la regla de la cadena para $\frac{\partial z}{\partial u}$ y calcula las derivadas parciales involucradas.}{6}
+\criterio{Sustituye $x=2u+v$ e $y=u/v$ y reduce correctamente la expresión de $\frac{\partial z}{\partial u}$.}{6}
+\criterio{Plantea correctamente la regla de la cadena para $\frac{\partial z}{\partial v}$, incluyendo $\frac{\partial y}{\partial v}=-u/v^2$.}{6}
+\criterio{Sustituye y simplifica correctamente hasta obtener $\frac{\partial z}{\partial v}=-\frac{2u^2}{v^2}e^{(2u+v)(u/v)}$.}{7}
+
+\errorfrecuente{Derivar $e^{xy}$ respecto de $x$ o $y$ sin conservar el factor correspondiente: $y$ o $x$.}
+\errorfrecuente{Calcular $\frac{\partial}{\partial v}(u/v)$ como $1/v$ en lugar de $-u/v^2$.}
+\errorfrecuente{Olvidar alguno de los dos términos de la regla de la cadena para una función que depende de $x$ e $y$.}
+\end{pregunta}
+
+% =========================================================
+% PREGUNTA 2
+% =========================================================
+\begin{bloqueContexto}{
+Chile participa, junto a un grupo de países, en un proyecto que tiene por objetivo construir una base en la Luna. En la posible zona lunar donde se asentaría la base, se ha modelado la altura del terreno mediante la función
+$$
+g(x,y)=xy+x^2+y^2
+$$
+y se busca una ubicación donde la función
+$$
+f(x,y)=\lvert\nabla g(x,y)\rvert^2
+$$
+alcance un valor extremo. Se incluye el gráfico de ella.
+
+\begin{center}
+\includegraphics[width=0.72\textwidth]{examenmv_p2.png}
+\end{center}
+}
+
+\begin{pregunta}{examen-mv-2024-p2a}{20}{Media}{Puntos críticos, Test de la segunda derivada, Clasificación de extremos}
+\numeracion{2. a)}
+Clasifique los puntos críticos, según su naturaleza, de la función $f(x,y)$.
+
+\pista{Calcula primero $\nabla g$ y desarrolla $f=\lvert\nabla g\rvert^2$ como una función cuadrática; luego resuelve $\nabla f=0$ y aplica el test de la segunda derivada.}
+
+\begin{solucion}
+Se tiene que
+$$
+\nabla g(x,y)=(y+2x,x+2y)
+$$
+y, por tanto,
+$$
+f(x,y)=(y+2x)^2+(x+2y)^2=5x^2+8xy+5y^2
+$$
+Luego,
+$$
+\nabla f(x,y)=(10x+8y,8x+10y)
+$$
+Resolviendo $\nabla f(x,y)=0$ se obtiene
+$$
+(x,y)=(0,0)
+$$
+que es el único punto crítico.
+
+Aplicando el test de la segunda derivada,
+$$
+D=f_{xx}f_{yy}-(f_{xy})^2=10\cdot10-8^2=36>0
+$$
+y
+$$
+f_{xx}=10>0
+$$
+Luego, el punto crítico $(0,0)$ es un mínimo.
+\end{solucion}
+
+\criterio{Calcula $f(x,y)=5x^2+8xy+5y^2$ y su gradiente $\nabla f(x,y)=(10x+8y,8x+10y)$.}{5}
+\criterio{Resuelve correctamente $\nabla f(x,y)=0$ y obtiene $(0,0)$ como único punto crítico.}{5}
+\criterio{Calcula el discriminante del test de la segunda derivada y obtiene $D=36>0$.}{5}
+\criterio{Utiliza $f_{xx}=10>0$ para clasificar $(0,0)$ como un mínimo.}{5}
+
+\errorfrecuente{Confundir $\lvert\nabla g\rvert^2$ con $g_x+g_y$ en vez de sumar los cuadrados de las componentes del gradiente.}
+\errorfrecuente{Clasificar el punto usando solo $D>0$ sin revisar el signo de $f_{xx}$.}
+\errorfrecuente{Resolver incorrectamente el sistema lineal $10x+8y=0$, $8x+10y=0$ y concluir que hay más de un punto crítico.}
+\end{pregunta}
+
+\begin{pregunta}{examen-mv-2024-p2b}{5}{Baja}{Extremos globales, Funciones no negativas, Acotación}
+\numeracion{2. b)}
+De acuerdo con lo obtenido en (a), y considerando el gráfico de la función, ¿existe un máximo o mínimo global para la función en su dominio? Explique.
+
+\pista{Usa que $f(x,y)=\lvert\nabla g(x,y)\rvert^2$ nunca puede ser negativa y observa el comportamiento de la superficie cuando $\lVert(x,y)\rVert$ crece.}
+
+\begin{solucion}
+Del gráfico de la función $f(x,y)$ se observa que esta es siempre no negativa. Como
+$$
+f(0,0)=0
+$$
+el punto $(0,0)$ es un mínimo global en el dominio de la función. No existe máximo global, pues la función no está acotada superiormente.
+\end{solucion}
+
+\criterio{Concluye, justificando mediante la no negatividad de $f$, que $(0,0)$ es un mínimo global, y reconoce que no existe máximo global.}{5}
+
+\errorfrecuente{Afirmar que todo mínimo local es automáticamente un mínimo global sin usar la no negatividad de la función.}
+\errorfrecuente{Concluir que existe un máximo global a partir de la representación gráfica, ignorando que el dominio es todo $\mathbb{R}^2$ y la función crece sin cota superior.}
+\end{pregunta}
+
+\end{bloqueContexto}
+
+% =========================================================
+% PREGUNTA 3
+% =========================================================
+\begin{pregunta}{examen-mv-2024-p3}{25}{Media}{Coordenadas esféricas, Integral triple, Masa de un sólido}
+\numeracion{3.}
+La integral triple
+$$
+\int\!\!\int\!\!\int_E
+\frac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}\,dV
+$$
+representa la masa del sólido
+$$
+E=\left\{(x,y,z):1\leq x^2+y^2+z^2\leq4,\ y>0\right\}
+$$
+con la función densidad indicada en ella. Determine su masa.
+
+\begin{center}
+\includegraphics[width=0.30\textwidth]{examenmv_p3.png}
+\end{center}
+
+\pista{En coordenadas esféricas, la condición radial determina una cáscara entre dos esferas y la desigualdad $y>0$ selecciona la mitad del rango azimutal.}
+
+\begin{solucion}
+Usando coordenadas esféricas, elegimos
+$$
+x=\rho\sin\varphi\cos\theta,\qquad
+y=\rho\sin\varphi\sin\theta,\qquad
+z=\rho\cos\varphi
+$$
+La condición $1\leq x^2+y^2+z^2\leq4$ implica
+$$
+1\leq\rho\leq2
+$$
+mientras que $y>0$ corresponde a
+$$
+0\leq\theta\leq\pi
+$$
+y el ángulo polar recorre
+$$
+0\leq\varphi\leq\pi
+$$
+Además,
+$$
+\frac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}
+=\frac{e^{-\rho^2}}{\rho}
+$$
+y el jacobiano es $\rho^2\sin\varphi$. Por tanto,
+$$
+\begin{aligned}
+\int\!\!\int\!\!\int_E
+\frac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}\,dV
+&=\int_0^\pi\int_0^\pi\int_1^2
+\frac{e^{-\rho^2}}{\rho}\rho^2\sin\varphi\,d\rho\,d\varphi\,d\theta\\
+&=\int_0^\pi\int_0^\pi\left(\int_1^2\rho e^{-\rho^2}\,d\rho\right)
+\sin\varphi\,d\varphi\,d\theta
+\end{aligned}
+$$
+Con el cambio de variable $u=-\rho^2$, $du=-2\rho\,d\rho$, se obtiene
+$$
+\int_1^2\rho e^{-\rho^2}\,d\rho
+=\left[-\frac12e^{-\rho^2}\right]_1^2
+=\frac12\left(e^{-1}-e^{-4}\right)
+$$
+Además,
+$$
+\int_0^\pi\sin\varphi\,d\varphi=2,
+\qquad
+\int_0^\pi d\theta=\pi
+$$
+Por lo tanto,
+$$
+\begin{aligned}
+M
+&=\frac12\left(e^{-1}-e^{-4}\right)(2)(\pi)\\
+&=\pi\left(e^{-1}-e^{-4}\right)
+\end{aligned}
+$$
+La masa del sólido es
+$$
+\pi\left(e^{-1}-e^{-4}\right)
+$$
+unidades de masa.
+\end{solucion}
+
+\criterio{Determina correctamente el límite radial $1\leq\rho\leq2$.}{3}
+\criterio{Determina correctamente el límite azimutal $0\leq\theta\leq\pi$ a partir de la condición $y>0$.}{3}
+\criterio{Determina correctamente el límite polar $0\leq\varphi\leq\pi$.}{3}
+\criterio{Expresa correctamente la función de integración como $e^{-\rho^2}/\rho$.}{1}
+\criterio{Incorpora correctamente el jacobiano $\rho^2\sin\varphi$.}{1}
+\criterio{Calcula la integral radial mediante el cambio de variable correspondiente y obtiene $\frac12(e^{-1}-e^{-4})$.}{5}
+\criterio{Calcula correctamente las integrales angulares, obteniendo los factores $2$ y $\pi$.}{4}
+\criterio{Combina los resultados y obtiene la masa final $\pi(e^{-1}-e^{-4})$.}{5}
+
+\errorfrecuente{Usar $0\leq\theta\leq2\pi$ y calcular la masa de la cáscara esférica completa, ignorando la condición $y>0$.}
+\errorfrecuente{Olvidar dividir por $\rho$ al transformar $\sqrt{x^2+y^2+z^2}$ o cancelar incorrectamente con el jacobiano.}
+\errorfrecuente{Usar $\rho^2\sin\theta$ como jacobiano en lugar de $\rho^2\sin\varphi$.}
+\end{pregunta}
+
+% =========================================================
+% PREGUNTA 4
+% =========================================================
+\begin{bloqueContexto}{
+Sea el campo vectorial
+$$
+\vec F=(y,x)
+$$
+$C_1$ es el segmento lineal que une los puntos $P_1(-1,1)$ y $P_2(1,-1)$, $C_2$ es la semicircunferencia centrada en el origen que une los puntos anteriores, y
+$$
+C=C_2-C_1
+$$
+como se muestra en la figura.
+
+\begin{center}
+\includegraphics[width=0.30\textwidth]{examenmv_p4.png}
+\end{center}
+
+Calcule las siguientes integrales de línea. Justifique sus cálculos, indicando los conceptos aplicados.
+}
+
+\begin{pregunta}{examen-mv-2024-p4a}{9}{Media}{Integrales de línea, Parametrización de segmentos, Campos vectoriales}
+\numeracion{4. a)}
+Calcule
+$$
+\int_{C_1}\vec F\cdot d\vec r
+$$
+
+\pista{Parametriza el segmento desde $P_1$ hasta $P_2$ usando $\vec r(t)=P_1+t(P_2-P_1)$, con $0\leq t\leq1$.}
+
+\begin{solucion}
+Parametrizando la recta $C_1$,
+$$
+\begin{aligned}
+\vec r(t)
+&=(-1,1)+t\big((1,-1)-(-1,1)\big)\\
+&=(-1,1)+t(2,-2)
+\end{aligned}
+$$
+con $0\leq t\leq1$. Luego,
+$$
+\vec r\,'(t)=(2,-2)
+$$
+y
+$$
+\vec F(\vec r(t))=(1-2t,-1+2t)
+$$
+Por tanto,
+$$
+\begin{aligned}
+\int_{C_1}\vec F\cdot d\vec r
+&=\int_0^1(1-2t,-1+2t)\cdot(2,-2)\,dt\\
+&=4\int_0^1(1-2t)\,dt\\
+&=0
+\end{aligned}
+$$
+\end{solucion}
+
+\criterio{Parametriza correctamente el segmento $C_1$ y calcula su vector tangente $\vec r\,'(t)=(2,-2)$.}{4}
+\criterio{Sustituye el campo en la parametrización, plantea la integral y obtiene el valor $0$.}{5}
+
+\errorfrecuente{Parametrizar el segmento con la orientación contraria sin ajustar los límites ni el signo de la integral.}
+\errorfrecuente{Evaluar $\vec F=(y,x)$ como $(x,y)$ al sustituir la parametrización.}
+\errorfrecuente{Olvidar el producto punto con $\vec r\,'(t)$.}
+\end{pregunta}
+
+\begin{pregunta}{examen-mv-2024-p4b}{8}{Baja}{Teorema de Green, Integrales de línea, Curvas cerradas}
+\numeracion{4. b)}
+Calcule
+$$
+\int_C\vec F\cdot d\vec r
+$$
+
+\pista{La curva $C$ es cerrada. Escribe $\vec F=(P,Q)$ y revisa el integrando $Q_x-P_y$ del Teorema de Green.}
+
+\begin{solucion}
+La curva $C$ es cerrada. Usando el Teorema de Green,
+$$
+\begin{aligned}
+\int_C\vec F\cdot d\vec r
+&=\int\!\!\int_R\left(\frac{\partial}{\partial x}(x)-\frac{\partial}{\partial y}(y)\right)dA\\
+&=\int\!\!\int_R0\,dA\\
+&=0
+\end{aligned}
+$$
+\end{solucion}
+
+\criterio{Reconoce que $C$ es una curva cerrada, aplica correctamente el Teorema de Green y obtiene $\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}=0$, concluyendo que la integral vale $0$.}{8}
+
+\errorfrecuente{Aplicar Green a $C_1$ o $C_2$ por separado, aunque ninguna de esas curvas es cerrada.}
+\errorfrecuente{Calcular $P_x-Q_y$ en lugar de $Q_x-P_y$ para la integral de circulación.}
+\errorfrecuente{Intentar calcular el área de la región aunque el integrando obtenido mediante Green es idénticamente nulo.}
+\end{pregunta}
+
+\begin{pregunta}{examen-mv-2024-p4c}{8}{Baja}{Propiedades de integrales de línea, Orientación de curvas, Aditividad}
+\numeracion{4. c)}
+Calcule
+$$
+\int_{C_2}\vec F\cdot d\vec r
+$$
+
+\pista{Usa la relación orientada $C=C_2-C_1$ y la aditividad de la integral de línea.}
+
+\begin{solucion}
+Como $C=C_2-C_1$, se tiene
+$$
+\int_C\vec F\cdot d\vec r
+=\int_{C_2}\vec F\cdot d\vec r
+-\int_{C_1}\vec F\cdot d\vec r
+$$
+Luego,
+$$
+\begin{aligned}
+\int_{C_2}\vec F\cdot d\vec r
+&=\int_C\vec F\cdot d\vec r
++\int_{C_1}\vec F\cdot d\vec r\\
+&=0+0\\
+&=0
+\end{aligned}
+$$
+\end{solucion}
+
+\criterio{Utiliza correctamente la relación orientada $C=C_2-C_1$ para relacionar las tres integrales de línea.}{4}
+\criterio{Despeja la integral sobre $C_2$, sustituye los valores obtenidos anteriormente y concluye que vale $0$.}{4}
+
+\errorfrecuente{Interpretar $C=C_2-C_1$ como una resta de conjuntos y no como una relación entre curvas orientadas.}
+\errorfrecuente{Escribir $\int_C=\int_{C_2}+\int_{C_1}$ sin considerar que $C_1$ aparece con orientación inversa.}
+\end{pregunta}
+
+\end{bloqueContexto}
+
+\end{document}

@@ -10,6 +10,7 @@ const modalTitle = document.getElementById('edit-modal-title');
 const form = document.getElementById('edit-form');
 const inputId = document.getElementById('edit-id');
 const inputTitulo = document.getElementById('edit-titulo');
+const inputDescripcion = document.getElementById('edit-descripcion');
 const inputUniversidad = document.getElementById('edit-universidad');
 const inputCurso = document.getElementById('edit-curso');
 const inputAno = document.getElementById('edit-ano');
@@ -30,11 +31,15 @@ const qTableBody = document.getElementById('questions-table-body');
 const qEditModal = document.getElementById('q-edit-modal');
 const qEditForm = document.getElementById('q-edit-form');
 const qInputId = document.getElementById('q-edit-id');
+const qInputContexto = document.getElementById('q-edit-contexto');
 const qInputEnunciado = document.getElementById('q-edit-enunciado');
 const qInputTemas = document.getElementById('q-edit-temas');
 const qPreview = document.getElementById('q-edit-preview');
 const btnNewQuestion = document.getElementById('btn-new-question');
 let mathJaxTimeout = null;
+
+let currentSortCol = 'ano';
+let currentSortAsc = false;
 
 // Initialization
 async function init() {
@@ -78,13 +83,43 @@ function populateDatalists() {
   document.getElementById('list-tipo').innerHTML = Array.from(tipos).map(v => `<option value="${v}">`).join('');
 }
 
+window.sortAdminTable = (col) => {
+  if (currentSortCol === col) {
+    currentSortAsc = !currentSortAsc;
+  } else {
+    currentSortCol = col;
+    currentSortAsc = true;
+  }
+  renderTable();
+};
+
 function renderTable() {
   tableBody.innerHTML = '';
-  evaluacionesData.forEach(ev => {
+  
+  const sortedData = [...evaluacionesData].sort((a, b) => {
+    let valA = a[currentSortCol] || '';
+    let valB = b[currentSortCol] || '';
+    
+    // Sort logic for numbers/strings
+    if (currentSortCol === 'ano') {
+      valA = parseInt(a.ano) || 0;
+      valB = parseInt(b.ano) || 0;
+    } else if (typeof valA === 'string') {
+      valA = valA.toLowerCase();
+      valB = valB.toLowerCase();
+    }
+    
+    if (valA < valB) return currentSortAsc ? -1 : 1;
+    if (valA > valB) return currentSortAsc ? 1 : -1;
+    return 0;
+  });
+  
+  sortedData.forEach(ev => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="font-family: monospace; font-size: 12px; color: var(--text-secondary);">${ev.id}</td>
       <td style="font-weight: 500; color: var(--text-primary);">${ev.titulo}</td>
+      <td>${ev.universidad || ''}</td>
       <td>${ev.curso}</td>
       <td>${ev.ano} - ${ev.semestre}</td>
       <td>
@@ -109,6 +144,7 @@ window.openCreateModal = () => {
   modalTitle.innerText = "Crear Nueva Evaluación";
   inputId.value = "";
   inputTitulo.value = "";
+  inputDescripcion.value = "";
   inputUniversidad.value = "";
   inputCurso.value = "";
   inputAno.value = new Date().getFullYear();
@@ -129,6 +165,7 @@ window.openEditModal = (id) => {
   modalTitle.innerText = "Editar Evaluación";
   inputId.value = ev.id;
   inputTitulo.value = ev.titulo;
+  inputDescripcion.value = ev.descripcion || "";
   inputUniversidad.value = ev.universidad || "";
   inputCurso.value = ev.curso;
   inputAno.value = ev.ano;
@@ -266,6 +303,7 @@ window.openQEditModal = (id) => {
   const q = preguntasData.find(p => p.id === id);
   if (!q) return;
   qInputId.value = q.id;
+  qInputContexto.value = q.contexto ? q.contexto.replace(/<br\s*[\/]?>/gi, '\n') : '';
   qInputEnunciado.value = q.enunciado.replace(/<br\s*[\/]?>/gi, '\n');
   qInputTemas.value = q.temas ? q.temas.join(', ') : '';
   updateMathJaxPreview();
@@ -274,14 +312,20 @@ window.openQEditModal = (id) => {
 window.closeQEditModal = () => qEditModal.classList.remove('active');
 
 function updateMathJaxPreview() {
-  const htmlText = qInputEnunciado.value.replace(/\n/g, '<br>');
-  qPreview.innerHTML = htmlText;
+  const ctxText = qInputContexto.value.trim() ? qInputContexto.value.replace(/\n/g, '<br>') + '<br><br>' : '';
+  const enunText = qInputEnunciado.value.replace(/\n/g, '<br>');
+  qPreview.innerHTML = ctxText + enunText;
   if (window.MathJax) {
     window.MathJax.typesetPromise([qPreview]).catch((err) => console.log(err.message));
   }
 }
 
 qInputEnunciado.addEventListener('input', () => {
+  clearTimeout(mathJaxTimeout);
+  mathJaxTimeout = setTimeout(() => updateMathJaxPreview(), 500);
+});
+
+qInputContexto.addEventListener('input', () => {
   clearTimeout(mathJaxTimeout);
   mathJaxTimeout = setTimeout(() => updateMathJaxPreview(), 500);
 });
@@ -319,6 +363,7 @@ form.addEventListener('submit', async (e) => {
 
     const newMeta = {
       titulo: inputTitulo.value,
+      descripcion: inputDescripcion.value,
       universidad: inputUniversidad.value,
       curso: inputCurso.value,
       ano: inputAno.value,
@@ -360,6 +405,7 @@ form.addEventListener('submit', async (e) => {
 qEditForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const id = qInputId.value;
+  const newContexto = qInputContexto.value.replace(/\n/g, '<br>');
   const newEnunciado = qInputEnunciado.value.replace(/\n/g, '<br>');
   const newTemas = qInputTemas.value.split(',').map(s => s.trim()).filter(s => s);
   
@@ -367,7 +413,7 @@ qEditForm.addEventListener('submit', async (e) => {
     const res = await fetch(`/api/preguntas/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ enunciado: newEnunciado, temas: newTemas })
+      body: JSON.stringify({ contexto: newContexto, enunciado: newEnunciado, temas: newTemas })
     });
     
     if (res.ok) {

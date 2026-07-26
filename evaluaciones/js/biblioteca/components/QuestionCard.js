@@ -23,7 +23,6 @@ export class QuestionCard {
     if (pregunta.contexto) {
        ctxHTML = `
        <div class="context-box" style="background: var(--bg-secondary); border-left: 4px solid var(--primary); padding: 15px; margin-bottom: 20px; font-size: 14px; border-radius: 4px;">
-         <strong style="color:var(--text);"><i class="fa-solid fa-circle-info"></i> Contexto compartido:</strong><br><br>
          ${pregunta.contexto}
        </div>`;
     }

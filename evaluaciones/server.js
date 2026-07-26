@@ -93,6 +93,8 @@ app.put('/api/evaluaciones/:id', (req, res) => {
 
     const evalObj = data[index];
     evalObj.titulo = newMeta.titulo || evalObj.titulo;
+    if (newMeta.descripcion !== undefined) evalObj.descripcion = newMeta.descripcion;
+    evalObj.universidad = newMeta.universidad || evalObj.universidad;
     evalObj.curso = newMeta.curso || evalObj.curso;
     evalObj.ano = parseInt(newMeta.ano) || evalObj.ano;
     evalObj.semestre = newMeta.semestre || evalObj.semestre;
@@ -179,6 +181,7 @@ app.put('/api/preguntas/:id', (req, res) => {
 
     const pObj = data[index];
     if (newMeta.enunciado !== undefined) pObj.enunciado = newMeta.enunciado;
+    if (newMeta.contexto !== undefined) pObj.contexto = newMeta.contexto;
     if (newMeta.temas && Array.isArray(newMeta.temas)) pObj.temas = newMeta.temas;
 
     fs.writeFileSync(PREGUNTAS_FILE, JSON.stringify(data, null, 2));

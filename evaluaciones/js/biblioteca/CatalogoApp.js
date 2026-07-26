@@ -19,6 +19,7 @@ class CatalogoApp {
   async init() {
     try {
       this.evaluaciones = await libraryService.getEvaluaciones();
+      this.populateFilters();
       this.bindEvents();
       this.render();
     } catch (error) {
@@ -42,6 +43,28 @@ class CatalogoApp {
       this.tipoInput.value = '';
       this.render();
     });
+  }
+
+  populateFilters() {
+    const cursos = new Set();
+    const tipos = new Set();
+    
+    this.evaluaciones.forEach(ev => {
+      if (ev.curso) cursos.add(ev.curso);
+      if (ev.tipo) tipos.add(ev.tipo);
+    });
+
+    const currentCurso = this.cursoInput.value;
+    const currentTipo = this.tipoInput.value;
+
+    this.cursoInput.innerHTML = '<option value="">Todos los cursos</option>' + 
+      Array.from(cursos).sort().map(c => `<option value="${c}">${c}</option>`).join('');
+    
+    this.tipoInput.innerHTML = '<option value="">Todos los tipos</option>' + 
+      Array.from(tipos).sort().map(t => `<option value="${t}">${t}</option>`).join('');
+      
+    this.cursoInput.value = currentCurso;
+    this.tipoInput.value = currentTipo;
   }
 
   filterData() {
@@ -104,7 +127,7 @@ class CatalogoApp {
         </div>
         <div class="eval-meta" style="margin-top: -10px; margin-bottom: 15px;">
           ${ev.universidad ? `<span><i class="fa-solid fa-building-columns"></i> ${ev.universidad}</span>` : ''}
-          ${ev.año ? `<span><i class="fa-regular fa-calendar"></i> ${ev.año}</span>` : ''}
+          ${ev.ano ? `<span><i class="fa-regular fa-calendar"></i> ${ev.ano}</span>` : ''}
           ${ev.semestre ? `<span><i class="fa-solid fa-leaf"></i> ${ev.semestre}</span>` : ''}
         </div>
 

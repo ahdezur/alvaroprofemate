@@ -1,42 +1,5 @@
 [
   {
-    "id": "prueba-piloto-calculo-2",
-    "titulo": "Prueba piloto de Cálculo 2",
-    "descripcion": "Evaluación integral para validar conocimientos fundamentales de cálculo en varias variables y cálculo vectorial (curvas de nivel, integrales dobles y teoremas vectoriales).",
-    "curso": "Cálculo 2",
-    "universidad": "Universidad de Chile",
-    "año": 2023,
-    "semestre": "Primavera",
-    "tipo": "Prueba",
-    "tiempo_limite_minutos": 90,
-    "etiquetas": [
-      "Cálculo de Varias Variables",
-      "Cálculo Vectorial"
-    ],
-    "preguntas": [
-      "pregunta-curvas-nivel-001",
-      "pregunta-integral-doble-001",
-      "pregunta-conservativo-001",
-      "pregunta-green-001"
-    ]
-  },
-  {
-    "id": "examen-algebra-lineal-01",
-    "titulo": "Examen Final Álgebra Lineal",
-    "descripcion": "Examen completo que abarca espacios vectoriales, transformaciones lineales y diagonalización.",
-    "curso": "Álgebra Lineal",
-    "universidad": "Universidad Católica",
-    "año": 2022,
-    "semestre": "Otoño",
-    "tipo": "Examen",
-    "tiempo_limite_minutos": 120,
-    "etiquetas": [
-      "Espacios Vectoriales",
-      "Diagonalización"
-    ],
-    "preguntas": []
-  },
-  {
     "id": "examen-calculo-ii-uan-2026-1",
     "titulo": "Examen de Cálculo II",
     "descripcion": "Evaluación sumativa sobre diferenciabilidad en varias variables, derivadas parciales, cambio del orden de integración, cambio de variables e integrales de superficie.",
@@ -54,8 +17,7 @@
       "Cambio de orden",
       "Coordenadas polares",
       "Integrales de superficie",
-      "Teorema de Gauss",
-      "Principio de Arquímedes"
+      "Teorema de Gauss"
     ],
     "preguntas": [
       "p1-a-i-derivadas-parciales",
@@ -71,12 +33,12 @@
   },
   {
     "id": "examen-calculo-multivariable-2026-1",
-    "titulo": "Examen de Cálculo Multivariable 2026-1",
+    "titulo": "Examen de Cálculo Multivariable",
     "descripcion": "Evaluación de integración múltiple, Teorema de Green, aproximación mediante diferenciales y geometría de curvas en el espacio.",
     "curso": "Cálculo Multivariable",
     "universidad": "Universidad del Desarrollo",
     "ano": 2026,
-    "semestre": "2026-1",
+    "semestre": "Otoño",
     "tipo": "Examen",
     "tiempo_limite_minutos": 120,
     "etiquetas": [
@@ -131,7 +93,7 @@
     "id": "control-4-ma1101-2026-otono",
     "titulo": "Control 4 de Introducción al Álgebra",
     "descripcion": "Control sobre elementos invertibles en anillos, grupos, números complejos, subgrupos, raíces y divisibilidad de polinomios.",
-    "curso": "Introducción al Álgebra MA1101",
+    "curso": "Introducción al Álgebra",
     "universidad": "Universidad de Chile",
     "ano": 2026,
     "semestre": "Otoño",
@@ -168,76 +130,33 @@
     ]
   },
   {
-    "id": "prueba-multimetodo-01",
-    "titulo": "Prueba Demostrativa Multi-Método",
-    "descripcion": "Esta es una prueba generada para demostrar el selector de métodos múltiples en la rúbrica.",
-    "curso": "Curso de Prueba",
-    "universidad": "Universidad AI",
-    "ano": 2026,
-    "semestre": "Otoño",
-    "tipo": "Prueba Piloto",
-    "tiempo_limite_minutos": 90,
-    "etiquetas": [
-      "Multi-Método",
-      "Demostración"
-    ],
-    "preguntas": [
-      "q-mult-01"
-    ]
-  },
-  {
-    "id": "control-4-algebra",
-    "titulo": "Control 4",
-    "descripcion": "Facultad de Ciencias Físicas y Matemáticas",
-    "curso": "Introducción al Algebra MA1101",
-    "universidad": "Universidad de Chile",
-    "ano": 2026,
-    "semestre": "Otoño",
-    "tipo": "Control",
-    "tiempo_limite_minutos": 180,
-    "etiquetas": [
-      "Anillos",
-      "Grupos",
-      "Complejos",
-      "Polinomios"
-    ],
-    "preguntas": [
-      "p1-a",
-      "p1-b",
-      "p1-c",
-      "p1-d",
-      "p1-e",
-      "p2-a",
-      "p2-b",
-      "p2-c",
-      "p2-d",
-      "p3-a-i",
-      "p3-a-ii",
-      "p3-b-i",
-      "p3-b-ii",
-      "p3-b-iii",
-      "p3-b-iv"
-    ]
-  },
-  {
-    "id": "udd-calculo-integral-2023-1-examen",
-    "titulo": "Examen Cálculo Integral",
-    "descripcion": "Facultad de Ingeniería",
-    "curso": "Cálculo Integral",
+    "id": "examen-calculo-multivariable-2024-primavera",
+    "titulo": "Examen de Cálculo Multivariable",
+    "descripcion": "Examen de Cálculo Multivariable sobre regla de la cadena, extremos de funciones de varias variables, integración triple en coordenadas esféricas e integrales de línea.",
+    "curso": "Cálculo Multivariable",
     "universidad": "Universidad del Desarrollo",
-    "ano": 2023,
-    "semestre": "Otoño",
+    "ano": 2024,
+    "semestre": "Primavera",
     "tipo": "Examen",
     "tiempo_limite_minutos": 120,
     "etiquetas": [
-      "Áreas",
-      "Coordenadas Polares",
-      "Longitud de Arco",
-      "Volumen de Revolución",
-      "Series de Potencias"
+      "Regla de la cadena",
+      "Derivadas parciales",
+      "Puntos críticos",
+      "Extremos globales",
+      "Coordenadas esféricas",
+      "Integral triple",
+      "Integrales de línea",
+      "Teorema de Green"
     ],
     "preguntas": [
-      "p1"
+      "examen-mv-2024-p1",
+      "examen-mv-2024-p2a",
+      "examen-mv-2024-p2b",
+      "examen-mv-2024-p3",
+      "examen-mv-2024-p4a",
+      "examen-mv-2024-p4b",
+      "examen-mv-2024-p4c"
     ]
   }
 ]
