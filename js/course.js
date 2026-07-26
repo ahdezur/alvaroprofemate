@@ -1624,9 +1624,17 @@ function initCoursePage() {
   function formatExercisesContent(raw) {
     if (!raw) return '<p style="color: var(--text-muted);">Sin ejercicios cargados.</p>';
     try {
-      const trimmed = raw.trim();
-      if (trimmed.startsWith("[")) {
-        const items = JSON.parse(trimmed);
+      let items = null;
+      if (Array.isArray(raw)) {
+        items = raw;
+      } else if (typeof raw === 'string') {
+        const trimmed = raw.trim();
+        if (trimmed.startsWith("[")) {
+          items = JSON.parse(trimmed);
+        }
+      }
+
+      if (items && Array.isArray(items)) {
         if (items.length === 0) return '<p style="color: var(--text-muted);">Sin ejercicios cargados.</p>';
         return items.map((item, index) => {
           let badgeHtml = '';
@@ -1647,17 +1655,17 @@ function initCoursePage() {
           return `
             <div class="ejercicio-propuesto" data-ejercicio-id="ex-${index}">
               <div class="ejercicio-header">
-                <h4 class="ejercicio-titulo-prop">${index + 1}. ${escapeHtml(item.title)}</h4>
+                <h4 class="ejercicio-titulo-prop">${index + 1}. ${escapeHtml(item.title || '')}</h4>
                 ${badgeHtml}
               </div>
               <p class="ejercicio-enunciado">
-                ${item.statement}
+                ${item.statement || ''}
               </p>
               <button class="btn-pista" aria-expanded="false">
                 <span>💡</span> Ver Indicación / Pauta
               </button>
               <div class="pista-contenido hidden">
-                ${item.solution}
+                ${item.solution || ''}
               </div>
             </div>
           `;
@@ -1666,15 +1674,23 @@ function initCoursePage() {
     } catch (e) {
       console.warn("No se pudo parsear el contenido de ejercicios como JSON estructurado, inyectando como HTML legacy", e);
     }
-    return raw;
+    return typeof raw === 'string' ? raw : '';
   }
 
   function formatFormulasContent(raw) {
     if (!raw) return '<p style="color: var(--text-muted);">Sin fórmulas cargadas.</p>';
     try {
-      const trimmed = raw.trim();
-      if (trimmed.startsWith("[")) {
-        const items = JSON.parse(trimmed);
+      let items = null;
+      if (Array.isArray(raw)) {
+        items = raw;
+      } else if (typeof raw === 'string') {
+        const trimmed = raw.trim();
+        if (trimmed.startsWith("[")) {
+          items = JSON.parse(trimmed);
+        }
+      }
+
+      if (items && Array.isArray(items)) {
         if (items.length === 0) return '<p style="color: var(--text-muted);">Sin fórmulas cargadas.</p>';
         const cards = items.map(item => {
           let mathContent = item.latex ? item.latex.trim() : '';
@@ -1690,12 +1706,12 @@ function initCoursePage() {
           }
           return `
             <div class="formula-card">
-              <h4>${escapeHtml(item.title)}</h4>
+              <h4>${escapeHtml(item.title || '')}</h4>
               <div class="formula-card-latex" style="overflow-x: auto; padding: 6px 0;">
                 ${formattedMath}
               </div>
               <p style="font-size: 0.82rem; color: var(--text-muted); margin: 5px 0 0 0;">
-                ${escapeHtml(item.description)}
+                ${escapeHtml(item.description || '')}
               </p>
             </div>
           `;
@@ -1710,7 +1726,7 @@ function initCoursePage() {
     } catch (e) {
       console.warn("No se pudo parsear el contenido de fórmulas como JSON estructurado, inyectando como HTML legacy", e);
     }
-    return raw;
+    return typeof raw === 'string' ? raw : '';
   }
 
   // Helper de Escape HTML básico
