@@ -155,6 +155,10 @@ function initCoursePage() {
       const data = await DB.getCourseStructure(COURSE_ID);
       if (data.error) {
         menuContainer.innerHTML = `<p style="color: #ef4444; padding: 20px; font-size: 13px;">${data.error}</p>`;
+        const dynamicContainer = document.getElementById("contenido-dinamico");
+        if (dynamicContainer) {
+          dynamicContainer.innerHTML = `<p style="color: #ef4444; padding: 30px; text-align: center;">Error al cargar los contenidos: ${data.error}</p>`;
+        }
         return;
       }
 
@@ -193,11 +197,20 @@ function initCoursePage() {
 
       if (defaultChapter) {
         loadChapter(defaultChapter);
+      } else {
+        const dynamicContainer = document.getElementById("contenido-dinamico");
+        if (dynamicContainer) {
+          dynamicContainer.innerHTML = `<p style="color: var(--text-muted); padding: 30px; text-align: center;">No hay capítulos disponibles en este curso.</p>`;
+        }
       }
 
     } catch (err) {
       console.error("Error al cargar el curso:", err);
       menuContainer.innerHTML = `<p style="color: #ef4444; padding: 20px; font-size: 13px;">Error de red al cargar el curso.</p>`;
+      const dynamicContainer = document.getElementById("contenido-dinamico");
+      if (dynamicContainer) {
+        dynamicContainer.innerHTML = `<p style="color: #ef4444; padding: 30px; text-align: center;">Error de red al cargar el curso.</p>`;
+      }
     }
   }
 

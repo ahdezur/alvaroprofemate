@@ -517,15 +517,17 @@ const DB = {
     if (apiActive) {
       try {
         const response = await fetch(`${CONFIG.API_URL.replace('posts', 'courses')}?courseId=${courseId}`, { method: "GET" });
-        if (!response.ok) throw new Error("Error en API al obtener estructura del curso");
-        return await response.json();
+        if (response.ok) {
+          const resJson = await response.json();
+          if (resJson && !resJson.error && resJson.units && resJson.units.length > 0) {
+            return resJson;
+          }
+        }
       } catch (error) {
         console.warn("Fallo de conexión a la API, usando LocalStorage:", error);
-        return this._getLocalCourseStructure(courseId);
       }
-    } else {
-      return this._getLocalCourseStructure(courseId);
     }
+    return this._getLocalCourseStructure(courseId);
   },
 
   async getChapterContent(courseId, chapterIndex) {
@@ -534,15 +536,17 @@ const DB = {
     if (apiActive) {
       try {
         const response = await fetch(`${CONFIG.API_URL.replace('posts', 'courses')}?courseId=${courseId}&chapterIndex=${chapterIndex}`, { method: "GET" });
-        if (!response.ok) throw new Error("Error en API al obtener contenido del capítulo");
-        return await response.json();
+        if (response.ok) {
+          const resJson = await response.json();
+          if (resJson && !resJson.error) {
+            return resJson;
+          }
+        }
       } catch (error) {
         console.warn("Fallo de conexión a la API, usando LocalStorage:", error);
-        return this._getLocalChapterContent(courseId, chapterIndex);
       }
-    } else {
-      return this._getLocalChapterContent(courseId, chapterIndex);
     }
+    return this._getLocalChapterContent(courseId, chapterIndex);
   },
 
   async saveCourse(course) {
