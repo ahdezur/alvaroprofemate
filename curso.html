@@ -9,6 +9,8 @@
   
   <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- DOMPurify for XSS Protection -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
 
   <!-- Tipografías de Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1254,41 +1256,8 @@
       }
     }
 
-    /* Adaptabilidad Móvil */
-    @media (max-width: 992px) {
-      :root {
-        --sidebar-width: 280px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      .main-content {
-        margin-left: 0;
-      }
-
-      .top-navbar {
-        padding: 0 20px;
-      }
-
-      .content-viewport {
-        padding: 24px 16px;
-      }
-    }
-
     /* ==========================================================================
-       9. PESTAÑAS DE ENFOQUE RAM
+       9. PESTAÑAS DE ENFOQUE RAM (ESTILO PILL ORIGINAL RESTAURADO)
        ========================================================================== */
     .ram-tabs {
       display: flex;
@@ -1315,7 +1284,7 @@
       padding: 12px 16px;
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-md, 12px);
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.95rem;
@@ -1334,42 +1303,54 @@
 
     /* Estados Activos de Pestañas (Colores RAM) */
     .ram-tab-btn[data-tab="motivacion"].active {
-      background-color: var(--ram-motivacion-bg);
-      border-color: var(--ram-motivacion-border);
-      color: var(--ram-motivacion-text);
-      box-shadow: 0 4px 12px hsl(40, 95%, 90%);
+      background-color: var(--ram-motivacion-bg, #fffbeb);
+      border-color: var(--ram-motivacion-border, #f59e0b);
+      color: var(--ram-motivacion-text, #92400e);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
     }
     [data-theme="dark"] .ram-tab-btn[data-tab="motivacion"].active {
+      background-color: rgba(245, 158, 11, 0.15);
+      border-color: #f59e0b;
+      color: #fbbf24;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .ram-tab-btn[data-tab="teoria"].active {
-      background-color: var(--ram-teoria-bg);
-      border-color: var(--ram-teoria-border);
-      color: var(--ram-teoria-text);
-      box-shadow: 0 4px 12px hsl(210, 95%, 90%);
+      background-color: var(--ram-teoria-bg, #eff6ff);
+      border-color: var(--ram-teoria-border, #3b82f6);
+      color: var(--ram-teoria-text, #1e40af);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
     }
     [data-theme="dark"] .ram-tab-btn[data-tab="teoria"].active {
+      background-color: rgba(59, 130, 246, 0.15);
+      border-color: #3b82f6;
+      color: #60a5fa;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .ram-tab-btn[data-tab="aplicacion"].active {
-      background-color: var(--ram-aplicacion-bg);
-      border-color: var(--ram-aplicacion-border);
-      color: var(--ram-aplicacion-text);
-      box-shadow: 0 4px 12px hsl(150, 95%, 88%);
+      background-color: var(--ram-aplicacion-bg, #ecfdf5);
+      border-color: var(--ram-aplicacion-border, #10b981);
+      color: var(--ram-aplicacion-text, #065f46);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
     }
     [data-theme="dark"] .ram-tab-btn[data-tab="aplicacion"].active {
+      background-color: rgba(16, 185, 129, 0.15);
+      border-color: #10b981;
+      color: #34d399;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .ram-tab-btn[data-tab="ejercicios"].active {
-      background-color: var(--ram-ejercicios-bg);
-      border-color: var(--ram-ejercicios-border);
-      color: var(--ram-ejercicios-text);
-      box-shadow: 0 4px 12px hsl(262, 95%, 90%);
+      background-color: var(--ram-ejercicios-bg, #f5f3ff);
+      border-color: var(--ram-ejercicios-border, #8b5cf6);
+      color: var(--ram-ejercicios-text, #5b21b6);
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
     }
     [data-theme="dark"] .ram-tab-btn[data-tab="ejercicios"].active {
+      background-color: rgba(139, 92, 246, 0.15);
+      border-color: #8b5cf6;
+      color: #a78bfa;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
@@ -1395,19 +1376,6 @@
       to {
         opacity: 1;
         transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .ram-tabs {
-        flex-direction: column;
-        gap: 8px;
-        position: static;
-        padding: 8px 0;
-      }
-      .ram-tab-btn {
-        max-width: 100%;
-        width: 100%;
       }
     }
 
@@ -1499,24 +1467,144 @@
       min-width: fit-content;
     }
 
+    /* Adaptabilidad Móvil y Tablet Avanzada */
+    .sidebar-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1050;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .sidebar-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
     @media (max-width: 992px) {
+      :root {
+        --sidebar-width: 290px;
+      }
+      body {
+        flex-direction: column;
+      }
+      .shell-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 290px;
+        max-width: 85vw;
+        height: 100vh;
+        z-index: 1100;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25);
+        background: var(--bg-card);
+        overflow-y: auto;
+        border-right: 1px solid var(--border-color);
+        border-bottom: none;
+      }
+      .sidebar.mobile-open,
+      .shell-container:not(.sidebar-collapsed) .sidebar {
+        transform: translateX(0);
+      }
+      .shell-container.sidebar-collapsed .sidebar {
+        transform: translateX(-100%);
+      }
+      .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+      }
+      .top-navbar {
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        background: var(--bg-primary);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 0 16px;
+      }
+      #sidebar-show-btn {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+      .ram-tabs {
+        top: 60px;
+        padding: 8px 12px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+      }
+      .ram-tab-btn {
+        flex: 0 0 auto;
+        min-width: 130px;
+        font-size: 0.88rem;
+        padding: 8px 14px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-viewport {
+        padding: 16px 12px;
+      }
+      .caja-ram {
+        padding: 16px;
+        margin: 16px 0;
+      }
       .split-active.split-container {
         flex-direction: column;
-        gap: 24px;
+        gap: 16px;
       }
       .split-active .formula-pane {
+        position: fixed;
+        bottom: 0;
+        left: 0;
         width: 100%;
         max-width: 100%;
-        min-width: 0;
-        position: static;
-        max-height: none;
+        height: 75vh;
+        max-height: 80vh;
+        z-index: 1200;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.3);
+        padding: 20px 16px;
+        background: var(--bg-card);
+        overflow-y: auto;
+        animation: slideUpSheet 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
+      @keyframes slideUpSheet {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
+    }
+
+    /* Garantizar Ergonometría Táctil y Prevención de Desbordamientos */
+    .formula-block, .formula-card-latex, .quiz-block, pre, table, iframe {
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    button, .quiz-option, .pareo-select-col2, .pareo-select-col3, .btn-verify-quiz, .ram-tab-btn {
+      min-height: 44px;
+      touch-action: manipulation;
     }
   </style>
 </head>
 <body>
 
   <div class="shell-container">
+    <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
     
     <!-- ==========================================================================
          SIDEBAR: HOJA DE RUTA LATERAL (ACORDEÓN INTERACTIVO)
@@ -1642,8 +1730,8 @@
   </div>
 
   <!-- Javascript Modules -->
-  <script src="/js/config.js?v=18.0"></script>
-  <script src="/js/db.js?v=18.0"></script>
-  <script src="/js/course.js?v=18.0"></script>
+  <script src="js/config.js?v=19.0"></script>
+  <script src="js/db.js?v=19.0"></script>
+  <script src="js/course.js?v=19.0"></script>
 </body>
 </html>

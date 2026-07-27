@@ -173,8 +173,8 @@
 
     Por la definición formal de límite:
     \begin{itemize}
-      \item Para $\lim_{(x,y) \to (x_0,y_0)} f(x,y) = L_1$, existe $\delta_1 > 0$ tal que si $0 < \sqrt{(x-x_0)^2 + (y-y_0)^2} < \delta_1$, entonces $|f(x,y) - L_1| < \varepsilon$.
-      \item Para $\lim_{(x,y) \to (x_0,y_0)} f(x,y) = L_2$, existe $\delta_2 > 0$ tal que si $0 < \sqrt{(x-x_0)^2 + (y-y_0)^2} < \delta_2$, entonces $|f(x,y) - L_2| < \varepsilon$.
+      \item Para $\displaystyle \lim_{(x,y) \to (x_0,y_0)} f(x,y) = L_1$, existe $\delta_1 > 0$ tal que si $0 < \sqrt{(x-x_0)^2 + (y-y_0)^2} < \delta_1$, entonces $|f(x,y) - L_1| < \varepsilon$.
+      \item Para $\displaystyle \lim_{(x,y) \to (x_0,y_0)} f(x,y) = L_2$, existe $\delta_2 > 0$ tal que si $0 < \sqrt{(x-x_0)^2 + (y-y_0)^2} < \delta_2$, entonces $|f(x,y) - L_2| < \varepsilon$.
     \end{itemize}
 
     Dado que $(x_0,y_0)$ es punto de acumulación de $\operatorname{dom}(f)$, en la bola perforada de radio $\delta = \min(\delta_1, \delta_2)$ existe al menos un punto $(x,y) \in \operatorname{dom}(f)$. Para dicho punto, aplicando la desigualdad triangular:
@@ -205,12 +205,12 @@
 
   % --- TEOREMA: ÁLGEBRA DE LÍMITES ---
   \begin{teorema}{Álgebra de Límites}
-    Si $\lim_{(x,y) \to (a,b)} f(x,y) = L$ y $\lim_{(x,y) \to (a,b)} g(x,y) = M$, y $c \in \mathbb{R}$ es una constante, entonces se cumplen las siguientes propiedades algebraicas:
+    Si $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = L$ y $\displaystyle \lim_{(x,y) \to (a,b)} g(x,y) = M$, y $c \in \mathbb{R}$ es una constante, entonces se cumplen las siguientes propiedades algebraicas:
     \begin{enumerate}
-      \item \textbf{Múltiplo escalar:} $\lim_{(x,y) \to (a,b)} [c \cdot f(x,y)] = c \cdot L$
-      \item \textbf{Suma y Resta:} $\lim_{(x,y) \to (a,b)} [f(x,y) \pm g(x,y)] = L \pm M$
-      \item \textbf{Producto:} $\lim_{(x,y) \to (a,b)} [f(x,y) \cdot g(x,y)] = L \cdot M$
-      \item \textbf{Cociente:} $\lim_{(x,y) \to (a,b)} \left[ \frac{f(x,y)}{g(x,y)} \right] = \frac{L}{M}$, siempre que $M \neq 0$.
+      \item \textbf{Múltiplo escalar:} $\displaystyle \lim_{(x,y) \to (a,b)} [c \cdot f(x,y)] = c \cdot L$
+      \item \textbf{Suma y Resta:} $\displaystyle \lim_{(x,y) \to (a,b)} [f(x,y) \pm g(x,y)] = L \pm M$
+      \item \textbf{Producto:} $\displaystyle \lim_{(x,y) \to (a,b)} [f(x,y) \cdot g(x,y)] = L \cdot M$
+      \item \textbf{Cociente:} $\displaystyle \lim_{(x,y) \to (a,b)} \left[ \frac{f(x,y)}{g(x,y)} \right] = \frac{L}{M}$, siempre que $M \neq 0$.
     \end{enumerate}
   \end{teorema}
 
@@ -226,18 +226,18 @@
 
   % --- RESULTADO 2: TEOREMA DE CERO POR ACOTADO ---
   \begin{teorema}{Teorema de Cero por Acotado}
-    Si $\lim_{(x,y) \to (a,b)} f(x,y) = 0$ y $g(x,y)$ es una función acotada en una vecindad perforada alrededor de $(a,b)$, entonces:
+    Si $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = 0$ y $g(x,y)$ es una función acotada en una vecindad perforada alrededor de $(a,b)$, entonces:
     $$ \lim_{(x,y) \to (a,b)} [f(x,y)g(x,y)] = 0 $$
   \end{teorema}
 
   \begin{proof}[\textbf{Demostración:}]
     Como $g(x,y)$ es acotada, existe una constante $M > 0$ tal que $|g(x,y)| \leq M$ en una bola perforada de radio $\delta_1 > 0$ centrada en $(a,b)$.
     
-    Por otro lado, como $\lim_{(x,y) \to (a,b)} f(x,y) = 0$, para todo $\varepsilon > 0$ existe $\delta_2 > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta_2$, entonces $|f(x,y)| < \frac{\varepsilon}{M}$.
+    Por otro lado, como $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = 0$, para todo $\varepsilon > 0$ existe $\delta_2 > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta_2$, entonces $|f(x,y)| < \frac{\varepsilon}{M}$.
     
     Eligiendo $\delta = \min(\delta_1, \delta_2)$, si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, tenemos:
     $$ |f(x,y)g(x,y) - 0| = |f(x,y)| \cdot |g(x,y)| < \frac{\varepsilon}{M} \cdot M = \varepsilon $$
-    Por lo tanto, $\lim_{(x,y) \to (a,b)} [f(x,y)g(x,y)] = 0$.
+    Por lo tanto, $\displaystyle \lim_{(x,y) \to (a,b)} [f(x,y)g(x,y)] = 0$.
   \end{proof}
 
   % --- ALERTA: PROPIEDADES QUE DEJAN DE SER VÁLIDAS ---
@@ -294,16 +294,16 @@
 
   % --- TIPO 1: PREGUNTA DE ALTERNATIVAS ---
   \begin{preguntaalternativas}{Aplicación de Teoremas de Acotamiento}
-    Para calcular $\lim_{(x,y) \to (0,0)} y^2 \cos\left(\frac{1}{xy}\right)$, ¿cuál es el argumento analítico correcto?
+    Para calcular $\displaystyle \lim_{(x,y) \to (0,0)} y^2 \cos\left(\frac{1}{xy}\right)$, ¿cuál es el argumento analítico correcto?
     
     \opcion{El límite no existe porque la función coseno oscila infinitamente cuando su argumento crece sin cota.}{Incorrecto}{Aunque es cierto que el coseno oscila, estás olvidando analizar qué ocurre con el factor $y^2$ que lo multiplica.}
     \opcion{Se debe utilizar la Regla de L'Hôpital derivando parcialmente respecto a $y$.}{Incorrecto}{Recuerda la advertencia teórica: la Regla de L'Hôpital no es aplicable directamente en funciones de varias variables.}
-    \opcion{El límite es $0$ aplicando el Teorema de Cero por Acotado, ya que $\lim_{(x,y)\to(0,0)} y^2 = 0$ y el coseno siempre está acotado entre $-1$ y $1$.}{Correcto}{¡Excelente! Tienes un término que tiende a cero ($y^2$) multiplicado por una función acotada ($|\cos(u)| \leq 1$). Esto garantiza que el producto tiende a cero.}
+    \opcion{El límite es $0$ aplicando el Teorema de Cero por Acotado, ya que $\displaystyle \lim_{(x,y)\to(0,0)} y^2 = 0$ y el coseno siempre está acotado entre $-1$ y $1$.}{Correcto}{¡Excelente! Tienes un término que tiende a cero ($y^2$) multiplicado por una función acotada ($|\cos(u)| \leq 1$). Esto garantiza que el producto tiende a cero.}
   \end{preguntaalternativas}
 
   % --- TIPO 2: PREGUNTA DE VERDADERO O FALSO ---
   \begin{preguntaverdaderofalso}{Unicidad del Límite y Puntos de Acumulación}
-    Si evaluamos un campo escalar $f(x,y)$ acercándonos al origen a lo largo de los ejes $x=0$ e $y=0$, y en ambos casos el límite es $L=5$, entonces el Teorema de Unicidad garantiza que $\lim_{(x,y) \to (0,0)} f(x,y) = 5$.
+    Si evaluamos un campo escalar $f(x,y)$ acercándonos al origen a lo largo de los ejes $x=0$ e $y=0$, y en ambos casos el límite es $L=5$, entonces el Teorema de Unicidad garantiza que $\displaystyle \lim_{(x,y) \to (0,0)} f(x,y) = 5$.
     
     \verdaderofalso{F}
       {¡Correcto! El Teorema de Unicidad afirma que \textbf{si el límite general existe}, es único. Aproximarse por solo dos caminos no garantiza la existencia del límite general.}
@@ -325,11 +325,11 @@
     
     % COLUMNA 1: Límites
     \columnaI{
-      \item $\lim_{(x,y)\to(0,0)} \frac{\sin(x^2+y^2)}{x^2+y^2}$
-      \item $\lim_{(x,y)\to(1,2)} (3xy - y^2)$
-      \item $\lim_{(x,y)\to(0,0)} x^2 \arctan\left(\frac{1}{y}\right)$
-      \item $\lim_{(x,y)\to(3,3)} \frac{x^2-y^2}{x-y}$
-      \item $\lim_{(x,y)\to(0,0)} \frac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$
+      \item $\displaystyle \lim_{(x,y)\to(0,0)} \frac{\sin(x^2+y^2)}{x^2+y^2}$
+      \item $\displaystyle \lim_{(x,y)\to(1,2)} (3xy - y^2)$
+      \item $\displaystyle \lim_{(x,y)\to(0,0)} x^2 \arctan\left(\frac{1}{y}\right)$
+      \item $\displaystyle \lim_{(x,y)\to(3,3)} \frac{x^2-y^2}{x-y}$
+      \item $\displaystyle \lim_{(x,y)\to(0,0)} \frac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$
     }
     
     % COLUMNA 2: Técnicas - Mezcladas
@@ -351,11 +351,11 @@
     }
 
     % --- SOLUCIONES Y RETROALIMENTACIÓN ---
-    \pareotres{1-E-IV}{¡Correcto! Usando la sustitución $u = x^2+y^2$, el límite se transforma en el notable $\lim_{u\to0} \frac{\sin(u)}{u} = 1$.}
+    \pareotres{1-E-IV}{¡Correcto! Usando la sustitución $u = x^2+y^2$, el límite se transforma en el notable $\displaystyle \lim_{u\to0} \frac{\sin(u)}{u} = 1$.}
     \pareotres{2-D-I}{¡Excelente! Al ser un polinomio y $(1,2)$ pertenecer al dominio, evaluamos directamente: $3(1)(2) - 2^2 = 6 - 4 = 2$.}
     \pareotres{3-B-III}{¡Perfecto! El término $x^2 \to 0$ y la función arco tangente está estrictamente acotada entre $-\pi/2$ y $\pi/2$. Por el Teorema de Cero por Acotado, el límite es $0$.}
-    \pareotres{4-A-II}{¡Muy bien! Se factoriza la diferencia de cuadrados en el numerador como $(x-y)(x+y)$. Al simplificar $(x-y)$, nos queda $\lim (x+y) = 3+3 = 6$.}
-    \pareotres{5-C-V}{¡Magistral! Haciendo el cambio $u = x^2+y^2$, obtenemos el límite notable canónico $\lim_{u\to0} \frac{1-\cos(u)}{u^2} = \frac{1}{2}$.}
+    \pareotres{4-A-II}{¡Muy bien! Se factoriza la diferencia de cuadrados en el numerador como $(x-y)(x+y)$. Al simplificar $(x-y)$, nos queda $\displaystyle \lim (x+y) = 3+3 = 6$.}
+    \pareotres{5-C-V}{¡Magistral! Haciendo el cambio $u = x^2+y^2$, obtenemos el límite notable canónico $\displaystyle \lim_{u\to0} \frac{1-\cos(u)}{u^2} = \frac{1}{2}$.}
 
   \end{pareadostrescolumnas}
 
@@ -397,10 +397,10 @@
   % --- 2. EJERCICIO DE DEMOSTRACIÓN ---
   \begin{ejerciciodemostracion}{Invarianza por Unicidad y Construcción $\varepsilon$-$\delta$}{nivel-3}
     \enunciado{
-      Demuestre formalmente que si $\lim_{(x,y) \to (a,b)} f(x,y) = L$, entonces $\lim_{(x,y) \to (a,b)} |f(x,y)| = |L|$.
+      Demuestre formalmente que si $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = L$, entonces $\displaystyle \lim_{(x,y) \to (a,b)} |f(x,y)| = |L|$.
     }
     \demostracion{
-      Sea $\varepsilon > 0$ arbitrario. Dado que $\lim_{(x,y) \to (a,b)} f(x,y) = L$, existe un $\delta > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, entonces:
+      Sea $\varepsilon > 0$ arbitrario. Dado que $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = L$, existe un $\delta > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, entonces:
       $$ |f(x,y) - L| < \varepsilon $$
 
       Por la propiedad de la desigualdad triangular en su forma reversa para números reales, sabemos que para cualesquiera $A, B \in \mathbb{R}$:
@@ -412,7 +412,7 @@
       Por lo tanto, para el mismo $\delta > 0$, si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, se cumple encadenadamente que:
       $$ ||f(x,y)| - |L|| \leq |f(x,y) - L| < \varepsilon $$
 
-      Quedando demostrado por definición que $\lim_{(x,y) \to (a,b)} |f(x,y)| = |L|$.
+      Quedando demostrado por definición que $\displaystyle \lim_{(x,y) \to (a,b)} |f(x,y)| = |L|$.
     }
   \end{ejerciciodemostracion}
 
@@ -423,7 +423,7 @@
       $$ \lim_{(x,y) \to (0,0)} \frac{x^2 \sin(x^2 + y^2)}{\sqrt{x^2 + y^2}} $$
     }
     \pista{
-      Puedes reescribir la expresión reordenando sus términos como $x^2 \cdot \frac{\sin(x^2 + y^2)}{x^2 + y^2} \cdot \sqrt{x^2 + y^2}$. Utiliza el límite notable $\lim_{u \to 0} \frac{\sin(u)}{u} = 1$ haciendo $u = x^2 + y^2$ junto con el Álgebra de Límites, o bien acota utilizando que $|\sin(u)| \leq 1$ para aplicar Cero por Acotado.
+      Puedes reescribir la expresión reordenando sus términos como $x^2 \cdot \frac{\sin(x^2 + y^2)}{x^2 + y^2} \cdot \sqrt{x^2 + y^2}$. Utiliza el límite notable $\displaystyle \lim_{u \to 0} \frac{\sin(u)}{u} = 1$ haciendo $u = x^2 + y^2$ junto con el Álgebra de Límites, o bien acota utilizando que $|\sin(u)| \leq 1$ para aplicar Cero por Acotado.
     }
   \end{ejerciciopropuesto}
 

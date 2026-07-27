@@ -123,7 +123,7 @@
   Por el contrario, si la superficie se fractura y genera un acantilado donde acercarse por distintos caminos nos lleva a alturas completamente diferentes, la grieta es estructural y el límite no existe: estamos frente a una \textbf{discontinuidad irreparable}.
 
   \begin{preguntaguia}
-    Si un campo escalar $f(x,y)$ no está definido en el origen $(0,0)$, pero sabemos que el límite $\lim_{(x,y)\to(0,0)} f(x,y) = 5$, ¿qué valor exacto debemos asignarle a $f(0,0)$ para transformarla en una función continua en todo el plano?
+    Si un campo escalar $f(x,y)$ no está definido en el origen $(0,0)$, pero sabemos que el límite $\displaystyle \lim_{(x,y)\to(0,0)} f(x,y) = 5$, ¿qué valor exacto debemos asignarle a $f(0,0)$ para transformarla en una función continua en todo el plano?
   \end{preguntaguia}
 \end{motivacion}
 
@@ -141,9 +141,9 @@
     
     Esta igualdad implica necesariamente el cumplimiento simultáneo de tres condiciones:
     \begin{enumerate}
-      \item $(x_0, y_0) \in \operatorname{dom}(f)$ \quad (El punto está bien definido en la función).
-      \item Existe el límite $\lim_{(x,y) \to (x_0, y_0)} f(x,y) = L \in \mathbb{R}$.
-      \item $L = f(x_0, y_0)$ \quad (El límite coincide con el valor evaluado).
+      \item $(x_0, y_0) \in \operatorname{dom}(f)$ (El punto está bien definido en la función).
+      \item Existe el límite $\displaystyle \lim_{(x,y) \to (x_0, y_0)} f(x,y) = L \in \mathbb{R}$.
+      \item $L = f(x_0, y_0)$ (El límite coincide con el valor evaluado).
     \end{enumerate}
   \end{definicion}
 
@@ -160,7 +160,7 @@
     
     \textbf{Desarrollo por caracterización secuencial:}
     Consideremos la sucesión de puntos $(x_n, y_n) = \left(\frac{1}{n}, \frac{1}{n}\right)$.
-    Es evidente que cuando $n \to \infty$, la sucesión converge al origen: $\lim_{n \to \infty} \left(\frac{1}{n}, \frac{1}{n}\right) = (0,0)$.
+    Es evidente que cuando $n \to \infty$, la sucesión converge al origen: $\displaystyle \lim_{n \to \infty} \left(\frac{1}{n}, \frac{1}{n}\right) = (0,0)$.
     
     Evaluamos la función en los términos de la sucesión:
     $$ f\left(\frac{1}{n}, \frac{1}{n}\right) = \frac{\left(\frac{1}{n}\right)\left(\frac{1}{n}\right)}{\left(\frac{1}{n}\right)^2 + \left(\frac{1}{n}\right)^2} = \frac{\frac{1}{n^2}}{\frac{2}{n^2}} = \frac{1}{2} $$
@@ -175,10 +175,9 @@
   \begin{definicion}{Tipos de Discontinuidad}
     Si una función $f$ no es continua en un punto de acumulación $(x_0, y_0)$, decimos que presenta una \textbf{discontinuidad} en dicho punto:
     \begin{itemize}
-      \item \textbf{Discontinuidad Reparable (o Evitable):} Ocurre cuando el límite existe ($\lim_{(x,y) \to (x_0, y_0)} f(x,y) = L \in \mathbb{R}$), pero se cumple que:
+      \item \textbf{Discontinuidad Reparable (o Evitable):} Ocurre cuando el límite existe ($\displaystyle \lim_{(x,y) \to (x_0, y_0)} f(x,y) = L \in \mathbb{R}$), pero se cumple que:
       $$ (x_0, y_0) \notin \operatorname{dom}(f) \quad \vee \quad \lim_{(x,y) \to (x_0, y_0)} f(x,y) \neq f(x_0, y_0) $$
-      \item \textbf{Discontinuidad Irreparable (o Esencial):} Ocurre cuando el límite no existe:
-      $$ \nexists \lim_{(x,y) \to (x_0, y_0)} f(x,y) $$
+      \item \textbf{Discontinuidad Irreparable (o Esencial):} Ocurre cuando el límite no existe.
     \end{itemize}
   \end{definicion}
 
@@ -196,7 +195,7 @@
     \begin{enumerate}
       \item $f_1(x,y) = \frac{x^2}{\sqrt{x^2+y^2}}$: \textbf{No es continua} en $(0,0)$ pues $(0,0) \notin \operatorname{dom}(f_1)$. Al existir su límite (que es $0$), presenta una discontinuidad \textbf{reparable}.
       \item $f_2(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{Es continua} en $(0,0)$, pues $f_2(0,0) = 0$ coincide con el límite. (De hecho, esta es la extensión $\tilde{f}_1$).
-      \item $f_3(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 1 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{No es continua} en $(0,0)$, ya que $\underbrace{f_3(0,0)}_{1} \neq \underbrace{\lim_{(x,y)\to(0,0)} f_3(x,y)}_{0}$.
+      \item $f_3(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 1 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{No es continua} en $(0,0)$, ya que $\underbrace{f_3(0,0)}_{1} \neq \underbrace{\displaystyle \lim_{(x,y)\to(0,0)} f_3(x,y)}_{0}$.
     \end{enumerate}
   \end{ejemplo}
 
@@ -223,7 +222,7 @@
     Considere el campo escalar $f(x,y) = \frac{\sin(xy)}{xy}$. Sabemos que la función no está definida en los ejes coordenados (donde $x=0$ o $y=0$). Si analizamos el comportamiento exclusivamente en el origen $(0,0)$, ¿cuál de las siguientes afirmaciones es matemáticamente correcta?
     
     \opcion{La función es continua en el origen, porque el límite notable garantiza que el resultado es 1.}{Incorrecto}{Recuerda la primera condición de continuidad: el punto debe pertenecer al dominio. Como $(0,0) \notin \operatorname{dom}(f)$, es imposible que sea continua directamente.}
-    \opcion{Presenta una discontinuidad irreparable, ya que al acercarnos por el eje X ($y=0$) la función se indefine y por tanto el límite no existe.}{Incorrecto}{Cuidado, el límite sí existe. Al hacer la sustitución $u = xy$, cuando $(x,y) \to (0,0)$, la variable $u \to 0$. El límite es $\lim_{u\to 0}\frac{\sin(u)}{u} = 1$.}
+    \opcion{Presenta una discontinuidad irreparable, ya que al acercarnos por el eje X ($y=0$) la función se indefine y por tanto el límite no existe.}{Incorrecto}{Cuidado, el límite sí existe. Al hacer la sustitución $u = xy$, cuando $(x,y) \to (0,0)$, la variable $u \to 0$. El límite es $\displaystyle \lim_{u\to 0}\frac{\sin(u)}{u} = 1$.}
     \opcion{Presenta una discontinuidad reparable. Podemos definir la extensión continua $\tilde{f}(0,0) = 1$ para que la superficie no tenga un "agujero" en el origen.}{Correcto}{¡Excelente! El límite existe y vale $1$. Dado que la discontinuidad se debe puramente a un fallo en el dominio, podemos "tapar" el agujero asignándole a la función exactamente el valor del límite.}
   \end{preguntaalternativas}
 
@@ -231,10 +230,10 @@
   \begin{preguntaverdaderofalso}{La Falsa Sensación de Continuidad}
     Considere la función definida a trozos:
     $$ f(x,y) = \begin{cases} \frac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases} $$
-    Un estudiante argumenta lo siguiente: \textit{"Dado que $f(0,0) = 0$, y al acercarnos por el eje X ($y=0$) obtenemos $\lim_{x\to 0} \frac{0}{x^2} = 0$, y por el eje Y ($x=0$) obtenemos $\lim_{y\to 0} \frac{0}{y^2} = 0$, los límites coinciden con la función evaluada. Por lo tanto, $f$ es continua en el origen."}
+    Un estudiante argumenta lo siguiente: \textit{"Dado que $f(0,0) = 0$, y al acercarnos por el eje X ($y=0$) obtenemos $\displaystyle \lim_{x\to 0} \frac{0}{x^2} = 0$, y por el eje Y ($x=0$) obtenemos $\displaystyle \lim_{y\to 0} \frac{0}{y^2} = 0$, los límites coinciden con la función evaluada. Por lo tanto, $f$ es continua en el origen."}
     
     \verdaderofalso{F}
-      {¡Correcto! Has detectado la "trampa de los ejes". Acercarse por los ejes no es suficiente en $\mathbb{R}^2$. Si te acercas por la recta diagonal $y = x$, el límite es $\lim_{x\to 0}\frac{x^2}{2x^2} = \frac{1}{2}$. Como $1/2 \neq 0$, el límite global no existe, lo que significa que estamos ante una \textbf{discontinuidad irreparable} (esencial), a pesar de que la función valga cero en el origen.}
+      {¡Correcto! Has detectado la "trampa de los ejes". Acercarse por los ejes no es suficiente en $\mathbb{R}^2$. Si te acercas por la recta diagonal $y = x$, el límite es $\displaystyle \lim_{x\to 0}\frac{x^2}{2x^2} = \frac{1}{2}$. Como $1/2 \neq 0$, el límite global no existe, lo que significa que estamos ante una \textbf{discontinuidad irreparable} (esencial), a pesar de que la función valga cero en el origen.}
       {Incorrecto. Estás asumiendo que la continuidad direccional (por los ejes) implica continuidad bidimensional. Intenta evaluar el límite acercándote por la trayectoria $y = x$ y compara el resultado con $f(0,0)$.}
   \end{preguntaverdaderofalso}
 
@@ -293,7 +292,7 @@
       Muestre formalmente que $f$ es continua en el origen si y solo si $\alpha > \beta$.
     }
     \solucion{
-      Para que $f$ sea continua en el origen, debe cumplirse que $\lim_{(x,y)\to(0,0)} f(x,y) = f(0,0) = 0$.
+      Para que $f$ sea continua en el origen, debe cumplirse que $\displaystyle \lim_{(x,y)\to(0,0)} f(x,y) = f(0,0) = 0$.
       
       Aplicamos el cambio a coordenadas polares ($x = \rho\cos\theta$, $y = \rho\sin\theta$) notando que $x^2+y^2 = \rho^2$. 
       Sustituimos en la expresión tomando el valor absoluto para analizar el acotamiento:
@@ -314,7 +313,7 @@
   % --- EJERCICIO MULTI-ITEM 1 ---
   \begin{ejercicioresuelto}{Redefinición y Extensión por Continuidad}{nivel-2}
     \enunciado{
-      Estudie el límite $\lim_{(x,y)\to(0,0)} f(x,y)$ para cada una de las siguientes funciones. En base a su respuesta, decida si es posible dar un valor a $f(0,0)$ de tal manera que la función quede continua en $(0,0)$ (discontinuidad reparable).
+      Estudie el límite $\displaystyle \lim_{(x,y)\to(0,0)} f(x,y)$ para cada una de las siguientes funciones. En base a su respuesta, decida si es posible dar un valor a $f(0,0)$ de tal manera que la función quede continua en $(0,0)$ (discontinuidad reparable).
       
       \begin{enumerate}
         \item $\displaystyle f(x,y) = \frac{\tan(x^2+y^2)}{x^2+y^2}$
@@ -325,10 +324,10 @@
     }
     \solucion{
       \begin{enumerate}
-        \item \textbf{Análisis:} Haciendo el cambio $u = x^2+y^2$, tenemos $\lim_{u\to 0}\frac{\tan u}{u} = 1$. El límite existe (inspección directa y límites notables).\\
+        \item \textbf{Análisis:} Haciendo el cambio $u = x^2+y^2$, tenemos $\displaystyle \lim_{u\to 0}\frac{\tan u}{u} = 1$. El límite existe (inspección directa y límites notables).\\
         \textbf{Conclusión:} Discontinuidad reparable. Es posible hacerla continua definiendo $f(0,0) = 1$.
         
-        \item \textbf{Análisis:} Multiplicando y dividiendo por $x$, obtenemos $x \cdot \frac{\tan(xy)}{xy}$. Usando el límite notable $\tan(u)/u \to 1$, nos queda $\lim_{(x,y)\to(0,0)} (x \cdot 1) = 0$. El límite existe.\\
+        \item \textbf{Análisis:} Multiplicando y dividiendo por $x$, obtenemos $x \cdot \frac{\tan(xy)}{xy}$. Usando el límite notable $\tan(u)/u \to 1$, nos queda $\displaystyle \lim_{(x,y)\to(0,0)} (x \cdot 1) = 0$. El límite existe.\\
         \textbf{Conclusión:} Discontinuidad reparable. Es posible hacerla continua definiendo $f(0,0) = 0$.
         
         \item \textbf{Análisis:} Evaluando por la familia de rectas $y = mx$, el límite resulta $\frac{x}{mx} = \frac{1}{m}$. Como el resultado depende de la pendiente $m$, el límite no existe.\\
@@ -381,7 +380,11 @@
 \begin{formulas}
 
     \formula{Condiciones de Continuidad en $(x_0, y_0)$}
-      {(x_0,y_0) \in \operatorname{dom}(f) \;\wedge\; \exists \lim_{(x,y)\to(x_0,y_0)} f(x,y) \;\wedge\; \lim_{(x,y)\to(x_0,y_0)} f(x,y) = f(x_0,y_0)}
+      {\\begin{array}{l}
+       1.\; (x_0,y_0) \in \operatorname{dom}(f) \\[0.4em]
+       2.\; \exists \displaystyle \lim_{(x,y)\to(x_0,y_0)} f(x,y) \\[0.4em]
+       3.\; \displaystyle \lim_{(x,y)\to(x_0,y_0)} f(x,y) = f(x_0,y_0)
+       \\end{array}}
       {Las tres reglas de oro: El punto debe existir, la tendencia debe existir unívocamente, y ambas alturas deben ser exactamente la misma.}
 
     \formula{Discontinuidad Reparable}

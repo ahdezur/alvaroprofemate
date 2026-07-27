@@ -1681,7 +1681,7 @@ textarea.form-control {
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 34px;
+    font-size: clamp(26px, 7.5vw, 36px);
   }
   .hero-btns {
     flex-direction: column;
@@ -1691,11 +1691,28 @@ textarea.form-control {
     width: 100%;
   }
   .modal-body {
-    padding: 40px 20px;
+    padding: 30px 16px;
   }
   .modal-title {
-    font-size: 24px;
+    font-size: 20px;
   }
+}
+
+/* ==========================================================================
+   REGLAS DE RESPONSIVIDAD Y ERGONOMÍA TÁCTIL UNIVERSAL
+   ========================================================================== */
+.formula-block, .formula-card-latex, .tex2jax_process, pre, code, table, .table-container {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+iframe, video, canvas, svg {
+  max-width: 100%;
+}
+
+button, input[type="button"], input[type="submit"], select, .btn, .nav-link, .modal-close {
+  touch-action: manipulation;
 }
 
 /* ==========================================================================

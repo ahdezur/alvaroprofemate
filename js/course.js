@@ -71,17 +71,49 @@ function initCoursePage() {
   function initSidebarCollapse() {
     const sidebarCollapseBtn = document.getElementById("sidebar-collapse-btn");
     const sidebarShowBtn = document.getElementById("sidebar-show-btn");
+    const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+    const sidebar = document.querySelector(".sidebar");
     const shellContainer = document.querySelector(".shell-container");
 
-    if (sidebarCollapseBtn && sidebarShowBtn && shellContainer) {
-      sidebarCollapseBtn.addEventListener("click", () => {
-        shellContainer.classList.add("sidebar-collapsed");
-      });
+    function openMobileSidebar() {
+      if (shellContainer) shellContainer.classList.remove("sidebar-collapsed");
+      if (sidebar) sidebar.classList.add("mobile-open");
+      if (sidebarBackdrop) sidebarBackdrop.classList.add("active");
+    }
 
+    function closeMobileSidebar() {
+      if (shellContainer) shellContainer.classList.add("sidebar-collapsed");
+      if (sidebar) sidebar.classList.remove("mobile-open");
+      if (sidebarBackdrop) sidebarBackdrop.classList.remove("active");
+    }
+
+    if (sidebarCollapseBtn) {
+      sidebarCollapseBtn.addEventListener("click", closeMobileSidebar);
+    }
+
+    if (sidebarShowBtn) {
       sidebarShowBtn.addEventListener("click", () => {
-        shellContainer.classList.remove("sidebar-collapsed");
+        if (sidebar && sidebar.classList.contains("mobile-open")) {
+          closeMobileSidebar();
+        } else if (shellContainer && shellContainer.classList.contains("sidebar-collapsed")) {
+          openMobileSidebar();
+        } else {
+          openMobileSidebar();
+        }
       });
     }
+
+    if (sidebarBackdrop) {
+      sidebarBackdrop.addEventListener("click", closeMobileSidebar);
+    }
+
+    // Cerrar sidebar al hacer clic en un capítulo en modo móvil/tablet
+    document.addEventListener("click", (e) => {
+      const chapterItem = e.target.closest(".chapter-item");
+      if (chapterItem && window.innerWidth <= 992) {
+        closeMobileSidebar();
+      }
+    });
 
     // Estilos de sacudida (shake) para elementos bloqueados
     const styleSheet = document.createElement("style");
