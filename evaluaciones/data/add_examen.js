@@ -15,16 +15,16 @@ const nuevasPreguntas = [
     "puntaje": 5,
     "dificultad": "Media",
     "temas": ["Derivadas parciales", "funciones definidas por partes"],
-    "enunciado": "Respecto de la función<br>$$f(x,y)=\\begin{cases}\\displaystyle \\frac{x^2y}{x^2+y^2}, & (x,y)\\neq(0,0)\\\\[0.2cm]0, & (x,y)=(0,0)\\end{cases}$$<br>calcule, si existen, $\\displaystyle \\frac{\\partial f}{\\partial x}(x,y)$ y $\\displaystyle \\frac{\\partial f}{\\partial y}(x,y)$ para $(x,y)\\in\\mathbb R^2$.",
+    "enunciado": "Respecto de la función<br>$$f(x,y)=\\begin{cases}\\displaystyle \\dfrac{x^2y}{x^2+y^2}, & (x,y)\\neq(0,0)\\\\[0.2cm]0, & (x,y)=(0,0)\\end{cases}$$<br>calcule, si existen, $\\displaystyle \\dfrac{\\partial f}{\\partial x}(x,y)$ y $\\displaystyle \\dfrac{\\partial f}{\\partial y}(x,y)$ para $(x,y)\\in\\mathbb R^2$.",
     "pistas": [
       "Para $(x,y)\\neq(0,0)$ utilice la regla del cociente. En el origen debe emplear directamente la definición de derivada parcial."
     ],
-    "solucion": "Para $(x,y)\\neq(0,0)$, aplicando la regla del cociente,<br>$$\\frac{\\partial f}{\\partial x}(x,y)=\\frac{2xy(x^2+y^2)-2x(x^2y)}{(x^2+y^2)^2}=\\frac{2xy^3}{(x^2+y^2)^2}$$<br>y<br>$$\\frac{\\partial f}{\\partial y}(x,y)=\\frac{x^2(x^2+y^2)-2y(x^2y)}{(x^2+y^2)^2}=\\frac{x^2(x^2-y^2)}{(x^2+y^2)^2}$$<br><br>En el origen, por definición,<br>$$\\frac{\\partial f}{\\partial x}(0,0)=\\lim_{h\\to0}\\frac{f(h,0)-f(0,0)}{h}=\\lim_{h\\to0}\\frac{0}{h}=0$$<br>y<br>$$\\frac{\\partial f}{\\partial y}(0,0)=\\lim_{h\\to0}\\frac{f(0,h)-f(0,0)}{h}=\\lim_{h\\to0}\\frac{0}{h}=0$$<br>Por lo tanto,<br>$$\\frac{\\partial f}{\\partial x}(x,y)=\\begin{cases}\\displaystyle\\frac{2xy^3}{(x^2+y^2)^2},&(x,y)\\neq(0,0)\\\\[0.2cm]0,&(x,y)=(0,0)\\end{cases}$$<br>y<br>$$\\frac{\\partial f}{\\partial y}(x,y)=\\begin{cases}\\displaystyle\\frac{x^2(x^2-y^2)}{(x^2+y^2)^2},&(x,y)\\neq(0,0)\\\\[0.2cm]0,&(x,y)=(0,0)\\end{cases}$$",
+    "solucion": "Para $(x,y)\\neq(0,0)$, aplicando la regla del cociente,<br>$$\\dfrac{\\partial f}{\\partial x}(x,y)=\\dfrac{2xy(x^2+y^2)-2x(x^2y)}{(x^2+y^2)^2}=\\dfrac{2xy^3}{(x^2+y^2)^2}$$<br>y<br>$$\\dfrac{\\partial f}{\\partial y}(x,y)=\\dfrac{x^2(x^2+y^2)-2y(x^2y)}{(x^2+y^2)^2}=\\dfrac{x^2(x^2-y^2)}{(x^2+y^2)^2}$$<br><br>En el origen, por definición,<br>$$\\dfrac{\\partial f}{\\partial x}(0,0)=\\lim_{h\\to0}\\dfrac{f(h,0)-f(0,0)}{h}=\\lim_{h\\to0}\\dfrac{0}{h}=0$$<br>y<br>$$\\dfrac{\\partial f}{\\partial y}(0,0)=\\lim_{h\\to0}\\dfrac{f(0,h)-f(0,0)}{h}=\\lim_{h\\to0}\\dfrac{0}{h}=0$$<br>Por lo tanto,<br>$$\\dfrac{\\partial f}{\\partial x}(x,y)=\\begin{cases}\\displaystyle\\dfrac{2xy^3}{(x^2+y^2)^2},&(x,y)\\neq(0,0)\\\\[0.2cm]0,&(x,y)=(0,0)\\end{cases}$$<br>y<br>$$\\dfrac{\\partial f}{\\partial y}(x,y)=\\begin{cases}\\displaystyle\\dfrac{x^2(x^2-y^2)}{(x^2+y^2)^2},&(x,y)\\neq(0,0)\\\\[0.2cm]0,&(x,y)=(0,0)\\end{cases}$$",
     "criterios_correccion": [
-      { "descripcion": "Calcula correctamente $\\frac{\\partial f}{\\partial x}$ para $(x,y)\\neq(0,0)$", "puntaje": 1 },
-      { "descripcion": "Calcula correctamente $\\frac{\\partial f}{\\partial y}$ para $(x,y)\\neq(0,0)$", "puntaje": 1 },
-      { "descripcion": "Usa la definición para calcular $\\frac{\\partial f}{\\partial x}(0,0)$", "puntaje": 1 },
-      { "descripcion": "Usa la definición para calcular $\\frac{\\partial f}{\\partial y}(0,0)$", "puntaje": 1 },
+      { "descripcion": "Calcula correctamente $\\dfrac{\\partial f}{\\partial x}$ para $(x,y)\\neq(0,0)$", "puntaje": 1 },
+      { "descripcion": "Calcula correctamente $\\dfrac{\\partial f}{\\partial y}$ para $(x,y)\\neq(0,0)$", "puntaje": 1 },
+      { "descripcion": "Usa la definición para calcular $\\dfrac{\\partial f}{\\partial x}(0,0)$", "puntaje": 1 },
+      { "descripcion": "Usa la definición para calcular $\\dfrac{\\partial f}{\\partial y}(0,0)$", "puntaje": 1 },
       { "descripcion": "Presenta ambas derivadas parciales mediante expresiones definidas por partes", "puntaje": 1 }
     ],
     "errores_frecuentes": [
@@ -37,12 +37,12 @@ const nuevasPreguntas = [
     "puntaje": 5,
     "dificultad": "Media",
     "temas": ["Diferenciabilidad", "aproximación lineal", "límites en varias variables"],
-    "enunciado": "Decida si la función<br>$$f(x,y)=\\begin{cases}\\displaystyle \\frac{x^2y}{x^2+y^2}, & (x,y)\\neq(0,0)\\\\[0.2cm]0, & (x,y)=(0,0)\\end{cases}$$<br>es diferenciable en el origen.",
+    "enunciado": "Decida si la función<br>$$f(x,y)=\\begin{cases}\\displaystyle \\dfrac{x^2y}{x^2+y^2}, & (x,y)\\neq(0,0)\\\\[0.2cm]0, & (x,y)=(0,0)\\end{cases}$$<br>es diferenciable en el origen.",
     "pistas": [
       "Como las derivadas parciales en el origen son nulas, si $f$ fuera diferenciable en $(0,0)$ su aplicación lineal candidata sería la aplicación nula.",
       "Examine el cociente de diferenciabilidad a lo largo de la recta $y=x$."
     ],
-    "solucion": "De la pregunta anterior,<br>$$\\frac{\\partial f}{\\partial x}(0,0)=0,\\qquad\\frac{\\partial f}{\\partial y}(0,0)=0$$<br>Por lo tanto, si $f$ fuera diferenciable en $(0,0)$, debería cumplirse<br>$$\\lim_{(x,y)\\to(0,0)}\\frac{f(x,y)-f(0,0)-0x-0y}{\\sqrt{x^2+y^2}}=0$$<br>Es decir,<br>$$\\lim_{(x,y)\\to(0,0)}\\frac{f(x,y)}{\\sqrt{x^2+y^2}}=0$$<br>Sin embargo, tomando la trayectoria $y=x$, con $x\\neq0$,<br>$$f(x,x)=\\frac{x^3}{2x^2}=\\frac{x}{2}$$<br>y entonces<br>$$\\frac{f(x,x)}{\\sqrt{x^2+x^2}}=\\frac{x/2}{\\sqrt{2}\\,|x|}=\\frac{1}{2\\sqrt{2}}\\frac{x}{|x|}$$<br>Este cociente vale $\\frac{1}{2\\sqrt{2}}$ cuando $x>0$ y $-\\frac{1}{2\\sqrt{2}}$ cuando $x<0$, por lo que no tiende a cero.<br><br>En consecuencia, $f$ no es diferenciable en $(0,0)$.",
+    "solucion": "De la pregunta anterior,<br>$$\\dfrac{\\partial f}{\\partial x}(0,0)=0,\\qquad\\dfrac{\\partial f}{\\partial y}(0,0)=0$$<br>Por lo tanto, si $f$ fuera diferenciable en $(0,0)$, debería cumplirse<br>$$\\lim_{(x,y)\\to(0,0)}\\dfrac{f(x,y)-f(0,0)-0x-0y}{\\sqrt{x^2+y^2}}=0$$<br>Es decir,<br>$$\\lim_{(x,y)\\to(0,0)}\\dfrac{f(x,y)}{\\sqrt{x^2+y^2}}=0$$<br>Sin embargo, tomando la trayectoria $y=x$, con $x\\neq0$,<br>$$f(x,x)=\\dfrac{x^3}{2x^2}=\\dfrac{x}{2}$$<br>y entonces<br>$$\\dfrac{f(x,x)}{\\sqrt{x^2+x^2}}=\\dfrac{x/2}{\\sqrt{2}\\,|x|}=\\dfrac{1}{2\\sqrt{2}}\\dfrac{x}{|x|}$$<br>Este cociente vale $\\dfrac{1}{2\\sqrt{2}}$ cuando $x>0$ y $-\\dfrac{1}{2\\sqrt{2}}$ cuando $x<0$, por lo que no tiende a cero.<br><br>En consecuencia, $f$ no es diferenciable en $(0,0)$.",
     "criterios_correccion": [
       { "descripcion": "Identifica correctamente que la aplicación lineal candidata es la aplicación nula", "puntaje": 1 },
       { "descripcion": "Plantea el cociente que caracteriza la diferenciabilidad en el origen", "puntaje": 1 },
@@ -60,7 +60,7 @@ const nuevasPreguntas = [
     "puntaje": 10,
     "dificultad": "Media",
     "temas": ["Derivadas parciales de segundo orden", "regla de la cadena"],
-    "enunciado": "Suponga que $f,g:\\mathbb R\\to\\mathbb R$ son funciones dos veces diferenciables. Defina $h:\\mathbb R^2\\to\\mathbb R$ mediante<br>$$h(x,y)=xf(x+y)+yg(x+y)$$<br>Muestre que<br>$$\\frac{\\partial^2h}{\\partial x^2}-2\\frac{\\partial^2h}{\\partial y\\partial x}+\\frac{\\partial^2h}{\\partial y^2}=0$$",
+    "enunciado": "Suponga que $f,g:\\mathbb R\\to\\mathbb R$ son funciones dos veces diferenciables. Defina $h:\\mathbb R^2\\to\\mathbb R$ mediante<br>$$h(x,y)=xf(x+y)+yg(x+y)$$<br>Muestre que<br>$$\\dfrac{\\partial^2h}{\\partial x^2}-2\\dfrac{\\partial^2h}{\\partial y\\partial x}+\\dfrac{\\partial^2h}{\\partial y^2}=0$$",
     "pistas": [
       "Introduzca la variable auxiliar $s=x+y$ y calcule cuidadosamente las derivadas de primer y segundo orden.",
       "También puede reconocer el operador $(\\partial_x-\\partial_y)^2$."
@@ -108,18 +108,18 @@ const nuevasPreguntas = [
     "puntaje": 10,
     "dificultad": "Alta",
     "temas": ["Cambio a coordenadas polares", "integrales dobles"],
-    "enunciado": "Calcule<br>$$\\int_R \\frac{y^2}{x^2}\\sin\\left(\\frac{x^2+y^2}{x}\\right)\\,dA$$<br>donde<br>$$R=\\left\\{(x,y)\\in\\mathbb R^2:\\pi x\\leq x^2+y^2\\leq2\\pi x,\\ -x\\leq y\\leq x\\right\\}$$<br><br><div style=\"text-align:center;\"><img src=\"Examenfig3.jpg\" alt=\"Imagen de apoyo\" style=\"max-width: 47%;\"></div>",
+    "enunciado": "Calcule<br>$$\\int_R \\dfrac{y^2}{x^2}\\sin\\left(\\dfrac{x^2+y^2}{x}\\right)\\,dA$$<br>donde<br>$$R=\\left\\{(x,y)\\in\\mathbb R^2:\\pi x\\leq x^2+y^2\\leq2\\pi x,\\ -x\\leq y\\leq x\\right\\}$$<br><br><div style=\"text-align:center;\"><img src=\"Examenfig3.jpg\" alt=\"Imagen de apoyo\" style=\"max-width: 47%;\"></div>",
     "pistas": [
       "En coordenadas polares, $x=r\\cos\\theta$, $y=r\\sin\\theta$ y $dA=r\\,dr\\,d\\theta$.",
       "Después de pasar a polares, utilice el cambio $u=r\\sec\\theta$."
     ],
-    "solucion": "En coordenadas polares,<br>$$x=r\\cos\\theta,\\qquad y=r\\sin\\theta$$<br>Las desigualdades radiales quedan<br>$$\\pi r\\cos\\theta\\leq r^2\\leq2\\pi r\\cos\\theta$$<br>y, para $r>0$,<br>$$\\pi\\cos\\theta\\leq r\\leq2\\pi\\cos\\theta$$<br>Las desigualdades $-x\\leq y\\leq x$ determinan<br>$$-\\frac{\\pi}{4}\\leq\\theta\\leq\\frac{\\pi}{4}$$<br>Por otra parte,<br>$$\\frac{y^2}{x^2}=\\tan^2\\theta,\\qquad \\frac{x^2+y^2}{x}=\\frac{r}{\\cos\\theta}=r\\sec\\theta$$<br>Así,<br>$$I=\\int_{-\\pi/4}^{\\pi/4}\\int_{\\pi\\cos\\theta}^{2\\pi\\cos\\theta}\\tan^2\\theta\\,\\sin(r\\sec\\theta)\\,r\\,dr\\,d\\theta$$<br>Hacemos el cambio<br>$$u=r\\sec\\theta$$<br>Entonces<br>$$r=u\\cos\\theta,\\qquad dr=\\cos\\theta\\,du$$<br>y los nuevos límites son $\\pi\\leq u\\leq2\\pi$. Además,<br>$$\\tan^2\\theta\\,r\\,dr=\\tan^2\\theta\\,u\\cos^2\\theta\\,du=u\\sin^2\\theta\\,du$$<br>Por tanto,<br>$$I=\\left(\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta\\right)\\left(\\int_{\\pi}^{2\\pi}u\\sin u\\,du\\right)$$<br>Calculamos<br>$$\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta=\\frac{\\pi}{4}-\\frac12$$<br>y, por integración por partes,<br>$$\\int_{\\pi}^{2\\pi}u\\sin u\\,du=\\left[-u\\cos u+\\sin u\\right]_{\\pi}^{2\\pi}=-3\\pi$$<br>En consecuencia,<br>$$I=-3\\pi\\left(\\frac{\\pi}{4}-\\frac12\\right)=\\frac{3\\pi}{4}(2-\\pi)$$",
+    "solucion": "En coordenadas polares,<br>$$x=r\\cos\\theta,\\qquad y=r\\sin\\theta$$<br>Las desigualdades radiales quedan<br>$$\\pi r\\cos\\theta\\leq r^2\\leq2\\pi r\\cos\\theta$$<br>y, para $r>0$,<br>$$\\pi\\cos\\theta\\leq r\\leq2\\pi\\cos\\theta$$<br>Las desigualdades $-x\\leq y\\leq x$ determinan<br>$$-\\dfrac{\\pi}{4}\\leq\\theta\\leq\\dfrac{\\pi}{4}$$<br>Por otra parte,<br>$$\\dfrac{y^2}{x^2}=\\tan^2\\theta,\\qquad \\dfrac{x^2+y^2}{x}=\\dfrac{r}{\\cos\\theta}=r\\sec\\theta$$<br>Así,<br>$$I=\\int_{-\\pi/4}^{\\pi/4}\\int_{\\pi\\cos\\theta}^{2\\pi\\cos\\theta}\\tan^2\\theta\\,\\sin(r\\sec\\theta)\\,r\\,dr\\,d\\theta$$<br>Hacemos el cambio<br>$$u=r\\sec\\theta$$<br>Entonces<br>$$r=u\\cos\\theta,\\qquad dr=\\cos\\theta\\,du$$<br>y los nuevos límites son $\\pi\\leq u\\leq2\\pi$. Además,<br>$$\\tan^2\\theta\\,r\\,dr=\\tan^2\\theta\\,u\\cos^2\\theta\\,du=u\\sin^2\\theta\\,du$$<br>Por tanto,<br>$$I=\\left(\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta\\right)\\left(\\int_{\\pi}^{2\\pi}u\\sin u\\,du\\right)$$<br>Calculamos<br>$$\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta=\\dfrac{\\pi}{4}-\\frac12$$<br>y, por integración por partes,<br>$$\\int_{\\pi}^{2\\pi}u\\sin u\\,du=\\left[-u\\cos u+\\sin u\\right]_{\\pi}^{2\\pi}=-3\\pi$$<br>En consecuencia,<br>$$I=-3\\pi\\left(\\dfrac{\\pi}{4}-\\frac12\\right)=\\dfrac{3\\pi}{4}(2-\\pi)$$",
     "criterios_correccion": [
       { "descripcion": "Transforma correctamente la región y obtiene $-\\pi/4\\leq\\theta\\leq\\pi/4$", "puntaje": 2 },
       { "descripcion": "Obtiene los límites radiales $\\pi\\cos\\theta\\leq r\\leq2\\pi\\cos\\theta$", "puntaje": 2 },
       { "descripcion": "Transforma correctamente el integrando y el elemento de área", "puntaje": 2 },
       { "descripcion": "Realiza correctamente el cambio $u=r\\sec\\theta$ y separa las integrales", "puntaje": 2 },
-      { "descripcion": "Calcula ambas integrales y obtiene $\\frac{3\\pi}{4}(2-\\pi)$", "puntaje": 2 }
+      { "descripcion": "Calcula ambas integrales y obtiene $\\dfrac{3\\pi}{4}(2-\\pi)$", "puntaje": 2 }
     ],
     "errores_frecuentes": [
       "Olvidar el factor jacobiano $r$ de las coordenadas polares.",
@@ -158,7 +158,7 @@ const nuevasPreguntas = [
     "pistas": [
       "El Teorema de Gauss es el adecuado porque se integra el flujo de un campo a través de una superficie cerrada."
     ],
-    "solucion": "Utilizamos el Teorema de Gauss. La divergencia del campo es<br>$$\\operatorname{div}\\vec F=\\frac{\\partial}{\\partial z}\\bigl(\\rho g(H-z)\\bigr)=-\\rho g$$<br>Si $V$ es el sólido encerrado por el cilindro, entonces<br>$$\\int_S\\vec F\\cdot\\overrightarrow{dA}=\\iiint_V\\operatorname{div}\\vec F\\,dV=-\\rho g\\iiint_VdV=-\\rho g\\,\\operatorname{Vol}(V)$$<br>Como el cilindro tiene radio $R$ y altura $2R$,<br>$$\\operatorname{Vol}(V)=\\pi R^2(2R)=2\\pi R^3$$<br>Luego,<br>$$\\int_S\\vec F\\cdot\\overrightarrow{dA}=-2\\pi\\rho gR^3$$<br>y, por la definición del empuje,<br>$$E=-\\int_S\\vec F\\cdot\\overrightarrow{dA}=2\\pi\\rho gR^3$$<br>El Teorema de Stokes no es el instrumento natural en este caso, pues relaciona la circulación sobre una curva cerrada con el flujo del rotor a través de una superficie cuyo borde es esa curva.",
+    "solucion": "Utilizamos el Teorema de Gauss. La divergencia del campo es<br>$$\\operatorname{div}\\vec F=\\dfrac{\\partial}{\\partial z}\\bigl(\\rho g(H-z)\\bigr)=-\\rho g$$<br>Si $V$ es el sólido encerrado por el cilindro, entonces<br>$$\\int_S\\vec F\\cdot\\overrightarrow{dA}=\\iiint_V\\operatorname{div}\\vec F\\,dV=-\\rho g\\iiint_VdV=-\\rho g\\,\\operatorname{Vol}(V)$$<br>Como el cilindro tiene radio $R$ y altura $2R$,<br>$$\\operatorname{Vol}(V)=\\pi R^2(2R)=2\\pi R^3$$<br>Luego,<br>$$\\int_S\\vec F\\cdot\\overrightarrow{dA}=-2\\pi\\rho gR^3$$<br>y, por la definición del empuje,<br>$$E=-\\int_S\\vec F\\cdot\\overrightarrow{dA}=2\\pi\\rho gR^3$$<br>El Teorema de Stokes no es el instrumento natural en este caso, pues relaciona la circulación sobre una curva cerrada con el flujo del rotor a través de una superficie cuyo borde es esa curva.",
     "criterios_correccion": [
       { "descripcion": "Selecciona y enuncia el uso del Teorema de Gauss", "puntaje": 1 },
       { "descripcion": "Calcula correctamente $\\operatorname{div}\\vec F=-\\rho g$", "puntaje": 2 },

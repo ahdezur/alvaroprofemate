@@ -410,8 +410,8 @@
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Aplica MAL (Trampa)</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x} \, dx$</strong> <br>
-                                $\displaystyle \lim_{x \to \infty} \frac{1}{x} = 0$. <strong>Inconcluso.</strong> Que tienda a cero no asegura un área finita.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{1}{x} \, dx$</strong> <br>
+                                $\displaystyle \lim_{x \to \infty} \dfrac{1}{x} = 0$. <strong>Inconcluso.</strong> Que tienda a cero no asegura un área finita.
                             </div>
                         </div>
                     </td>
@@ -429,13 +429,13 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Caso 1: Convergencia (Bien)</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{\cos^2(x)}{x^2} \, dx$</strong><br>
-                                Se acota: $\displaystyle 0 \le \frac{\cos^2(x)}{x^2} \le \frac{1}{x^2}$. Como $\displaystyle \int_{1}^{\infty} \frac{1}{x^2} \, dx$ converge, esta <strong>converge</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{\cos^2(x)}{x^2} \, dx$</strong><br>
+                                Se acota: $\displaystyle 0 \le \dfrac{\cos^2(x)}{x^2} \le \dfrac{1}{x^2}$. Como $\displaystyle \int_{1}^{\infty} \dfrac{1}{x^2} \, dx$ converge, esta <strong>converge</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Caso 2: Convergencia (Mal)</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x+1} \, dx$</strong><br>
-                                Se acota $\displaystyle \frac{1}{x+1} \le \frac{1}{x}$, pero $\displaystyle \int_{1}^{\infty} \frac{1}{x} \, dx$ diverge. Ser "menor que infinito" es <strong>inconcluso</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{1}{x+1} \, dx$</strong><br>
+                                Se acota $\displaystyle \dfrac{1}{x+1} \le \dfrac{1}{x}$, pero $\displaystyle \int_{1}^{\infty} \dfrac{1}{x} \, dx$ diverge. Ser "menor que infinito" es <strong>inconcluso</strong>.
                             </div>
                         </div>
                     </td>
@@ -448,13 +448,13 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Caso 3: Divergencia (Bien)</div>
-                                <strong>$\displaystyle \int_{2}^{\infty} \frac{1}{\ln(x)} \, dx$</strong><br>
-                                Como $\displaystyle \ln(x) &lt; x \implies \frac{1}{\ln(x)} &gt; \frac{1}{x}$. Como $\displaystyle \int_{2}^{\infty} \frac{1}{x} \, dx$ diverge, esta <strong>diverge</strong>.
+                                <strong>$\displaystyle \int_{2}^{\infty} \dfrac{1}{\ln(x)} \, dx$</strong><br>
+                                Como $\displaystyle \ln(x) &lt; x \implies \dfrac{1}{\ln(x)} &gt; \dfrac{1}{x}$. Como $\displaystyle \int_{2}^{\infty} \dfrac{1}{x} \, dx$ diverge, esta <strong>diverge</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Caso 4: Divergencia (Mal)</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x^2} \, dx$</strong><br>
-                                Se acota $\displaystyle \frac{1}{x^2} \ge \frac{1}{x^3}$, pero $\displaystyle \int_{1}^{\infty} \frac{1}{x^3} \, dx$ converge. Ser "mayor que un número finito" es <strong>inconcluso</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{1}{x^2} \, dx$</strong><br>
+                                Se acota $\displaystyle \dfrac{1}{x^2} \ge \dfrac{1}{x^3}$, pero $\displaystyle \int_{1}^{\infty} \dfrac{1}{x^3} \, dx$ converge. Ser "mayor que un número finito" es <strong>inconcluso</strong>.
                             </div>
                         </div>
                     </td>
@@ -465,15 +465,15 @@
                     <td><span class="crit-name">Comparación por Paso al Límite</span></td>
                     <td>
                         <ul>
-                            <li>$\displaystyle \lim_{x \to \infty} \frac{f(x)}{g(x)} = L$ con $\displaystyle 0 &lt; L &lt; \infty$.</li>
+                            <li>$\displaystyle \lim_{x \to \infty} \dfrac{f(x)}{g(x)} = L$ con $\displaystyle 0 &lt; L &lt; \infty$.</li>
                             <li>$\displaystyle \int_{a}^{\infty} g(x) \, dx$ es convergente.</li>
                         </ul>
                         <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Casos de Convergencia</button>
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Aplica BIEN</div>
-                                <strong>$\displaystyle \int_{2}^{\infty} \frac{1}{\sqrt{x^3 - 1}} \, dx$</strong><br>
-                                Usamos $\displaystyle g(x) = \frac{1}{x^{3/2}}$. El límite da $\displaystyle L = 1$. Como la integral auxiliar converge, esta <strong>converge</strong>.
+                                <strong>$\displaystyle \int_{2}^{\infty} \dfrac{1}{\sqrt{x^3 - 1}} \, dx$</strong><br>
+                                Usamos $\displaystyle g(x) = \dfrac{1}{x^{3/2}}$. El límite da $\displaystyle L = 1$. Como la integral auxiliar converge, esta <strong>converge</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Aplica MAL (Límite Inválido)</div>
@@ -483,15 +483,15 @@
                     </td>
                     <td>
                         <ul>
-                            <li>$\displaystyle \lim_{x \to \infty} \frac{f(x)}{g(x)} = L$ con $\displaystyle 0 &lt; L &lt; \infty$.</li>
+                            <li>$\displaystyle \lim_{x \to \infty} \dfrac{f(x)}{g(x)} = L$ con $\displaystyle 0 &lt; L &lt; \infty$.</li>
                             <li>$\displaystyle \int_{a}^{\infty} g(x) \, dx$ es divergente.</li>
                         </ul>
                         <button class="ejemplo-btn" onclick="toggleEjemplo(this)">Ver Caso de Divergencia</button>
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Aplica BIEN</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{x}{x^2 + 1} \, dx$</strong><br>
-                                Usamos $\displaystyle g(x) = \frac{1}{x}$. El límite da $\displaystyle L = 1$. Como la integral auxiliar diverge, esta <strong>diverge</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{x}{x^2 + 1} \, dx$</strong><br>
+                                Usamos $\displaystyle g(x) = \dfrac{1}{x}$. El límite da $\displaystyle L = 1$. Como la integral auxiliar diverge, esta <strong>diverge</strong>.
                             </div>
                         </div>
                     </td>
@@ -508,8 +508,8 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Caso 1: Convergencia (Bien)</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x^2} \, dx$</strong><br>
-                                Su serie asociada $\displaystyle \sum_{n=1}^{\infty} \frac{1}{n^2}$ converge. Como $\displaystyle f(x)$ es positiva, decreciente y continua, la integral <strong>converge</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{1}{x^2} \, dx$</strong><br>
+                                Su serie asociada $\displaystyle \sum_{n=1}^{\infty} \dfrac{1}{n^2}$ converge. Como $\displaystyle f(x)$ es positiva, decreciente y continua, la integral <strong>converge</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Caso 2: Convergencia (Mal)</div>
@@ -525,8 +525,8 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Caso 3: Divergencia (Bien)</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{1}{x} \, dx$</strong><br>
-                                Su serie asociada es la Serie Armónica $\displaystyle \sum_{n=1}^{\infty} \frac{1}{n}$ (divergente). Como cumple las hipótesis, la integral <strong>diverge</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{1}{x} \, dx$</strong><br>
+                                Su serie asociada es la Serie Armónica $\displaystyle \sum_{n=1}^{\infty} \dfrac{1}{n}$ (divergente). Como cumple las hipótesis, la integral <strong>diverge</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Caso 4: Divergencia (Mal)</div>
@@ -547,13 +547,13 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Aplica BIEN</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x^2} \, dx$</strong><br>
-                                Notamos que $\displaystyle \left| \frac{\sin(x)}{x^2} \right| \le \frac{1}{x^2}$. Como la absoluta converge por acotación, la original <strong>converge absolutamente</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{\sin(x)}{x^2} \, dx$</strong><br>
+                                Notamos que $\displaystyle \left| \dfrac{\sin(x)}{x^2} \right| \le \dfrac{1}{x^2}$. Como la absoluta converge por acotación, la original <strong>converge absolutamente</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Aplica MAL (Falso Recíproco)</div>
                                 <strong>Trampa:</strong> Creer que si la integral absoluta diverge, la original obligatoriamente diverge. <br>
-                                <em>Falso:</em> $\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x} \, dx$ diverge en valor absoluto pero converge de forma condicional.
+                                <em>Falso:</em> $\displaystyle \int_{1}^{\infty} \dfrac{\sin(x)}{x} \, dx$ diverge en valor absoluto pero converge de forma condicional.
                             </div>
                         </div>
                     </td>
@@ -572,8 +572,8 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Aplica BIEN</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x} \, dx$</strong><br>
-                                $\displaystyle f(x)=\sin(x)$ tiene primitiva acotada, y $\displaystyle g(x)=\frac{1}{x}$ decrece monótonamente a $\displaystyle 0$. <strong>Converge condicionalmente</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} \dfrac{\sin(x)}{x} \, dx$</strong><br>
+                                $\displaystyle f(x)=\sin(x)$ tiene primitiva acotada, y $\displaystyle g(x)=\dfrac{1}{x}$ decrece monótonamente a $\displaystyle 0$. <strong>Converge condicionalmente</strong>.
                             </div>
                             <div class="box-case box-case-danger">
                                 <div class="case-title case-title-danger">🔴 Aplica MAL (Falta Monotonía)</div>
@@ -596,8 +596,8 @@
                         <div class="ejemplo-content">
                             <div class="box-case box-case-success">
                                 <div class="case-title case-title-success">🟢 Aplica BIEN</div>
-                                <strong>$\displaystyle \int_{1}^{\infty} e^{-1/x} \frac{\sin(x)}{x} \, dx$</strong><br>
-                                $\displaystyle \int_{1}^{\infty} \frac{\sin(x)}{x} \, dx$ ya converge, y el factor auxiliar $\displaystyle g(x) = e^{-1/x}$ es monótono y acotado por $\displaystyle 1$. <strong>Converge</strong>.
+                                <strong>$\displaystyle \int_{1}^{\infty} e^{-1/x} \dfrac{\sin(x)}{x} \, dx$</strong><br>
+                                $\displaystyle \int_{1}^{\infty} \dfrac{\sin(x)}{x} \, dx$ ya converge, y el factor auxiliar $\displaystyle g(x) = e^{-1/x}$ es monótono y acotado por $\displaystyle 1$. <strong>Converge</strong>.
                             </div>
                         </div>
                     </td>

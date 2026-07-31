@@ -1,0 +1,395 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=yellow!10,colframe=orange!80!black,title=Alerta: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{procesamiento}[1]{%
+  \begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Procedimiento: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+\newenvironment{ejemplo}[1]{%
+  \begin{tcolorbox}[colback=white,colframe=gray!40,title=Ejemplo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+% Comandos para preguntas interactivas
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+% Entorno Términos Pareados (2 Columnas)
+\newenvironment{pareados}[1]{\subsection*{Términos Pareados: #1}}{\vspace{0.3cm}}
+\newcommand{\columnaI}[1]{\textbf{Columna 1:}\begin{enumerate}#1\end{enumerate}}
+\newcommand{\columnaII}[1]{\textbf{Columna 2:}\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\textbf{Cruce #1:} #2\par}
+
+% Entornos para ejercicios
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración: #1 \small{[#2]}}}{}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \small{[#2]}}}{}
+
+\newcommand{\enunciado}[1]{\textbf{Enunciado:} #1\par\vspace{0.2cm}}
+\newcommand{\solucion}[1]{\textbf{Solución:} #1\par\vspace{0.4cm}}
+\newcommand{\demostracion}[1]{\textbf{Demostración:} #1\par\vspace{0.4cm}}
+\newcommand{\pista}[1]{\textbf{Pista:} #1\par\vspace{0.4cm}}
+
+% Entorno Fórmulas
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}\begin{description}}{\end{description}}
+\newcommand{\formula}[3]{\item[#1:] $#2$ \\ \textit{#3} \vspace{0.2cm}}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE (COMPLETAR OBLIGATORIAMENTE)
+% ==============================================================================
+% ID_CURSO: calculo-multivariable
+% NUMERO_UNIDAD: 2
+% TITULO_UNIDAD: Continuidad en Campos Escalares y Vectoriales
+% NUMERO_CAPITULO: 2.2
+% TITULO_CAPITULO: Generalización a $\mathbb{R}^n$ y Campos Vectoriales
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  \textbf{Del Termómetro a la Veleta: Múltiples salidas para múltiples entradas}
+
+  Hasta ahora, nos hemos limitado a estudiar "Campos Escalares", es decir, funciones que toman varias coordenadas espaciales pero nos devuelven un único número (como medir la temperatura en una coordenada $(x,y,z)$). 
+
+  Pero, ¿qué ocurre si queremos modelar el flujo del viento en una habitación? En cada punto $(x,y,z)$ del espacio, el viento no solo tiene una magnitud, sino una dirección. Necesitamos una función que acepte tres entradas espaciales y nos devuelva un vector tridimensional $(v_1, v_2, v_3)$ que describa la velocidad. Estamos ante una \textbf{función vectorial de varias variables} (o campo vectorial), matemáticamente expresada como $\vec{f} \colon \mathbb{R}^n \to \mathbb{R}^m$.
+  
+  La gran pregunta es: ¿tenemos que inventar unas matemáticas completamente nuevas para calcular límites y estudiar la continuidad en $\mathbb{R}^m$? Afortunadamente, no. La belleza del álgebra lineal nos permitirá "desarmar" estos complejos vectores en componentes escalares simples, transformando un problema multidimensional colosal en varios problemas pequeños y conocidos.
+
+  \begin{preguntaguia}
+    Si un dron viaja a través de un campo vectorial de vientos y experimenta un cambio brusco e intermitente (discontinuidad) únicamente en la ráfaga vertical (el eje Z), ¿podemos afirmar que el campo de vientos en su totalidad es discontinuo en ese punto?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  Para generalizar el concepto de límite y continuidad, dejamos atrás la restricción del plano y adoptamos la notación vectorial $\vec{x} = (x,y,z)$ para $n=3$, o la representación genérica $\vec{x} = (x_1, x_2, \dots, x_n)$ para definir puntos en $\mathbb{R}^n$.
+
+  % --- DEFINICIÓN: FUNCIÓN VECTORIAL ---
+  \begin{definicion}{Función Vectorial de Varias Variables}
+    Una función vectorial $\vec{f} \colon D \subseteq \mathbb{R}^n \to \mathbb{R}^m$ asocia a cada vector de entrada $\vec{x} \in D$ un vector de salida de $m$ dimensiones. Toda función vectorial se descompone de manera única en $m$ \textbf{funciones componentes} escalares $f_1, f_2, \dots, f_m$:
+    $$ \vec{f}(\vec{x}) = \Big( f_1(\vec{x}), f_2(\vec{x}), \dots, f_m(\vec{x}) \Big) $$
+    donde cada componente es un campo escalar $f_i \colon D \to \mathbb{R}$.
+  \end{definicion}
+
+  % --- EJEMPLO 1: PRESENTACIÓN DE LA FUNCIÓN VECTORIAL EN R^3 ---
+  \begin{ejemplo}{Anatomía de un Campo Vectorial en $\mathbb{R}^3$}
+    Considere la función vectorial $\vec{f} \colon \mathbb{R}^3 \setminus \{(0,0,0)\} \to \mathbb{R}^3$ definida por:
+    $$ \vec{f}(x,y,z) = \left( x^2 + y^2 + z^2, \; \displaystyle \dfrac{xyz}{x^2 + y^2 + z^2}, \; e^{x+y+z} \right) $$
+    Aquí la función recibe $n=3$ variables de entrada $(x,y,z)$ y devuelve un vector de $m=3$ dimensiones. Sus tres componentes escalares son:
+    \begin{itemize}
+      \item Componente 1: $f_1(x,y,z) = x^2 + y^2 + z^2$
+      \item Componente 2: $f_2(x,y,z) = \displaystyle \dfrac{xyz}{x^2 + y^2 + z^2}$
+      \item Componente 3: $f_3(x,y,z) = e^{x+y+z}$
+    \end{itemize}
+  \end{ejemplo}
+
+  % --- TEOREMA: LÍMITE Y CONTINUIDAD POR COMPONENTES ---
+  \begin{teorema}{Límite y Continuidad por Componentes en $\mathbb{R}^n$}
+    Sea $\vec{a} \in \mathbb{R}^n$ un punto de acumulación de $D \subseteq \mathbb{R}^n$. El límite de la función vectorial $\vec{f} \colon D \to \mathbb{R}^m$ existe si y solo si existe el límite de \textbf{cada una} de sus $m$ componentes escalares. En tal caso:
+    $$ \displaystyle \lim\limits_{\vec{x} \to \vec{a}} \vec{f}(\vec{x}) = \left( \displaystyle \lim\limits_{\vec{x} \to \vec{a}} f_1(\vec{x}), \; \dots, \; \displaystyle \lim\limits_{\vec{x} \to \vec{a}} f_m(\vec{x}) \right) $$
+    
+    \textbf{Corolario de Continuidad:}
+    La función vectorial $\vec{f}$ es continua en $\vec{a}$ \textbf{si y solo si} cada componente $f_i$ es continua en $\vec{a}$. 
+  \end{teorema}
+
+  % --- EJEMPLO 2: EVALUACIÓN DEL LÍMITE VECTORIAL EN R^3 ---
+  \begin{ejemplo}{Evaluación del Límite de un Campo Vectorial en el Origen}
+    Estudiemos el límite en el origen $\displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} \vec{f}(x,y,z)$ para la función presentada en el Ejemplo 1.
+    
+    \textbf{Desarrollo:}
+    Evaluamos cada límite componente por separado:
+    \begin{enumerate}
+      \item $\displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} f_1(x,y,z) = \displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} (x^2 + y^2 + z^2) = 0$.
+      \item $\displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} f_2(x,y,z) = \displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} \displaystyle \dfrac{xyz}{x^2 + y^2 + z^2} = 0$, pues por acotamiento $\left| \displaystyle \dfrac{xy}{x^2+y^2+z^2} \right| \leq \displaystyle \dfrac{1}{2}$, resultando en un producto de un término que tiende a cero ($z \to 0$) por uno acotado.
+      \item $\displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} f_3(x,y,z) = \displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} e^{x+y+z} = e^0 = 1$.
+    \end{enumerate}
+    
+    \textbf{Conclusión:}
+    Como los límites de las tres componentes existen de forma independiente, el límite vectorial existe y se calcula ensamblando el vector resultante:
+    $$ \displaystyle \lim\limits_{(x,y,z) \to (0,0,0)} \vec{f}(x,y,z) = (0, \; 0, \; 1) $$
+  \end{ejemplo}
+
+  \begin{alerta}{El Principio del Eslabón Más Débil}
+    Basta con que una sola de las $m$ componentes no posea límite, o sea discontinua en $\vec{a}$, para que toda la función vectorial $\vec{f}$ sea declarada discontinua o sin límite en dicho punto.
+  \end{alerta}
+
+  % --- TEOREMAS TOPOLÓGICOS (WEIERSTRASS Y TVI) ---
+  \subsection*{Grandes Teoremas de Continuidad en $\mathbb{R}^n$}
+  
+  Cuando evaluamos campos escalares ($m=1$, es decir $f \colon D \subseteq \mathbb{R}^n \to \mathbb{R}$), las propiedades topológicas del dominio determinan el comportamiento global de la función.
+
+  \begin{itemize}
+    \item \textbf{Conjunto Compacto en $\mathbb{R}^n$:} Un subconjunto $D \subseteq \mathbb{R}^n$ que es \textbf{cerrado} (contiene a todos sus puntos frontera) y \textbf{acotado} (existe $R > 0$ tal que $\|\vec{x}\| \le R$ para todo $\vec{x} \in D$).
+    \item \textbf{Conjunto Conexo en $\mathbb{R}^n$:} Un conjunto que no puede dividirse en dos abiertos disjuntos no vacíos. Intuitivamente, cualesquiera dos puntos $\vec{a}, \vec{b} \in D$ pueden unirse mediante un camino continuo totalmente contenido en $D$.
+  \end{itemize}
+
+  \begin{teorema}{Teorema de Weierstrass en $\mathbb{R}^n$ (Valores Extremos)}
+    Si $f \colon D \subseteq \mathbb{R}^n \to \mathbb{R}$ es continua y el dominio $D$ es un conjunto \textbf{compacto}, entonces $f$ alcanza obligatoriamente un \textbf{máximo absoluto} y un \textbf{mínimo absoluto} en $D$.
+    
+    Existen puntos $\vec{x}_{min}, \vec{x}_{max} \in D$ tales que:
+    $$ f(\vec{x}_{min}) \leq f(\vec{x}) \leq f(\vec{x}_{max}) \quad \forall \vec{x} \in D $$
+  \end{teorema}
+
+  \begin{teorema}{Teorema del Valor Intermedio en $\mathbb{R}^n$ (TVI)}
+    Si $f \colon D \subseteq \mathbb{R}^n \to \mathbb{R}$ es continua y $D$ es un conjunto \textbf{conexo}, dados dos puntos $\vec{a}, \vec{b} \in D$ con imágenes $f(\vec{a}) = A$ y $f(\vec{b}) = B$, la función $f$ toma \textbf{todos los valores comprendidos} entre $A$ y $B$.
+  \end{teorema}
+
+  \begin{procesamiento}{¿Por qué $m=1$ para Weierstrass y TVI?}
+    Los teoremas de Weierstrass y del Valor Intermedio aplican exclusivamente a imágenes en $\mathbb{R}$ porque los números reales tienen una relación de orden lineal ($\le$). En $\mathbb{R}^m$ ($m \geq 2$), no existe un orden canónico para comparar vectores sin definir previamente una norma escalar.
+  \end{procesamiento}
+
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  En esta sección pondremos a prueba tu intuición sobre campos vectoriales y los grandes teoremas topológicos de continuidad. Ahora que hemos generalizado nuestra visión, dejaremos atrás el confort del plano $\mathbb{R}^2$ para enfrentarnos a problemas en $\mathbb{R}^3$ utilizando $(x,y,z)$ e incluso en $\mathbb{R}^n$ usando coordenadas genéricas $(x_1, x_2, \ldots, x_n)$.
+
+  % --- TIPO 1: PREGUNTA DE ALTERNATIVAS ---
+  \begin{preguntaalternativas}{Reparando un Campo Vectorial en el Espacio}
+    Considere la función vectorial $\vec{f} \colon \mathbb{R}^3 \setminus \{(0,0,0)\} \to \mathbb{R}^3$ definida por:
+    $$ \vec{f}(x,y,z) = \left( e^{x+y+z}, \; \displaystyle \dfrac{\sin(x^2+y^2+z^2)}{x^2+y^2+z^2}, \; \displaystyle \dfrac{xyz}{x^2+y^2+z^2} \right) $$
+    Se desea extender esta función al origen definiendo $\vec{f}(0,0,0) = (a, b, c)$. ¿Qué vector $(a,b,c)$ permite que el campo vectorial sea continuo en el origen?
+    
+    \opcion{$(0, 0, 0)$}{Incorrecto}{Al evaluar el límite de la primera componente, $\displaystyle \lim\limits_{(x,y,z)\to(0,0,0)} e^{x+y+z} = e^0 = 1$, no $0$.}
+    \opcion{No es posible hacerla continua porque la tercera componente no tiene límite.}{Incorrecto}{El límite de la tercera componente sí existe. Usando el teorema de cero por acotado o coordenadas esféricas, el numerador tiene grado 3 y el denominador grado 2, por lo que domina el numerador y tiende a $0$.}
+    \opcion{$(1, 1, 0)$}{Correcto}{¡Excelente! El teorema indica que el límite existe si y solo si existen los de sus componentes. $f_1 \to 1$. Para $f_2$, haciendo $u=x^2+y^2+z^2$, el límite notable es $1$. Para $f_3$, por acotamiento el límite es $0$. Asignando el vector $(1,1,0)$, la función queda perfectamente continua en todo $\mathbb{R}^3$.}
+  \end{preguntaalternativas}
+
+  % --- TIPO 2: PREGUNTA DE VERDADERO O FALSO ---
+  \begin{preguntaverdaderofalso}{La Trampa del Dominio Infinito en $n$ dimensiones}
+    Considere el campo escalar cuadrático en $\mathbb{R}^n$ dado por la suma de cuadrados: 
+    $$ f(x_1, x_2, \dots, x_n) = x_1^2 + x_2^2 + \dots + x_n^2 $$
+    Un estudiante afirma: \textit{"Como $f$ es un polinomio multivariable, es una función continua en todo $\mathbb{R}^n$. Por lo tanto, el Teorema de Weierstrass garantiza matemáticamente que $f$ alcanza un valor máximo absoluto."}
+    
+    \verdaderofalso{F}
+      {¡Correcto! El Teorema de Weierstrass exige dos cosas: una función continua Y un dominio compacto (cerrado y acotado). Aunque la función es perfectamente continua, el hiperespacio $\mathbb{R}^n$ no está acotado (se extiende al infinito en sus $n$ dimensiones). De hecho, $f$ mide el cuadrado de la distancia al origen, por lo que crece sin límite y jamás alcanza un máximo.}
+      {Incorrecto. Te dejaste llevar solo por la continuidad. Recuerda que Weierstrass tiene una exigencia topológica estricta: el dominio debe ser un conjunto cerrado y acotado (compacto). $\mathbb{R}^n$ es un conjunto infinito y no acotado en ninguna de sus variables $x_i$.}
+  \end{preguntaverdaderofalso}
+
+  % --- TIPO 3: PREGUNTA DE CASILLAS ---
+  \begin{preguntacasillas}{Explorando las Isotermas de una Habitación (TVI)}
+    Sea $T(x,y,z)$ un campo escalar continuo que representa la temperatura dentro de una habitación sellada. El volumen de la habitación representa un conjunto espacial \textbf{conexo}. Si sabemos que en el punto $\vec{A}$ la temperatura es de $10^\circ C$ y en el punto $\vec{B}$ es de $30^\circ C$, seleccione \textbf{todas} las afirmaciones matemáticas correctas:
+    
+    \casilla{Obligatoriamente existe algún punto $(x_0,y_0,z_0)$ en la habitación donde la temperatura es exactamente $20^\circ C$.}{Correcto}{¡Correcto! Como el dominio espacial es conexo y $T$ es continua, el Teorema del Valor Intermedio asegura que la función asume todos los valores entre $10$ y $30$.}
+    \casilla{Si trazamos el vuelo de una mosca a través de una curva continua desde $\vec{A}$ hasta $\vec{B}$, en algún momento de su vuelo la mosca experimentó exactamente $15^\circ C$.}{Correcto}{¡Brillante! La trayectoria de vuelo es una curva continua en $\mathbb{R}^3$, lo cual es en sí mismo un subconjunto conexo. La temperatura a lo largo del vuelo debe pasar por todos los valores intermedios sin "saltarse" ninguno.}
+    \casilla{Es matemáticamente imposible que en alguna esquina de la habitación haya $40^\circ C$.}{Incorrecto}{Falso. El TVI garantiza que se toman \textit{al menos} los valores intermedios, pero no restringe a la función de alcanzar valores mayores o menores fuera de ese rango en otras zonas del dominio 3D.}
+  \end{preguntacasillas}
+
+  % --- TIPO 4: TÉRMINOS PAREADOS ---
+  \begin{pareados}{Topología y Consecuencias en Múltiples Dimensiones}
+    Conecta cada situación de funciones multivariables con la consecuencia analítica y topológica que mejor la describe.
+    
+    % COLUMNA 1: Situaciones
+    \columnaI{
+      \item Campo vectorial en $\mathbb{R}^3$: $\vec{f}(x,y,z) = \left( x^3, \; e^z, \; \displaystyle \dfrac{x^2}{x^2+y^2+z^2} \right)$ analizado en el origen $(0,0,0)$.
+      \item Campo escalar lineal en $\mathbb{R}^n$: $f(x_1, \dots, x_n) = x_1 + \dots + x_n$ analizado estrictamente sobre la bola cerrada $\displaystyle \sum_{i=1}^n x_i^2 \leq 4$.
+      \item Campo escalar gravitacional: $g(x_1, \dots, x_n) = \displaystyle \dfrac{1}{x_1^2 + \dots + x_n^2}$ analizado sobre la región esférica abierta $1 < \displaystyle \sum_{i=1}^n x_i^2 < 4$.
+    }
+    
+    % COLUMNA 2: Consecuencia
+    \columnaII{
+      \item Alcanza su máximo y mínimo absoluto (Weierstrass asegurado).
+      \item No se asegura la existencia de extremos absolutos porque la hiperesfera es abierta y no incluye su frontera.
+      \item Presenta una discontinuidad irreparable porque falla el límite de una de sus componentes espaciales.
+    }
+
+    % --- SOLUCIONES Y RETROALIMENTACIÓN ---
+    \pareo{1-C}{¡Excelente! Por el Principio del Eslabón Más Débil, aunque la primera y segunda componente existen (tienden a $0$ y $1$), la tercera componente presenta la clásica división $\displaystyle \dfrac{0}{0}$ que depende del camino 3D. Al fallar un límite escalar, falla todo el vector.}
+    \pareo{2-A}{¡Perfecto! Es una función continua evaluada sobre una bola de radio 2 en $\mathbb{R}^n$, la cual contiene a su frontera (cerrada) y no se extiende al infinito (acotada). Weierstrass se cumple garantizando máximos y mínimos absolutos.}
+    \pareo{3-B}{¡Muy bien! Aunque la función es perfectamente continua en esa "cáscara" n-dimensional, la región no incluye sus bordes (las hiper-superficies r=1 y r=2). Al ser un conjunto abierto, no es compacto y no se garantiza el alcance de los extremos.}
+
+  \end{pareados}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+
+  % --- 1. EJERCICIO RESUELTO: LÍMITE VECTORIAL ---
+  \begin{ejercicioresuelto}{El Eslabón Roto en el Campo Vectorial}{nivel-3}
+    \enunciado{
+      Considere la función vectorial $\vec{f} \colon \mathbb{R}^2 \setminus \{(0,0)\} \to \mathbb{R}^2$ definida por:
+      $$ \vec{f}(x,y) = \left( \displaystyle \dfrac{x^3 - y^3}{x^2 + y^2}, \;\; \displaystyle \dfrac{x^2 y^2}{x^2 + y^4} \right) $$
+      Determine analíticamente si es posible definir un vector $\vec{L} = (A, B)$ tal que la extensión $\tilde{f}(0,0) = \vec{L}$ haga que la función sea continua en todo $\mathbb{R}^2$.
+    }
+    \solucion{
+      Para que la función vectorial sea continua en el origen, el límite de ambas componentes debe existir y ser finito. Analizaremos cada componente $f_1$ y $f_2$ por separado:
+
+      \textbf{Análisis de la primera componente ($f_1$):}
+      $$ \displaystyle \lim\limits_{(x,y) \to (0,0)} \displaystyle \dfrac{x^3 - y^3}{x^2 + y^2} $$
+      Aplicamos el cambio a coordenadas polares ($x = r\cos\theta, y = r\sin\theta$):
+      $$ \displaystyle \lim\limits_{r \to 0^+} \displaystyle \dfrac{r^3(\cos^3\theta - \sin^3\theta)}{r^2} = \displaystyle \lim\limits_{r \to 0^+} r(\cos^3\theta - \sin^3\theta) $$
+      Dado que la expresión trigonométrica está acotada y $r \to 0$, por el Teorema de Cero por Acotado, el límite de la primera componente existe y es $A = 0$.
+
+      \textbf{Análisis de la segunda componente ($f_2$):}
+      $$ \displaystyle \lim\limits_{(x,y) \to (0,0)} \displaystyle \dfrac{x^2 y^2}{x^2 + y^4} $$
+      Aplicaremos el Criterio de Caminos. 
+      Si nos acercamos por el eje Y ($x = 0$):
+      $$ \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{0 \cdot y^2}{0 + y^4} = 0 $$
+      Sin embargo, si elegimos la trayectoria parabólica $x = y^2$:
+      $$ \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{(y^2)^2 y^2}{(y^2)^2 + y^4} = \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{y^6}{2y^4} = \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{y^2}{2} = 0 $$
+      Pareciera que el límite es $0$, pero observemos atentamente el grado de las variables. Si tomamos la trayectoria parabólica generalizada $x = m y^2$: 
+      $$ \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{(m y^2)^2 y^2}{(m y^2)^2 + y^4} = \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{m^2 y^6}{m^2 y^4 + y^4} = \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{m^2 y^2}{m^2 + 1} = 0 $$
+      ¡Es una trampa común! Los caminos parabólicos dan 0, pero si evaluamos el límite prestando atención a los grados, notamos que si tomamos la ruta $y^2 = x$:
+      $$ \displaystyle \lim\limits_{x \to 0} \displaystyle \dfrac{x^2 \cdot x}{x^2 + x^2} = \displaystyle \lim\limits_{x \to 0} \displaystyle \dfrac{x^3}{2x^2} = 0 $$
+      Para que los exponentes colapsen en una constante, requerimos que el numerador y denominador sean del mismo grado ponderado. En este caso sí podemos probar formalmente que el límite es $0$ usando acotamiento, porque $x^2 \le x^2+y^4$, lo que implica:
+      $$ 0 \le \displaystyle \dfrac{x^2}{x^2+y^4} \le 1 \implies \displaystyle \dfrac{x^2}{x^2+y^4} y^2 \le y^2 $$
+      Cuando $(x,y) \to (0,0)$, $y^2 \to 0$, de manera que por el Teorema del Sándwich (o Cero por Acotado), el límite de $f_2$ es efectivamente $0$.
+      Por lo tanto, ambas componentes tienen límite $0$. 
+      
+      \textbf{Conclusión:}
+      Sí es posible. El vector necesario es $\vec{L} = (0,0)$. $\vec{f}$ presenta una discontinuidad reparable en su totalidad.
+    }
+  \end{ejercicioresuelto}
+
+  % --- 2. EJERCICIO RESUELTO: WEIERSTRASS TOPOLÓGICO ---
+  \begin{ejercicioresuelto}{Garantía de Extremos mediante Topología}{nivel-3}
+    \enunciado{
+      Considere el campo escalar tridimensional que representa la densidad de un material:
+      $$ \rho(x,y,z) = e^{x^2+y^2+z^2} - \sin(xyz) $$
+      El material se encuentra confinado en la región $D$ definida por la intersección de la bola sólida $x^2+y^2+z^2 \le 9$ y el plano $x+y+z = 0$. 
+      ¿Puede usted garantizar matemáticamente que existe un punto en $D$ donde la densidad es máxima? Argumente topológicamente.
+    }
+    \solucion{
+      Para garantizar la existencia de un máximo absoluto sin tener que calcular derivadas, debemos verificar si se cumplen las hipótesis del \textbf{Teorema de Weierstrass}: la función debe ser continua y el dominio $D$ debe ser compacto (cerrado y acotado).
+
+      \textbf{1. Continuidad de la función:} 
+      El campo escalar $\rho(x,y,z)$ es la resta de una función exponencial compuesta con un polinomio, y una función seno compuesta con un polinomio. Al ser composiciones y operaciones algebraicas de funciones continuas en todo $\mathbb{R}^3$, $\rho$ es estrictamente continua en $\mathbb{R}^3$.
+
+      \textbf{2. Acotamiento del dominio:} 
+      El conjunto $D$ es un subconjunto de la bola $B = \{ (x,y,z) \colon x^2+y^2+z^2 \le 9 \}$. Dado que todos los puntos de $D$ satisfacen que su distancia al origen no supera $3$ ($\| \vec{x} \| \le 3$), el conjunto $D$ está \textbf{acotado}.
+
+      \textbf{3. Clausura del dominio (Conjunto cerrado):}
+      La bola sólida incluye su frontera (el signo $\le$ en lugar de $<$), por lo que es un conjunto cerrado. El plano $x+y+z = 0$ también es un conjunto cerrado en $\mathbb{R}^3$. La intersección de dos conjuntos cerrados es siempre un conjunto \textbf{cerrado}. 
+
+      \textbf{Conclusión:}
+      Al ser $D$ cerrado y acotado, es un conjunto \textbf{compacto}. Como la función $\rho$ es continua en todo $\mathbb{R}^3$ (y por ende en $D$), el Teorema de Weierstrass nos \textbf{garantiza absolutamente} que la densidad alcanza un valor máximo (y un mínimo) en esta sección transversal de la esfera.
+    }
+  \end{ejercicioresuelto}
+
+  % --- 3. EJERCICIO PROPUESTO: TVI EN EL ESPACIO ---
+  \begin{ejerciciopropuesto}{El Teorema del Valor Intermedio en el Espacio}{nivel-2}
+    \enunciado{
+      Sea $T(x,y,z) = x^2 + y^2 + z^2 - 4x + 2$ un campo escalar continuo en $\mathbb{R}^3$. Considere el dominio $D$ como la bola cerrada $(x-2)^2 + y^2 + z^2 \le 4$. Demuestre rigurosamente que existe al menos un punto en $D$ donde $T(x,y,z) = 0$.
+    }
+    \pista{
+      Debes invocar el Teorema del Valor Intermedio (TVI). Primero, justifica que $D$ (una bola sólida) es un conjunto \textbf{conexo}. Luego, evalúa la función en el centro de la bola $(2,0,0)$ y obtendrás un valor negativo. Después, evalúa en un punto de la frontera, como $(4,0,0)$, y obtendrás un valor positivo. Dado que $0$ se encuentra entre esos dos valores, el TVI garantiza la existencia de la raíz.
+    }
+  \end{ejerciciopropuesto}
+
+  % --- 4. EJERCICIO PROPUESTO: LÍMITE VECTORIAL GENÉRICO ---
+  \begin{ejerciciopropuesto}{Límite Vectorial Genérico en $\mathbb{R}^n$}{nivel-3}
+    \enunciado{
+      Sea $\vec{c} \in \mathbb{R}^n$ un vector constante no nulo. Considere la función vectorial (que en este caso devuelve un vector bidimensional, $m=2$):
+      $$ \vec{g}(\vec{x}) = \left( \displaystyle \dfrac{\vec{c} \cdot \vec{x}}{\|\vec{x}\|}, \;\; \|\vec{x}\|^2 \right) $$
+      para $\vec{x} \in \mathbb{R}^n \setminus \{\vec{0}\}$. 
+      Demuestre que $\displaystyle \lim\limits_{\vec{x} \to \vec{0}} \vec{g}(\vec{x})$ no existe.
+    }
+    \pista{
+      Usa el "Principio del Eslabón Más Débil". La segunda componente tiende a $0$ claramente. Sin embargo, la primera componente es el producto punto dividido por la norma. Si te acercas al origen a través de la recta paralela a $\vec{c}$ (es decir, $\vec{x} = t\vec{c}$ con $t>0$), la primera componente da $\|\vec{c}\|$. Si te acercas por una recta ortogonal a $\vec{c}$ (donde $\vec{c} \cdot \vec{x} = 0$), el límite es $0$. Como la primera componente falla, todo el límite vectorial colapsa.
+    }
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Límite de una Función Vectorial}
+    {\displaystyle \lim\limits_{\vec{x} \to \vec{a}} \vec{f}(\vec{x}) = \vec{L} = (L_1, L_2, \dots, L_m) \iff \displaystyle \lim\limits_{\vec{x} \to \vec{a}} f_i(\vec{x}) = L_i \quad \forall i \in \{1, \dots, m\}}
+    {El límite de un vector es el vector de los límites. Todas las componentes deben converger de forma unánime.}
+
+  \formula{Continuidad Vectorial}
+    {\vec{f} \text{ es continua en } \vec{a} \iff \displaystyle \lim\limits_{\vec{x} \to \vec{a}} \vec{f}(\vec{x}) = \vec{f}(\vec{a})}
+    {Equivale a afirmar que cada una de las funciones coordenadas $f_i(\vec{x})$ es continua en $\vec{a}$.}
+
+  \formula{Teorema de Weierstrass (Topología Compacta)}
+    {f \text{ continua en } D \;\wedge\; D \text{ es compacto} \implies \exists \vec{x}_{min}, \vec{x}_{max} \in D \text{ que otorgan extremos absolutos}}
+    {Garantiza la optimización perfecta siempre que el entorno esté cerrado (contenga bordes) y acotado (no sea infinito).}
+
+  \formula{Teorema del Valor Intermedio (Topología Conexa)}
+    {f \text{ continua en } D \;\wedge\; D \text{ es conexo} \implies f \text{ toma todo valor } k \in [f(\vec{a}), f(\vec{b})]}
+    {Demuestra que un campo escalar no puede "saltarse" valores de transición si el dominio no presenta rupturas espaciales.}
+
+\end{formulas}
+
+\end{document}

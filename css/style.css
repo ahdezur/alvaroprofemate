@@ -1707,6 +1707,25 @@ textarea.form-control {
   -webkit-overflow-scrolling: touch;
 }
 
+.formula-block {
+  padding-top: 18px !important;
+  padding-bottom: 12px !important;
+  overflow-y: visible !important;
+}
+
+.katex-display {
+  padding-top: 16px !important;
+  padding-bottom: 10px !important;
+  margin: 0.5em 0 !important;
+  overflow-x: auto;
+  overflow-y: visible !important;
+}
+
+.katex-display > .katex {
+  padding-top: 10px !important;
+  padding-bottom: 6px !important;
+}
+
 iframe, video, canvas, svg {
   max-width: 100%;
 }
@@ -2116,3 +2135,17 @@ button, input[type="button"], input[type="submit"], select, .btn, .nav-link, .mo
   }
 }
 
+/* Prevención universal de recortes y barras de desplazamiento vertical en fórmulas MathJax */
+mjx-container, mjx-container[display="true"], .mjx-container, .mjx-chtml, .mjx-display {
+  overflow-y: visible !important;
+  padding-top: 16px !important;
+  padding-bottom: 10px !important;
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+mjx-container > mjx-math, .mjx-math {
+  padding-top: 12px !important;
+  padding-bottom: 6px !important;
+  overflow: visible !important;
+}

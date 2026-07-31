@@ -1593,7 +1593,11 @@
     .formula-block, .formula-card-latex, .quiz-block, pre, table, iframe {
       max-width: 100%;
       overflow-x: auto;
+      overflow-y: hidden !important;
       -webkit-overflow-scrolling: touch;
+    }
+    mjx-container, mjx-container[display="true"], .mjx-container, .mjx-chtml, .mjx-display {
+      overflow-y: hidden !important;
     }
     button, .quiz-option, .pareo-select-col2, .pareo-select-col3, .btn-verify-quiz, .ram-tab-btn {
       min-height: 44px;
@@ -1730,8 +1734,8 @@
   </div>
 
   <!-- Javascript Modules -->
-  <script src="js/config.js?v=19.0"></script>
-  <script src="js/db.js?v=19.0"></script>
-  <script src="js/course.js?v=19.0"></script>
+  <script src="js/config.js?v=88.0"></script>
+  <script src="js/db.js?v=88.0"></script>
+  <script src="js/course.js?v=88.0"></script>
 </body>
 </html>

@@ -960,17 +960,17 @@
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 1: Desigualdad Cuadrática</h3>
               <p>Probar usando inducción que para todo natural $n \ge 1$ se cumple que:</p>
               <div class="resultado">
-                $$ 1 + \frac{1}{4} + \frac{1}{9} + \dots + \frac{1}{n^2} \le 2 - \frac{1}{n} $$
+                $$ 1 + \dfrac{1}{4} + \dfrac{1}{9} + \dots + \dfrac{1}{n^2} \le 2 - \dfrac{1}{n} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p1')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-ind-p1">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. <strong>Paso Base:</strong> Comprobar para $n = 1$: $1 \le 2 - 1 = 1$, lo cual se cumple.</p>
                 <p>2. <strong>Hipótesis Inductiva (HI):</strong> Asumir que la proposición es válida para $n = k \ge 1$:</p>
-                <p>$$ 1 + \frac{1}{4} + \frac{1}{9} + \dots + \frac{1}{k^2} \le 2 - \frac{1}{k} $$</p>
-                <p>3. <strong>Paso Inductivo:</strong> Sumar $\frac{1}{(k+1)^2}$ a ambos lados de la hipótesis y demostrar que:</p>
-                <p>$$ 2 - \frac{1}{k} + \frac{1}{(k+1)^2} \le 2 - \frac{1}{k+1} $$</p>
-                <p>Esto se reduce algebraicamente a demostrar que $\frac{1}{(k+1)^2} \le \frac{1}{k} - \frac{1}{k+1} = \frac{1}{k(k+1)}$, lo cual es cierto para todo $k \ge 1$.</p>
+                <p>$$ 1 + \dfrac{1}{4} + \dfrac{1}{9} + \dots + \dfrac{1}{k^2} \le 2 - \dfrac{1}{k} $$</p>
+                <p>3. <strong>Paso Inductivo:</strong> Sumar $\dfrac{1}{(k+1)^2}$ a ambos lados de la hipótesis y demostrar que:</p>
+                <p>$$ 2 - \dfrac{1}{k} + \dfrac{1}{(k+1)^2} \le 2 - \dfrac{1}{k+1} $$</p>
+                <p>Esto se reduce algebraicamente a demostrar que $\dfrac{1}{(k+1)^2} \le \dfrac{1}{k} - \dfrac{1}{k+1} = \dfrac{1}{k(k+1)}$, lo cual es cierto para todo $k \ge 1$.</p>
               </div>
             </div>
 
@@ -978,14 +978,14 @@
               <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 2: Desigualdad con Raíces</h3>
               <p>Demostrar por inducción que para todo natural $n \ge 1$ se cumple la siguiente desigualdad:</p>
               <div class="resultado">
-                $$ 1 + \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{3}} + \dots + \frac{1}{\sqrt{n}} \ge 2(\sqrt{n+1} - 1) $$
+                $$ 1 + \dfrac{1}{\sqrt{2}} + \dfrac{1}{\sqrt{3}} + \dots + \dfrac{1}{\sqrt{n}} \ge 2(\sqrt{n+1} - 1) $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p2')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-ind-p2">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. <strong>Paso Base:</strong> Verificar el caso $n=1$. Se tiene $1 \ge 2(\sqrt{2}-1) \approx 0.828$. Se cumple.</p>
                 <p>2. <strong>Hipótesis Inductiva:</strong> Asumir que la suma hasta el término $k$ cumple la desigualdad.</p>
-                <p>3. <strong>Paso Inductivo:</strong> Sumar $\frac{1}{\sqrt{k+1}}$ a ambos lados de la hipótesis y demostrar que la nueva expresión es mayor o igual a $2(\sqrt{k+2}-1)$. Se simplifica al probar que $2\sqrt{k+1} + \frac{1}{\sqrt{k+1}} \ge 2\sqrt{k+2}$.</p>
+                <p>3. <strong>Paso Inductivo:</strong> Sumar $\dfrac{1}{\sqrt{k+1}}$ a ambos lados de la hipótesis y demostrar que la nueva expresión es mayor o igual a $2(\sqrt{k+2}-1)$. Se simplifica al probar que $2\sqrt{k+1} + \dfrac{1}{\sqrt{k+1}} \ge 2\sqrt{k+2}$.</p>
               </div>
             </div>
 
@@ -1008,12 +1008,12 @@
               <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 4: Productoria Polinomial</h3>
               <p>Demostrar usando inducción que para todo natural $n \ge 1$ y $x \ne 1$ se cumple:</p>
               <div class="resultado">
-                $$ (1+x)(1+x^2)(1+x^{2^2})(1+x^{2^3})\dots(1+x^{2^{n-1}}) = \frac{x^{2^n}-1}{x-1} $$
+                $$ (1+x)(1+x^2)(1+x^{2^2})(1+x^{2^3})\dots(1+x^{2^{n-1}}) = \dfrac{x^{2^n}-1}{x-1} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p4')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-ind-p4">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. <strong>Paso Base:</strong> Para $n=1$, el lado izquierdo es $(1+x)$ y el derecho es $\frac{x^2-1}{x-1} = x+1$. Se cumple.</p>
+                <p>1. <strong>Paso Base:</strong> Para $n=1$, el lado izquierdo es $(1+x)$ y el derecho es $\dfrac{x^2-1}{x-1} = x+1$. Se cumple.</p>
                 <p>2. <strong>Hipótesis Inductiva:</strong> Asumir la fórmula correcta para $n=k$.</p>
                 <p>3. <strong>Paso Inductivo:</strong> Multiplicar el producto obtenido por el término $(k+1)$-ésimo, que es $(1+x^{2^k})$. Desarrollar usando diferencia de cuadrados en el numerador del lado derecho para llegar a la tesis para $n=k+1$.</p>
               </div>
@@ -1043,7 +1043,7 @@
               <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p8')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-ind-p8">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. <strong>Obtención de la fórmula:</strong> Expresar el término general como $k(k-1) = k^2 - k$. Aplicando las sumas notables conocidas, demostrar que la fórmula cerrada es: $$\frac{(n-1)n(n+1)}{3}$$</p>
+                <p>1. <strong>Obtención de la fórmula:</strong> Expresar el término general como $k(k-1) = k^2 - k$. Aplicando las sumas notables conocidas, demostrar que la fórmula cerrada es: $$\dfrac{(n-1)n(n+1)}{3}$$</p>
                 <p>2. <strong>Demostración:</strong> El paso base para $n=1$ arroja $0 = 0$ (o $1 \cdot 2 = 2$ si se inicia en $n=2$). En el paso inductivo, sumar el término $n(n+1)$ al resultado de la hipótesis y verificar la tesis.</p>
               </div>
             </div>
@@ -1052,13 +1052,13 @@
               <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 7: Equivalencia de Sumatorias</h3>
               <p>Demostrar por inducción que para cada natural $n \ge 1$ se cumple que:</p>
               <div class="resultado">
-                $$ \sum_{k=n+1}^{2n} \frac{1}{k} = \sum_{k=1}^{2n} \frac{(-1)^{k+1}}{k} $$
+                $$ \sum_{k=n+1}^{2n} \dfrac{1}{k} = \sum_{k=1}^{2n} \dfrac{(-1)^{k+1}}{k} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p11b')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-ind-p11b">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. <strong>Paso Base ($n=1$):</strong> El L.I. es $\sum_{k=2}^2 \frac{1}{k} = \frac{1}{2}$. El L.D. es $\sum_{k=1}^2 \frac{(-1)^{k+1}}{k} = 1 - \frac{1}{2} = \frac{1}{2}$. Se cumple.</p>
-                <p>2. <strong>Paso Inductivo:</strong> Al pasar de $k$ a $k+1$, analizar la variación en ambos lados. El L.I. pierde el término $\frac{1}{k+1}$ y gana $\frac{1}{2k+1} + \frac{1}{2k+2}$. El L.D. gana los términos $\frac{1}{2k+1} - \frac{1}{2k+2}$. Mostrar que ambas variaciones son iguales.</p>
+                <p>1. <strong>Paso Base ($n=1$):</strong> El L.I. es $\sum_{k=2}^2 \dfrac{1}{k} = \dfrac{1}{2}$. El L.D. es $\sum_{k=1}^2 \dfrac{(-1)^{k+1}}{k} = 1 - \dfrac{1}{2} = \dfrac{1}{2}$. Se cumple.</p>
+                <p>2. <strong>Paso Inductivo:</strong> Al pasar de $k$ a $k+1$, analizar la variación en ambos lados. El L.I. pierde el término $\dfrac{1}{k+1}$ y gana $\dfrac{1}{2k+1} + \dfrac{1}{2k+2}$. El L.D. gana los términos $\dfrac{1}{2k+1} - \dfrac{1}{2k+2}$. Mostrar que ambas variaciones son iguales.</p>
               </div>
             </div>
 
@@ -1066,13 +1066,13 @@
               <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 8: Acotación de Suma</h3>
               <p>Demostrar por inducción que para todo natural $n \ge 1$ se tiene la siguiente cota:</p>
               <div class="resultado">
-                $$ \sum_{k=1}^{n+1} \frac{1}{n+k} \le \frac{5}{6} $$
+                $$ \sum_{k=1}^{n+1} \dfrac{1}{n+k} \le \dfrac{5}{6} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-ind-p15')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-ind-p15">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. <strong>Paso Base ($n=1$):</strong> La suma es $\frac{1}{2} + \frac{1}{3} = \frac{5}{6}$, lo cual cumple con la igualdad límite.</p>
-                <p>2. <strong>Paso Inductivo:</strong> Escribir el término para $n=k+1$ y restarle el término para $n=k$. Mostrar que la diferencia es negativa para todo $k \ge 1$ (es decir, la suma es decreciente con respecto a $n$), lo que asegura que siempre será menor o igual a $\frac{5}{6}$.</p>
+                <p>1. <strong>Paso Base ($n=1$):</strong> La suma es $\dfrac{1}{2} + \dfrac{1}{3} = \dfrac{5}{6}$, lo cual cumple con la igualdad límite.</p>
+                <p>2. <strong>Paso Inductivo:</strong> Escribir el término para $n=k+1$ y restarle el término para $n=k$. Mostrar que la diferencia es negativa para todo $k \ge 1$ (es decir, la suma es decreciente con respecto a $n$), lo que asegura que siempre será menor o igual a $\dfrac{5}{6}$.</p>
               </div>
             </div>
 
@@ -1096,7 +1096,7 @@
                 \( a_n = a_1 + (n-1)d \)
               </div>
               <div class="formula-card-latex" style="margin-top: 5px;">
-                \( S_n = \frac{n(a_1 + a_n)}{2} \)
+                \( S_n = \dfrac{n(a_1 + a_n)}{2} \)
               </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">$d$: diferencia común de la suma consecutiva.</p>
             </div>
@@ -1107,7 +1107,7 @@
                 \( a_n = a_1 r^{n-1} \)
               </div>
               <div class="formula-card-latex" style="margin-top: 5px;">
-                \( S_n = a_1 \frac{r^n - 1}{r - 1} \)
+                \( S_n = a_1 \dfrac{r^n - 1}{r - 1} \)
               </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">$r$: razón geométrica constante ($r \ne 1$).</p>
             </div>
@@ -1170,12 +1170,12 @@
           <ul>
             <li><strong>Progresión Aritmética (PA):</strong> Cada término se obtiene sumando una diferencia constante $d$ al término anterior.
               <div class="resultado">
-                Término general: $a_n = a_1 + (n-1)d \qquad $ Suma acumulada: $S_n = \frac{n}{2}(a_1 + a_n)$
+                Término general: $a_n = a_1 + (n-1)d \qquad $ Suma acumulada: $S_n = \dfrac{n}{2}(a_1 + a_n)$
               </div>
             </li>
             <li><strong>Progresión Geométrica (PG):</strong> Cada término se obtiene multiplicando una razón constante $r$ por el término anterior.
               <div class="resultado">
-                Término general: $a_n = a_1 \cdot r^{n-1} \qquad $ Suma acumulada: $S_n = a_1 \frac{r^n - 1}{r - 1} \quad (r \ne 1)$
+                Término general: $a_n = a_1 \cdot r^{n-1} \qquad $ Suma acumulada: $S_n = a_1 \dfrac{r^n - 1}{r - 1} \quad (r \ne 1)$
               </div>
             </li>
           </ul>
@@ -1199,15 +1199,15 @@
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 1: Telescópica Logarítmica</h3>
               <p>Calcular el valor general de la siguiente suma para $1 \le n \le m$:</p>
               <div class="resultado">
-                $$ \sum_{k=n}^{m} \log\left(1 + \frac{1}{k}\right) $$
+                $$ \sum_{k=n}^{m} \log\left(1 + \dfrac{1}{k}\right) $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p9a')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-sum-p9a">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. Notar que el término general se puede escribir como:</p>
-                <p>$$ \log\left(\frac{k+1}{k}\right) = \log(k+1) - \log(k) $$</p>
+                <p>$$ \log\left(\dfrac{k+1}{k}\right) = \log(k+1) - \log(k) $$</p>
                 <p>2. Aplicar propiedad telescópica directa. Los términos intermedios se cancelarán consecutivamente.</p>
-                <p>3. El resultado final simplificado es: $\log(m+1) - \log(n) = \log\left(\frac{m+1}{n}\right)$.</p>
+                <p>3. El resultado final simplificado es: $\log(m+1) - \log(n) = \log\left(\dfrac{m+1}{n}\right)$.</p>
               </div>
             </div>
 
@@ -1215,18 +1215,18 @@
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 2: Suma con Raíces</h3>
               <p>Calcular, en función del límite $n$, el valor de la siguiente sumatoria:</p>
               <div class="resultado">
-                $$ \sum_{k=1}^{n} \frac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} $$
+                $$ \sum_{k=1}^{n} \dfrac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} $$
               </div>
               <p><em>Indicación:</em> Racionalizar el término general de la suma.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p10')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-sum-p10">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. Racionalizar el factor de raíces multiplicando numerador y denominador por $(\sqrt{k+1} - \sqrt{k})$:</p>
-                <p>$$ \frac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} \cdot \frac{\sqrt{k+1} - \sqrt{k}}{\sqrt{k+1} - \sqrt{k}} = \frac{\sqrt{k+1} - \sqrt{k}}{\sqrt{k}\sqrt{k+1} \cdot 1} $$</p>
+                <p>$$ \dfrac{1}{\sqrt{k(k+1)}(\sqrt{k+1} + \sqrt{k})} \cdot \dfrac{\sqrt{k+1} - \sqrt{k}}{\sqrt{k+1} - \sqrt{k}} = \dfrac{\sqrt{k+1} - \sqrt{k}}{\sqrt{k}\sqrt{k+1} \cdot 1} $$</p>
                 <p>2. Separar la fracción resultante en dos términos:</p>
-                <p>$$ \frac{\sqrt{k+1}}{\sqrt{k}\sqrt{k+1}} - \frac{\sqrt{k}}{\sqrt{k}\sqrt{k+1}} = \frac{1}{\sqrt{k}} - \frac{1}{\sqrt{k+1}} $$</p>
+                <p>$$ \dfrac{\sqrt{k+1}}{\sqrt{k}\sqrt{k+1}} - \dfrac{\sqrt{k}}{\sqrt{k}\sqrt{k+1}} = \dfrac{1}{\sqrt{k}} - \dfrac{1}{\sqrt{k+1}} $$</p>
                 <p>3. Aplicar la propiedad telescópica directa. Al cancelar los términos intermedios, el valor final de la suma es:</p>
-                <p>$$ 1 - \frac{1}{\sqrt{n+1}} $$</p>
+                <p>$$ 1 - \dfrac{1}{\sqrt{n+1}} $$</p>
               </div>
             </div>
 
@@ -1234,7 +1234,7 @@
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 3: Suma Geométrica Directa</h3>
               <p>Sean $x, y \in \mathbb{R} \setminus \{0\}$ tales que $x \ne y$. Probar, sin usar inducción, que para todo $n \ge 1$ se cumple que:</p>
               <div class="resultado">
-                $$ \sum_{i=0}^{n-1} x^{n-1-i} y^i = \frac{x^n - y^n}{x - y} $$
+                $$ \sum_{i=0}^{n-1} x^{n-1-i} y^i = \dfrac{x^n - y^n}{x - y} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p11a')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-sum-p11a">
@@ -1247,9 +1247,9 @@
 
             <div class="card">
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 4: Varianza Estadística</h3>
-              <p>Dada la definición de la media aritmética de $n$ datos $\mu = \frac{x_1 + x_2 + \dots + x_n}{n}$, demostrar que:</p>
+              <p>Dada la definición de la media aritmética de $n$ datos $\mu = \dfrac{x_1 + x_2 + \dots + x_n}{n}$, demostrar que:</p>
               <div class="resultado">
-                $$ \frac{1}{n} \sum_{k=1}^{n} (x_k - \mu)^2 = \frac{1}{n} \left(\sum_{k=1}^{n} x_k^2\right) - \mu^2 $$
+                $$ \dfrac{1}{n} \sum_{k=1}^{n} (x_k - \mu)^2 = \dfrac{1}{n} \left(\sum_{k=1}^{n} x_k^2\right) - \mu^2 $$
               </div>
               <p><em>Observación:</em> En estadística, este valor corresponde a la fórmula de la varianza poblacional $\sigma^2$.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p14')">Ver Indicación / Pauta</button>
@@ -1270,8 +1270,8 @@
               <button class="btn btn-outline" onclick="toggleSolucion('sol-sum-p13a')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-sum-p13a">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Considerar que la sumatoria corresponde a una progresión geométrica finita de primer término $a_1 = (\sqrt{3})^7$ y razón común $r = \frac{\sqrt{2}}{\sqrt{3}}$.</p>
-                <p>2. Aplicar la fórmula de la suma $S_n = a_1 \frac{r^8 - 1}{r - 1}$.</p>
+                <p>1. Considerar que la sumatoria corresponde a una progresión geométrica finita de primer término $a_1 = (\sqrt{3})^7$ y razón común $r = \dfrac{\sqrt{2}}{\sqrt{3}}$.</p>
+                <p>2. Aplicar la fórmula de la suma $S_n = a_1 \dfrac{r^8 - 1}{r - 1}$.</p>
                 <p>3. Racionalizar el denominador multiplicando por el término conjugado para simplificar la expresión irracional.</p>
               </div>
             </div>
@@ -1285,21 +1285,21 @@
             <div class="formula-card">
               <h4>Suma Lineal</h4>
               <div class="formula-card-latex">
-                \( \sum_{i=1}^n i = \frac{n(n+1)}{2} \)
+                \( \sum_{i=1}^n i = \dfrac{n(n+1)}{2} \)
               </div>
             </div>
 
             <div class="formula-card">
               <h4>Suma de Cuadrados</h4>
               <div class="formula-card-latex">
-                \( \sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6} \)
+                \( \sum_{i=1}^n i^2 = \dfrac{n(n+1)(2n+1)}{6} \)
               </div>
             </div>
 
             <div class="formula-card">
               <h4>Suma de Cubos</h4>
               <div class="formula-card-latex">
-                \( \sum_{i=1}^n i^3 = \left[ \frac{n(n+1)}{2} \right]^2 \)
+                \( \sum_{i=1}^n i^3 = \left[ \dfrac{n(n+1)}{2} \right]^2 \)
               </div>
             </div>
 
@@ -1339,7 +1339,7 @@
           <h3>El Coeficiente Binomial</h3>
           <p>Representa el número de formas en que se pueden elegir $k$ elementos a partir de un conjunto total de $n$ elementos sin importar el orden:</p>
           <div class="resultado">
-            $$ \binom{n}{k} = \frac{n!}{k!(n-k)!} $$
+            $$ \binom{n}{k} = \dfrac{n!}{k!(n-k)!} $$
           </div>
           <p><strong>Propiedades Claves:</strong></p>
           <ul>
@@ -1380,12 +1380,12 @@
               <div class="resultado">
                 $$ \sum_{k=2}^{n+1} \binom{k}{2} = \binom{n+2}{3} $$
               </div>
-              <p><em>Indicación:</em> Recordar que $\sum_{k=0}^{m}k^2 = \frac{m(m+1)(2m+1)}{6}$ y notar que $k^2 = k(k-1) + k$.</p>
+              <p><em>Indicación:</em> Recordar que $\sum_{k=0}^{m}k^2 = \dfrac{m(m+1)(2m+1)}{6}$ y notar que $k^2 = k(k-1) + k$.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p6')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-bin-p6">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Escribir el coeficiente binomial explícitamente: $\binom{k}{2} = \frac{k(k-1)}{2}$.</p>
-                <p>2. Aplicar el operador de sumatoria a $\frac{1}{2}(k^2 - k)$ y utilizar las fórmulas de sumas notables para resolver algebraicamente.</p>
+                <p>1. Escribir el coeficiente binomial explícitamente: $\binom{k}{2} = \dfrac{k(k-1)}{2}$.</p>
+                <p>2. Aplicar el operador de sumatoria a $\dfrac{1}{2}(k^2 - k)$ y utilizar las fórmulas de sumas notables para resolver algebraicamente.</p>
                 <p>3. Alternativamente, utilizar la identidad de Pascal reescrita como $\binom{k}{2} = \binom{k+1}{3} - \binom{k}{3}$ y resolver mediante suma telescópica directa.</p>
               </div>
             </div>
@@ -1440,13 +1440,13 @@
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 5: Fracciones con Factoriales</h3>
               <p>Calcular la siguiente suma donde $n \ge 1$:</p>
               <div class="resultado">
-                $$ \sum_{k=1}^{n-1} \frac{1}{k!(n-k)!} $$
+                $$ \sum_{k=1}^{n-1} \dfrac{1}{k!(n-k)!} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-bin-p9b')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-bin-p9b">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. Multiplicar y dividir la suma por $n!$.</p>
-                <p>2. Identificar el término interior como el coeficiente binomial: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.</p>
+                <p>2. Identificar el término interior como el coeficiente binomial: $\binom{n}{k} = \dfrac{n!}{k!(n-k)!}$.</p>
                 <p>3. Recordar la suma notable binomial $\sum_{k=0}^{n} \binom{n}{k} = 2^n$. Excluir los términos extremos $k=0$ y $k=n$ para obtener el resultado de la sumatoria interna.</p>
               </div>
             </div>
@@ -1460,7 +1460,7 @@
             <div class="formula-card">
               <h4>Fórmula del Coeficiente</h4>
               <div class="formula-card-latex">
-                \( \binom{n}{k} = \frac{n!}{k!(n-k)!} \)
+                \( \binom{n}{k} = \dfrac{n!}{k!(n-k)!} \)
               </div>
             </div>
 
@@ -1536,11 +1536,11 @@
           <p><strong>Argumento Principal \(\theta \in (-\pi, \pi]\):</strong></p>
           <div class="resultado">
             $$ \theta = \begin{cases} 
-              \arctan\left(\frac{b}{a}\right) & \text{si } a > 0 \quad (\text{Cuadrantes I y IV}) \\ 
-              \arctan\left(\frac{b}{a}\right) + \pi & \text{si } a < 0 \text{ y } b \ge 0 \quad (\text{Cuadrante II}) \\ 
-              \arctan\left(\frac{b}{a}\right) - \pi & \text{si } a < 0 \text{ y } b < 0 \quad (\text{Cuadrante III}) \\ 
-              \frac{\pi}{2} & \text{si } a = 0 \text{ y } b > 0 \quad (\text{Eje imaginario positivo}) \\ 
-              -\frac{\pi}{2} & \text{si } a = 0 \text{ y } b < 0 \quad (\text{Eje imaginario negativo}) \\
+              \arctan\left(\dfrac{b}{a}\right) & \text{si } a > 0 \quad (\text{Cuadrantes I y IV}) \\ 
+              \arctan\left(\dfrac{b}{a}\right) + \pi & \text{si } a < 0 \text{ y } b \ge 0 \quad (\text{Cuadrante II}) \\ 
+              \arctan\left(\dfrac{b}{a}\right) - \pi & \text{si } a < 0 \text{ y } b < 0 \quad (\text{Cuadrante III}) \\ 
+              \dfrac{\pi}{2} & \text{si } a = 0 \text{ y } b > 0 \quad (\text{Eje imaginario positivo}) \\ 
+              -\dfrac{\pi}{2} & \text{si } a = 0 \text{ y } b < 0 \quad (\text{Eje imaginario negativo}) \\
               \text{Indefinido} & \text{si } a = 0 \text{ y } b = 0 \quad (\text{Origen})
             \end{cases} $$
           </div>
@@ -1548,11 +1548,11 @@
           <p><strong>Argumento en el intervalo \(\theta \in [0, 2\pi)\):</strong></p>
           <div class="resultado">
             $$ \theta = \begin{cases} 
-              \arctan\left(\frac{b}{a}\right) & \text{si } a > 0 \text{ y } b \ge 0 \quad (\text{Cuadrante I}) \\ 
-              \arctan\left(\frac{b}{a}\right) + \pi & \text{si } a < 0 \quad (\text{Cuadrantes II y III}) \\ 
-              \arctan\left(\frac{b}{a}\right) + 2\pi & \text{si } a > 0 \text{ y } b < 0 \quad (\text{Cuadrante IV}) \\ 
-              \frac{\pi}{2} & \text{si } a = 0 \text{ y } b > 0 \quad (\text{Eje imaginario positivo}) \\ 
-              \frac{3\pi}{2} & \text{si } a = 0 \text{ y } b < 0 \quad (\text{Eje imaginario negativo}) \\
+              \arctan\left(\dfrac{b}{a}\right) & \text{si } a > 0 \text{ y } b \ge 0 \quad (\text{Cuadrante I}) \\ 
+              \arctan\left(\dfrac{b}{a}\right) + \pi & \text{si } a < 0 \quad (\text{Cuadrantes II y III}) \\ 
+              \arctan\left(\dfrac{b}{a}\right) + 2\pi & \text{si } a > 0 \text{ y } b < 0 \quad (\text{Cuadrante IV}) \\ 
+              \dfrac{\pi}{2} & \text{si } a = 0 \text{ y } b > 0 \quad (\text{Eje imaginario positivo}) \\ 
+              \dfrac{3\pi}{2} & \text{si } a = 0 \text{ y } b < 0 \quad (\text{Eje imaginario negativo}) \\
               \text{Indefinido} & \text{si } a = 0 \text{ y } b = 0 \quad (\text{Origen})
             \end{cases} $$
           </div>
@@ -1567,7 +1567,7 @@
           </div>
           <p><strong>Raíces $n$-ésimas de un número complejo:</strong> Para encontrar las soluciones a la ecuación $w^n = z$, existen exactamente $n$ raíces distintas dadas por:</p>
           <div class="resultado">
-            $$ w_k = \sqrt[n]{r} \left( \cos \frac{\theta + 2k\pi}{n} + i \sin \frac{\theta + 2k\pi}{n} \right) \qquad \text{para } k = 0, 1, \dots, n-1 $$
+            $$ w_k = \sqrt[n]{r} \left( \cos \dfrac{\theta + 2k\pi}{n} + i \sin \dfrac{\theta + 2k\pi}{n} \right) \qquad \text{para } k = 0, 1, \dots, n-1 $$
           </div>
         </div>
       </div>
@@ -1589,7 +1589,7 @@
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 1: Potencia de Cociente Complejo</h3>
               <p>Calcular el valor del siguiente número complejo en su forma rectangular:</p>
               <div class="resultado">
-                $$ \left( \frac{1 + i\sqrt{3}}{1 - i} \right)^{40} $$
+                $$ \left( \dfrac{1 + i\sqrt{3}}{1 - i} \right)^{40} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p16')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p16">
@@ -1606,7 +1606,7 @@
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p17')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p17">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Representar $-i$ en forma polar: módulo $r=1$ y ángulo $\theta = -\frac{\pi}{2}$ o $\frac{3\pi}{2}$.</p>
+                <p>1. Representar $-i$ en forma polar: módulo $r=1$ y ángulo $\theta = -\dfrac{\pi}{2}$ o $\dfrac{3\pi}{2}$.</p>
                 <p>2. Aplicar la fórmula general para raíces de orden $n=2$ con $k=0, 1$.</p>
                 <p>3. Convertir de regreso a forma cartesiana usando los valores trigonométricos de $3\pi/4$ y $7\pi/4$.</p>
               </div>
@@ -1614,9 +1614,9 @@
 
             <div class="card">
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 3: Identidad Trigonométrica Compleja</h3>
-              <p>Sea $z \in \mathbb{C}$ tal que $z + \frac{1}{z} = 2\cos(\alpha)$ para $\alpha \in \mathbb{R}$. Calcular los valores de $z$ y demostrar que para todo natural $n$ se cumple:</p>
+              <p>Sea $z \in \mathbb{C}$ tal que $z + \dfrac{1}{z} = 2\cos(\alpha)$ para $\alpha \in \mathbb{R}$. Calcular los valores de $z$ y demostrar que para todo natural $n$ se cumple:</p>
               <div class="resultado">
-                $$ z^n + \frac{1}{z^n} = 2\cos(n\alpha) $$
+                $$ z^n + \dfrac{1}{z^n} = 2\cos(n\alpha) $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p18')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p18">
@@ -1646,7 +1646,7 @@
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 5: Operaciones con Complejos</h3>
               <p>Expresar de la forma rectangular $a + ib$ los siguientes números complejos:</p>
               <div class="resultado">
-                $$ u = (1 - i)^4 (1 + i)^4 \qquad \text{y} \qquad v = 1 + i + \frac{i - 1}{i + |1 - i|^2} $$
+                $$ u = (1 - i)^4 (1 + i)^4 \qquad \text{y} \qquad v = 1 + i + \dfrac{i - 1}{i + |1 - i|^2} $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p20')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p20">
@@ -1676,12 +1676,12 @@
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 7: Propiedad de Módulo Unitario</h3>
               <p>Sean $a \in \mathbb{R}$, $n \in \mathbb{N}$ y los complejos $z_1, z_2, \dots, z_n$ tales que $|z_i| = 1$ para todo $i$. Demostrar la implicación:</p>
               <div class="resultado">
-                $$ \sum_{i=1}^{n} z_i = a \implies \sum_{i=1}^{n} \frac{1}{z_i} = a $$
+                $$ \sum_{i=1}^{n} z_i = a \implies \sum_{i=1}^{n} \dfrac{1}{z_i} = a $$
               </div>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p22')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p22">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Aprovechar que $|z_i|^2 = z_i \cdot \bar{z}_i = 1$ para justificar que $\frac{1}{z_i} = \bar{z}_i$.</p>
+                <p>1. Aprovechar que $|z_i|^2 = z_i \cdot \bar{z}_i = 1$ para justificar que $\dfrac{1}{z_i} = \bar{z}_i$.</p>
                 <p>2. Aplicar el operador de conjugación a toda la suma original: $\sum \bar{z}_i = \overline{\sum z_i} = \bar{a}$.</p>
                 <p>3. Concluir usando la condición de que $a$ es real ($a = \bar{a}$).</p>
               </div>
@@ -1707,7 +1707,7 @@
               <p>Sea $\alpha$ una raíz séptima de la unidad distinta de 1. Demostrar que:</p>
               <ul>
                 <li>(a) $1 + \alpha + \alpha^2 + \alpha^3 + \alpha^4 + \alpha^5 + \alpha^6 = 0$</li>
-                <li>(b) $\frac{\alpha}{1 + \alpha^2} + \frac{\alpha^2}{1 + \alpha^4} + \frac{\alpha^3}{1 + \alpha^6} = -2$</li>
+                <li>(b) $\dfrac{\alpha}{1 + \alpha^2} + \dfrac{\alpha^2}{1 + \alpha^4} + \dfrac{\alpha^3}{1 + \alpha^6} = -2$</li>
               </ul>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p24')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p24">
@@ -1721,14 +1721,14 @@
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 10: Transformación de Möbius</h3>
               <p>Sea $z \in \mathbb{C}$ tal que $|z| < 1$. Demostrar que se cumple la siguiente desigualdad para la parte real:</p>
               <div class="resultado">
-                $$ \text{Re}\left( \frac{1 + z}{1 - z} \right) > 0 $$
+                $$ \text{Re}\left( \dfrac{1 + z}{1 - z} \right) > 0 $$
               </div>
-              <p><em>Indicación:</em> Defina $\omega = \frac{1+z}{1-z}$ y calcule la suma $\omega + \bar{\omega}$.</p>
+              <p><em>Indicación:</em> Defina $\omega = \dfrac{1+z}{1-z}$ y calcule la suma $\omega + \bar{\omega}$.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p25')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p25">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Calcular $\omega + \bar{\omega} = \frac{1+z}{1-z} + \frac{1+\bar{z}}{1-\bar{z}}$.</p>
-                <p>2. Sumar algebraicamente y simplificar el numerador para demostrar que $\text{Re}(\omega) = \frac{1 - |z|^2}{|1 - z|^2}$.</p>
+                <p>1. Calcular $\omega + \bar{\omega} = \dfrac{1+z}{1-z} + \dfrac{1+\bar{z}}{1-\bar{z}}$.</p>
+                <p>2. Sumar algebraicamente y simplificar el numerador para demostrar que $\text{Re}(\omega) = \dfrac{1 - |z|^2}{|1 - z|^2}$.</p>
                 <p>3. Argumentar la positividad de la parte real basándose en la condición $|z| < 1$.</p>
               </div>
             </div>
@@ -1738,7 +1738,7 @@
               <p>Sean $z_1, z_2 \in \mathbb{C}$. Demostrar las siguientes afirmaciones:</p>
               <ul>
                 <li>(a) $|1 - z_2 \bar{z}_1|^2 - |z_1 - z_2|^2 = (1 - |z_1|^2)(1 - |z_2|^2)$</li>
-                <li>(b) Deducir que si $|z_1| < 1$ y $|z_2| < 1$, entonces se cumple: $$\frac{|z_1 - z_2|}{|1 - z_2 \bar{z}_1|} < 1$$</li>
+                <li>(b) Deducir que si $|z_1| < 1$ y $|z_2| < 1$, entonces se cumple: $$\dfrac{|z_1 - z_2|}{|1 - z_2 \bar{z}_1|} < 1$$</li>
               </ul>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-com-p26')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-com-p26">
@@ -1790,7 +1790,7 @@
                 \( w_k = \sqrt[n]{r} \left[ \cos\phi_k + i\sin\phi_k \right] \)
               </div>
               <div class="formula-card-latex" style="font-size:0.88rem; margin-top: 5px;">
-                \( \phi_k = \frac{\theta + 2k\pi}{n} \)
+                \( \phi_k = \dfrac{\theta + 2k\pi}{n} \)
               </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">$k = 0, 1, \dots, n-1$</p>
             </div>
@@ -1848,7 +1848,7 @@
 
         <div class="card definicion">
           <h3>Criterio de las Raíces Racionales</h3>
-          <p>Para un polinomio $p(x) = a_n x^n + \dots + a_0$ con coeficientes enteros, cualquier raíz racional de la forma $x = \frac{p}{q}$ (reducida a su mínima expresión) debe cumplir con:</p>
+          <p>Para un polinomio $p(x) = a_n x^n + \dots + a_0$ con coeficientes enteros, cualquier raíz racional de la forma $x = \dfrac{p}{q}$ (reducida a su mínima expresión) debe cumplir con:</p>
           <div class="resultado">
             $p$ es un divisor entero del término independiente $a_0$ $\quad \land \quad$ $q$ es un divisor entero del coeficiente principal $a_n$.
           </div>
@@ -1926,7 +1926,7 @@
               <p>Resolver las siguientes preguntas:</p>
               <ul>
                 <li>(a) Se sabe que $1+i$ es raíz de $p(x) = x^4 + x^3 + x^2 - 4x + 10$. Determinar sus restantes raíces.</li>
-                <li>(b) Considere el polinomio $p(x) = a_0 x^n + \dots + a_n$. Probar que las raíces de $g(x) = a_0 \mu^n x^n + a_1 \mu^{n-1} x^{n-1} + \dots + a_n$ están dadas por $y_i = \frac{x_i}{\mu}$ para $\mu \ne 0$.</li>
+                <li>(b) Considere el polinomio $p(x) = a_0 x^n + \dots + a_n$. Probar que las raíces de $g(x) = a_0 \mu^n x^n + a_1 \mu^{n-1} x^{n-1} + \dots + a_n$ están dadas por $y_i = \dfrac{x_i}{\mu}$ para $\mu \ne 0$.</li>
                 <li>(c) Usando las partes anteriores, determinar las raíces del polinomio: $$ 16x^4 + 8x^3 + 4x^2 - 8x + 10 = 0 $$</li>
               </ul>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p31')">Ver Indicación / Pauta</button>
@@ -1944,8 +1944,8 @@
               <button class="btn btn-outline" onclick="toggleSolucion('sol-pol-p32')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-pol-p32">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Por las relaciones de Cardano-Vieta, la suma de las raíces del polinomio es $\alpha_1 + \alpha_2 + \alpha_3 = -\frac{a_2}{a_3} = \frac{1}{2}$.</p>
-                <p>2. Como $\alpha_1 + \alpha_2 = 0$, se tiene directamente que $\alpha_3 = \frac{1}{2}$.</p>
+                <p>1. Por las relaciones de Cardano-Vieta, la suma de las raíces del polinomio es $\alpha_1 + \alpha_2 + \alpha_3 = -\dfrac{a_2}{a_3} = \dfrac{1}{2}$.</p>
+                <p>2. Como $\alpha_1 + \alpha_2 = 0$, se tiene directamente que $\alpha_3 = \dfrac{1}{2}$.</p>
                 <p>3. Dividir $p(x)$ por $(x - 1/2)$ para resolver la cuadrática restante $2x^2 - 18 = 0$, hallando las raíces simétricas $\pm 3$.</p>
               </div>
             </div>
@@ -2045,14 +2045,14 @@
             <div class="formula-card">
               <h4>Teorema del Resto</h4>
               <div class="formula-card-latex">
-                \( \text{Resto de } \frac{p(x)}{x-c} = p(c) \)
+                \( \text{Resto de } \dfrac{p(x)}{x-c} = p(c) \)
               </div>
             </div>
 
             <div class="formula-card">
               <h4>Criterio Racional</h4>
               <div class="formula-card-latex">
-                \( x = \frac{p}{q} \implies p | a_0 \land q | a_n \)
+                \( x = \dfrac{p}{q} \implies p | a_0 \land q | a_n \)
               </div>
             </div>
 
@@ -2060,10 +2060,10 @@
               <h4>Relaciones de Cardano-Vieta</h4>
               <p style="font-size:0.85rem; margin-bottom:5px;">Para $ax^2 + bx + c = 0$:</p>
               <div class="formula-card-latex">
-                \( x_1 + x_2 = -\frac{b}{a} \)
+                \( x_1 + x_2 = -\dfrac{b}{a} \)
               </div>
               <div class="formula-card-latex" style="margin-top:4px;">
-                \( x_1 \cdot x_2 = \frac{c}{a} \)
+                \( x_1 \cdot x_2 = \dfrac{c}{a} \)
               </div>
             </div>
           </div>
@@ -2126,7 +2126,7 @@
               <h4>Elipse</h4>
               <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje mayor horizontal:</p>
               <div class="conic-equation-latex">
-                \( \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1 \)
+                \( \dfrac{(x-h)^2}{a^2} + \dfrac{(y-k)^2}{b^2} = 1 \)
               </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $a^2 = b^2 + c^2$, con $a > b$.</p>
             </div>
@@ -2135,9 +2135,9 @@
               <h4>Hipérbola</h4>
               <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:5px;">Con eje transverso horizontal:</p>
               <div class="conic-equation-latex">
-                \( \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 \)
+                \( \dfrac{(x-h)^2}{a^2} - \dfrac{(y-k)^2}{b^2} = 1 \)
               </div>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $c^2 = a^2 + b^2$. Asíntotas: $y-k = \pm \frac{b}{a}(x-h)$.</p>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin: 5px 0 0 0;">Relación focal: $c^2 = a^2 + b^2$. Asíntotas: $y-k = \pm \dfrac{b}{a}(x-h)$.</p>
             </div>
           </div>
         </div>
@@ -2191,7 +2191,7 @@
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. Sea $P(x, y)$ el punto de intersección variable.</p>
                 <p>2. Plantear la pendiente de $L_1$ (pasa por $A$ y $P$): $m_1 = y/x$. Plantear la pendiente de $L_2$ (pasa por $B$ y $P$): $m_2 = y/(x-1)$.</p>
-                <p>3. Por perpendicularidad, imponer la relación $m_1 \cdot m_2 = -1 \implies \frac{y^2}{x(x-1)} = -1$. Reducir algebraicamente para identificar la ecuación de una circunferencia.</p>
+                <p>3. Por perpendicularidad, imponer la relación $m_1 \cdot m_2 = -1 \implies \dfrac{y^2}{x(x-1)} = -1$. Reducir algebraicamente para identificar la ecuación de una circunferencia.</p>
               </div>
             </div>
 
@@ -2203,7 +2203,7 @@
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. La distancia de $P(x,y)$ al eje Y es $|x|$.</p>
                 <p>2. La longitud del segmento tangente $T$ desde $P$ a la circunferencia cumple la relación pitagórica con el radio: $T^2 = d(P, C)^2 - r^2 = x^2 + y^2 - r^2$.</p>
-                <p>3. Plantear la ecuación $|x| = \frac{1}{2} \sqrt{x^2 + y^2 - r^2}$. Elevar al cuadrado y simplificar los términos cuadráticos.</p>
+                <p>3. Plantear la ecuación $|x| = \dfrac{1}{2} \sqrt{x^2 + y^2 - r^2}$. Elevar al cuadrado y simplificar los términos cuadráticos.</p>
               </div>
             </div>
 
@@ -2242,12 +2242,12 @@
               <ul>
                 <li>(a) Si la recta $OP$ tiene pendiente $m$, expresar las coordenadas de $P$ y $Q$ en función de $m$.</li>
                 <li>(b) Encontrar la ecuación de la recta que contiene al trazo $\overline{PQ}$ en términos de $m$.</li>
-                <li>(c) Calcular las coordenadas del punto $R$ y verificar que $\frac{\overline{OF}}{\overline{FR}} = \frac{1}{3}$.</li>
+                <li>(c) Calcular las coordenadas del punto $R$ y verificar que $\dfrac{\overline{OF}}{\overline{FR}} = \dfrac{1}{3}$.</li>
               </ul>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p45')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p45">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Las rectas son $y = mx$ y $y = -\frac{1}{m}x$. Intersectar con $y^2 = 4px$ para obtener $P\left(\frac{4p}{m^2}, \frac{4p}{m}\right)$ y $Q(4p m^2, -4p m)$.</p>
+                <p>1. Las rectas son $y = mx$ y $y = -\dfrac{1}{m}x$. Intersectar con $y^2 = 4px$ para obtener $P\left(\dfrac{4p}{m^2}, \dfrac{4p}{m}\right)$ y $Q(4p m^2, -4p m)$.</p>
                 <p>2. Hallar la ecuación de la recta que une $P$ y $Q$.</p>
                 <p>3. Evaluar $y=0$ en la recta $\overline{PQ}$ para determinar que las coordenadas de $R$ son $(4p, 0)$. Como $F(p,0)$, la razón se calcula directamente.</p>
               </div>
@@ -2260,7 +2260,7 @@
               <div class="solucion" id="sol-geo-p46">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. Representar $A(x_0, y_0)$ con $y_0^2 = 4p x_0$. Entonces la proyección es $B(0, y_0)$ y el foco es $F(p, 0)$.</p>
-                <p>2. Escribir las ecuaciones de la recta $\overline{OA}: y = \frac{y_0}{x_0} x$ y de la recta $\overline{BF}: y - y_0 = -\frac{y_0}{p} x$.</p>
+                <p>2. Escribir las ecuaciones de la recta $\overline{OA}: y = \dfrac{y_0}{x_0} x$ y de la recta $\overline{BF}: y - y_0 = -\dfrac{y_0}{p} x$.</p>
                 <p>3. Hallar el punto de intersección $P(x,y)$ y eliminar los parámetros $x_0, y_0$ usando la ecuación de la parábola.</p>
               </div>
             </div>
@@ -2279,7 +2279,7 @@
 
             <div class="card">
               <h3><span class="nivel nivel-facil">🟢 Fácil</span> Problema 10: Área de Rectángulo Inscrito en Elipse</h3>
-              <p>Considere la elipse de ecuación $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$. La recta $y = \frac{b}{a} x$ intersecta a la elipse en los puntos $P$ y $R$, donde $P$ posee coordenadas positivas. Determinar el área del rectángulo inscrito en la elipse que tiene al segmento $\overline{PR}$ como diagonal y cuyos lados son paralelos a los ejes coordenados.</p>
+              <p>Considere la elipse de ecuación $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$. La recta $y = \dfrac{b}{a} x$ intersecta a la elipse en los puntos $P$ y $R$, donde $P$ posee coordenadas positivas. Determinar el área del rectángulo inscrito en la elipse que tiene al segmento $\overline{PR}$ como diagonal y cuyos lados son paralelos a los ejes coordenados.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p48')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p48">
                 <p><strong>Indicación / Pauta:</strong></p>
@@ -2291,31 +2291,31 @@
 
             <div class="card">
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 11: Cuerdas desde el Vértice de la Elipse</h3>
-              <p>Determinar el lugar geométrico de los puntos medios de todas las cuerdas de una elipse de ecuación $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ que pasan por uno de sus vértices cartesianos.</p>
+              <p>Determinar el lugar geométrico de los puntos medios de todas las cuerdas de una elipse de ecuación $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$ que pasan por uno de sus vértices cartesianos.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p49')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p49">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. Elegir un vértice particular de la elipse, por ejemplo $V(a, 0)$.</p>
-                <p>2. Sea $Q(x_0, y_0)$ un punto sobre la elipse. El punto medio $M(x, y)$ del segmento $\overline{VQ}$ tiene coordenadas $x = \frac{x_0 + a}{2}$ y $y = \frac{y_0}{2}$.</p>
+                <p>2. Sea $Q(x_0, y_0)$ un punto sobre la elipse. El punto medio $M(x, y)$ del segmento $\overline{VQ}$ tiene coordenadas $x = \dfrac{x_0 + a}{2}$ y $y = \dfrac{y_0}{2}$.</p>
                 <p>3. Despejar $x_0$ e $y_0$ en términos de $x, y$ e insertarlos en la ecuación de la elipse para obtener la ecuación homotética resultante.</p>
               </div>
             </div>
 
             <div class="card">
               <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 12: Intersección con Foco de la Elipse</h3>
-              <p>Considere la elipse de ecuación $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ y un punto $Q$ sobre su directriz. El segmento $\overline{QO}$ (donde $O$ es el origen) intersecta a la elipse en el punto $P$. Demostrar que la recta que pasa por $Q$ y que es perpendicular a la recta tangente a la elipse en el punto $P$ corta al eje X exactamente en el foco de la elipse.</p>
+              <p>Considere la elipse de ecuación $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$ y un punto $Q$ sobre su directriz. El segmento $\overline{QO}$ (donde $O$ es el origen) intersecta a la elipse en el punto $P$. Demostrar que la recta que pasa por $Q$ y que es perpendicular a la recta tangente a la elipse en el punto $P$ corta al eje X exactamente en el foco de la elipse.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p50')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p50">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. La directriz de la elipse es la recta $x = a^2/c$ (donde $c = \sqrt{a^2 - b^2}$). Las coordenadas del punto $Q$ son $(a^2/c, y_0)$.</p>
-                <p>2. Encontrar la recta tangente en $P$: $\frac{x x_p}{a^2} + \frac{y y_p}{b^2} = 1$.</p>
+                <p>2. Encontrar la recta tangente en $P$: $\dfrac{x x_p}{a^2} + \dfrac{y y_p}{b^2} = 1$.</p>
                 <p>3. Encontrar la pendiente de la recta perpendicular, plantear su ecuación pasando por $Q$ y determinar su intersección con $y=0$ para probar que el corte es en $x = c$ (foco).</p>
               </div>
             </div>
 
             <div class="card">
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 13: Segmentos Paralelos en la Hipérbola</h3>
-              <p>Considere un punto $P$ sobre la hipérbola de ecuación $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$. Sean $A$ y $B$ los puntos de intersección de la recta paralela al eje X que pasa por $P$ con las asíntotas de la hipérbola. Demostrar que se cumple la siguiente relación de distancias:</p>
+              <p>Considere un punto $P$ sobre la hipérbola de ecuación $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$. Sean $A$ y $B$ los puntos de intersección de la recta paralela al eje X que pasa por $P$ con las asíntotas de la hipérbola. Demostrar que se cumple la siguiente relación de distancias:</p>
               <div class="resultado">
                 $$ \overline{AP} \cdot \overline{BP} = a^2 $$
               </div>
@@ -2323,7 +2323,7 @@
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p51')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p51">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Las asíntotas son $y = \pm \frac{b}{a} x$. Sea $P(x_p, y_p)$ tal que $\frac{x_p^2}{a^2} - \frac{y_p^2}{b^2} = 1$.</p>
+                <p>1. Las asíntotas son $y = \pm \dfrac{b}{a} x$. Sea $P(x_p, y_p)$ tal que $\dfrac{x_p^2}{a^2} - \dfrac{y_p^2}{b^2} = 1$.</p>
                 <p>2. La recta horizontal es $y = y_p$. Los puntos de intersección con las asíntotas son $A(-a y_p/b, y_p)$ y $B(a y_p/b, y_p)$.</p>
                 <p>3. Calcular las distancias $\overline{AP} = |x_p + a y_p/b|$ y $\overline{BP} = |x_p - a y_p/b|$. Multiplicar las distancias y usar la ecuación de la hipérbola para simplificar.</p>
               </div>
@@ -2335,8 +2335,8 @@
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p52')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p52">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. La distancia entre los focos es $2c$. La distancia entre las directrices es $2 \frac{a^2}{c}$.</p>
-                <p>2. Plantear la relación matemática dada: $2c = 2 \left(2 \frac{a^2}{c}\right) \implies c^2 = 2a^2$.</p>
+                <p>1. La distancia entre los focos es $2c$. La distancia entre las directrices es $2 \dfrac{a^2}{c}$.</p>
+                <p>2. Plantear la relación matemática dada: $2c = 2 \left(2 \dfrac{a^2}{c}\right) \implies c^2 = 2a^2$.</p>
                 <p>3. Recordar que la excentricidad se define como $e = c/a$. Sustituir y calcular el valor numérico.</p>
               </div>
             </div>
@@ -2355,12 +2355,12 @@
 
             <div class="card">
               <h3><span class="nivel nivel-dificil">🔴 Difícil</span> Problema 16: Área de Triángulo Asintótico</h3>
-              <p>Desde un punto cualquiera $P(x_0, y_0)$ de la hipérbola de ecuación $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$ se traza una recta tangente que corta a las asíntotas en los puntos $S$ y $T$. Demostrar que el área del triángulo $OST$ formado por la tangente con las asíntotas es constante y vale $ab$.</p>
-              <p><em>Indicación:</em> La ecuación de la recta tangente en el punto $P(x_0, y_0)$ está dada por $\frac{x x_0}{a^2} - \frac{y y_0}{b^2} = 1$.</p>
+              <p>Desde un punto cualquiera $P(x_0, y_0)$ de la hipérbola de ecuación $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$ se traza una recta tangente que corta a las asíntotas en los puntos $S$ y $T$. Demostrar que el área del triángulo $OST$ formado por la tangente con las asíntotas es constante y vale $ab$.</p>
+              <p><em>Indicación:</em> La ecuación de la recta tangente en el punto $P(x_0, y_0)$ está dada por $\dfrac{x x_0}{a^2} - \dfrac{y y_0}{b^2} = 1$.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p54')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p54">
                 <p><strong>Indicación / Pauta:</strong></p>
-                <p>1. Plantear las ecuaciones de las asíntotas $y = \pm \frac{b}{a} x$.</p>
+                <p>1. Plantear las ecuaciones de las asíntotas $y = \pm \dfrac{b}{a} x$.</p>
                 <p>2. Hallar los puntos de intersección $S$ y $T$ resolviendo los sistemas formados por la tangente y cada una de las asíntotas.</p>
                 <p>3. Calcular el área del triángulo usando la fórmula del determinante de vértices $O(0,0)$, $S$ y $T$.</p>
               </div>
@@ -2368,12 +2368,12 @@
 
             <div class="card">
               <h3><span class="nivel nivel-intermedio">🟡 Intermedio</span> Problema 17: Lugar Geométrico de Puntos Medios</h3>
-              <p>Considere la hipérbola de ecuación $\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$. Encontrar el lugar geométrico que describen los puntos medios de todos los segmentos $\overline{VQ}$, donde $V$ es el vértice izquierdo de la hipérbola y $Q$ es un punto móvil sobre ella.</p>
+              <p>Considere la hipérbola de ecuación $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$. Encontrar el lugar geométrico que describen los puntos medios de todos los segmentos $\overline{VQ}$, donde $V$ es el vértice izquierdo de la hipérbola y $Q$ es un punto móvil sobre ella.</p>
               <button class="btn btn-outline" onclick="toggleSolucion('sol-geo-p55')">Ver Indicación / Pauta</button>
               <div class="solucion" id="sol-geo-p55">
                 <p><strong>Indicación / Pauta:</strong></p>
                 <p>1. El vértice izquierdo de la hipérbola tiene coordenadas $V(-a, 0)$.</p>
-                <p>2. Sea $Q(x_0, y_0)$ un punto variable sobre la hipérbola. El punto medio $M(x, y)$ tiene coordenadas $x = \frac{x_0 - a}{2}$ y $y = y_0/2$.</p>
+                <p>2. Sea $Q(x_0, y_0)$ un punto variable sobre la hipérbola. El punto medio $M(x, y)$ tiene coordenadas $x = \dfrac{x_0 - a}{2}$ y $y = y_0/2$.</p>
                 <p>3. Despejar $x_0 = 2x + a$ e $y_0 = 2y$ y sustituir en la ecuación de la hipérbola original para obtener la ecuación del nuevo lugar geométrico.</p>
               </div>
             </div>
@@ -2401,7 +2401,7 @@
             <div class="formula-card">
               <h4>Elipse Horizontal</h4>
               <div class="formula-card-latex">
-                \( \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1 \)
+                \( \dfrac{(x-h)^2}{a^2} + \dfrac{(y-k)^2}{b^2} = 1 \)
               </div>
               <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Relación focal: $a^2 = b^2 + c^2$</p>
             </div>
@@ -2409,9 +2409,9 @@
             <div class="formula-card">
               <h4>Hipérbola Horizontal</h4>
               <div class="formula-card-latex">
-                \( \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 \)
+                \( \dfrac{(x-h)^2}{a^2} - \dfrac{(y-k)^2}{b^2} = 1 \)
               </div>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Asíntotas: $y-k = \pm \frac{b}{a}(x-h)$</p>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Asíntotas: $y-k = \pm \dfrac{b}{a}(x-h)$</p>
               <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Relación focal: $c^2 = a^2 + b^2$</p>
             </div>
           </div>

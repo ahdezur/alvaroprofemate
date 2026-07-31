@@ -91,9 +91,9 @@
 \numeracion{1.}
 Dado
 $$
-z=e^{xy},\qquad x=2u+v,\qquad y=\frac{u}{v}
+z=e^{xy},\qquad x=2u+v,\qquad y=\dfrac{u}{v}
 $$
-determine $\frac{\partial z}{\partial u}$ y $\frac{\partial z}{\partial v}$ en términos de $u$ y $v$, en la forma más reducida posible.
+determine $\dfrac{\partial z}{\partial u}$ y $\dfrac{\partial z}{\partial v}$ en términos de $u$ y $v$, en la forma más reducida posible.
 
 \pista{Aplica la regla de la cadena a $z(x(u,v),y(u,v))$ y sustituye $x=2u+v$ e $y=u/v$ solo después de calcular las derivadas parciales necesarias.}
 
@@ -101,36 +101,36 @@ determine $\frac{\partial z}{\partial u}$ y $\frac{\partial z}{\partial v}$ en t
 Por la regla de la cadena,
 $$
 \begin{aligned}
-\frac{\partial z}{\partial u}
-&=\frac{\partial z}{\partial x}\frac{\partial x}{\partial u}
- +\frac{\partial z}{\partial y}\frac{\partial y}{\partial u}\\
-&=(ye^{xy})(2)+(xe^{xy})\left(\frac{1}{v}\right)\\
-&=\left(2y+\frac{x}{v}\right)e^{xy}\\
-&=\left(\frac{2u}{v}+\frac{2u+v}{v}\right)e^{(2u+v)(u/v)}\\
-&=\left(\frac{4u}{v}+1\right)e^{(2u+v)(u/v)}
+\dfrac{\partial z}{\partial u}
+&=\dfrac{\partial z}{\partial x}\dfrac{\partial x}{\partial u}
+ +\dfrac{\partial z}{\partial y}\dfrac{\partial y}{\partial u}\\
+&=(ye^{xy})(2)+(xe^{xy})\left(\dfrac{1}{v}\right)\\
+&=\left(2y+\dfrac{x}{v}\right)e^{xy}\\
+&=\left(\dfrac{2u}{v}+\dfrac{2u+v}{v}\right)e^{(2u+v)(u/v)}\\
+&=\left(\dfrac{4u}{v}+1\right)e^{(2u+v)(u/v)}
 \end{aligned}
 $$
 Asimismo,
 $$
 \begin{aligned}
-\frac{\partial z}{\partial v}
-&=\frac{\partial z}{\partial x}\frac{\partial x}{\partial v}
- +\frac{\partial z}{\partial y}\frac{\partial y}{\partial v}\\
-&=(ye^{xy})(1)+(xe^{xy})\left(-\frac{u}{v^2}\right)\\
-&=\left(y-x\frac{u}{v^2}\right)e^{xy}\\
-&=\left(\frac{u}{v}-(2u+v)\frac{u}{v^2}\right)e^{(2u+v)(u/v)}\\
-&=-\frac{2u^2}{v^2}e^{(2u+v)(u/v)}
+\dfrac{\partial z}{\partial v}
+&=\dfrac{\partial z}{\partial x}\dfrac{\partial x}{\partial v}
+ +\dfrac{\partial z}{\partial y}\dfrac{\partial y}{\partial v}\\
+&=(ye^{xy})(1)+(xe^{xy})\left(-\dfrac{u}{v^2}\right)\\
+&=\left(y-x\dfrac{u}{v^2}\right)e^{xy}\\
+&=\left(\dfrac{u}{v}-(2u+v)\dfrac{u}{v^2}\right)e^{(2u+v)(u/v)}\\
+&=-\dfrac{2u^2}{v^2}e^{(2u+v)(u/v)}
 \end{aligned}
 $$
 \end{solucion}
 
-\criterio{Plantea correctamente la regla de la cadena para $\frac{\partial z}{\partial u}$ y calcula las derivadas parciales involucradas.}{6}
-\criterio{Sustituye $x=2u+v$ e $y=u/v$ y reduce correctamente la expresión de $\frac{\partial z}{\partial u}$.}{6}
-\criterio{Plantea correctamente la regla de la cadena para $\frac{\partial z}{\partial v}$, incluyendo $\frac{\partial y}{\partial v}=-u/v^2$.}{6}
-\criterio{Sustituye y simplifica correctamente hasta obtener $\frac{\partial z}{\partial v}=-\frac{2u^2}{v^2}e^{(2u+v)(u/v)}$.}{7}
+\criterio{Plantea correctamente la regla de la cadena para $\dfrac{\partial z}{\partial u}$ y calcula las derivadas parciales involucradas.}{6}
+\criterio{Sustituye $x=2u+v$ e $y=u/v$ y reduce correctamente la expresión de $\dfrac{\partial z}{\partial u}$.}{6}
+\criterio{Plantea correctamente la regla de la cadena para $\dfrac{\partial z}{\partial v}$, incluyendo $\dfrac{\partial y}{\partial v}=-u/v^2$.}{6}
+\criterio{Sustituye y simplifica correctamente hasta obtener $\dfrac{\partial z}{\partial v}=-\dfrac{2u^2}{v^2}e^{(2u+v)(u/v)}$.}{7}
 
 \errorfrecuente{Derivar $e^{xy}$ respecto de $x$ o $y$ sin conservar el factor correspondiente: $y$ o $x$.}
-\errorfrecuente{Calcular $\frac{\partial}{\partial v}(u/v)$ como $1/v$ en lugar de $-u/v^2$.}
+\errorfrecuente{Calcular $\dfrac{\partial}{\partial v}(u/v)$ como $1/v$ en lugar de $-u/v^2$.}
 \errorfrecuente{Olvidar alguno de los dos términos de la regla de la cadena para una función que depende de $x$ e $y$.}
 \end{pregunta}
 
@@ -229,7 +229,7 @@ el punto $(0,0)$ es un mínimo global en el dominio de la función. No existe m�
 La integral triple
 $$
 \int\!\!\int\!\!\int_E
-\frac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}\,dV
+\dfrac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}\,dV
 $$
 representa la masa del sólido
 $$
@@ -264,16 +264,16 @@ $$
 $$
 Además,
 $$
-\frac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}
-=\frac{e^{-\rho^2}}{\rho}
+\dfrac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}
+=\dfrac{e^{-\rho^2}}{\rho}
 $$
 y el jacobiano es $\rho^2\sin\varphi$. Por tanto,
 $$
 \begin{aligned}
 \int\!\!\int\!\!\int_E
-\frac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}\,dV
+\dfrac{e^{-x^2-y^2-z^2}}{\sqrt{x^2+y^2+z^2}}\,dV
 &=\int_0^\pi\int_0^\pi\int_1^2
-\frac{e^{-\rho^2}}{\rho}\rho^2\sin\varphi\,d\rho\,d\varphi\,d\theta\\
+\dfrac{e^{-\rho^2}}{\rho}\rho^2\sin\varphi\,d\rho\,d\varphi\,d\theta\\
 &=\int_0^\pi\int_0^\pi\left(\int_1^2\rho e^{-\rho^2}\,d\rho\right)
 \sin\varphi\,d\varphi\,d\theta
 \end{aligned}
@@ -399,14 +399,14 @@ La curva $C$ es cerrada. Usando el Teorema de Green,
 $$
 \begin{aligned}
 \int_C\vec F\cdot d\vec r
-&=\int\!\!\int_R\left(\frac{\partial}{\partial x}(x)-\frac{\partial}{\partial y}(y)\right)dA\\
+&=\int\!\!\int_R\left(\dfrac{\partial}{\partial x}(x)-\dfrac{\partial}{\partial y}(y)\right)dA\\
 &=\int\!\!\int_R0\,dA\\
 &=0
 \end{aligned}
 $$
 \end{solucion}
 
-\criterio{Reconoce que $C$ es una curva cerrada, aplica correctamente el Teorema de Green y obtiene $\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}=0$, concluyendo que la integral vale $0$.}{8}
+\criterio{Reconoce que $C$ es una curva cerrada, aplica correctamente el Teorema de Green y obtiene $\dfrac{\partial Q}{\partial x}-\dfrac{\partial P}{\partial y}=0$, concluyendo que la integral vale $0$.}{8}
 
 \errorfrecuente{Aplicar Green a $C_1$ o $C_2$ por separado, aunque ninguna de esas curvas es cerrada.}
 \errorfrecuente{Calcular $P_x-Q_y$ en lugar de $Q_x-P_y$ para la integral de circulación.}

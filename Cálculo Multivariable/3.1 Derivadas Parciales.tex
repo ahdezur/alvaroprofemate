@@ -1,0 +1,415 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{makecell}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=red!5,colframe=red!80!black,title=Advertencia Metodológica: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{procesamiento}[1]{%
+  \begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Procedimiento: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+\newenvironment{ejemplo}[1]{%
+  \begin{tcolorbox}[colback=white,colframe=gray!40,title=Ejemplo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+% Comandos para preguntas interactivas
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+% Entorno Términos Pareados (2 Columnas)
+\newenvironment{pareados}[1]{\subsection*{Términos Pareados: #1}}{\vspace{0.3cm}}
+\newcommand{\columnaI}[1]{\textbf{Columna 1:}\begin{enumerate}#1\end{enumerate}}
+\newcommand{\columnaII}[1]{\textbf{Columna 2:}\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\textbf{Cruce #1:} #2\par}
+
+% Entornos para ejercicios
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \small{[#2]}}}{}
+
+\newcommand{\enunciado}[1]{\textbf{Enunciado:} #1\par\vspace{0.2cm}}
+\newcommand{\solucion}[1]{\textbf{Solución:} #1\par\vspace{0.4cm}}
+
+% Entorno Fórmulas
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}\begin{description}}{\end{description}}
+\newcommand{\formula}[3]{\item[#1:] $#2$ \\ \textit{#3} \vspace{0.2cm}}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE
+% ==============================================================================
+% ID_CURSO: calculo-multivariable
+% NUMERO_UNIDAD: 3
+% TITULO_UNIDAD: Diferenciabilidad
+% NUMERO_CAPITULO: 3.1
+% TITULO_CAPITULO: Derivadas Parciales
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  \textbf{Caminando en la Montaña: La Dirección del Cambio}
+
+  En el cálculo de una variable, la derivada $f'(x)$ representa la pendiente de la recta tangente a una curva; es decir, la tasa de cambio instantánea de la función al desplazarse sobre el único eje independiente disponible.
+  
+  Sin embargo, en el análisis de una superficie definida por un campo escalar $z = f(x,y)$, la variación del valor de altitud $z$ depende de la dirección elegida en el plano de dominio. Si un observador situado sobre la superficie camina en dirección paralela al eje Y, la inclinación del terreno puede ser pronunciada, mientras que si se desplaza en dirección paralela al eje X, la trayectoria puede resultar horizontal.
+  
+  Esta multiplicidad direccional da origen a las \textbf{Derivadas Parciales}, operadores que permiten aislar la tasa de cambio de un campo escalar a lo largo de las direcciones canónicas de los ejes coordenados, manteniendo fijas las restantes variables del sistema.
+
+  \begin{preguntaguia}
+    Si la distribución de temperatura $T(x,y)$ sobre una placa metálica satisface $\displaystyle \dfrac{\partial T}{\partial x} = 5^\circ\text{C/cm}$ y $\displaystyle \dfrac{\partial T}{\partial y} = -2^\circ\text{C/cm}$, ¿cuál es el cambio instantáneo de temperatura al desplazarse exclusivamente en dirección paralela al eje Y?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  
+  % --- DEFINICIÓN FORMAL ---
+  \begin{definicion}{Derivadas Parciales por Límite}
+    Sea $f \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ un campo escalar y sea $(x_0, y_0) \in \operatorname{int}(D)$. Las derivadas parciales de $f$ en el punto $(x_0, y_0)$ cuantifican las tasas de cambio de la función respecto a cada coordenada independiente y se definen mediante los siguientes límites (siempre que existan y sean finitos):
+
+    \textbf{Respecto a la variable $x$:}
+    $$ \displaystyle \dfrac{\partial f}{\partial x}(x_0, y_0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(x_0 + h, y_0) - f(x_0, y_0)}{h} $$
+
+    \textbf{Respecto a la variable $y$:}
+    $$ \displaystyle \dfrac{\partial f}{\partial y}(x_0, y_0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(x_0, y_0 + h) - f(x_0, y_0)}{h} $$
+  \end{definicion}
+
+  % --- CÁLCULO POR REGLAS DE DERIVACIÓN ---
+  \begin{procesamiento}{Uso Práctico: Reglas de Álgebra de Derivadas}
+    Cuando la función viene expresada mediante un campo escalar analítico continuo, no es necesario recurrir a la definición formal por límite. Se aplican directamente las reglas de derivación de una variable real, \textbf{tratando a la variable respecto a la cual no se deriva como una constante constante.}
+  \end{procesamiento}
+
+  \begin{ejemplo}{Cálculo Algebraico Directo}
+    Encuentre $\displaystyle \dfrac{\partial f}{\partial x}$ y $\displaystyle \dfrac{\partial f}{\partial y}$ para la función $f(x,y) = x^2 y + y^3$.
+    
+    \textbf{Solución:}
+    \begin{align*}
+      \displaystyle \dfrac{\partial f}{\partial x} &= 2xy \quad \text{(La variable } y \text{ opera como constante multiplicativa e } y^3 \text{ como aditiva).} \\
+      \displaystyle \dfrac{\partial f}{\partial y} &= x^2 + 3y^2 \quad \text{(La expresión } x^2 \text{ opera como constante multiplicativa).}
+    \end{align*}
+  \end{ejemplo}
+
+  \begin{ejemplo}{Cálculo y Evaluación Puntual}
+    Encuentre $\displaystyle \dfrac{\partial f}{\partial x}(1,2)$ y $\displaystyle \dfrac{\partial f}{\partial y}(x_0, y_0)$ para la función $f(x,y) = \cos(xy) + x\cos(y)$.
+    
+    \textbf{Solución:}
+    Aplicando la regla de la cadena:
+    \begin{align*}
+      \displaystyle \dfrac{\partial f}{\partial x} &= -y\sin(xy) + \cos(y) \\
+      \displaystyle \dfrac{\partial f}{\partial y} &= -x\sin(xy) - x\sin(y)
+    \end{align*}
+    Evaluando en las coordenadas requeridas:
+    \begin{align*}
+      \displaystyle \dfrac{\partial f}{\partial x}(1,2) &= -2\sin(2) + \cos(2) \\
+      \displaystyle \dfrac{\partial f}{\partial y}(x_0, y_0) &= -x_0\sin(x_0 y_0) - x_0\sin(y_0)
+    \end{align*}
+  \end{ejemplo}
+
+  % --- ADVERTENCIA METODOLÓGICA CRÍTICA ---
+  \begin{alerta}{Derivación Inválida en Puntos de Ramificación}
+    Un error metodológico frecuente al analizar campos escalares definidos por tramos (por ejemplo, aquellos que presentan una regla algebraica para $(x,y) \neq (0,0)$ y un valor en $(x,y) = (0,0)$) consiste en derivar la regla general mediante reglas de derivación y evaluar posteriormente la función resultante en el origen. 
+    
+    Este procedimiento carece de validez matemática, puesto que las reglas del álgebra de derivadas presuponen la existencia de un entorno abierto en el cual rige de forma exclusiva esa expresión. En los puntos de ramificación o unión de la función, es estrictamente necesario aplicar la \textbf{definición formal de la derivada parcial mediante el límite del cociente incremental}.
+  \end{alerta}
+
+  \begin{ejemplo}{Derivadas Parciales de una Función Definida a Tramos}
+    Encuentre las derivadas parciales de:
+    $$ f(x,y) = \begin{cases} \displaystyle \dfrac{x^2\sin(y^2)}{x^2 + y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+    
+    \textbf{Solución (aplicando la metodología analítica adecuada según la región):}
+    
+    Para $(x,y) \neq (0,0)$, aplicando la regla del cociente:
+    $$ \displaystyle \dfrac{\partial f}{\partial x} = \displaystyle \dfrac{2x\sin(y^2)(x^2 + y^2) - 2x(x^2\sin(y^2))}{(x^2 + y^2)^2} = \displaystyle \dfrac{2xy^2\sin(y^2)}{(x^2 + y^2)^2} $$
+    
+    Para el origen $(0,0)$, \textbf{aplicamos obligatoriamente la definición por límite}:
+    $$ \displaystyle \dfrac{\partial f}{\partial x}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(0+h, 0) - f(0,0)}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\displaystyle \dfrac{h^2\sin(0)}{h^2 + 0} - 0}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{0}{h} = 0 $$
+    
+    El resultado global de la derivada parcial adopta la estructura definida a tramos:
+    $$ \displaystyle \dfrac{\partial f}{\partial x} = \begin{cases} \displaystyle \dfrac{2xy^2\sin(y^2)}{(x^2 + y^2)^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+  \end{ejemplo}
+
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  Evaluaremos la comprensión de la derivación parcial combinada con conceptos avanzados de análisis, como el Teorema Fundamental del Cálculo y las reglas algebraicas.
+
+  % --- PREGUNTA 1: TEOREMA FUNDAMENTAL DEL CÁLCULO ---
+  \begin{preguntaalternativas}{Derivación de Integrales con Límites Variables}
+    Calcule la derivada parcial $\displaystyle \dfrac{\partial f}{\partial x}$ del campo escalar definido mediante la integral:
+    $$ f(x,y) = \int_{x^y}^{y^x} \tan(t) \, dt $$
+    
+    \opcion{$\tan(y^x) \cdot xy^{x-1} - \tan(x^y) \cdot yx^{y-1}$}{Incorrecto}{La derivación parcial de las potencias es errónea. Respecto a $x$, $y^x$ es una función exponencial (base constante, exponente variable) cuya derivada es $y^x \ln(y)$, mientras que $x^y$ es una función potencia cuya derivada es $y x^{y-1}$.}
+    \opcion{$\tan(y^x) \cdot y^x \ln(y) - \tan(x^y) \cdot y x^{y-1}$}{Correcto}{¡Excelente! Por el Teorema Fundamental del Cálculo y la Regla de la Cadena, si $F'(t) = \tan(t)$, entonces $f(x,y) = F(y^x) - F(x^y)$. Derivando respecto a $x$ se obtiene $F'(y^x) \cdot \dfrac{\partial}{\partial x}(y^x) - F'(x^y) \cdot \dfrac{\partial}{\partial x}(x^y)$, coincidiendo con el resultado expresado.}
+    \opcion{$\sec^2(y^x) \cdot y^x \ln(y) - \sec^2(x^y) \cdot y x^{y-1}$}{Incorrecto}{El Teorema Fundamental del Cálculo indica que la derivada del operador integral recupera la función integrando $\tan(t)$ evaluada en sus límites, no la derivada del integrando $\sec^2(t)$.}
+  \end{preguntaalternativas}
+
+  % --- PREGUNTA 2: TÉRMINOS PAREADOS (Derivación por Reglas) ---
+  \begin{pareados}{Derivadas Parciales de Expresiones Trascendentes}
+    Relacione las expresiones con sus correspondientes derivadas parciales analíticas:
+
+    % COLUMNA 1
+    \columnaI{
+      \item $f(x,y) = e^{xy} \sin(x+y)$, derivada $\displaystyle \dfrac{\partial f}{\partial x}$.
+      \item $f(x,y) = e^{xy} \sin(x+y)$, derivada $\displaystyle \dfrac{\partial f}{\partial y}$.
+    }
+
+    % COLUMNA 2
+    \columnaII{
+      \item $y e^{xy} \sin(x+y) + e^{xy} \cos(x+y)$
+      \item $x e^{xy} \sin(x+y) + e^{xy} \cos(x+y)$
+    }
+
+    % CRUCES
+    \pareo{1-A}{¡Correcto! Aplicando la regla del producto respecto a $x$: $\dfrac{\partial}{\partial x}(e^{xy})\sin(x+y) + e^{xy}\dfrac{\partial}{\partial x}(\sin(x+y)) = y e^{xy}\sin(x+y) + e^{xy}\cos(x+y)$.}
+    \pareo{2-B}{¡Correcto! Aplicando la regla del producto respecto a $y$: $\dfrac{\partial}{\partial y}(e^{xy})\sin(x+y) + e^{xy}\dfrac{\partial}{\partial y}(\sin(x+y)) = x e^{xy}\sin(x+y) + e^{xy}\cos(x+y)$.}
+  \end{pareados}
+
+  % --- PREGUNTA 3: VERDADERO O FALSO ---
+  \begin{preguntaverdaderofalso}{Evaluación Analítica en el Origen}
+    Considere $f(x,y) = \begin{cases} \displaystyle \dfrac{x^3}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases}$. \\
+    Para determinar $\displaystyle \dfrac{\partial f}{\partial x}(0,0)$, es un procedimiento matemáticamente válido derivar la rama $\dfrac{x^3}{x^2+y^2}$ mediante la regla del cociente y luego calcular el límite de dicha derivada cuando $(x,y) \to (0,0)$.
+    
+    \verdaderofalso{F}
+      {¡Correcto! Las reglas algebraicas de derivación rigen exclusivamente en conjuntos abiertos. En los puntos de ramificación, el valor de la derivada debe determinarse mediante el límite del cociente incremental: $\lim_{h \to 0} \dfrac{f(h,0) - f(0,0)}{h}$.}
+      {Incorrecto. El procedimiento carece de rigor formal. La función derivada obtenida por reglas algebraicas puede presentar discontinuidades en el origen, por lo que su límite no garantiza el valor puntual del operador de derivación en dicho punto.}
+  \end{preguntaverdaderofalso}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+  A continuación, analizaremos exhaustivamente cinco campos escalares representativos. En los primeros tres ejercicios se desarrolla el estudio integral planteado en la tabla de trabajo (existencia del límite, continuidad, análisis de reparabilidad y dominio de las derivadas parciales). Los ejercicios 4 y 5 abordan la continuidad de las propias funciones derivadas parciales en el origen, conectando directamente con los teoremas analíticos de la \textbf{Unidad 2}.
+
+  % --- EJERCICIO 1 ---
+  \begin{ejercicioresuelto}{Análisis Integral: Campo Escalar 1}{nivel-2}
+    \enunciado{
+      Considere la función:
+      $$ f(x,y) = \begin{cases} \displaystyle \dfrac{xy^2}{x^2 + y^4} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      Determine la existencia del límite en $(0,0)$, su continuidad, la posibilidad de redefinición y el dominio de sus derivadas parciales.
+    }
+    \solucion{
+      \textbf{1. Estudio del límite en el origen:} 
+      Evaluamos el límite a través de la familia de trayectorias parabólicas $x = my^2$:
+      $$ \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{(my^2)y^2}{(my^2)^2 + y^4} = \displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{my^4}{m^2y^4 + y^4} = \displaystyle \dfrac{m}{m^2 + 1} $$
+      Dado que el valor depende del parámetro direccional $m$, \textbf{el límite no existe}.
+      
+      \textbf{2. Continuity y Redefinición:}
+      Al no existir el límite global en $(0,0)$, la función \textbf{no es continua en el origen}. Presenta una discontinuidad de tipo \textbf{irreparable} (esencial).
+      
+      \textbf{3. Derivadas Parciales y su Dominio:}
+      Para $(x,y) \neq (0,0)$, derivamos mediante reglas algebraicas:
+      $$ \displaystyle \dfrac{\partial f}{\partial x} = \displaystyle \dfrac{y^2(x^2+y^4) - 2x(xy^2)}{(x^2+y^4)^2} = \displaystyle \dfrac{y^6 - x^2 y^2}{(x^2+y^4)^2} $$
+      $$ \displaystyle \dfrac{\partial f}{\partial y} = \displaystyle \dfrac{2xy(x^2+y^4) - 4y^3(xy^2)}{(x^2+y^4)^2} = \displaystyle \dfrac{2x^3 y - 2xy^5}{(x^2+y^4)^2} $$
+      En el origen $(0,0)$, aplicamos la definición formal por límite:
+      $$ \displaystyle \dfrac{\partial f}{\partial x}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(h,0) - 0}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{0}{h} = 0 $$
+      $$ \displaystyle \dfrac{\partial f}{\partial y}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(0,h) - 0}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{0}{h} = 0 $$
+      Ambas derivadas parciales existen en el origen y toman el valor $0$. \textbf{El dominio de las derivadas parciales es $\mathbb{R}^2$}.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO 2 ---
+  \begin{ejercicioresuelto}{Análisis Integral: Campo Escalar 2}{nivel-2}
+    \enunciado{
+      Considere la función:
+      $$ f(x,y) = \begin{cases} \displaystyle \dfrac{(x-y)^2}{x^2 + y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      Determine la existencia del límite en $(0,0)$, su continuidad, la posibilidad de redefinición y el dominio de sus derivadas parciales.
+    }
+    \solucion{
+      \textbf{1. Estudio del límite en el origen:} 
+      Evaluamos mediante la trayectoria $y = x$: $\displaystyle \lim\limits_{x \to 0} \displaystyle \dfrac{0}{2x^2} = 0$.
+      Evaluamos sobre el eje X ($y=0$): $\displaystyle \lim\limits_{x \to 0} \displaystyle \dfrac{x^2}{x^2} = 1$.
+      Al obtener valores distintos ($0 \neq 1$), \textbf{el límite no existe}.
+      
+      \textbf{2. Continuity y Redefinición:}
+      La función \textbf{no es continua en el origen} y presenta una discontinuidad \textbf{irreparable}.
+      
+      \textbf{3. Derivadas Parciales y su Dominio:}
+      Para $(x,y) \neq (0,0)$, aplicamos la regla del cociente.
+      Para el origen $(0,0)$, aplicamos la definición por límite:
+      $$ \displaystyle \dfrac{\partial f}{\partial x}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(h,0) - 0}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\displaystyle \dfrac{h^2}{h^2}}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{1}{h} $$
+      Este límite diverge y carece de valor real finito. Por consiguiente, \textbf{$\dfrac{\partial f}{\partial x}(0,0)$ no existe}. 
+      Por simetría estructural, \textbf{$\dfrac{\partial f}{\partial y}(0,0)$ tampoco existe}.
+      \textbf{El dominio de definición de las derivadas parciales es $\mathbb{R}^2 \setminus \{(0,0)\}$}.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO 3 ---
+  \begin{ejercicioresuelto}{Análisis Integral: Campo Escalar 3}{nivel-2}
+    \enunciado{
+      Considere la función:
+      $$ f(x,y) = \begin{cases} \displaystyle \dfrac{x^4 + 3(x^2 + y^2)}{x^2 + y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      Determine la existencia del límite en $(0,0)$, su continuidad, la posibilidad de redefinición y el dominio de sus derivadas parciales.
+    }
+    \solucion{
+      \textbf{1. Estudio del límite en el origen:} 
+      Para $(x,y) \neq (0,0)$, reescribimos la expresión: $f(x,y) = \displaystyle \dfrac{x^4}{x^2+y^2} + 3$. Transformando a coordenadas polares ($x=r\cos\theta$, $y=r\sin\theta$):
+      $$ \displaystyle \lim\limits_{r \to 0^+} (r^2\cos^4\theta + 3) = 3 $$
+      El valor es independiente del ángulo $\theta$. El límite \textbf{existe y vale 3}.
+      
+      \textbf{2. Continuity y Redefinición:}
+      Puesto que $\displaystyle \lim\limits_{(x,y)\to(0,0)} f(x,y) = 3 \neq f(0,0) = 0$, la función \textbf{no es continua}. Sin embargo, la discontinuidad es \textbf{reparable}; basta con definir la extensión continua $\tilde{f}(0,0) = 3$.
+      
+      \textbf{3. Derivadas Parciales y su Dominio:}
+      Para la función dada (donde $f(0,0)=0$), evaluamos la derivada respecto a $x$ en el origen:
+      $$ \displaystyle \dfrac{\partial f}{\partial x}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(h,0) - f(0,0)}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\left(\displaystyle \dfrac{h^4+3h^2}{h^2}\right) - 0}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{h^2+3}{h} $$
+      El límite se indefine por división por cero ($\dfrac{3}{0}$). En consecuencia, las derivadas parciales no existen en el origen.
+      \textbf{El dominio de definición de las derivadas parciales es $\mathbb{R}^2 \setminus \{(0,0)\}$}.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO 4 ---
+  \begin{ejercicioresuelto}{Continuidad de Funciones Derivadas Parciales (Caso Continuo)}{nivel-3}
+    \enunciado{
+      Sea el campo escalar $f(x,y) = \begin{cases} \displaystyle \dfrac{x^3 y}{x^2 + y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases}$.
+      \begin{enumerate}
+        \item Demuestre que $f$ es continua en el origen.
+        \item Calcule las funciones derivadas parciales $\displaystyle \dfrac{\partial f}{\partial x}$ y $\displaystyle \dfrac{\partial f}{\partial y}$ en todo $\mathbb{R}^2$.
+        \item Determine si las funciones derivadas parciales resultantes son continuas en el origen.
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{1. Continuidad en $(0,0)$:} Aplicando acotamiento, $\displaystyle \lim\limits_{(x,y)\to(0,0)} x^2 \left(\displaystyle \dfrac{xy}{x^2+y^2}\right) = 0 = f(0,0)$. La función $f$ es continua en $(0,0)$.
+
+      \textbf{2. Derivadas Parciales en $\mathbb{R}^2$:}
+      Para $(x,y) \neq (0,0)$, derivando por regla del cociente:
+      $$ \displaystyle \dfrac{\partial f}{\partial x} = \displaystyle \dfrac{x^4 y + 3x^2 y^3}{(x^2+y^2)^2}, \quad \displaystyle \dfrac{\partial f}{\partial y} = \displaystyle \dfrac{x^5 - x^3 y^2}{(x^2+y^2)^2} $$
+      En el origen, aplicando el cociente incremental:
+      $$ \displaystyle \dfrac{\partial f}{\partial x}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\displaystyle \dfrac{0}{h^2} - 0}{h} = 0, \quad \displaystyle \dfrac{\partial f}{\partial y}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\displaystyle \dfrac{0}{h^2} - 0}{h} = 0 $$
+
+      \textbf{3. Continuidad de la derivada parcial en el origen:}
+      Estudiamos $\displaystyle \lim\limits_{(x,y)\to(0,0)} \displaystyle \dfrac{\partial f}{\partial x}(x,y)$ mediante coordenadas polares:
+      $$ \displaystyle \lim\limits_{r \to 0^+} \displaystyle \dfrac{r^5(\cos^4\theta \sin\theta + 3\cos^2\theta \sin^3\theta)}{r^4} = \displaystyle \lim\limits_{r \to 0^+} r \cdot (\cos^4\theta \sin\theta + 3\cos^2\theta \sin^3\theta) = 0 $$
+      Dado que $\displaystyle \lim\limits_{(x,y)\to(0,0)} \displaystyle \dfrac{\partial f}{\partial x} = 0 = \displaystyle \dfrac{\partial f}{\partial x}(0,0)$, \textbf{la función derivada parcial $\displaystyle \dfrac{\partial f}{\partial x}$ es continua en el origen.}
+      (Un procedimiento equivalente en polares demuestra que $\displaystyle \dfrac{\partial f}{\partial y}$ también es continua en el origen).
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO 5 ---
+  \begin{ejercicioresuelto}{Continuidad de Funciones Derivadas Parciales (Caso Discontinuo)}{nivel-3}
+    \enunciado{
+      Sea el campo escalar $g(x,y) = \begin{cases} \displaystyle \dfrac{x^3}{x^2 + y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases}$.
+      \begin{enumerate}
+        \item Demuestre que $g$ es continua en el origen.
+        \item Calcule las funciones derivadas parciales $\displaystyle \dfrac{\partial g}{\partial x}$ y $\displaystyle \dfrac{\partial g}{\partial y}$ en todo $\mathbb{R}^2$.
+        \item Determine si las funciones derivadas parciales resultantes son continuas en el origen.
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{1. Continuidad en $(0,0)$:} Mediante la propiedad de acotamiento, $\displaystyle \lim\limits_{(x,y)\to(0,0)} x \left(\displaystyle \dfrac{x^2}{x^2+y^2}\right) = 0 = g(0,0)$. La función $g$ es continua en $(0,0)$.
+
+      \textbf{2. Derivadas Parciales en $\mathbb{R}^2$:}
+      Para $(x,y) \neq (0,0)$, aplicando reglas algebraicas:
+      $$ \displaystyle \dfrac{\partial g}{\partial x} = \displaystyle \dfrac{x^4 + 3x^2 y^2}{(x^2+y^2)^2}, \quad \displaystyle \dfrac{\partial g}{\partial y} = \displaystyle \dfrac{-2x^3 y}{(x^2+y^2)^2} $$
+      En el origen, evaluando el límite del cociente incremental:
+      $$ \displaystyle \dfrac{\partial g}{\partial x}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\displaystyle \dfrac{h^3}{h^2} - 0}{h} = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{h}{h} = 1 $$
+      $$ \displaystyle \dfrac{\partial g}{\partial y}(0,0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{\displaystyle \dfrac{0}{h^2} - 0}{h} = 0 $$
+
+      \textbf{3. Continuidad de la derivada parcial en el origen:}
+      Analizamos $\displaystyle \lim\limits_{(x,y)\to(0,0)} \displaystyle \dfrac{\partial g}{\partial x}(x,y)$ mediante el Criterio de Caminos:
+      \begin{itemize}
+        \item Acercamiento por el eje Y ($x = 0$): $\displaystyle \lim\limits_{y \to 0} \displaystyle \dfrac{0}{y^4} = 0$.
+        \item Acercamiento por el eje X ($y = 0$): $\displaystyle \lim\limits_{x \to 0} \displaystyle \dfrac{x^4}{x^4} = 1$.
+      \end{itemize}
+      Como los límites a lo largo de las trayectorias difieren ($0 \neq 1$), el límite global no existe.
+      En consecuencia, \textbf{la función derivada parcial $\displaystyle \dfrac{\partial g}{\partial x}$ presenta una discontinuidad irreparable en el origen}, a pesar de que el valor puntual $g_x(0,0)$ existe y es igual a $1$.
+    }
+  \end{ejercicioresuelto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Derivada Parcial respecto a $x$}
+    {\displaystyle \dfrac{\partial f}{\partial x}(x_0, y_0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(x_0 + h, y_0) - f(x_0, y_0)}{h}}
+    {Tasa de cambio instantánea del campo escalar a lo largo de la dirección paralela al eje $x$, manteniendo $y$ fija.}
+
+  \formula{Derivada Parcial respecto a $y$}
+    {\displaystyle \dfrac{\partial f}{\partial y}(x_0, y_0) = \displaystyle \lim\limits_{h \to 0} \displaystyle \dfrac{f(x_0, y_0 + h) - f(x_0, y_0)}{h}}
+    {Tasa de cambio instantánea del campo escalar a lo largo de la dirección paralela al eje $y$, manteniendo $x$ fija.}
+
+  \formula{Continuidad de la derivada parcial con respecto a $x$}
+    {\lim\limits_{(x,y) \to (x_0, y_0)} \dfrac{\partial f}{\partial x}(x,y) = \dfrac{\partial f}{\partial x}(x_0, y_0)}
+    {Condición analítica que exige que el límite de la función derivada parcial respecto a $x$ al aproximarse a $(x_0,y_0)$ coincida exactamente con su valor puntual en dicho punto.}
+
+  \formula{Continuidad de la derivada parcial con respecto a $y$}
+    {\lim\limits_{(x,y) \to (x_0, y_0)} \dfrac{\partial f}{\partial y}(x,y) = \dfrac{\partial f}{\partial y}(x_0, y_0)}
+    {Condición analítica que exige que el límite de la función derivada parcial respecto a $y$ al aproximarse a $(x_0,y_0)$ coincida exactamente con su valor puntual en dicho punto.}
+
+\end{formulas}
+
+\end{document}

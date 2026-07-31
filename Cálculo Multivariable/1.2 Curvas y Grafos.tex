@@ -238,10 +238,10 @@
 
   % --- TIPO 3: PREGUNTA DE CASILLAS ---
   \begin{preguntacasillas}{Propiedades de Campos Racionales}
-    Considera la función $f(x,y) = \frac{y}{x}$. Selecciona \textbf{todas} las afirmaciones matemáticamente correctas respecto a su dominio y curvas de nivel:
+    Considera la función $f(x,y) = \dfrac{y}{x}$. Selecciona \textbf{todas} las afirmaciones matemáticamente correctas respecto a su dominio y curvas de nivel:
     
     \casilla{El dominio natural de la función es $\operatorname{dom}(f) = \{ (x,y) \in \mathbb{R}^2 \colon x \neq 0 \}$.}{Correcto}{Correcto. La única restricción algebraica es la división por cero, por lo que debemos excluir todo el eje $Y$.}
-    \casilla{Las curvas de nivel $f(x,y) = k$ corresponden a rectas que pasan por el origen (excluyendo el punto $(0,0)$).}{Correcto}{Correcto. La ecuación $\frac{y}{x} = k \implies y = kx$ representa rectas de pendiente $k$, pero como $x \neq 0$, el origen no pertenece al dominio.}
+    \casilla{Las curvas de nivel $f(x,y) = k$ corresponden a rectas que pasan por el origen (excluyendo el punto $(0,0)$).}{Correcto}{Correcto. La ecuación $\dfrac{y}{x} = k \implies y = kx$ representa rectas de pendiente $k$, pero como $x \neq 0$, el origen no pertenece al dominio.}
     \casilla{La curva de nivel para $k = 0$ es todo el eje $X$.}{Incorrecto}{¡Cuidado! Aunque $y = 0 \cdot x \implies y = 0$ (el eje $X$), el punto $(0,0)$ debe ser excluido porque no pertenece al dominio.}
     \casilla{El recorrido de la función es únicamente $\operatorname{im}(f) = [0, \infty)$.}{Incorrecto}{Incorrecto. La constante $k$ puede tomar cualquier número real (positivo, negativo o cero), por lo que $\operatorname{im}(f) = \mathbb{R}$.}
   \end{preguntacasillas}
@@ -255,7 +255,7 @@
       \item $f(x,y) = \sin(x - y)$
       \item $f(x,y) = \sqrt{4x^2 + y^2}$
       \item $f(x,y) = e^{y - x^2}$
-      \item $f(x,y) = \frac{-1}{x^2 + y^2}$
+      \item $f(x,y) = \dfrac{-1}{x^2 + y^2}$
     }
     
     % COLUMNA 2: Geometría de la Curva de Nivel - Mezclados
@@ -281,7 +281,7 @@
     \pareotres{2-E-I}{¡Excelente! Al igualar $\sin(x-y) = k$, obtenemos $x-y = \arcsin(k) \implies y = x - \arcsin(k)$, lo que define una familia de rectas paralelas con pendiente $1$. Dado el comportamiento de la función seno, esto solo es válido si $k \in [-1, 1]$.}
     \pareotres{3-D-V}{¡Muy bien! Elevando al cuadrado $\sqrt{4x^2 + y^2} = k \implies 4x^2 + y^2 = k^2$, obtenemos la ecuación canónica de elipses centradas en el origen. Debido a la raíz cuadrada de índice par, $k$ debe ser obligatoriamente no negativo ($k \geq 0$).}
     \pareotres{4-A-II}{¡Perfecto! Aplicando logaritmo natural a $e^{y - x^2} = k$, obtenemos $y - x^2 = \ln(k) \implies y = x^2 + \ln(k)$, lo que corresponde a parábolas trasladadas verticalmente. Como la función exponencial siempre es positiva, $k > 0$.}
-    \pareotres{5-C-IV}{¡Magistral! Al igualar $\frac{-1}{x^2 + y^2} = k \implies x^2 + y^2 = -\frac{1}{k}$, obtenemos circunferencias. Como $x^2 + y^2$ es estrictamente positivo en su dominio (excluyendo el origen), la fracción completa es estrictamente negativa, por lo que $k < 0$.}
+    \pareotres{5-C-IV}{¡Magistral! Al igualar $\dfrac{-1}{x^2 + y^2} = k \implies x^2 + y^2 = -\dfrac{1}{k}$, obtenemos circunferencias. Como $x^2 + y^2$ es estrictamente positivo en su dominio (excluyendo el origen), la fracción completa es estrictamente negativa, por lo que $k < 0$.}
 
   \end{pareadostrescolumnas}
 
@@ -297,22 +297,22 @@
   \begin{ejercicioresuelto}{Círculos Tangentes y Completación de Cuadrados}{nivel-3}
     \enunciado{
       Determine el dominio natural, el recorrido y describa analíticamente la familia de curvas de nivel del campo escalar definido por:
-      $$ f(x,y) = \frac{2y}{x^2 + y^2} $$
+      $$ f(x,y) = \dfrac{2y}{x^2 + y^2} $$
     }
     \solucion{
       \textbf{1. Dominio e Imagen:}
       La única restricción es que el denominador sea distinto de cero. Como la suma de cuadrados solo es cero en el origen, el dominio es todo el plano menos ese punto:
       $$ \operatorname{dom}(f) = \{ (x,y) \in \mathbb{R}^2 \colon x^2 + y^2 \neq 0 \} = \mathbb{R}^2 \setminus \{(0,0)\} $$
-      Al evaluar a lo largo del eje Y (donde $x=0$), la función se reduce a $f(0,y) = \frac{2y}{y^2} = \frac{2}{y}$. Como $y$ puede ser cualquier valor real distinto de cero, la fracción $\frac{2}{y}$ puede tomar cualquier valor real, por lo tanto, $\operatorname{im}(f) = \mathbb{R}$.
+      Al evaluar a lo largo del eje Y (donde $x=0$), la función se reduce a $f(0,y) = \dfrac{2y}{y^2} = \dfrac{2}{y}$. Como $y$ puede ser cualquier valor real distinto de cero, la fracción $\dfrac{2}{y}$ puede tomar cualquier valor real, por lo tanto, $\operatorname{im}(f) = \mathbb{R}$.
 
       \textbf{2. Curvas de Nivel ($C_k$):}
       Planteamos la ecuación $f(x,y) = k$ para cualquier $k \in \operatorname{im}(f)$:
-      $$ \frac{2y}{x^2 + y^2} = k $$
+      $$ \dfrac{2y}{x^2 + y^2} = k $$
       
       Debemos separar el análisis en dos casos:
       
       \textit{Caso A ($k = 0$):}
-      $$ \frac{2y}{x^2 + y^2} = 0 \implies 2y = 0 \implies y = 0 $$
+      $$ \dfrac{2y}{x^2 + y^2} = 0 \implies 2y = 0 \implies y = 0 $$
       La curva de nivel $C_0$ es el eje X ($y=0$), pero recordando la restricción del dominio, debemos excluir el origen. Así, $C_0$ corresponde a todo el eje X perforado en $(0,0)$.
 
       \textit{Caso B ($k \neq 0$):}
@@ -320,14 +320,14 @@
       \[
       \begin{aligned}
         k(x^2 + y^2) &= 2y \\
-        x^2 + y^2 - \frac{2}{k}y &= 0 \\
-        x^2 + \left( y^2 - \frac{2}{k}y + \frac{1}{k^2} \right) &= \frac{1}{k^2} \\
-        x^2 + \left( y - \frac{1}{k} \right)^2 &= \left( \frac{1}{k} \right)^2
+        x^2 + y^2 - \dfrac{2}{k}y &= 0 \\
+        x^2 + \left( y^2 - \dfrac{2}{k}y + \dfrac{1}{k^2} \right) &= \dfrac{1}{k^2} \\
+        x^2 + \left( y - \dfrac{1}{k} \right)^2 &= \left( \dfrac{1}{k} \right)^2
       \end{aligned}
       \]
       
       \textbf{Conclusión:}
-      Para cada $k \neq 0$, la curva de nivel $C_k$ es una \textbf{circunferencia} de radio $R = \frac{1}{|k|}$, centrada en el punto $(0, \frac{1}{k})$. Notemos que todas estas circunferencias pasan por el origen (ya que $0^2 + (0 - 1/k)^2 = 1/k^2$), pero el origen $(0,0) \notin \operatorname{dom}(f)$, por lo que es un punto excluido ("agujero") en cada una de ellas.
+      Para cada $k \neq 0$, la curva de nivel $C_k$ es una \textbf{circunferencia} de radio $R = \dfrac{1}{|k|}$, centrada en el punto $(0, \dfrac{1}{k})$. Notemos que todas estas circunferencias pasan por el origen (ya que $0^2 + (0 - 1/k)^2 = 1/k^2$), pero el origen $(0,0) \notin \operatorname{dom}(f)$, por lo que es un punto excluido ("agujero") en cada una de ellas.
     }
   \end{ejercicioresuelto}
 
@@ -371,7 +371,7 @@
       Considere el campo escalar $h(x,y) = 4x^2 + 9y^2$. Describa detalladamente el mapa de contorno que se genera al graficar las curvas de nivel para $k \in \{0, 36, 144\}$.
     }
     \pista{
-      Aquí $\operatorname{im}(h) = [0, \infty)$. Al igualar $4x^2 + 9y^2 = k$, deberás dividir toda la ecuación por $k$ para llevarla a la forma canónica $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$. Verás que para $k>0$ el mapa de contorno corresponde a elipses centradas en el origen, donde su eje mayor descansa sobre el eje X y su eje menor sobre el eje Y. Para $k=0$, obtendrás un único punto.
+      Aquí $\operatorname{im}(h) = [0, \infty)$. Al igualar $4x^2 + 9y^2 = k$, deberás dividir toda la ecuación por $k$ para llevarla a la forma canónica $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$. Verás que para $k>0$ el mapa de contorno corresponde a elipses centradas en el origen, donde su eje mayor descansa sobre el eje X y su eje menor sobre el eje Y. Para $k=0$, obtendrás un único punto.
     }
   \end{ejerciciopropuesto}
 
@@ -393,8 +393,8 @@
 
   \formula{Completación de Cuadrados}
     {\begin{aligned}
-      x^2 + bx &= \left(x + \frac{b}{2}\right)^2 - \left(\frac{b}{2}\right)^2 \\[0.5em]
-      ax^2 + bx &= a\left(x + \frac{b}{2a}\right)^2 - \frac{b^2}{4a}
+      x^2 + bx &= \left(x + \dfrac{b}{2}\right)^2 - \left(\dfrac{b}{2}\right)^2 \\[0.5em]
+      ax^2 + bx &= a\left(x + \dfrac{b}{2a}\right)^2 - \dfrac{b^2}{4a}
     \end{aligned}}
     {Técnica algebraica indispensable para transformar expresiones cuadráticas dispersas a la forma canónica de circunferencias, elipses o parábolas desplazadas.}
 

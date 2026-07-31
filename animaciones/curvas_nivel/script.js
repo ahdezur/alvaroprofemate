@@ -45,7 +45,7 @@ const targetCameraLookAt = new THREE.Vector3(0, 0, 8);
 const functionsMap = {
     two_peaks: {
         name: 'Dos Colinas (Dos Picos)',
-        eqLatex: 'z = 25 e^{-\\frac{(x-2.2)^2 + (y-0.8)^2}{9}} + 16 e^{-\\frac{(x+3.0)^2 + (y+1.8)^2}{10}}',
+        eqLatex: 'z = 25 e^{-\\dfrac{(x-2.2)^2 + (y-0.8)^2}{9}} + 16 e^{-\\dfrac{(x+3.0)^2 + (y+1.8)^2}{10}}',
         f: (x, y) => {
             const peak1 = 25 * Math.exp(-((x - 2.2) ** 2 + (y - 0.8) ** 2) / 9.0);
             const peak2 = 16 * Math.exp(-((x + 3.0) ** 2 + (y + 1.8) ** 2) / 10.0);
@@ -76,7 +76,7 @@ const functionsMap = {
     },
     sombrero: {
         name: 'Ondas Radiales (Sombrero)',
-        eqLatex: 'z = 14 \\frac{\\cos(\\sqrt{x^2+y^2})}{1 + 0.04(x^2+y^2)} + 12',
+        eqLatex: 'z = 14 \\dfrac{\\cos(\\sqrt{x^2+y^2})}{1 + 0.04(x^2+y^2)} + 12',
         f: (x, y) => {
             const r = Math.sqrt(x * x + y * y);
             return 14 * (Math.cos(r) / (1 + 0.04 * r * r)) + 12;

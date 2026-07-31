@@ -1,0 +1,402 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{makecell}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+
+\newenvironment{motivacion}{%
+  \section*{1. Motivación}%
+}{}
+
+\newenvironment{preguntaguia}{%
+  \begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teoria}{%
+  \section*{2. Definición y Teoría}%
+}{}
+
+\newenvironment{definicion}[1]{%
+  \begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{teorema}[1]{%
+  \begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{alerta}[1]{%
+  \begin{tcolorbox}[colback=red!5,colframe=red!80!black,title=Advertencia Metodológica: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{laboratorio}[1]{%
+  \begin{tcolorbox}[colback=purple!5,colframe=purple!75!black,title=Laboratorio Interactivo: #1]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newenvironment{aplicacion}{%
+  \section*{3. Aplicación y Práctica}%
+}{}
+
+% Comandos para preguntas interactivas
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+
+% Entorno Términos Pareados (2 Columnas)
+\newenvironment{pareados}[1]{\subsection*{Términos Pareados: #1}}{\vspace{0.3cm}}
+\newcommand{\columnaI}[1]{\textbf{Columna 1:}\begin{enumerate}#1\end{enumerate}}
+\newcommand{\columnaII}[1]{\textbf{Columna 2:}\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\textbf{Cruce #1:} #2\par}
+
+% Entorno Fórmulas
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}\begin{description}}{\end{description}}
+\newcommand{\formula}[3]{\item[#1:] $#2$ \\ \textit{#3} \vspace{0.2cm}}
+
+% Entornos para ejercicios
+\newenvironment{ejercicios}{%
+  \section*{4. Ejercicios Resueltos y Propuestos}%
+}{}
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \small{[#2]}}}{}
+\newcommand{\enunciado}[1]{\textbf{Enunciado:} #1\par\vspace{0.2cm}}
+\newcommand{\solucion}[1]{\textbf{Solución:} #1\par\vspace{0.4cm}}
+
+% ==============================================================================
+% METADATOS TÉCNICOS DE DESPLIEGUE
+% ==============================================================================
+% ID_CURSO: calculo-multivariable
+% NUMERO_UNIDAD: 3
+% TITULO_UNIDAD: Diferenciabilidad, Gradiente y Geometría Asociada
+% NUMERO_CAPITULO: 3.3
+% TITULO_CAPITULO: Derivadas Parciales y Direccionales: Geometría asociada
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  \textbf{Más Allá de los Ejes Coordenados}
+
+  Hasta este punto, el análisis de las tasas de cambio de un campo escalar $z = f(x,y)$ se ha restringido a dos direcciones ortogonales y privilegiadas:
+  \begin{itemize}
+    \item La derivada parcial $\dfrac{\partial f}{\partial x}$ representa la pendiente de la superficie si realizamos un corte con el plano $y = y_0$ (avanzando estrictamente hacia el ``Este'').
+    \item La derivada parcial $\dfrac{\partial f}{\partial y}$ representa la pendiente de la superficie si realizamos un corte con el plano $x = x_0$ (avanzando estrictamente hacia el ``Norte'').
+  \end{itemize}
+
+  Sin embargo, el espacio es continuo e isótropo. Si consideramos la superficie de una montaña, un alpinista no está obligado a caminar únicamente de Norte a Sur o de Este a Oeste. Puede decidir avanzar en una dirección diagonal, por ejemplo, hacia el Noreste. Al hacerlo, su trayectoria describirá una nueva curva sobre la superficie, y experimentará una pendiente distinta a las derivadas parciales canónicas.
+
+  Para estudiar rigurosamente la tasa de cambio de un campo escalar a lo largo de una trayectoria rectilínea arbitraria descrita por un vector $\vec{u}$, requerimos generalizar el concepto de derivada parcial. A este nuevo operador lo denominaremos \textbf{Derivada Direccional}.
+
+  \begin{preguntaguia}
+    Si conocemos la pendiente de una superficie al avanzar hacia el Este ($\partial f/\partial x$) y la pendiente al avanzar hacia el Norte ($\partial f/\partial y$), ¿es posible determinar la pendiente al avanzar en cualquier otra dirección arbitraria utilizando únicamente esta información, sin tener que calcular nuevos y engorrosos límites?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  
+  La derivada direccional generaliza el estudio de las tasas de cambio para cualquier vector de desplazamiento en el dominio.
+
+  % --- DEFINICIÓN: DERIVADA DIRECCIONAL ---
+  \begin{definicion}{Derivada Direccional}
+    Sea $f \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ un campo escalar y sea $(x_0, y_0)$ un punto interior de $D$. La \textbf{derivada direccional} de $f$ en $(x_0, y_0)$ en la dirección de un vector \textbf{unitario} $\vec{u} = (u_1, u_2)$, denotada como $D_{\vec{u}}f(x_0, y_0)$, se define mediante el siguiente límite (si este existe):
+    $$ D_{\vec{u}}f(x_0, y_0) = \lim\limits_{h \to 0} \dfrac{f(x_0 + h u_1, y_0 + h u_2) - f(x_0, y_0)}{h} $$
+    \textit{Nota Geométrica:} Representa la pendiente de la recta tangente a la curva de intersección entre la superficie $z = f(x,y)$ y el plano vertical que pasa por $(x_0, y_0)$ con dirección $\vec{u}$.
+  \end{definicion}
+
+  \begin{alerta}{El Vector debe ser Unitario}
+    El límite por definición requiere un incremento métrico puro $h$. Si el vector director $\vec{v}$ suministrado no es unitario ($\|\vec{v}\| \neq 1$), el estudiante debe \textbf{obligatoriamente normalizarlo} antes de proceder: $\vec{u} = \dfrac{\vec{v}}{\|\vec{v}\|}$. Omitir este paso escalará artificialmente la tasa de cambio, conduciendo a un error muy común en las evaluaciones.
+  \end{alerta}
+
+  % --- TEOREMA: CÁLCULO DE LA DERIVADA DIRECCIONAL ---
+  \begin{teorema}{Cálculo Operativo de la Derivada Direccional}
+    Si un campo escalar $f$ es \textbf{diferenciable} en $(x_0, y_0)$, entonces $f$ admite derivada direccional en $(x_0, y_0)$ para cualquier dirección dada por un vector unitario $\vec{u} = (u_1, u_2)$. Además, su valor se puede calcular algebraicamente mediante el producto escalar entre el vector gradiente y el vector dirección:
+    $$ D_{\vec{u}}f(x_0, y_0) = \nabla f(x_0, y_0) \cdot \vec{u} $$
+  \end{teorema}
+
+  \begin{proof}
+    Puesto que $f$ es diferenciable en $(x_0, y_0)$, su incremento puede expresarse mediante su aproximación lineal más un residuo. Para un desplazamiento métrico $\vec{h} = (h u_1, h u_2) = h\vec{u}$:
+    $$ f(x_0 + h u_1, y_0 + h u_2) - f(x_0, y_0) = \dfrac{\partial f}{\partial x}(x_0,y_0)(h u_1) + \dfrac{\partial f}{\partial y}(x_0,y_0)(h u_2) + E(h\vec{u})\|h\vec{u}\| $$
+    Donde $\lim\limits_{h \to 0} E(h\vec{u}) = 0$. Dividiendo por $h$ (con $h \neq 0$) y usando la exigencia de que $\|\vec{u}\| = 1$:
+    $$ \dfrac{f(x_0 + h u_1, y_0 + h u_2) - f(x_0, y_0)}{h} = u_1 \dfrac{\partial f}{\partial x} + u_2 \dfrac{\partial f}{\partial y} + E(h\vec{u}) \dfrac{|h|}{h} $$
+    Tomando el límite cuando $h \to 0$, el término del error se anula por completo. El lado izquierdo se convierte, por definición, en la derivada direccional:
+    $$ D_{\vec{u}}f(x_0, y_0) = u_1 \dfrac{\partial f}{\partial x}(x_0,y_0) + u_2 \dfrac{\partial f}{\partial y}(x_0,y_0) $$
+    Expresión que equivale analíticamente al producto punto:
+    $$ D_{\vec{u}}f(x_0, y_0) = \nabla f(x_0, y_0) \cdot (u_1, u_2) = \nabla f(x_0, y_0) \cdot \vec{u} $$
+  \end{proof}
+
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  
+  \begin{laboratorio}{Exploración Topográfica de Planos de Corte}
+    A continuación, te invitamos a explorar el simulador interactivo para visualizar cómo el concepto de derivada direccional envuelve y generaliza a las derivadas parciales clásicas.
+    
+    \html{<div style="margin:16px 0; text-align:center;">
+      <a href="/animaciones/derivadas/index.html" target="_blank" style="padding:12px 24px; background:linear-gradient(135deg, #10b981 0%, #3b82f6 100%); color:white; border-radius:8px; font-weight:700; text-decoration:none; font-size:15px; display:inline-flex; align-items:center; gap:10px; box-shadow:0 4px 14px rgba(16,185,129,0.3);">
+        🔍 Abrir Laboratorio 3D Interactivo en Pantalla Completa
+      </a>
+    </div>}
+
+    \textbf{Instrucciones de Exploración:}
+    \begin{enumerate}
+      \item \textbf{Posiciona el punto de estudio:} Desliza el punto base $P_0(x_0, y_0)$ sobre el mapa de curvas de nivel bidimensional.
+      \item \textbf{Rota el vector dirección:} Utiliza el control de ángulo $\theta$ para hacer girar el vector unitario $\vec{u}$. Observa en la vista 3D cómo el plano de corte vertical gira simultáneamente, generando una nueva curva de intersección en cada dirección.
+      \item \textbf{Descubre las Derivadas Parciales:} Utiliza los botones de acceso rápido para alinear el vector de dirección a $0^\circ$ (eje $X$) y $90^\circ$ (eje $Y$). Comprueba en el panel de datos que la derivada direccional colapsa de forma exacta sobre $\dfrac{\partial f}{\partial x}$ y $\dfrac{\partial f}{\partial y}$.
+      \item \textbf{Verifica el Teorema Operativo:} Observa cómo la tasa de cambio mostrada siempre coincide numéricamente con el producto escalar calculado entre el Gradiente del punto y tu vector director $\vec{u}$.
+    \end{enumerate}
+  \end{laboratorio}
+
+  \vspace{0.5cm}
+  Se evalúa la comprensión de los requisitos algebraicos de la derivada direccional y las trampas lógicas de su relación con la diferenciabilidad.
+
+  % --- PREGUNTA V/F 1 ---
+  \begin{preguntaverdaderofalso}{Efecto de la Magnitud en el Producto Escalar}
+    Verdadero o Falso: Si calculamos el producto escalar $\nabla f(x_0, y_0) \cdot \vec{v}$ utilizando un vector $\vec{v}$ cuya magnitud es $2$, el número obtenido será exactamente el doble del valor real de la derivada direccional en esa dirección.
+    
+    \verdaderofalso{V}
+      {Incorrecto. Revise la linealidad del producto escalar. La derivada direccional real exige el vector unitario $\vec{u} = \vec{v}/2$. Por ende, al usar $\vec{v}$ directo estamos calculando $\nabla f \cdot (2\vec{u}) = 2(\nabla f \cdot \vec{u})$.}
+      {¡Correcto! El producto escalar es un operador lineal. Si no normalizamos y usamos un vector de longitud 2, estamos calculando el doble de la tasa de cambio real. Por eso la normalización es un requisito analítico innegociable.}
+  \end{preguntaverdaderofalso}
+
+  % --- PREGUNTA V/F 2 ---
+  \begin{preguntaverdaderofalso}{Tasas de Cambio en Direcciones Opuestas}
+    Verdadero o Falso: Si la derivada direccional de una función $f$ en el punto $P$ apuntando en la dirección del vector unitario $\vec{u}$ es $D_{\vec{u}}f(P) = 4$, entonces al avanzar en la dirección estrictamente opuesta $-\vec{u}$, la tasa de cambio será necesariamente $-4$.
+    
+    \verdaderofalso{V}
+      {Incorrecto. El álgebra vectorial lo confirma sin dejar lugar a dudas. Al invertir el sentido del vector unitario, el producto escalar simplemente cambia de signo: $\nabla f(P) \cdot (-\vec{u}) = -(\nabla f(P) \cdot \vec{u}) = -4$.}
+      {¡Perfecto! Geométricamente, si al avanzar en una dirección la ladera de la superficie sube con una pendiente de 4, al darnos la vuelta y caminar en sentido opuesto, experimentaremos exactamente una bajada con pendiente de -4.}
+  \end{preguntaverdaderofalso}
+
+  % --- PREGUNTA V/F 3 ---
+  \begin{preguntaverdaderofalso}{Existencia vs. Diferenciabilidad}
+    Verdadero o Falso: Si un campo escalar posee derivadas direccionales en todas las direcciones posibles alrededor de un punto $P$, queda garantizado matemáticamente que la función es diferenciable y admite un plano tangente en dicho punto.
+    
+    \verdaderofalso{F}
+      {¡Excelente! Es la misma trampa que enfrentamos con las derivadas parciales. Existen funciones patológicas donde todas las derivadas direccionales existen (podemos calcular las pendientes radiales), pero no logran acoplarse para formar un plano tangente global continuo.}
+      {Incorrecto. Cuidado con caer en este espejismo. Al igual que la mera existencia de derivadas parciales no garantiza la diferenciabilidad, poseer todas las direccionales tampoco lo asegura. El plano tangente exige una condición mucho más fuerte: que el límite del error tienda a cero.}
+  \end{preguntaverdaderofalso}
+
+  % --- TÉRMINOS PAREADOS (IDENTIDAD DE OPERADORES) ---
+  \begin{pareados}{Identidad de Operadores Analíticos}
+    Evalúe su comprensión sobre la relación fundamental entre la derivada direccional y las derivadas parciales. Relacione cada vector de dirección unitario $\vec{u}$ con el resultado analítico de evaluar la derivada direccional $D_{\vec{u}}f(x,y)$.
+
+    \columnaI{
+      \item $\vec{u} = (1,0)$
+      \item $\vec{u} = (0,1)$
+      \item $\vec{u} = (-1,0)$
+    }
+
+    \columnaII{
+      \item Corresponde exactamente a la derivada parcial respecto a $y$: $\dfrac{\partial f}{\partial y}$.
+      \item Corresponde a la tasa de cambio de la derivada parcial respecto a $x$, pero en sentido opuesto: $-\dfrac{\partial f}{\partial x}$.
+      \item Corresponde exactamente a la derivada parcial respecto a $x$: $\dfrac{\partial f}{\partial x}$.
+    }
+
+    \pareo{1-C}{Correcto. Al hacer el producto punto $\nabla f \cdot (1,0)$, obtenemos $f_x(1) + f_y(0) = f_x$. Avanzar hacia el "Este" recupera la definición canónica de derivada parcial respecto a $x$.}
+    \pareo{2-A}{Correcto. Al hacer el producto punto $\nabla f \cdot (0,1)$, obtenemos $f_x(0) + f_y(1) = f_y$. Avanzar hacia el "Norte" recupera la derivada parcial respecto a $y$.}
+    \pareo{3-B}{Correcto. El vector $(-1,0)$ es unitario y apunta hacia el "Oeste". El producto punto da $f_x(-1) + f_y(0) = -f_x$, indicando que al retroceder en el eje $X$, la tasa de cambio invierte su signo.}
+  \end{pareados}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+  A continuación, se presenta una batería de ejercicios rigurosos que contrastan el cálculo por definición formal versus el uso del teorema operativo de diferenciabilidad.
+
+  \subsection*{I. Ejercicios Resueltos}
+
+  % --- EJERCICIO RESUELTO 1 ---
+  \begin{ejercicioresuelto}{Cálculo por Definición vs Teorema}{nivel-1}
+    \enunciado{
+      Considere la función $\displaystyle f(x,y) = e^{xy}$.
+      \begin{enumerate}
+        \item Calcule, usando la definición formal de límite, $D_{\vec{v}} f(1,2)$ en la dirección del vector unitario $\displaystyle \vec{v} = \left(\dfrac{\sqrt{3}}{2} ,\dfrac{1}{2}\right)$.
+        \item Compruebe que se cumple la igualdad del teorema operativo $\displaystyle D_{\vec{v}} f(1,2) = \nabla f(1,2) \cdot \vec{v}$.
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{Parte 1: Por definición de límite} \\
+      Evaluamos el límite de la derivada direccional en el punto $(1,2)$ con $\vec{v} = (v_1, v_2) = (\dfrac{\sqrt{3}}{2}, \dfrac{1}{2})$:
+      $$ D_{\vec{v}} f(1,2) = \lim\limits_{h \to 0} \dfrac{f\left(1 + h\dfrac{\sqrt{3}}{2}, 2 + h\dfrac{1}{2}\right) - f(1,2)}{h} $$
+      $$ D_{\vec{v}} f(1,2) = \lim\limits_{h \to 0} \dfrac{e^{\left(1 + h\dfrac{\sqrt{3}}{2}\right)\left(2 + h\dfrac{1}{2}\right)} - e^2}{h} = \lim\limits_{h \to 0} \dfrac{e^{2 + h\left(\dfrac{1}{2} + \sqrt{3}\right) + h^2\dfrac{\sqrt{3}}{4}} - e^2}{h} $$
+      Factorizamos $e^2$ y agrupamos términos con $h$:
+      $$ D_{\vec{v}} f(1,2) = e^2 \lim\limits_{h \to 0} \dfrac{e^{h\left(\dfrac{1}{2} + \sqrt{3} + h\dfrac{\sqrt{3}}{4}\right)} - 1}{h} $$
+      Usando el límite fundamental $\lim_{x\to 0} \dfrac{e^x - 1}{x} = 1$, multiplicamos y dividimos por el argumento de la exponencial:
+      $$ D_{\vec{v}} f(1,2) = e^2 \lim\limits_{h \to 0} \left[ \dfrac{e^{h(\dots)} - 1}{h(\dots)} \right] \cdot \left(\dfrac{1}{2} + \sqrt{3} + h\dfrac{\sqrt{3}}{4}\right) $$
+      $$ D_{\vec{v}} f(1,2) = e^2 (1) \left(\dfrac{1}{2} + \sqrt{3}\right) = e^2 \left( \sqrt{3} + \dfrac{1}{2} \right) $$
+
+      \textbf{Parte 2: Verificación mediante Teorema} \\
+      Calculamos el vector gradiente de $f(x,y) = e^{xy}$:
+      $$ \dfrac{\partial f}{\partial x} = y e^{xy} \implies f_x(1,2) = 2e^2 $$
+      $$ \dfrac{\partial f}{\partial y} = x e^{xy} \implies f_y(1,2) = 1e^2 $$
+      Entonces, $\nabla f(1,2) = (2e^2, e^2)$. Realizamos el producto escalar con $\vec{v}$:
+      $$ \nabla f(1,2) \cdot \vec{v} = (2e^2, e^2) \cdot \left( \dfrac{\sqrt{3}}{2}, \dfrac{1}{2} \right) = 2e^2\left(\dfrac{\sqrt{3}}{2}\right) + e^2\left(\dfrac{1}{2}\right) = e^2 \left( \sqrt{3} + \dfrac{1}{2} \right) $$
+      Se comprueba que ambos resultados son idénticos, confirmando la utilidad del teorema.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO RESUELTO 2 ---
+  \begin{ejercicioresuelto}{Análisis Integral de un Campo Escalar por Tramos}{nivel-3}
+    \enunciado{
+      Considere el campo escalar patológico:
+      $$ f(x,y) = \begin{cases} \dfrac{|x|\sin y}{\sqrt{x^2 + y^2}} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      \begin{enumerate}
+        \item Demuestre que $f$ es continua en el origen.
+        \item Encuentre, si existen, las derivadas parciales $\dfrac{\partial f}{\partial x}(0,0)$ y $\dfrac{\partial f}{\partial y}(0,0)$.
+        \item Encuentre por definición la derivada direccional de $f$ en el origen en la dirección $\vec{v} = \left(\dfrac{1}{\sqrt{2}}, \dfrac{1}{\sqrt{2}}\right)$.
+        \item A partir de lo anterior, decida si $f$ es diferenciable en el origen.
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{1. Continuidad en el origen:}
+      Usando coordenadas polares ($x = r\cos\theta$, $y = r\sin\theta$):
+      $$ \lim\limits_{(x,y) \to (0,0)} f(x,y) = \lim\limits_{r \to 0^+} \dfrac{|r\cos\theta| \sin(r\sin\theta)}{r} = \lim\limits_{r \to 0^+} |\cos\theta| \sin(r\sin\theta) = |\cos\theta| \sin(0) = 0 $$
+      Como el límite es igual a $f(0,0)=0$, $f$ es continua en el origen.
+
+      \vspace{0.2cm}
+      \textbf{2. Derivadas Parciales:}
+      $$ \dfrac{\partial f}{\partial x}(0,0) = \lim\limits_{h \to 0} \dfrac{f(h,0) - f(0,0)}{h} = \lim\limits_{h \to 0} \dfrac{\dfrac{|h|\sin(0)}{\sqrt{h^2}}}{h} = \lim\limits_{h \to 0} \dfrac{0}{h} = 0 $$
+      $$ \dfrac{\partial f}{\partial y}(0,0) = \lim\limits_{h \to 0} \dfrac{f(0,h) - f(0,0)}{h} = \lim\limits_{h \to 0} \dfrac{\dfrac{|0|\sin(h)}{\sqrt{h^2}}}{h} = \lim\limits_{h \to 0} \dfrac{0}{h} = 0 $$
+      Ambas derivadas parciales existen y valen 0, por lo que el gradiente candidato es $\nabla f(0,0) = (0,0)$.
+
+      \vspace{0.2cm}
+      \textbf{3. Derivada Direccional por definición:}
+      Evaluamos en la dirección unitaria dada:
+      $$ D_{\vec{v}} f(0,0) = \lim\limits_{h \to 0^+} \dfrac{f\left(\dfrac{h}{\sqrt{2}}, \dfrac{h}{\sqrt{2}}\right) - f(0,0)}{h} $$
+      Sustituyendo en la función original:
+      $$ D_{\vec{v}} f(0,0) = \lim\limits_{h \to 0^+} \dfrac{\dfrac{\left|\dfrac{h}{\sqrt{2}}\right| \sin\left(\dfrac{h}{\sqrt{2}}\right)}{\sqrt{\dfrac{h^2}{2} + \dfrac{h^2}{2}}}}{h} = \lim\limits_{h \to 0^+} \dfrac{\dfrac{\dfrac{h}{\sqrt{2}} \sin\left(\dfrac{h}{\sqrt{2}}\right)}{|h|}}{h} $$
+      Asumiendo $h>0$ ($|h|=h$), simplificamos:
+      $$ = \lim\limits_{h \to 0^+} \dfrac{\dfrac{1}{\sqrt{2}} \sin\left(\dfrac{h}{\sqrt{2}}\right)}{h} = \lim\limits_{h \to 0^+} \dfrac{1}{2} \dfrac{\sin\left(\dfrac{h}{\sqrt{2}}\right)}{\dfrac{h}{\sqrt{2}}} = \dfrac{1}{2} (1) = \dfrac{1}{2} $$
+      \textit{(Nota: Como el valor del límite depende del signo de $h$, estrictamente el límite bilateral no existe, pero analizando por la derecha la tasa de cambio arroja $1/2$. A efectos de la contradicción, tomaremos este valor.)}
+
+      \vspace{0.2cm}
+      \textbf{4. Decisión de Diferenciabilidad:}
+      Si $f$ fuera diferenciable, el teorema operativo debería cumplirse de forma obligatoria:
+      $$ D_{\vec{v}} f(0,0) = \nabla f(0,0) \cdot \vec{v} $$
+      $$ \dfrac{1}{2} = (0,0) \cdot \left(\dfrac{1}{\sqrt{2}}, \dfrac{1}{\sqrt{2}}\right) \implies \dfrac{1}{2} = 0 $$
+      Lo cual es una contradicción absurda. Se deduce, por consiguiente, que \textbf{$f$ no es diferenciable en el origen}.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO RESUELTO 3 ---
+  \begin{ejercicioresuelto}{Existencia Global vs. Diferenciabilidad}{nivel-2}
+    \enunciado{
+      Dada la función:
+      $$ f(x,y) = \begin{cases} \dfrac{x^3}{x^2 + y^2} & \text{si } (x,y) \neq (0,0) \\[1em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      \begin{enumerate}
+        \item Compruebe que la función admite derivadas direccionales en el origen en cualquier dirección $\vec{v}$.
+        \item En base al teorema que relaciona las derivadas direccionales y el gradiente, deducir que $f$ no es diferenciable en el origen.
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{Parte 1: Existencia de todas las derivadas direccionales} \\
+      Por definición formal, para cualquier vector unitario $\vec{v} = (v_1, v_2)$:
+      $$ D_{\vec{v}} f(0,0) = \lim\limits_{h \to 0} \dfrac{f(v_1 h, v_2 h) - f(0,0)}{h} $$
+      $$ = \lim\limits_{h \to 0} \dfrac{\dfrac{(h v_1)^3}{h^2 v_1^2 + h^2 v_2^2}}{h} = \lim\limits_{h \to 0} \dfrac{h^3 v_1^3}{h^3(v_1^2 + v_2^2)} $$
+      Como $\vec{v}$ es unitario ($v_1^2 + v_2^2 = 1$), simplificamos $h^3$:
+      $$ = \dfrac{v_1^3}{1} = v_1^3 $$
+      El límite existe y es finito para cualquier par $(v_1, v_2)$.
+
+      \textbf{Parte 2: Análisis de Diferenciabilidad} \\
+      De acuerdo a la definición de derivada parcial, evaluamos el resultado general en las direcciones canónicas:
+      $$ \dfrac{\partial f}{\partial x}(0,0) = D_{(1,0)} f(0,0) = 1^3 = 1 $$
+      $$ \dfrac{\partial f}{\partial y}(0,0) = D_{(0,1)} f(0,0) = 0^3 = 0 $$
+      El vector gradiente candidato es $\nabla f(0,0) = (1,0)$.
+      Si la función fuera diferenciable, el teorema $\nabla f \cdot \vec{v}$ dictaría que:
+      $$ D_{\vec{v}} f(0,0) = \nabla f(0,0) \cdot (v_1, v_2) $$
+      $$ v_1^3 = (1,0) \cdot (v_1, v_2) \implies v_1^3 = v_1 $$
+      La igualdad $v_1^3 = v_1$ solo es cierta si $v_1 \in \{-1, 0, 1\}$, pero es absolutamente falsa para infinitos vectores unitarios (por ejemplo, $v_1 = 1/2$).
+      Esta contradicción geométrica demuestra que \textbf{$f$ no es diferenciable en el origen}, a pesar de que es posible calcular derivadas direccionales en todas las direcciones.
+    }
+  \end{ejercicioresuelto}
+
+  % --- EJERCICIO RESUELTO 4 ---
+  \begin{ejercicioresuelto}{Generalización a $\mathbb{R}^3$ y Álgebra Lineal}{nivel-3}
+    \enunciado{
+      La derivada direccional de una función escalar tridimensional $f(x,y,z)$ en el punto $(x_0, y_0, z_0)$ toma los valores $3$, $1$ y $-1$ en la dirección de los vectores $\vec{v}_1 = (0,1,1)$, $\vec{v}_2 = (1,0,1)$ y $\vec{v}_3 = (1,1,0)$ respectivamente. Encontrar el vector gradiente $\nabla f(x_0, y_0, z_0)$.
+    }
+    \solucion{
+      \textbf{Paso 1: Normalización obligatoria} \\
+      Los vectores entregados no son unitarios. Debemos normalizarlos. Todos poseen norma $\sqrt{1^2+1^2} = \sqrt{2}$.
+      $$ \hat{u}_1 = \left(0, \dfrac{1}{\sqrt{2}}, \dfrac{1}{\sqrt{2}}\right) \quad \hat{u}_2 = \left(\dfrac{1}{\sqrt{2}}, 0, \dfrac{1}{\sqrt{2}}\right) \quad \hat{u}_3 = \left(\dfrac{1}{\sqrt{2}}, \dfrac{1}{\sqrt{2}}, 0\right) $$
+
+      \textbf{Paso 2: Planteamiento del Sistema de Ecuaciones} \\
+      Asumiendo diferenciabilidad, aplicamos el teorema $D_{\hat{u}}f = \nabla f \cdot \hat{u}$. Definimos las incógnitas del gradiente como $\nabla f = (X, Y, Z)$:
+      \begin{align*}
+      \text{Dir. 1:} \quad & \nabla f \cdot \hat{u}_1 = Y\dfrac{1}{\sqrt{2}} + Z\dfrac{1}{\sqrt{2}} = 3 \implies Y + Z = 3\sqrt{2} \\
+      \text{Dir. 2:} \quad & \nabla f \cdot \hat{u}_2 = X\dfrac{1}{\sqrt{2}} + Z\dfrac{1}{\sqrt{2}} = 1 \implies X + Z = \sqrt{2} \\
+      \text{Dir. 3:} \quad & \nabla f \cdot \hat{u}_3 = X\dfrac{1}{\sqrt{2}} + Y\dfrac{1}{\sqrt{2}} = -1 \implies X + Y = -\sqrt{2}
+      \end{align*}
+
+      \textbf{Paso 3: Resolución Algebraica} \\
+      Restando la Ecuación 2 de la Ecuación 1:
+      $$ (Y + Z) - (X + Z) = 3\sqrt{2} - \sqrt{2} \implies Y - X = 2\sqrt{2} $$
+      Sumando este resultado a la Ecuación 3 ($Y + X = -\sqrt{2}$):
+      $$ (Y - X) + (Y + X) = 2\sqrt{2} - \sqrt{2} \implies 2Y = \sqrt{2} \implies Y = \dfrac{\sqrt{2}}{2} = \dfrac{1}{\sqrt{2}} $$
+      Sustituyendo el valor de $Y$ en la Ecuación 1 y en la Ecuación 3:
+      $$ \left(\dfrac{1}{\sqrt{2}}\right) + Z = 3\sqrt{2} \implies Z = 3\sqrt{2} - \dfrac{\sqrt{2}}{2} = \dfrac{5\sqrt{2}}{2} = \dfrac{5}{\sqrt{2}} $$
+      $$ X + \left(\dfrac{1}{\sqrt{2}}\right) = -\sqrt{2} \implies X = -\sqrt{2} - \dfrac{\sqrt{2}}{2} = -\dfrac{3\sqrt{2}}{2} = -\dfrac{3}{\sqrt{2}} $$
+
+      \textbf{Respuesta:} El gradiente buscado es $\nabla f(x_0, y_0, z_0) = \left( -\dfrac{3}{\sqrt{2}}, \dfrac{1}{\sqrt{2}}, \dfrac{5}{\sqrt{2}} \right)$.
+    }
+  \end{ejercicioresuelto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Derivada Direccional (Definición por Límite)}
+    {D_{\vec{u}}f(x_0, y_0) = \lim\limits_{h \to 0} \dfrac{f(x_0 + h u_1, y_0 + h u_2) - f(x_0, y_0)}{h}}
+    {Definición analítica rigurosa como el límite del cociente incremental a lo largo de un vector unitario $\vec{u} = (u_1, u_2)$.}
+
+  \formula{Teorema de Cálculo (Producto Escalar)}
+    {D_{\vec{u}}f(x_0, y_0) = \nabla f(x_0, y_0) \cdot \vec{u}}
+    {Herramienta operativa principal para calcular la derivada direccional, válida únicamente si la función es diferenciable y $\vec{u}$ es unitario.}
+
+  \formula{Normalización de un Vector de Dirección}
+    {\vec{u} = \dfrac{\vec{v}}{\|\vec{v}\|} = \dfrac{(v_1, v_2)}{\sqrt{v_1^2 + v_2^2}}}
+    {Procedimiento algebraico ineludible para escalar cualquier vector director $\vec{v}$ a magnitud $1$ previo al cálculo de tasas de cambio espaciales.}
+
+\end{formulas}
+
+\end{document}

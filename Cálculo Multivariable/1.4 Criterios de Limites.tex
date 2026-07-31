@@ -190,14 +190,14 @@
     Supongamos por contradicción que el límite doble existe y vale $L \in \mathbb{R}$, es decir, $\displaystyle\lim_{(x,y) \to (a,b)} f(x,y) = L$, y asumamos que existe el límite interno $g(x) = \displaystyle\lim_{y \to b} f(x,y)$ para todo $x \neq a$ en un entorno de $a$.
 
     Dado $\varepsilon > 0$, existe $\delta > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, entonces:
-    $$ |f(x,y) - L| < \frac{\varepsilon}{2} $$
+    $$ |f(x,y) - L| < \dfrac{\varepsilon}{2} $$
 
-    Para cualquier $x$ fijo que cumpla $0 < |x - a| < \frac{\delta}{\sqrt{2}}$, consideramos los valores de $y$ que satisfacen $0 < |y - b| < \frac{\delta}{\sqrt{2}}$. Para dichos puntos, la distancia euclidiana satisface $\sqrt{(x-a)^2 + (y-b)^2} < \delta$, por lo que la desigualdad del límite se sostiene.
+    Para cualquier $x$ fijo que cumpla $0 < |x - a| < \dfrac{\delta}{\sqrt{2}}$, consideramos los valores de $y$ que satisfacen $0 < |y - b| < \dfrac{\delta}{\sqrt{2}}$. Para dichos puntos, la distancia euclidiana satisface $\sqrt{(x-a)^2 + (y-b)^2} < \delta$, por lo que la desigualdad del límite se sostiene.
 
-    Tomando el límite cuando $y \to b$ en la desigualdad $|f(x,y) - L| < \frac{\varepsilon}{2}$, y aprovechando que $\displaystyle\lim_{y \to b} f(x,y) = g(x)$, obtenemos por propiedades de desigualdades en límites:
-    $$ |g(x) - L| \leq \frac{\varepsilon}{2} < \varepsilon $$
+    Tomando el límite cuando $y \to b$ en la desigualdad $|f(x,y) - L| < \dfrac{\varepsilon}{2}$, y aprovechando que $\displaystyle\lim_{y \to b} f(x,y) = g(x)$, obtenemos por propiedades de desigualdades en límites:
+    $$ |g(x) - L| \leq \dfrac{\varepsilon}{2} < \varepsilon $$
 
-    Como esto es válido para todo $x$ tal que $0 < |x - a| < \frac{\delta}{\sqrt{2}}$, por definición formal tenemos que:
+    Como esto es válido para todo $x$ tal que $0 < |x - a| < \dfrac{\delta}{\sqrt{2}}$, por definición formal tenemos que:
     $$ \displaystyle\lim_{x \to a} g(x) = L \implies \displaystyle\lim_{x \to a} \left( \displaystyle\lim_{y \to b} f(x,y) \right) = L $$
 
     De manera totalmente análoga, si el límite interno $h(y) = \displaystyle\lim_{x \to a} f(x,y)$ existe, se demuestra que $\displaystyle\lim_{y \to b} \left( \displaystyle\lim_{x \to a} f(x,y) \right) = L$.
@@ -250,38 +250,38 @@
 
   % --- EJEMPLOS DE LOS 3 CRITERIOS ---
   \begin{ejemplo}{Criterio 1: Inexistencia por Caminos (Rectas)}
-    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^2}{x^2 + y^2}$
+    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^2}{x^2 + y^2}$
     
     \textbf{Desarrollo:}
     Tomemos la recta $y = x$, que viene a ser nuestra trayectoria $A_1$:
-    $$ \displaystyle\lim_{x \to 0} \frac{x^2}{x^2 + x^2} = \displaystyle\lim_{x \to 0} \frac{x^2}{2x^2} = \frac{1}{2} $$
+    $$ \displaystyle\lim_{x \to 0} \dfrac{x^2}{x^2 + x^2} = \displaystyle\lim_{x \to 0} \dfrac{x^2}{2x^2} = \dfrac{1}{2} $$
     
     Tomemos otra recta, digamos el eje X ($y = 0$), la cual viene a ser nuestra trayectoria $A_2$:
-    $$ \displaystyle\lim_{x \to 0} \frac{x^2}{x^2 + 0} = \displaystyle\lim_{x \to 0} \frac{x^2}{x^2} = 1 $$
+    $$ \displaystyle\lim_{x \to 0} \dfrac{x^2}{x^2 + 0} = \displaystyle\lim_{x \to 0} \dfrac{x^2}{x^2} = 1 $$
     
     Notamos que los límites por caminos existen y son distintos ($1/2 \neq 1$). Por lo tanto, el límite doble \textbf{no existe}.
   \end{ejemplo}
 
   \begin{ejemplo}{Criterio 2: Inexistencia por Límites Iterados}
-    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{y}{y + x^2}$
+    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{y}{y + x^2}$
     
     \textbf{Desarrollo:}
     Calculamos el primer límite iterado (evaluando primero $y \to 0$ y luego $x \to 0$):
-    $$ \displaystyle\lim_{x \to 0} \left( \displaystyle\lim_{y \to 0} \frac{y}{y + x^2} \right) = \displaystyle\lim_{x \to 0} \left( \frac{0}{0 + x^2} \right) = \displaystyle\lim_{x \to 0} (0) = 0 $$
+    $$ \displaystyle\lim_{x \to 0} \left( \displaystyle\lim_{y \to 0} \dfrac{y}{y + x^2} \right) = \displaystyle\lim_{x \to 0} \left( \dfrac{0}{0 + x^2} \right) = \displaystyle\lim_{x \to 0} (0) = 0 $$
     
     Calculamos el segundo límite iterado (evaluando primero $x \to 0$ y luego $y \to 0$):
-    $$ \displaystyle\lim_{y \to 0} \left( \displaystyle\lim_{x \to 0} \frac{y}{y + x^2} \right) = \displaystyle\lim_{y \to 0} \left( \frac{y}{y + 0} \right) = \displaystyle\lim_{y \to 0} (1) = 1 $$
+    $$ \displaystyle\lim_{y \to 0} \left( \displaystyle\lim_{x \to 0} \dfrac{y}{y + x^2} \right) = \displaystyle\lim_{y \to 0} \left( \dfrac{y}{y + 0} \right) = \displaystyle\lim_{y \to 0} (1) = 1 $$
     
     Como los límites iterados arrojan valores distintos ($0 \neq 1$), el límite doble \textbf{no existe}.
   \end{ejemplo}
 
   \begin{ejemplo}{Criterio 3: Existencia vía Coordenadas Polares}
-    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^4 + 3(x^2 + y^2)}{x^2 + y^2}$
+    Estudie la existencia del límite: $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^4 + 3(x^2 + y^2)}{x^2 + y^2}$
     
     \textbf{Desarrollo:}
     Aplicamos el cambio a coordenadas polares: $x = r\cos\theta$, $y = r\sin\theta$, sabiendo que $x^2 + y^2 = r^2$.
     Sustituimos en la expresión:
-    $$ \displaystyle\lim_{r \to 0^+} \frac{(r\cos\theta)^4 + 3r^2}{r^2} = \displaystyle\lim_{r \to 0^+} \frac{r^4\cos^4\theta + 3r^2}{r^2} $$
+    $$ \displaystyle\lim_{r \to 0^+} \dfrac{(r\cos\theta)^4 + 3r^2}{r^2} = \displaystyle\lim_{r \to 0^+} \dfrac{r^4\cos^4\theta + 3r^2}{r^2} $$
     Factorizando y simplificando $r^2$ (ya que $r \neq 0$ en la aproximación):
     $$ \displaystyle\lim_{r \to 0^+} (r^2\cos^4\theta + 3) = 0 \cdot \cos^4\theta + 3 = 3 $$
     Dado que el resultado es una constante numérica exacta ($L=3$), absolutamente independiente del ángulo de aproximación $\theta$, el límite doble \textbf{existe y es igual a 3}.
@@ -291,27 +291,27 @@
 
   % TIPO 1: PREGUNTA DE ALTERNATIVAS
   \begin{preguntaalternativas}{La Elección del Camino Adecuado}
-    ¿Cuál es el argumento correcto respecto al límite $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{xy^2}{x^2 + y^4}$?
+    ¿Cuál es el argumento correcto respecto al límite $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{xy^2}{x^2 + y^4}$?
     
     \opcion{El límite es $0$, porque al evaluarlo por cualquier recta de la familia $y = mx$, el resultado tiende a cero.}{Incorrecto}{Cuidado. Aunque todas las rectas $y=mx$ arrojan 0, las rectas no son las únicas trayectorias posibles. Debes probar curvas de mayor grado.}
     \opcion{El límite no existe, porque los límites iterados son distintos.}{Incorrecto}{Si calculas los límites iterados para esta función, verás que $\displaystyle\lim_{x\to 0}(\displaystyle\lim_{y\to 0}) = 0$ y $\displaystyle\lim_{y\to 0}(\displaystyle\lim_{x\to 0}) = 0$. Son iguales, lo que hace al criterio no concluyente.}
-    \opcion{El límite no existe, porque al aproximarse por la curva $x = y^2$ se obtiene $1/2$, mientras que por el eje X ($y=0$) se obtiene $0$.}{Correcto}{¡Brillante! Al sustituir la parábola horizontal $x = y^2$, el límite se convierte en $\displaystyle\lim_{y \to 0} \frac{y^2 \cdot y^2}{(y^2)^2 + y^4} = \frac{y^4}{2y^4} = \frac{1}{2}$. Como $1/2 \neq 0$, el límite se destruye.}
+    \opcion{El límite no existe, porque al aproximarse por la curva $x = y^2$ se obtiene $1/2$, mientras que por el eje X ($y=0$) se obtiene $0$.}{Correcto}{¡Brillante! Al sustituir la parábola horizontal $x = y^2$, el límite se convierte en $\displaystyle\lim_{y \to 0} \dfrac{y^2 \cdot y^2}{(y^2)^2 + y^4} = \dfrac{y^4}{2y^4} = \dfrac{1}{2}$. Como $1/2 \neq 0$, el límite se destruye.}
   \end{preguntaalternativas}
 
   % TIPO 2: PREGUNTA DE VERDADERO O FALSO
   \begin{preguntaverdaderofalso}{Conclusión sobre Límites Iterados}
-    Considere la función $f(x,y) = \frac{xy}{x^2 + y^2}$. Dado que ambos límites iterados son iguales a cero (es decir, $\displaystyle\lim_{x \to 0} (\displaystyle\lim_{y \to 0} f(x,y)) = 0$ y $\displaystyle\lim_{y \to 0} (\displaystyle\lim_{x \to 0} f(x,y)) = 0$), podemos concluir matemáticamente que el límite doble existe y vale cero.
+    Considere la función $f(x,y) = \dfrac{xy}{x^2 + y^2}$. Dado que ambos límites iterados son iguales a cero (es decir, $\displaystyle\lim_{x \to 0} (\displaystyle\lim_{y \to 0} f(x,y)) = 0$ y $\displaystyle\lim_{y \to 0} (\displaystyle\lim_{x \to 0} f(x,y)) = 0$), podemos concluir matemáticamente que el límite doble existe y vale cero.
     
     \verdaderofalso{F}
-      {¡Excelente! Recordaste la alerta teórica: si los límites iterados son iguales, \textbf{no se puede concluir nada}. De hecho, si evalúas este límite por rectas $y = mx$, el resultado es $\frac{m}{1+m^2}$, lo que demuestra que depende de la pendiente $m$ y, por ende, el límite no existe.}
+      {¡Excelente! Recordaste la alerta teórica: si los límites iterados son iguales, \textbf{no se puede concluir nada}. De hecho, si evalúas este límite por rectas $y = mx$, el resultado es $\dfrac{m}{1+m^2}$, lo que demuestra que depende de la pendiente $m$ y, por ende, el límite no existe.}
       {Incorrecto. Caíste en la trampa más común. Que los límites iterados coincidan significa únicamente que acercarse por el eje X o por el eje Y da el mismo resultado. No te garantiza lo que ocurre si te acercas por una diagonal como $y=x$ (donde el límite da $1/2$).}
   \end{preguntaverdaderofalso}
 
   % TIPO 3: PREGUNTA DE CASILLAS
   \begin{preguntacasillas}{Dependencia Angular en Polares}
-    Se requiere evaluar el límite $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \arccos\left(\frac{x}{\sqrt{x^2 + y^2}}\right)$. Al realizar el cambio a coordenadas polares, selecciona \textbf{todas} las afirmaciones correctas:
+    Se requiere evaluar el límite $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \arccos\left(\dfrac{x}{\sqrt{x^2 + y^2}}\right)$. Al realizar el cambio a coordenadas polares, selecciona \textbf{todas} las afirmaciones correctas:
     
-    \casilla{La expresión se reduce algebraicamente a $\arccos(\cos\theta)$.}{Correcto}{¡Correcto! Sustituyendo $x = r\cos\theta$ y $\sqrt{x^2+y^2} = r$, nos queda $\arccos(\frac{r\cos\theta}{r}) = \arccos(\cos\theta)$.}
+    \casilla{La expresión se reduce algebraicamente a $\arccos(\cos\theta)$.}{Correcto}{¡Correcto! Sustituyendo $x = r\cos\theta$ y $\sqrt{x^2+y^2} = r$, nos queda $\arccos(\dfrac{r\cos\theta}{r}) = \arccos(\cos\theta)$.}
     \casilla{Como $\arccos(\cos\theta) = \theta$ en el intervalo principal, el límite no existe porque depende exclusivamente de $\theta$.}{Correcto}{¡Exacto! El resultado es directamente el ángulo de aproximación. Acercarse por distintos ángulos da distintos resultados.}
     \casilla{El límite existe y vale $1$, porque las funciones trigonométricas están acotadas.}{Incorrecto}{Falso. El concepto de acotamiento se usa en multiplicaciones con términos que tienden a cero (Teorema de Cero por Acotado), aquí la función completa depende del ángulo.}
     \casilla{Geométricamente, acercarse por el eje X positivo ($\theta=0$) da como límite $0$, pero por el eje Y positivo ($\theta=\pi/2$) da $\pi/2$.}{Correcto}{¡Correcto! Esto confirma explícitamente mediante caminos que el límite no puede existir.}
@@ -322,9 +322,9 @@
     
     % COLUMNA 1: Límites
     \columnaI{
-      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \frac{x^2y}{x^2+y^2}$
-      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \frac{xy^2}{x^2+y^4}$
-      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \frac{y}{y+x^2}$
+      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \dfrac{x^2y}{x^2+y^2}$
+      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \dfrac{xy^2}{x^2+y^4}$
+      \item $\displaystyle \displaystyle\lim_{(x,y)\to(0,0)} \dfrac{y}{y+x^2}$
     }
     
     % COLUMNA 2: Conclusión y Herramienta - Mezcladas
@@ -353,19 +353,19 @@
   \begin{ejercicioresuelto}{Inexistencia por Trayectorias no Lineales}{nivel-3}
     \enunciado{
       Estudie la existencia del siguiente límite utilizando el criterio de caminos:
-      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^6 y^3}{x^{12} + y^6} $$
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^6 y^3}{x^{12} + y^6} $$
     }
     \solucion{
       \textbf{1. Prueba con rectas oblicuas ($y = mx$):}
       Si nos aproximamos por cualquier recta que pase por el origen, sustituimos $y = mx$:
-      $$ \displaystyle\lim_{x \to 0} \frac{x^6 (mx)^3}{x^{12} + (mx)^6} = \displaystyle\lim_{x \to 0} \frac{m^3 x^9}{x^{12} + m^6 x^6} = \displaystyle\lim_{x \to 0} \frac{m^3 x^3}{x^6 + m^6} $$
+      $$ \displaystyle\lim_{x \to 0} \dfrac{x^6 (mx)^3}{x^{12} + (mx)^6} = \displaystyle\lim_{x \to 0} \dfrac{m^3 x^9}{x^{12} + m^6 x^6} = \displaystyle\lim_{x \to 0} \dfrac{m^3 x^3}{x^6 + m^6} $$
       Evaluando cuando $x \to 0$, el numerador se anula y el denominador tiende a $m^6 \neq 0$ (si $m \neq 0$). Por lo tanto, el límite por cualquier recta es $0$. Si nos confiáramos, diríamos que el límite es $0$.
 
       \textbf{2. Elección de una trayectoria óptima:}
       Observamos los exponentes en el denominador: $x^{12}$ y $y^6$. Para lograr que ambos términos tengan el mismo grado algebraico y puedan sumarse, necesitamos una trayectoria donde $y^6$ se comporte como $x^{12}$. Esto se logra si $y^3 = x^6$, es decir, la parábola cúbica $y = x^2$.
       
       Evaluamos el límite a lo largo de la trayectoria $A = \{ (x,y) \in \mathbb{R}^2 \colon y = x^2 \}$:
-      $$ \displaystyle\lim_{x \to 0} \frac{x^6 (x^2)^3}{x^{12} + (x^2)^6} = \displaystyle\lim_{x \to 0} \frac{x^6 \cdot x^6}{x^{12} + x^{12}} = \displaystyle\lim_{x \to 0} \frac{x^{12}}{2x^{12}} = \frac{1}{2} $$
+      $$ \displaystyle\lim_{x \to 0} \dfrac{x^6 (x^2)^3}{x^{12} + (x^2)^6} = \displaystyle\lim_{x \to 0} \dfrac{x^6 \cdot x^6}{x^{12} + x^{12}} = \displaystyle\lim_{x \to 0} \dfrac{x^{12}}{2x^{12}} = \dfrac{1}{2} $$
 
       \textbf{3. Conclusión:}
       Como el límite a lo largo de las rectas es $0$, pero a lo largo de la curva $y = x^2$ es $1/2$, hemos encontrado dos caminos continuos que arrojan valores distintos ($0 \neq 1/2$). Por lo tanto, el límite doble \textbf{no existe}.
@@ -376,13 +376,13 @@
   \begin{ejercicioresuelto}{Existencia vía Coordenadas Polares}{nivel-2}
     \enunciado{
       Estudie la existencia del límite y determine su valor si es posible:
-      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^3}{x^2 + y^2} $$
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^3}{x^2 + y^2} $$
     }
     \solucion{
       \textbf{1. Transformación al Sistema Polar:}
       Sea $x = r\cos\theta$ e $y = r\sin\theta$. Sabemos que el límite en $(x,y) \to (0,0)$ es equivalente a evaluar el comportamiento cuando $r \to 0^+$.
       Sustituyendo en la función:
-      $$ f(r\cos\theta, r\sin\theta) = \frac{(r\cos\theta)^3}{(r\cos\theta)^2 + (r\sin\theta)^2} = \frac{r^3\cos^3\theta}{r^2(\cos^2\theta + \sin^2\theta)} = r\cos^3\theta $$
+      $$ f(r\cos\theta, r\sin\theta) = \dfrac{(r\cos\theta)^3}{(r\cos\theta)^2 + (r\sin\theta)^2} = \dfrac{r^3\cos^3\theta}{r^2(\cos^2\theta + \sin^2\theta)} = r\cos^3\theta $$
 
       \textbf{2. Análisis de Acotamiento:}
       Debemos verificar si la expresión resultante tiende a un valor constante de manera independiente al ángulo $\theta$.
@@ -399,8 +399,8 @@
     \enunciado{
       Analice los siguientes límites intentando aplicar el criterio de límites iterados. Determine si el criterio le permite concluir la inexistencia del límite o si resulta no concluyente.
       \begin{enumerate}
-        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^2}{x^2 + y^2}$
-        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} x\sin\left(\frac{1}{x}\right)\sin\left(\frac{1}{y}\right)$
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^2}{x^2 + y^2}$
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} x\sin\left(\dfrac{1}{x}\right)\sin\left(\dfrac{1}{y}\right)$
       \end{enumerate}
     }
     \pista{
@@ -413,7 +413,7 @@
   \begin{ejerciciopropuesto}{Inexistencia en Coordenadas Polares}{nivel-2}
     \enunciado{
       Estudie la existencia del límite mediante el cambio a coordenadas polares:
-      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{(x-y)^2}{x^2 + y^2} $$
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{(x-y)^2}{x^2 + y^2} $$
     }
     \pista{
       Al sustituir $x = r\cos\theta$ e $y = r\sin\theta$, el denominador $r^2$ se simplificará completamente con el $r^2$ factorizado del numerador. Te quedará la expresión matemática $L(\theta) = (\cos\theta - \sin\theta)^2$. Como el resultado depende estrictamente del ángulo $\theta$ (por ejemplo, vale $1$ si $\theta = 0$, pero vale $0$ si $\theta = \pi/4$), \textbf{el límite no existe}.
@@ -425,8 +425,8 @@
     \enunciado{
       Utilice herramientas de factorización algebraica para demostrar rigurosamente la existencia de los siguientes límites:
       \begin{enumerate}
-        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^4 - y^4}{x^2 + y^2}$
-        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^3 - y^3}{x^2 + xy + y^2}$
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^4 - y^4}{x^2 + y^2}$
+        \item $\displaystyle \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^3 - y^3}{x^2 + xy + y^2}$
       \end{enumerate}
     }
     \pista{
@@ -440,7 +440,7 @@
   \begin{ejerciciopropuesto}{Inexistencia por Caminos Simples (Ejes)}{nivel-1}
     \enunciado{
       Demuestre que el siguiente límite no existe evaluándolo a lo largo de los ejes coordenados:
-      $$ \displaystyle\lim_{(x,y) \to (0,0)} \frac{x^2 - y^2}{x^2 + y^2} $$
+      $$ \displaystyle\lim_{(x,y) \to (0,0)} \dfrac{x^2 - y^2}{x^2 + y^2} $$
     }
     \pista{
       Toma la trayectoria $A_1$ como el eje X (es decir, fija $y=0$ y evalúa el límite sobre $x$). El resultado será $1$. Luego toma la trayectoria $A_2$ como el eje Y (fija $x=0$ y evalúa sobre $y$). El resultado será $-1$. Al ser diferentes, \textbf{el límite no existe}.

@@ -949,7 +949,7 @@ function showFormulaModal(formulaData = null) {
           </div>
           <div>
             <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Expresión LaTeX (sin los delimitadores \\( y \\)):</label>
-            <input type="text" id="modal-form-latex" class="form-control" value="${escapeHtml(data.latex)}" placeholder="Ej: \\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; font-family: monospace; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 6px;">
+            <input type="text" id="modal-form-latex" class="form-control" value="${escapeHtml(data.latex)}" placeholder="Ej: \\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1" style="width: 100%; box-sizing: border-box; padding: 8px; font-size:13px; font-family: monospace; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 6px;">
           </div>
           <div>
             <label class="form-label" style="font-weight: 600; font-size:12px; margin-bottom: 4px; display:block;">Descripción / Contexto (admite LaTeX $...$):</label>

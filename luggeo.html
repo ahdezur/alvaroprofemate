@@ -264,7 +264,7 @@
                     <p>Se tiene una parábola fija de ecuación $\displaystyle y^2 = 4cx$. Considera el vértice de la parábola $\displaystyle O(0,0)$ y un punto variable $\displaystyle Q$ que se desplaza a lo largo de toda la curva. Determinar e identificar el lugar geométrico que describen los puntos medios del segmento $\displaystyle OQ$.</p>
                     
                     <div id="normal-formulas-1" class="formulas-reserva">
-                        <div class="formula-box"><strong>Punto Medio:</strong> $\displaystyle M = \left( \frac{x_1 + x_2}{2}, \frac{y_1 + y_2}{2} \right)$</div>
+                        <div class="formula-box"><strong>Punto Medio:</strong> $\displaystyle M = \left( \dfrac{x_1 + x_2}{2}, \dfrac{y_1 + y_2}{2} \right)$</div>
                         <div class="formula-box"><strong>Condición de Pertenencia:</strong> Si $\displaystyle Q(x_1, y_1) \in \text{curva} \implies y_1^2 = 4cx_1$</div>
                     </div>
 
@@ -274,7 +274,7 @@
                         <h3>Pauta de Resolución - Ejercicio 1</h3>
                         <ol>
                             <li>Definimos el punto móvil sobre la curva como $\displaystyle Q(x_1, y_1)$, cumpliendo de forma inicial $\displaystyle y_1^2 = 4cx_1$.</li>
-                            <li>Planteamos las ecuaciones de punto medio con el origen $\displaystyle (0,0)$: <br> $$\displaystyle x = \frac{0 + x_1}{2} \implies x_1 = 2x$$ $$\displaystyle y = \frac{0 + y_1}{2} \implies y_1 = 2y$$</li>
+                            <li>Planteamos las ecuaciones de punto medio con el origen $\displaystyle (0,0)$: <br> $$\displaystyle x = \dfrac{0 + x_1}{2} \implies x_1 = 2x$$ $$\displaystyle y = \dfrac{0 + y_1}{2} \implies y_1 = 2y$$</li>
                             <li>Sustituimos estas equivalencias en la parábola base: <br> $$\displaystyle (2y)^2 = 4c(2x) \implies 4y^2 = 8cx$$</li>
                             <li>Simplificando la expresión dividiendo por 4: <br> $$\displaystyle y^2 = 2cx$$</li>
                         </ol>
@@ -288,10 +288,10 @@
                     
                     <div id="normal-formulas-2" class="formulas-reserva">
                         <div class="formula-box"><strong>Ecuación punto-pendiente:</strong> $\displaystyle y - y_1 = m(x - x_1)$</div>
-                        <div class="formula-box"><strong>Variables inversamente proporcionales:</strong> $\displaystyle u$ y $\displaystyle v$ con constante de proporcionalidad $\displaystyle k$ cumplen: $\displaystyle u \cdot v = k$ (o $\displaystyle v = \frac{k}{u}$)</div>
+                        <div class="formula-box"><strong>Variables inversamente proporcionales:</strong> $\displaystyle u$ y $\displaystyle v$ con constante de proporcionalidad $\displaystyle k$ cumplen: $\displaystyle u \cdot v = k$ (o $\displaystyle v = \dfrac{k}{u}$)</div>
                         <div class="formula-box"><strong>Diferencia de cuadrados:</strong> $\displaystyle (x + a)(x - a) = x^2 - a^2$</div>
-                        <div class="formula-box"><strong>Elipse canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} + \frac{y^2}{\beta^2} = 1$</div>
-                        <div class="formula-box"><strong>Hipérbola canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} - \frac{y^2}{\beta^2} = 1$</div>
+                        <div class="formula-box"><strong>Elipse canónica:</strong> $\displaystyle \dfrac{x^2}{\alpha^2} + \dfrac{y^2}{\beta^2} = 1$</div>
+                        <div class="formula-box"><strong>Hipérbola canónica:</strong> $\displaystyle \dfrac{x^2}{\alpha^2} - \dfrac{y^2}{\beta^2} = 1$</div>
                     </div>
 
                     <button class="btn btn-toggle-pauta" onclick="togglePauta(2)">Ver / Ocultar Pauta</button>
@@ -300,14 +300,14 @@
                         <h3>Pauta de Resolución - Ejercicio 2</h3>
                         <ol>
                             <li><strong>Deducción de las ecuaciones de las rectas:</strong> Usando la ecuación punto-pendiente, $\displaystyle L_1$ pasa por $\displaystyle (a, 0)$ con pendiente $\displaystyle m_1$: <br> $$y = m_1(x - a)$$ y $\displaystyle L_2$ pasa por $\displaystyle (-a, 0)$ con pendiente $\displaystyle m_2$: <br> $$y = m_2(x + a)$$</li>
-                            <li><strong>Relación de proporcionalidad:</strong> Como las pendientes son inversamente proporcionales con constante $\displaystyle k$: <br> $$m_1 \cdot m_2 = k \implies m_2 = \frac{k}{m_1}$$ Denotando el parámetro libre como $\displaystyle m_1 = m$ (con $\displaystyle m \neq 0$), las rectas son: <br> $$L_1: y = m(x - a)$$ $$L_2: y = \frac{k}{m}(x + a)$$</li>
-                            <li><strong>Eliminación del parámetro:</strong> Despejamos $\displaystyle m$ de $\displaystyle L_1$: <br> $$m = \frac{y}{x - a}$$ y lo sustituimos en la ecuación de $\displaystyle L_2$: <br> $$y = \frac{k}{\frac{y}{x - a}}(x + a) \implies y^2 = k(x - a)(x + a)$$</li>
-                            <li><strong>Ecuación final y normalización:</strong> Distribuyendo la diferencia de cuadrados: <br> $$y^2 = k(x^2 - a^2) \implies kx^2 - y^2 = ka^2$$ Dividiendo por $\displaystyle ka^2$: <br> $$\frac{x^2}{a^2} - \frac{y^2}{ka^2} = 1$$</li>
+                            <li><strong>Relación de proporcionalidad:</strong> Como las pendientes son inversamente proporcionales con constante $\displaystyle k$: <br> $$m_1 \cdot m_2 = k \implies m_2 = \dfrac{k}{m_1}$$ Denotando el parámetro libre como $\displaystyle m_1 = m$ (con $\displaystyle m \neq 0$), las rectas son: <br> $$L_1: y = m(x - a)$$ $$L_2: y = \dfrac{k}{m}(x + a)$$</li>
+                            <li><strong>Eliminación del parámetro:</strong> Despejamos $\displaystyle m$ de $\displaystyle L_1$: <br> $$m = \dfrac{y}{x - a}$$ y lo sustituimos en la ecuación de $\displaystyle L_2$: <br> $$y = \dfrac{k}{\dfrac{y}{x - a}}(x + a) \implies y^2 = k(x - a)(x + a)$$</li>
+                            <li><strong>Ecuación final y normalización:</strong> Distribuyendo la diferencia de cuadrados: <br> $$y^2 = k(x^2 - a^2) \implies kx^2 - y^2 = ka^2$$ Dividiendo por $\displaystyle ka^2$: <br> $$\dfrac{x^2}{a^2} - \dfrac{y^2}{ka^2} = 1$$</li>
                         </ol>
                         <h3>Discusión de casos:</h3>
                         <ul>
                             <li><strong>Si $\displaystyle k > 0$:</strong> Como el denominador de $\displaystyle y^2$ es positivo, corresponde a una <strong>hipérbola</strong> centrada en el origen con eje transverso horizontal.</li>
-                            <li><strong>Si $\displaystyle k < 0$:</strong> Definiendo $\displaystyle k = -k'$ (con $\displaystyle k' > 0$), la ecuación queda como $\displaystyle \frac{x^2}{a^2} + \frac{y^2}{k'a^2} = 1$, lo cual corresponde a una <strong>elipse</strong> centrada en el origen.</li>
+                            <li><strong>Si $\displaystyle k < 0$:</strong> Definiendo $\displaystyle k = -k'$ (con $\displaystyle k' > 0$), la ecuación queda como $\displaystyle \dfrac{x^2}{a^2} + \dfrac{y^2}{k'a^2} = 1$, lo cual corresponde a una <strong>elipse</strong> centrada en el origen.</li>
                         </ul>
                     </div>
                 </div>
@@ -317,7 +317,7 @@
                     <p>El triángulo $\displaystyle OBC$ tiene su base fija en el eje $\displaystyle OX$ con $\displaystyle O = (0,0)$ y $\displaystyle B = (a,0)$ (con $\displaystyle a>0$). El vértice variable $\displaystyle C$ se mueve sobre la recta horizontal $\displaystyle y = c$ (con $\displaystyle c \neq 0$). Determinar e identificar el lugar geométrico que describe el ortocentro $\displaystyle H(x,y)$ (intersección de las alturas del triángulo).</p>
                     
                     <div id="normal-formulas-3" class="formulas-reserva">
-                        <div class="formula-box"><strong>Pendiente de un segmento:</strong> $\displaystyle m = \frac{y_2 - y_1}{x_2 - x_1}$</div>
+                        <div class="formula-box"><strong>Pendiente de un segmento:</strong> $\displaystyle m = \dfrac{y_2 - y_1}{x_2 - x_1}$</div>
                         <div class="formula-box"><strong>Condición de perpendicularidad:</strong> $\displaystyle m_1 \cdot m_2 = -1$</div>
                         <div class="formula-box"><strong>Ecuación punto-pendiente:</strong> $\displaystyle y - y_1 = m(x - x_1)$</div>
                     </div>
@@ -331,15 +331,15 @@
                             <li><strong>Ecuación de la primera altura (desde $\displaystyle C$):</strong> Como la base $\displaystyle OB$ está sobre el eje $\displaystyle OX$, la altura trazada desde el vértice $\displaystyle C(t,c)$ perpendicular a $\displaystyle OB$ es una recta vertical: <br> $$\displaystyle x = t$$</li>
                             <li><strong>Ecuación de la segunda altura (desde $\displaystyle B$):</strong> Esta altura pasa por $\displaystyle B(a,0)$ y es perpendicular al lado $\displaystyle OC$.
                                 <ul>
-                                    <li>La pendiente del lado $\displaystyle OC$ es: <br> $$\displaystyle m_{OC} = \frac{c - 0}{t - 0} = \frac{c}{t} \quad (\text{para } t \neq 0)$$</li>
-                                    <li>Por perpendicularidad, la pendiente de la altura es: <br> $$\displaystyle m_2 = -\frac{1}{m_{OC}} = -\frac{t}{c}$$</li>
-                                    <li>Usando la ecuación punto-pendiente con $\displaystyle B(a,0)$: <br> $$\displaystyle y - 0 = -\frac{t}{c}(x - a) \implies y = -\frac{t}{c}(x - a)$$</li>
+                                    <li>La pendiente del lado $\displaystyle OC$ es: <br> $$\displaystyle m_{OC} = \dfrac{c - 0}{t - 0} = \dfrac{c}{t} \quad (\text{para } t \neq 0)$$</li>
+                                    <li>Por perpendicularidad, la pendiente de la altura es: <br> $$\displaystyle m_2 = -\dfrac{1}{m_{OC}} = -\dfrac{t}{c}$$</li>
+                                    <li>Usando la ecuación punto-pendiente con $\displaystyle B(a,0)$: <br> $$\displaystyle y - 0 = -\dfrac{t}{c}(x - a) \implies y = -\dfrac{t}{c}(x - a)$$</li>
                                 </ul>
                             </li>
-                            <li><strong>Intersección de las alturas (Ortocentro $\displaystyle H(x,y)$):</strong> Sustituimos la ecuación de la primera altura ($\displaystyle t = x$) en la ecuación de la segunda altura para eliminar el parámetro $\displaystyle t$: <br> $$\displaystyle y = -\frac{x}{c}(x - a)$$</li>
-                            <li><strong>Ecuación del lugar geométrico:</strong> Multiplicando por $\displaystyle c$ y reordenando: <br> $$\displaystyle cy = -x^2 + ax \implies x^2 - ax + cy = 0$$ Completando el cuadrado para $\displaystyle x$: <br> $$\displaystyle \left(x - \frac{a}{2}\right)^2 - \frac{a^2}{4} + cy = 0 \implies \left(x - \frac{a}{2}\right)^2 = -c\left(y - \frac{a^2}{4c}\right)$$</li>
+                            <li><strong>Intersección de las alturas (Ortocentro $\displaystyle H(x,y)$):</strong> Sustituimos la ecuación de la primera altura ($\displaystyle t = x$) en la ecuación de la segunda altura para eliminar el parámetro $\displaystyle t$: <br> $$\displaystyle y = -\dfrac{x}{c}(x - a)$$</li>
+                            <li><strong>Ecuación del lugar geométrico:</strong> Multiplicando por $\displaystyle c$ y reordenando: <br> $$\displaystyle cy = -x^2 + ax \implies x^2 - ax + cy = 0$$ Completando el cuadrado para $\displaystyle x$: <br> $$\displaystyle \left(x - \dfrac{a}{2}\right)^2 - \dfrac{a^2}{4} + cy = 0 \implies \left(x - \dfrac{a}{2}\right)^2 = -c\left(y - \dfrac{a^2}{4c}\right)$$</li>
                         </ol>
-                        <p><strong>Conclusión:</strong> El lugar geométrico descrito por el ortocentro es una <strong>parábola</strong> vertical con vértice en $\displaystyle V\left(\frac{a}{2}, \frac{a^2}{4c}\right)$ y eje de simetría $\displaystyle x = \frac{a}{2}$. La parábola se abre hacia abajo si $\displaystyle c > 0$, o hacia arriba si $\displaystyle c < 0$.</p>
+                        <p><strong>Conclusión:</strong> El lugar geométrico descrito por el ortocentro es una <strong>parábola</strong> vertical con vértice en $\displaystyle V\left(\dfrac{a}{2}, \dfrac{a^2}{4c}\right)$ y eje de simetría $\displaystyle x = \dfrac{a}{2}$. La parábola se abre hacia abajo si $\displaystyle c > 0$, o hacia arriba si $\displaystyle c < 0$.</p>
                         <p style="margin-top: 15px; font-size: 0.95rem; color: #475569;"><strong>Nota de rigor:</strong> Si bien para $\displaystyle t = 0$ la pendiente $\displaystyle m_{OC}$ no está definida, la altura desde $\displaystyle B$ es perpendicular al eje $\displaystyle OY$ (que contiene a $\displaystyle OC$), por lo que es la recta horizontal $\displaystyle y = 0$. La intersección con la altura vertical $\displaystyle x = 0$ es el punto $\displaystyle (0,0)$, el cual satisface la ecuación de la parábola y por lo tanto el lugar geométrico está completo sin exclusiones.</p>
                     </div>
                 </div>
@@ -349,9 +349,9 @@
                     <p>Un triángulo tiene sus vértices fijos en $\displaystyle A(-a, 0)$ y $\displaystyle B(a, 0)$. El tercer vértice $\displaystyle C(x, y)$ se mueve de modo que el producto de las pendientes de los lados $\displaystyle AC$ y $\displaystyle BC$ es siempre una constante fija $\displaystyle K$ ($\displaystyle K \neq 0$). Determinar el lugar geométrico de $\displaystyle C$ y discutir analíticamente cómo cambia la naturaleza de la curva si $\displaystyle K > 0$ o si $\displaystyle K < 0$.</p>
                     
                     <div id="normal-formulas-4" class="formulas-reserva">
-                        <div class="formula-box"><strong>Cálculo de Pendiente:</strong> $\displaystyle m = \frac{y_2 - y_1}{x_2 - x_1}$</div>
-                        <div class="formula-box"><strong>Elipse Canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} + \frac{y^2}{\beta^2} = 1 \quad (\text{Signos iguales})$</div>
-                        <div class="formula-box"><strong>Hipérbola Canónica:</strong> $\displaystyle \frac{x^2}{\alpha^2} - \frac{y^2}{\beta^2} = 1 \quad (\text{Signos opuestos})$</div>
+                        <div class="formula-box"><strong>Cálculo de Pendiente:</strong> $\displaystyle m = \dfrac{y_2 - y_1}{x_2 - x_1}$</div>
+                        <div class="formula-box"><strong>Elipse Canónica:</strong> $\displaystyle \dfrac{x^2}{\alpha^2} + \dfrac{y^2}{\beta^2} = 1 \quad (\text{Signos iguales})$</div>
+                        <div class="formula-box"><strong>Hipérbola Canónica:</strong> $\displaystyle \dfrac{x^2}{\alpha^2} - \dfrac{y^2}{\beta^2} = 1 \quad (\text{Signos opuestos})$</div>
                     </div>
 
                     <button class="btn btn-toggle-pauta" onclick="togglePauta(4)">Ver / Ocultar Pauta</button>
@@ -359,14 +359,14 @@
                     <div id="pauta-container-4" class="pauta-container hidden">
                         <h3>Pauta de Resolución - Ejercicio 4</h3>
                         <ol>
-                            <li>Calculamos las pendientes hacia los dos extremos fijos $\displaystyle A$ y $\displaystyle B$: <br> $$m_{AC} = \frac{y - 0}{x - (-a)} = \frac{y}{x+a}, \quad m_{BC} = \frac{y - 0}{x - a} = \frac{y}{x-a}$$</li>
-                            <li>Aplicamos el producto de pendientes determinado por la constante $\displaystyle K$: <br> $$\left(\frac{y}{x+a}\right)\cdot\left(\frac{y}{x-a}\right) = K \implies \frac{y^2}{x^2-a^2} = K$$</li>
+                            <li>Calculamos las pendientes hacia los dos extremos fijos $\displaystyle A$ y $\displaystyle B$: <br> $$m_{AC} = \dfrac{y - 0}{x - (-a)} = \dfrac{y}{x+a}, \quad m_{BC} = \dfrac{y - 0}{x - a} = \dfrac{y}{x-a}$$</li>
+                            <li>Aplicamos el producto de pendientes determinado por la constante $\displaystyle K$: <br> $$\left(\dfrac{y}{x+a}\right)\cdot\left(\dfrac{y}{x-a}\right) = K \implies \dfrac{y^2}{x^2-a^2} = K$$</li>
                             <li>Agrupamos los términos coordenados: <br> $$y^2 = K(x^2 - a^2) \implies Kx^2 - y^2 = Ka^2$$</li>
-                            <li>Dividiendo por $\displaystyle Ka^2$ para obtener la forma canónica: <br> $$\frac{x^2}{a^2} - \frac{y^2}{Ka^2} = 1$$</li>
+                            <li>Dividiendo por $\displaystyle Ka^2$ para obtener la forma canónica: <br> $$\dfrac{x^2}{a^2} - \dfrac{y^2}{Ka^2} = 1$$</li>
                         </ol>
                         <h3>Discusión del Parámetro:</h3>
                         <ul>
-                            <li><strong>Si $\displaystyle K < 0$:</strong> Redefiniendo como $\displaystyle K = -k$ (con $\displaystyle k > 0$), la ecuación se vuelve $\displaystyle \frac{x^2}{a^2} + \frac{y^2}{ka^2} = 1$. Al ser ambos coeficientes positivos, es una <strong>elipse</strong>.</li>
+                            <li><strong>Si $\displaystyle K < 0$:</strong> Redefiniendo como $\displaystyle K = -k$ (con $\displaystyle k > 0$), la ecuación se vuelve $\displaystyle \dfrac{x^2}{a^2} + \dfrac{y^2}{ka^2} = 1$. Al ser ambos coeficientes positivos, es una <strong>elipse</strong>.</li>
                             <li><strong>Si $\displaystyle K > 0$:</strong> Se mantiene la resta estructural de la ecuación estándar, por lo que representa una <strong>hipérbola</strong>.</li>
                         </ul>
                         <p style="margin-top: 15px; font-size: 0.95rem; color: #475569;"><strong>Nota de rigor:</strong> Se deben excluir del lugar geométrico los puntos $\displaystyle A(-a, 0)$ y $\displaystyle B(a, 0)$ dado que en ellos las pendientes $\displaystyle m_{AC}$ y $\displaystyle m_{BC}$ no están definidas.</p>

@@ -1414,7 +1414,7 @@ function initCoursePage() {
       {
         indicator: "Paso 1 de 5: Dividir líderes y primer cociente",
         progress: 20,
-        explanation: "<strong>Paso 1:</strong> Dividimos el término líder del dividendo ($2x^3$) entre el líder del divisor ($x^2$): $\\frac{2x^3}{x^2} = 2x$. Escribimos $2x$ en el cociente.",
+        explanation: "<strong>Paso 1:</strong> Dividimos el término líder del dividendo ($2x^3$) entre el líder del divisor ($x^2$): $\\dfrac{2x^3}{x^2} = 2x$. Escribimos $2x$ en el cociente.",
         setup: () => {
           boardCociente.innerHTML = "\\(2x\\)";
           termSub1.style.opacity = 0;
@@ -1442,7 +1442,7 @@ function initCoursePage() {
       {
         indicator: "Paso 3 de 5: Dividir líderes y segundo cociente",
         progress: 60,
-        explanation: "<strong>Paso 3:</strong> Dividimos el término líder del residuo parcial ($-x^2$) entre el líder del divisor ($x^2$): $\\frac{-x^2}{x^2} = -1$. Escribimos $- 1$ en el cociente.",
+        explanation: "<strong>Paso 3:</strong> Dividimos el término líder del residuo parcial ($-x^2$) entre el líder del divisor ($x^2$): $\\dfrac{-x^2}{x^2} = -1$. Escribimos $- 1$ en el cociente.",
         setup: () => {
           boardCociente.innerHTML = "\\(2x - 1\\)";
           termSub1.style.opacity = 1;

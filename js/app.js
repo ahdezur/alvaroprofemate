@@ -593,7 +593,7 @@ function initHeroMathAnimation() {
         svgTrig.classList.remove('active');
 
         animTitle.innerHTML = `<i class="fa-solid fa-chart-line"></i> Derivadas: Recta Tangente`;
-        latexEq = `\\( \\displaystyle \\frac{dy}{dx} = \\lim\\limits_{\\Delta x \\to 0} \\frac{\\Delta y}{\\Delta x} \\)`;
+        latexEq = `\\( \\displaystyle \\dfrac{dy}{dx} = \\lim\\limits_{\\Delta x \\to 0} \\dfrac{\\Delta y}{\\Delta x} \\)`;
         animDesc.innerHTML = `La pendiente de la recta secante converge a la tangente a medida que el incremento se reduce a cero.`;
         
         t_derivada = -Math.PI / 2; // reiniciar oscilación en valor mínimo de h

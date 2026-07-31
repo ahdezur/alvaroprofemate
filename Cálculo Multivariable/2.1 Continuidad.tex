@@ -156,19 +156,19 @@
   % --- EJEMPLO DE SUCESIONES ---
   \begin{ejemplo}{Uso de Sucesiones para Descartar Continuidad}
     Estudie la continuidad en el origen de la función:
-    $$ f(x,y) = \begin{cases} \frac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\[0.5em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+    $$ f(x,y) = \begin{cases} \dfrac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\[0.5em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
     
     \textbf{Desarrollo por caracterización secuencial:}
-    Consideremos la sucesión de puntos $(x_n, y_n) = \left(\frac{1}{n}, \frac{1}{n}\right)$.
-    Es evidente que cuando $n \to \infty$, la sucesión converge al origen: $\displaystyle \lim_{n \to \infty} \left(\frac{1}{n}, \frac{1}{n}\right) = (0,0)$.
+    Consideremos la sucesión de puntos $(x_n, y_n) = \left(\dfrac{1}{n}, \dfrac{1}{n}\right)$.
+    Es evidente que cuando $n \to \infty$, la sucesión converge al origen: $\displaystyle \lim_{n \to \infty} \left(\dfrac{1}{n}, \dfrac{1}{n}\right) = (0,0)$.
     
     Evaluamos la función en los términos de la sucesión:
-    $$ f\left(\frac{1}{n}, \frac{1}{n}\right) = \frac{\left(\frac{1}{n}\right)\left(\frac{1}{n}\right)}{\left(\frac{1}{n}\right)^2 + \left(\frac{1}{n}\right)^2} = \frac{\frac{1}{n^2}}{\frac{2}{n^2}} = \frac{1}{2} $$
+    $$ f\left(\dfrac{1}{n}, \dfrac{1}{n}\right) = \dfrac{\left(\dfrac{1}{n}\right)\left(\dfrac{1}{n}\right)}{\left(\dfrac{1}{n}\right)^2 + \left(\dfrac{1}{n}\right)^2} = \dfrac{\dfrac{1}{n^2}}{\dfrac{2}{n^2}} = \dfrac{1}{2} $$
     
     Tomando el límite cuando $n \to \infty$, obtenemos:
-    $$ \lim_{n \to \infty} f\left(\frac{1}{n}, \frac{1}{n}\right) = \frac{1}{2} $$
+    $$ \lim_{n \to \infty} f\left(\dfrac{1}{n}, \dfrac{1}{n}\right) = \dfrac{1}{2} $$
     
-    Como $\frac{1}{2} \neq f(0,0) = 0$, la sucesión de imágenes no converge al valor de la función en el punto. Por lo tanto, el campo escalar $f$ \textbf{no es continuo} en $(0,0)$.
+    Como $\dfrac{1}{2} \neq f(0,0) = 0$, la sucesión de imágenes no converge al valor de la función en el punto. Por lo tanto, el campo escalar $f$ \textbf{no es continuo} en $(0,0)$.
   \end{ejemplo}
 
   % --- DEFINICIÓN 2: CLASIFICACIÓN DE DISCONTINUIDADES ---
@@ -190,12 +190,12 @@
 
   % --- EJEMPLO ILUSTRATIVO DE LAS TRES CONDICIONES ---
   \begin{ejemplo}{Análisis de Casos en el Origen}
-    Estudie la continuidad en $(0,0)$ de las siguientes funciones basadas en $\frac{x^2}{\sqrt{x^2+y^2}}$:
+    Estudie la continuidad en $(0,0)$ de las siguientes funciones basadas en $\dfrac{x^2}{\sqrt{x^2+y^2}}$:
     
     \begin{enumerate}
-      \item $f_1(x,y) = \frac{x^2}{\sqrt{x^2+y^2}}$: \textbf{No es continua} en $(0,0)$ pues $(0,0) \notin \operatorname{dom}(f_1)$. Al existir su límite (que es $0$), presenta una discontinuidad \textbf{reparable}.
-      \item $f_2(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{Es continua} en $(0,0)$, pues $f_2(0,0) = 0$ coincide con el límite. (De hecho, esta es la extensión $\tilde{f}_1$).
-      \item $f_3(x,y) = \begin{cases} \frac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 1 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{No es continua} en $(0,0)$, ya que $\underbrace{f_3(0,0)}_{1} \neq \underbrace{\displaystyle \lim_{(x,y)\to(0,0)} f_3(x,y)}_{0}$.
+      \item $f_1(x,y) = \dfrac{x^2}{\sqrt{x^2+y^2}}$: \textbf{No es continua} en $(0,0)$ pues $(0,0) \notin \operatorname{dom}(f_1)$. Al existir su límite (que es $0$), presenta una discontinuidad \textbf{reparable}.
+      \item $f_2(x,y) = \begin{cases} \dfrac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{Es continua} en $(0,0)$, pues $f_2(0,0) = 0$ coincide con el límite. (De hecho, esta es la extensión $\tilde{f}_1$).
+      \item $f_3(x,y) = \begin{cases} \dfrac{x^2}{\sqrt{x^2+y^2}} & \text{si } (x,y) \neq (0,0) \\ 1 & \text{si } (x,y) = (0,0) \end{cases}$: \textbf{No es continua} en $(0,0)$, ya que $\underbrace{f_3(0,0)}_{1} \neq \underbrace{\displaystyle \lim_{(x,y)\to(0,0)} f_3(x,y)}_{0}$.
     \end{enumerate}
   \end{ejemplo}
 
@@ -203,7 +203,7 @@
   \begin{teorema}{Propiedades de las Funciones Continuas}
     Sean $f, g \colon D \subseteq \mathbb{R}^2 \to \mathbb{R}$ continuas en $(x_0, y_0)$:
     \begin{itemize}
-      \item \textbf{Álgebra:} Las funciones $f \pm g$, $f \cdot g$ y $\frac{f}{g}$ (si $g(x_0, y_0) \neq 0$) son continuas en $(x_0, y_0)$.
+      \item \textbf{Álgebra:} Las funciones $f \pm g$, $f \cdot g$ y $\dfrac{f}{g}$ (si $g(x_0, y_0) \neq 0$) son continuas en $(x_0, y_0)$.
       \item \textbf{Composición:} Si $f \colon \mathbb{R}^2 \to \mathbb{R}$ es continua en $(x_0, y_0)$ y $h \colon \mathbb{R} \to \mathbb{R}$ es una función escalar continua en $u_0 = f(x_0, y_0)$, entonces la función compuesta $(h \circ f)(x,y) = h(f(x,y))$ es continua en $(x_0, y_0)$.
     \end{itemize}
   \end{teorema}
@@ -219,21 +219,21 @@
 
   % --- TIPO 1: PREGUNTA DE ALTERNATIVAS (Extensión por Continuidad) ---
   \begin{preguntaalternativas}{Reparando el Espacio}
-    Considere el campo escalar $f(x,y) = \frac{\sin(xy)}{xy}$. Sabemos que la función no está definida en los ejes coordenados (donde $x=0$ o $y=0$). Si analizamos el comportamiento exclusivamente en el origen $(0,0)$, ¿cuál de las siguientes afirmaciones es matemáticamente correcta?
+    Considere el campo escalar $f(x,y) = \dfrac{\sin(xy)}{xy}$. Sabemos que la función no está definida en los ejes coordenados (donde $x=0$ o $y=0$). Si analizamos el comportamiento exclusivamente en el origen $(0,0)$, ¿cuál de las siguientes afirmaciones es matemáticamente correcta?
     
     \opcion{La función es continua en el origen, porque el límite notable garantiza que el resultado es 1.}{Incorrecto}{Recuerda la primera condición de continuidad: el punto debe pertenecer al dominio. Como $(0,0) \notin \operatorname{dom}(f)$, es imposible que sea continua directamente.}
-    \opcion{Presenta una discontinuidad irreparable, ya que al acercarnos por el eje X ($y=0$) la función se indefine y por tanto el límite no existe.}{Incorrecto}{Cuidado, el límite sí existe. Al hacer la sustitución $u = xy$, cuando $(x,y) \to (0,0)$, la variable $u \to 0$. El límite es $\displaystyle \lim_{u\to 0}\frac{\sin(u)}{u} = 1$.}
+    \opcion{Presenta una discontinuidad irreparable, ya que al acercarnos por el eje X ($y=0$) la función se indefine y por tanto el límite no existe.}{Incorrecto}{Cuidado, el límite sí existe. Al hacer la sustitución $u = xy$, cuando $(x,y) \to (0,0)$, la variable $u \to 0$. El límite es $\displaystyle \lim_{u\to 0}\dfrac{\sin(u)}{u} = 1$.}
     \opcion{Presenta una discontinuidad reparable. Podemos definir la extensión continua $\tilde{f}(0,0) = 1$ para que la superficie no tenga un "agujero" en el origen.}{Correcto}{¡Excelente! El límite existe y vale $1$. Dado que la discontinuidad se debe puramente a un fallo en el dominio, podemos "tapar" el agujero asignándole a la función exactamente el valor del límite.}
   \end{preguntaalternativas}
 
   % --- TIPO 2: PREGUNTA DE VERDADERO O FALSO (La Trampa de los Ejes) ---
   \begin{preguntaverdaderofalso}{La Falsa Sensación de Continuidad}
     Considere la función definida a trozos:
-    $$ f(x,y) = \begin{cases} \frac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases} $$
-    Un estudiante argumenta lo siguiente: \textit{"Dado que $f(0,0) = 0$, y al acercarnos por el eje X ($y=0$) obtenemos $\displaystyle \lim_{x\to 0} \frac{0}{x^2} = 0$, y por el eje Y ($x=0$) obtenemos $\displaystyle \lim_{y\to 0} \frac{0}{y^2} = 0$, los límites coinciden con la función evaluada. Por lo tanto, $f$ es continua en el origen."}
+    $$ f(x,y) = \begin{cases} \dfrac{xy}{x^2+y^2} & \text{si } (x,y) \neq (0,0) \\ 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+    Un estudiante argumenta lo siguiente: \textit{"Dado que $f(0,0) = 0$, y al acercarnos por el eje X ($y=0$) obtenemos $\displaystyle \lim_{x\to 0} \dfrac{0}{x^2} = 0$, y por el eje Y ($x=0$) obtenemos $\displaystyle \lim_{y\to 0} \dfrac{0}{y^2} = 0$, los límites coinciden con la función evaluada. Por lo tanto, $f$ es continua en el origen."}
     
     \verdaderofalso{F}
-      {¡Correcto! Has detectado la "trampa de los ejes". Acercarse por los ejes no es suficiente en $\mathbb{R}^2$. Si te acercas por la recta diagonal $y = x$, el límite es $\displaystyle \lim_{x\to 0}\frac{x^2}{2x^2} = \frac{1}{2}$. Como $1/2 \neq 0$, el límite global no existe, lo que significa que estamos ante una \textbf{discontinuidad irreparable} (esencial), a pesar de que la función valga cero en el origen.}
+      {¡Correcto! Has detectado la "trampa de los ejes". Acercarse por los ejes no es suficiente en $\mathbb{R}^2$. Si te acercas por la recta diagonal $y = x$, el límite es $\displaystyle \lim_{x\to 0}\dfrac{x^2}{2x^2} = \dfrac{1}{2}$. Como $1/2 \neq 0$, el límite global no existe, lo que significa que estamos ante una \textbf{discontinuidad irreparable} (esencial), a pesar de que la función valga cero en el origen.}
       {Incorrecto. Estás asumiendo que la continuidad direccional (por los ejes) implica continuidad bidimensional. Intenta evaluar el límite acercándote por la trayectoria $y = x$ y compara el resultado con $f(0,0)$.}
   \end{preguntaverdaderofalso}
 
@@ -252,11 +252,11 @@
     
     % COLUMNA 1: Funciones
     \columnaI{
-      \item $\displaystyle f(x,y) = \frac{\sin(x^2+y^2)}{x^2+y^2}$ (no definida en el origen)
-      \item $\displaystyle f(x,y) = \begin{cases} \frac{x^2}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases}$
-      \item $\displaystyle f(x,y) = \begin{cases} \frac{xy^2}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases}$
-      \item $\displaystyle f(x,y) = \frac{x^2-y^2}{x^2+y^2}$ (no definida en el origen)
-      \item $\displaystyle f(x,y) = \frac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$ (no definida en el origen)
+      \item $\displaystyle f(x,y) = \dfrac{\sin(x^2+y^2)}{x^2+y^2}$ (no definida en el origen)
+      \item $\displaystyle f(x,y) = \begin{cases} \dfrac{x^2}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases}$
+      \item $\displaystyle f(x,y) = \begin{cases} \dfrac{xy^2}{x^2+y^2} & (x,y) \neq (0,0) \\ 0 & (x,y) = (0,0) \end{cases}$
+      \item $\displaystyle f(x,y) = \dfrac{x^2-y^2}{x^2+y^2}$ (no definida en el origen)
+      \item $\displaystyle f(x,y) = \dfrac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$ (no definida en el origen)
     }
     
     % COLUMNA 2: Clasificación
@@ -288,7 +288,7 @@
   \begin{ejercicioresuelto}{Continuidad con Parámetros $\alpha$ y $\beta$}{nivel-3}
     \enunciado{
       Dados los parámetros $\alpha > 0$ y $\beta > 0$, defina la función:
-      $$ f(x,y) = \begin{cases} \frac{(xy)^\alpha}{(x^2+y^2)^\beta} & \text{si } (x,y) \neq (0,0) \\[0.5em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
+      $$ f(x,y) = \begin{cases} \dfrac{(xy)^\alpha}{(x^2+y^2)^\beta} & \text{si } (x,y) \neq (0,0) \\[0.5em] 0 & \text{si } (x,y) = (0,0) \end{cases} $$
       Muestre formalmente que $f$ es continua en el origen si y solo si $\alpha > \beta$.
     }
     \solucion{
@@ -296,7 +296,7 @@
       
       Aplicamos el cambio a coordenadas polares ($x = \rho\cos\theta$, $y = \rho\sin\theta$) notando que $x^2+y^2 = \rho^2$. 
       Sustituimos en la expresión tomando el valor absoluto para analizar el acotamiento:
-      $$ \left| \frac{(\rho\cos\theta \cdot \rho\sin\theta)^\alpha}{(\rho^2)^\beta} \right| = \frac{\rho^{2\alpha} |\cos\theta\sin\theta|^\alpha}{\rho^{2\beta}} = \rho^{2(\alpha-\beta)} |\cos\theta\sin\theta|^\alpha $$
+      $$ \left| \dfrac{(\rho\cos\theta \cdot \rho\sin\theta)^\alpha}{(\rho^2)^\beta} \right| = \dfrac{\rho^{2\alpha} |\cos\theta\sin\theta|^\alpha}{\rho^{2\beta}} = \rho^{2(\alpha-\beta)} |\cos\theta\sin\theta|^\alpha $$
       
       Para que el límite exista y sea igual a $0$, el comportamiento respecto al radio $\rho \to 0^+$ debe anular la expresión \textbf{independientemente} del ángulo $\theta$. Evaluamos los tres casos posibles para el exponente de $\rho$:
       
@@ -316,24 +316,24 @@
       Estudie el límite $\displaystyle \lim_{(x,y)\to(0,0)} f(x,y)$ para cada una de las siguientes funciones. En base a su respuesta, decida si es posible dar un valor a $f(0,0)$ de tal manera que la función quede continua en $(0,0)$ (discontinuidad reparable).
       
       \begin{enumerate}
-        \item $\displaystyle f(x,y) = \frac{\tan(x^2+y^2)}{x^2+y^2}$
-        \item $\displaystyle f(x,y) = \frac{\tan(xy)}{y}$
-        \item $\displaystyle f(x,y) = \frac{x}{y}$
-        \item $\displaystyle f(x,y) = \frac{xy+y^3}{x^2+y^2}$
+        \item $\displaystyle f(x,y) = \dfrac{\tan(x^2+y^2)}{x^2+y^2}$
+        \item $\displaystyle f(x,y) = \dfrac{\tan(xy)}{y}$
+        \item $\displaystyle f(x,y) = \dfrac{x}{y}$
+        \item $\displaystyle f(x,y) = \dfrac{xy+y^3}{x^2+y^2}$
       \end{enumerate}
     }
     \solucion{
       \begin{enumerate}
-        \item \textbf{Análisis:} Haciendo el cambio $u = x^2+y^2$, tenemos $\displaystyle \lim_{u\to 0}\frac{\tan u}{u} = 1$. El límite existe (inspección directa y límites notables).\\
+        \item \textbf{Análisis:} Haciendo el cambio $u = x^2+y^2$, tenemos $\displaystyle \lim_{u\to 0}\dfrac{\tan u}{u} = 1$. El límite existe (inspección directa y límites notables).\\
         \textbf{Conclusión:} Discontinuidad reparable. Es posible hacerla continua definiendo $f(0,0) = 1$.
         
-        \item \textbf{Análisis:} Multiplicando y dividiendo por $x$, obtenemos $x \cdot \frac{\tan(xy)}{xy}$. Usando el límite notable $\tan(u)/u \to 1$, nos queda $\displaystyle \lim_{(x,y)\to(0,0)} (x \cdot 1) = 0$. El límite existe.\\
+        \item \textbf{Análisis:} Multiplicando y dividiendo por $x$, obtenemos $x \cdot \dfrac{\tan(xy)}{xy}$. Usando el límite notable $\tan(u)/u \to 1$, nos queda $\displaystyle \lim_{(x,y)\to(0,0)} (x \cdot 1) = 0$. El límite existe.\\
         \textbf{Conclusión:} Discontinuidad reparable. Es posible hacerla continua definiendo $f(0,0) = 0$.
         
-        \item \textbf{Análisis:} Evaluando por la familia de rectas $y = mx$, el límite resulta $\frac{x}{mx} = \frac{1}{m}$. Como el resultado depende de la pendiente $m$, el límite no existe.\\
+        \item \textbf{Análisis:} Evaluando por la familia de rectas $y = mx$, el límite resulta $\dfrac{x}{mx} = \dfrac{1}{m}$. Como el resultado depende de la pendiente $m$, el límite no existe.\\
         \textbf{Conclusión:} Discontinuidad irreparable. No es posible dar un valor a $f(0,0)$.
         
-        \item \textbf{Análisis:} Pasando a polares, obtenemos $\frac{\rho^2\cos\theta\sin\theta + \rho^3\sin^3\theta}{\rho^2} = \cos\theta\sin\theta + \rho\sin^3\theta$. Cuando $\rho \to 0$, el límite es $\cos\theta\sin\theta$, el cual depende del ángulo de aproximación.\\
+        \item \textbf{Análisis:} Pasando a polares, obtenemos $\dfrac{\rho^2\cos\theta\sin\theta + \rho^3\sin^3\theta}{\rho^2} = \cos\theta\sin\theta + \rho\sin^3\theta$. Cuando $\rho \to 0$, el límite es $\cos\theta\sin\theta$, el cual depende del ángulo de aproximación.\\
         \textbf{Conclusión:} Discontinuidad irreparable. No es posible dar un valor a $f(0,0)$.
       \end{enumerate}
     }
@@ -343,7 +343,7 @@
   \begin{ejercicioresuelto}{Continuidad en Regiones Definidas a Trozos}{nivel-3}
     \enunciado{
       Sea $f \colon \mathbb{R}^2 \to \mathbb{R}$ el campo escalar definido por:
-      $$ f(x,y) = \begin{cases} \alpha(x^2+y^2) & \text{si } x^2+y^2 < 2 \\[0.5em] \frac{1}{\beta\sqrt{x^2+y^2}} & \text{si } x^2+y^2 \ge 2 \end{cases} $$
+      $$ f(x,y) = \begin{cases} \alpha(x^2+y^2) & \text{si } x^2+y^2 < 2 \\[0.5em] \dfrac{1}{\beta\sqrt{x^2+y^2}} & \text{si } x^2+y^2 \ge 2 \end{cases} $$
       \begin{itemize}
         \item[a)] Estudie la continuidad de $f$ en el conjunto $D = \{ (x,y) \in \mathbb{R}^2 \colon x^2+y^2 \neq 2 \}$.
         \item[b)] ¿Qué relación deben satisfacer $\alpha$ y $\beta$ de modo que $f$ sea continua en todo $\mathbb{R}^2$?
@@ -364,11 +364,11 @@
       $$ \lim_{(x,y) \to (x_0,y_0)^-} \alpha(x^2+y^2) = \alpha(2) = 2\alpha $$
       
       Evaluamos el límite acercándonos desde el \textbf{exterior} (y el valor de la función):
-      $$ \lim_{(x,y) \to (x_0,y_0)^+} \frac{1}{\beta\sqrt{x^2+y^2}} = \frac{1}{\beta\sqrt{2}} $$
+      $$ \lim_{(x,y) \to (x_0,y_0)^+} \dfrac{1}{\beta\sqrt{x^2+y^2}} = \dfrac{1}{\beta\sqrt{2}} $$
       
       Para garantizar la continuidad (ausencia de salto en la frontera), ambos límites deben ser idénticos:
-      $$ 2\alpha = \frac{1}{\beta\sqrt{2}} \implies \alpha\beta = \frac{1}{2\sqrt{2}} = \frac{\sqrt{2}}{4} $$
-      Por lo tanto, la relación exigida es $\alpha\beta = \frac{\sqrt{2}}{4}$.
+      $$ 2\alpha = \dfrac{1}{\beta\sqrt{2}} \implies \alpha\beta = \dfrac{1}{2\sqrt{2}} = \dfrac{\sqrt{2}}{4} $$
+      Por lo tanto, la relación exigida es $\alpha\beta = \dfrac{\sqrt{2}}{4}$.
     }
   \end{ejercicioresuelto}
 

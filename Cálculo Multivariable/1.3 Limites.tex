@@ -169,7 +169,7 @@
   \end{teorema}
 
   \begin{proof}[\textbf{Demostración:}]
-    Procederemos por contradicción. Supongamos que $L_1 \neq L_2$, de modo que $|L_1 - L_2| > 0$. Definamos $\varepsilon = \frac{|L_1 - L_2|}{2} > 0$.
+    Procederemos por contradicción. Supongamos que $L_1 \neq L_2$, de modo que $|L_1 - L_2| > 0$. Definamos $\varepsilon = \dfrac{|L_1 - L_2|}{2} > 0$.
 
     Por la definición formal de límite:
     \begin{itemize}
@@ -180,24 +180,24 @@
     Dado que $(x_0,y_0)$ es punto de acumulación de $\operatorname{dom}(f)$, en la bola perforada de radio $\delta = \min(\delta_1, \delta_2)$ existe al menos un punto $(x,y) \in \operatorname{dom}(f)$. Para dicho punto, aplicando la desigualdad triangular:
     $$ |L_1 - L_2| = |(L_1 - f(x,y)) + (f(x,y) - L_2)| \leq |f(x,y) - L_1| + |f(x,y) - L_2| $$
     Sustituyendo los acotamientos:
-    $$ |L_1 - L_2| < \varepsilon + \varepsilon = 2\varepsilon = 2 \left( \frac{|L_1 - L_2|}{2} \right) = |L_1 - L_2| $$
+    $$ |L_1 - L_2| < \varepsilon + \varepsilon = 2\varepsilon = 2 \left( \dfrac{|L_1 - L_2|}{2} \right) = |L_1 - L_2| $$
     Llegamos a la contradicción estricta $|L_1 - L_2| < |L_1 - L_2|$. Por lo tanto, el supuesto inicial es falso y se concluye que $L_1 = L_2$.
   \end{proof}
 
   % --- EJEMPLO DEMOSTRACIÓN POR DEFINICIÓN ---
   \begin{ejemplo}{Cálculo de Límite por Definición $\varepsilon$-$\delta$}
     Demuestre por definición que:
-    $$ \lim_{(x,y) \to (0,0)} \frac{x^2}{\sqrt{x^2 + y^2}} = 0 $$
+    $$ \lim_{(x,y) \to (0,0)} \dfrac{x^2}{\sqrt{x^2 + y^2}} = 0 $$
     
     \textbf{Desarrollo:}
     Dado $\varepsilon > 0$, debemos encontrar $\delta > 0$ tal que si $0 < \sqrt{x^2 + y^2} < \delta$, entonces:
-    $$ \left| \frac{x^2}{\sqrt{x^2 + y^2}} - 0 \right| < \varepsilon $$
+    $$ \left| \dfrac{x^2}{\sqrt{x^2 + y^2}} - 0 \right| < \varepsilon $$
     
     Como $x^2 \leq x^2 + y^2$ para todo $(x,y) \in \mathbb{R}^2$, acotamos la expresión:
-    $$ \left| \frac{x^2}{\sqrt{x^2 + y^2}} \right| = \frac{x^2}{\sqrt{x^2 + y^2}} \leq \frac{x^2 + y^2}{\sqrt{x^2 + y^2}} = \sqrt{x^2 + y^2} $$
+    $$ \left| \dfrac{x^2}{\sqrt{x^2 + y^2}} \right| = \dfrac{x^2}{\sqrt{x^2 + y^2}} \leq \dfrac{x^2 + y^2}{\sqrt{x^2 + y^2}} = \sqrt{x^2 + y^2} $$
     
     Por lo tanto, basta elegir $\delta = \varepsilon$. De esta forma, si $0 < \sqrt{x^2 + y^2} < \delta$, se cumple directamente que:
-    $$ \left| \frac{x^2}{\sqrt{x^2 + y^2}} - 0 \right| \leq \sqrt{x^2 + y^2} < \delta = \varepsilon $$
+    $$ \left| \dfrac{x^2}{\sqrt{x^2 + y^2}} - 0 \right| \leq \sqrt{x^2 + y^2} < \delta = \varepsilon $$
     Quedando demostrado el límite por definición.
   \end{ejemplo}
 
@@ -210,7 +210,7 @@
       \item \textbf{Múltiplo escalar:} $\displaystyle \lim_{(x,y) \to (a,b)} [c \cdot f(x,y)] = c \cdot L$
       \item \textbf{Suma y Resta:} $\displaystyle \lim_{(x,y) \to (a,b)} [f(x,y) \pm g(x,y)] = L \pm M$
       \item \textbf{Producto:} $\displaystyle \lim_{(x,y) \to (a,b)} [f(x,y) \cdot g(x,y)] = L \cdot M$
-      \item \textbf{Cociente:} $\displaystyle \lim_{(x,y) \to (a,b)} \left[ \frac{f(x,y)}{g(x,y)} \right] = \frac{L}{M}$, siempre que $M \neq 0$.
+      \item \textbf{Cociente:} $\displaystyle \lim_{(x,y) \to (a,b)} \left[ \dfrac{f(x,y)}{g(x,y)} \right] = \dfrac{L}{M}$, siempre que $M \neq 0$.
     \end{enumerate}
   \end{teorema}
 
@@ -219,9 +219,9 @@
     Los límites notables de Cálculo de una Variable sirven para calcular límites de funciones de Varias Variables mediante sustituciones algebraicas directas.
     
     \textbf{Ejemplo:}
-    $$ \lim_{(x,y) \to (0,0)} \frac{\sin(xy)}{xy} $$
+    $$ \lim_{(x,y) \to (0,0)} \dfrac{\sin(xy)}{xy} $$
     Haciendo el cambio de variable $u = xy$, observamos que cuando $(x,y) \to (0,0)$, la variable escalar $u \to 0$. Aplicando el límite notable conocido en una variable:
-    $$ \lim_{(x,y) \to (0,0)} \frac{\sin(xy)}{xy} = \lim_{u \to 0} \frac{\sin(u)}{u} = 1 $$
+    $$ \lim_{(x,y) \to (0,0)} \dfrac{\sin(xy)}{xy} = \lim_{u \to 0} \dfrac{\sin(u)}{u} = 1 $$
   \end{procesamiento}
 
   % --- RESULTADO 2: TEOREMA DE CERO POR ACOTADO ---
@@ -233,10 +233,10 @@
   \begin{proof}[\textbf{Demostración:}]
     Como $g(x,y)$ es acotada, existe una constante $M > 0$ tal que $|g(x,y)| \leq M$ en una bola perforada de radio $\delta_1 > 0$ centrada en $(a,b)$.
     
-    Por otro lado, como $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = 0$, para todo $\varepsilon > 0$ existe $\delta_2 > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta_2$, entonces $|f(x,y)| < \frac{\varepsilon}{M}$.
+    Por otro lado, como $\displaystyle \lim_{(x,y) \to (a,b)} f(x,y) = 0$, para todo $\varepsilon > 0$ existe $\delta_2 > 0$ tal que si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta_2$, entonces $|f(x,y)| < \dfrac{\varepsilon}{M}$.
     
     Eligiendo $\delta = \min(\delta_1, \delta_2)$, si $0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta$, tenemos:
-    $$ |f(x,y)g(x,y) - 0| = |f(x,y)| \cdot |g(x,y)| < \frac{\varepsilon}{M} \cdot M = \varepsilon $$
+    $$ |f(x,y)g(x,y) - 0| = |f(x,y)| \cdot |g(x,y)| < \dfrac{\varepsilon}{M} \cdot M = \varepsilon $$
     Por lo tanto, $\displaystyle \lim_{(x,y) \to (a,b)} [f(x,y)g(x,y)] = 0$.
   \end{proof}
 
@@ -261,40 +261,40 @@
   % --- EJEMPLO DESARROLLADO ---
   \begin{ejemplo}{Demostración por Definición $\varepsilon$-$\delta$}
     Calcule por definición el siguiente límite:
-    $$ \lim_{(x,y) \to (0,0)} \frac{x^2 y}{x^2 + y^2} $$
+    $$ \lim_{(x,y) \to (0,0)} \dfrac{x^2 y}{x^2 + y^2} $$
 
     \textbf{Solución y Desarrollo Riguroso:}
     
     \textbf{1. Candidato a Límite:}
     Evaluando formalmente a lo largo de la recta $y = x$:
-    $$ \lim_{x \to 0} \frac{x^2 (x)}{x^2 + x^2} = \lim_{x \to 0} \frac{x^3}{2x^2} = \lim_{x \to 0} \frac{x}{2} = 0 $$
+    $$ \lim_{x \to 0} \dfrac{x^2 (x)}{x^2 + x^2} = \lim_{x \to 0} \dfrac{x^3}{2x^2} = \lim_{x \to 0} \dfrac{x}{2} = 0 $$
     Sospechamos fuertemente que el límite existe y su valor es $L = 0$.
 
     \textbf{2. Demostración mediante la definición $\varepsilon$-$\delta$:}
     Debemos probar que para todo $\varepsilon > 0$, existe $\delta > 0$ tal que si $0 < \sqrt{x^2 + y^2} < \delta$, entonces:
-    $$ \left| \frac{x^2 y}{x^2 + y^2} - 0 \right| < \varepsilon $$
+    $$ \left| \dfrac{x^2 y}{x^2 + y^2} - 0 \right| < \varepsilon $$
 
     \textbf{3. Acotamiento algebraico:}
     Observamos que para todo $(x,y) \neq (0,0)$, se cumple la desigualdad $x^2 \leq x^2 + y^2$, de donde se deduce que:
-    $$ \frac{x^2}{x^2 + y^2} \leq 1 $$
+    $$ \dfrac{x^2}{x^2 + y^2} \leq 1 $$
 
     Multiplicando por $|y|$ a ambos lados:
-    $$ \left| \frac{x^2 y}{x^2 + y^2} \right| = \frac{x^2}{x^2 + y^2} \cdot |y| \leq 1 \cdot |y| = |y| $$
+    $$ \left| \dfrac{x^2 y}{x^2 + y^2} \right| = \dfrac{x^2}{x^2 + y^2} \cdot |y| \leq 1 \cdot |y| = |y| $$
 
     Además, sabemos que $|y| = \sqrt{y^2} \leq \sqrt{x^2 + y^2}$. Por lo tanto:
-    $$ \left| \frac{x^2 y}{x^2 + y^2} - 0 \right| \leq \sqrt{x^2 + y^2} $$
+    $$ \left| \dfrac{x^2 y}{x^2 + y^2} - 0 \right| \leq \sqrt{x^2 + y^2} $$
 
     \textbf{4. Elección del $\delta$:}
     Dado $\varepsilon > 0$, elegimos $\delta = \varepsilon$. Si $0 < \sqrt{x^2 + y^2} < \delta$, tenemos:
-    $$ \left| \frac{x^2 y}{x^2 + y^2} - 0 \right| \leq \sqrt{x^2 + y^2} < \delta = \varepsilon $$
+    $$ \left| \dfrac{x^2 y}{x^2 + y^2} - 0 \right| \leq \sqrt{x^2 + y^2} < \delta = \varepsilon $$
 
     Queda demostrado formalmente que:
-    $$ \lim_{(x,y) \to (0,0)} \frac{x^2 y}{x^2 + y^2} = 0 $$
+    $$ \lim_{(x,y) \to (0,0)} \dfrac{x^2 y}{x^2 + y^2} = 0 $$
   \end{ejemplo}
 
   % --- TIPO 1: PREGUNTA DE ALTERNATIVAS ---
   \begin{preguntaalternativas}{Aplicación de Teoremas de Acotamiento}
-    Para calcular $\displaystyle \lim_{(x,y) \to (0,0)} y^2 \cos\left(\frac{1}{xy}\right)$, ¿cuál es el argumento analítico correcto?
+    Para calcular $\displaystyle \lim_{(x,y) \to (0,0)} y^2 \cos\left(\dfrac{1}{xy}\right)$, ¿cuál es el argumento analítico correcto?
     
     \opcion{El límite no existe porque la función coseno oscila infinitamente cuando su argumento crece sin cota.}{Incorrecto}{Aunque es cierto que el coseno oscila, estás olvidando analizar qué ocurre con el factor $y^2$ que lo multiplica.}
     \opcion{Se debe utilizar la Regla de L'Hôpital derivando parcialmente respecto a $y$.}{Incorrecto}{Recuerda la advertencia teórica: la Regla de L'Hôpital no es aplicable directamente en funciones de varias variables.}
@@ -325,11 +325,11 @@
     
     % COLUMNA 1: Límites
     \columnaI{
-      \item $\displaystyle \lim_{(x,y)\to(0,0)} \frac{\sin(x^2+y^2)}{x^2+y^2}$
+      \item $\displaystyle \lim_{(x,y)\to(0,0)} \dfrac{\sin(x^2+y^2)}{x^2+y^2}$
       \item $\displaystyle \lim_{(x,y)\to(1,2)} (3xy - y^2)$
-      \item $\displaystyle \lim_{(x,y)\to(0,0)} x^2 \arctan\left(\frac{1}{y}\right)$
-      \item $\displaystyle \lim_{(x,y)\to(3,3)} \frac{x^2-y^2}{x-y}$
-      \item $\displaystyle \lim_{(x,y)\to(0,0)} \frac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$
+      \item $\displaystyle \lim_{(x,y)\to(0,0)} x^2 \arctan\left(\dfrac{1}{y}\right)$
+      \item $\displaystyle \lim_{(x,y)\to(3,3)} \dfrac{x^2-y^2}{x-y}$
+      \item $\displaystyle \lim_{(x,y)\to(0,0)} \dfrac{1-\cos(x^2+y^2)}{(x^2+y^2)^2}$
     }
     
     % COLUMNA 2: Técnicas - Mezcladas
@@ -351,11 +351,11 @@
     }
 
     % --- SOLUCIONES Y RETROALIMENTACIÓN ---
-    \pareotres{1-E-IV}{¡Correcto! Usando la sustitución $u = x^2+y^2$, el límite se transforma en el notable $\displaystyle \lim_{u\to0} \frac{\sin(u)}{u} = 1$.}
+    \pareotres{1-E-IV}{¡Correcto! Usando la sustitución $u = x^2+y^2$, el límite se transforma en el notable $\displaystyle \lim_{u\to0} \dfrac{\sin(u)}{u} = 1$.}
     \pareotres{2-D-I}{¡Excelente! Al ser un polinomio y $(1,2)$ pertenecer al dominio, evaluamos directamente: $3(1)(2) - 2^2 = 6 - 4 = 2$.}
     \pareotres{3-B-III}{¡Perfecto! El término $x^2 \to 0$ y la función arco tangente está estrictamente acotada entre $-\pi/2$ y $\pi/2$. Por el Teorema de Cero por Acotado, el límite es $0$.}
     \pareotres{4-A-II}{¡Muy bien! Se factoriza la diferencia de cuadrados en el numerador como $(x-y)(x+y)$. Al simplificar $(x-y)$, nos queda $\displaystyle \lim (x+y) = 3+3 = 6$.}
-    \pareotres{5-C-V}{¡Magistral! Haciendo el cambio $u = x^2+y^2$, obtenemos el límite notable canónico $\displaystyle \lim_{u\to0} \frac{1-\cos(u)}{u^2} = \frac{1}{2}$.}
+    \pareotres{5-C-V}{¡Magistral! Haciendo el cambio $u = x^2+y^2$, obtenemos el límite notable canónico $\displaystyle \lim_{u\to0} \dfrac{1-\cos(u)}{u^2} = \dfrac{1}{2}$.}
 
   \end{pareadostrescolumnas}
 
@@ -371,24 +371,24 @@
   \begin{ejercicioresuelto}{Límite vía Separación y Resultados Conocidos}{nivel-2}
     \enunciado{
       A partir de los resultados analíticos previamente calculados, determine el valor de:
-      $$ \lim_{(x,y) \to (0,0)} \frac{x^2 y + x y^2}{x^2 + y^2} $$
+      $$ \lim_{(x,y) \to (0,0)} \dfrac{x^2 y + x y^2}{x^2 + y^2} $$
     }
     \solucion{
       \textbf{1. Descomposición por Aditividad:}
       Aprovechando la estructura del numerador, separamos la fracción en la suma de dos términos racionales:
-      $$ \frac{x^2 y + x y^2}{x^2 + y^2} = \frac{x^2 y}{x^2 + y^2} + \frac{x y^2}{x^2 + y^2} $$
+      $$ \dfrac{x^2 y + x y^2}{x^2 + y^2} = \dfrac{x^2 y}{x^2 + y^2} + \dfrac{x y^2}{x^2 + y^2} $$
 
       \textbf{2. Aplicación de Resultados Previos:}
       En la Pestaña 3 de Aplicación demostramos por definición $\varepsilon$-$\delta$ que:
-      $$ \lim_{(x,y) \to (0,0)} \frac{x^2 y}{x^2 + y^2} = 0 $$
+      $$ \lim_{(x,y) \to (0,0)} \dfrac{x^2 y}{x^2 + y^2} = 0 $$
 
-      Por simetría algebraica de las variables $x$ e $y$ (o bien aplicando un acotamiento idéntico $\left|\frac{x y^2}{x^2 + y^2}\right| \leq |x| \leq \sqrt{x^2+y^2}$), se verifica directamente que:
-      $$ \lim_{(x,y) \to (0,0)} \frac{x y^2}{x^2 + y^2} = 0 $$
+      Por simetría algebraica de las variables $x$ e $y$ (o bien aplicando un acotamiento idéntico $\left|\dfrac{x y^2}{x^2 + y^2}\right| \leq |x| \leq \sqrt{x^2+y^2}$), se verifica directamente que:
+      $$ \lim_{(x,y) \to (0,0)} \dfrac{x y^2}{x^2 + y^2} = 0 $$
 
       \textbf{3. Conclusión por el Álgebra de Límites:}
       Dado que ambos límites individuales existen y son finitos, aplicamos la propiedad de la suma del Álgebra de Límites:
       \[\begin{aligned}
-        \lim_{(x,y) \to (0,0)} \frac{x^2 y + x y^2}{x^2 + y^2} &= \lim_{(x,y) \to (0,0)} \frac{x^2 y}{x^2 + y^2} + \lim_{(x,y) \to (0,0)} \frac{x y^2}{x^2 + y^2} \\[0.5em]
+        \lim_{(x,y) \to (0,0)} \dfrac{x^2 y + x y^2}{x^2 + y^2} &= \lim_{(x,y) \to (0,0)} \dfrac{x^2 y}{x^2 + y^2} + \lim_{(x,y) \to (0,0)} \dfrac{x y^2}{x^2 + y^2} \\[0.5em]
         &= 0 + 0 = 0
       \end{aligned}\]
     }
@@ -420,10 +420,10 @@
   \begin{ejerciciopropuesto}{Límite Combinado de Seno y Raíz}{nivel-2}
     \enunciado{
       Evalúe analíticamente el siguiente límite demostrando su convergencia:
-      $$ \lim_{(x,y) \to (0,0)} \frac{x^2 \sin(x^2 + y^2)}{\sqrt{x^2 + y^2}} $$
+      $$ \lim_{(x,y) \to (0,0)} \dfrac{x^2 \sin(x^2 + y^2)}{\sqrt{x^2 + y^2}} $$
     }
     \pista{
-      Puedes reescribir la expresión reordenando sus términos como $x^2 \cdot \frac{\sin(x^2 + y^2)}{x^2 + y^2} \cdot \sqrt{x^2 + y^2}$. Utiliza el límite notable $\displaystyle \lim_{u \to 0} \frac{\sin(u)}{u} = 1$ haciendo $u = x^2 + y^2$ junto con el Álgebra de Límites, o bien acota utilizando que $|\sin(u)| \leq 1$ para aplicar Cero por Acotado.
+      Puedes reescribir la expresión reordenando sus términos como $x^2 \cdot \dfrac{\sin(x^2 + y^2)}{x^2 + y^2} \cdot \sqrt{x^2 + y^2}$. Utiliza el límite notable $\displaystyle \lim_{u \to 0} \dfrac{\sin(u)}{u} = 1$ haciendo $u = x^2 + y^2$ junto con el Álgebra de Límites, o bien acota utilizando que $|\sin(u)| \leq 1$ para aplicar Cero por Acotado.
     }
   \end{ejerciciopropuesto}
 
@@ -431,7 +431,7 @@
   \begin{ejerciciopropuesto}{Resolución de Indeterminaciones por Factorización}{nivel-1}
     \enunciado{
       Evalúe el siguiente límite analítico determinando la factorización adecuada:
-      $$ \lim_{(x,y) \to (3,3)} \frac{x^3 - y^3}{x - y} $$
+      $$ \lim_{(x,y) \to (3,3)} \dfrac{x^3 - y^3}{x - y} $$
     }
     \pista{
       Aplica la diferencia de cubos $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$ en el numerador y simplifica el factor $(x-y)$.
@@ -442,10 +442,10 @@
   \begin{ejerciciopropuesto}{Funciones Oscilantes Acotadas}{nivel-2}
     \enunciado{
       Demuestre la existencia y calcule el valor del límite:
-      $$ \lim_{(x,y) \to (0,0)} x^2 \sin\left(\frac{1}{xy}\right) $$
+      $$ \lim_{(x,y) \to (0,0)} x^2 \sin\left(\dfrac{1}{xy}\right) $$
     }
     \pista{
-      Aplica el Teorema de Cero por Acotado notando que $x^2 \to 0$ y que $\left|\sin\left(\frac{1}{xy}\right)\right| \leq 1$.
+      Aplica el Teorema de Cero por Acotado notando que $x^2 \to 0$ y que $\left|\sin\left(\dfrac{1}{xy}\right)\right| \leq 1$.
     }
   \end{ejerciciopropuesto}
 
@@ -469,7 +469,7 @@
     {\begin{aligned}
       \lim [f(x,y) \pm g(x,y)] &= L \pm M \\[0.5em]
       \lim [f(x,y) \cdot g(x,y)] &= L \cdot M \\[0.5em]
-      \lim \left[ \frac{f(x,y)}{g(x,y)} \right] &= \frac{L}{M} \quad (M \neq 0)
+      \lim \left[ \dfrac{f(x,y)}{g(x,y)} \right] &= \dfrac{L}{M} \quad (M \neq 0)
     \end{aligned}}
     {Propiedades operativas que permiten separar y evaluar límites complejos por partes, siempre y cuando los límites individuales $L$ y $M$ existan y sean finitos.}
 
@@ -478,7 +478,7 @@
     {Herramienta analítica para resolver indeterminaciones. Si un término se anula y el otro permanece acotado, el producto tiende indefectiblemente a cero.}
 
   \formula{Límite Notable Clásico}
-    {\lim_{u \to 0} \frac{\sin(u)}{u} = 1 \implies \lim_{(x,y) \to (0,0)} \frac{\sin(xy)}{xy} = 1}
+    {\lim_{u \to 0} \dfrac{\sin(u)}{u} = 1 \implies \lim_{(x,y) \to (0,0)} \dfrac{\sin(xy)}{xy} = 1}
     {Sustitución directa ($u = xy$ o $u = x^2+y^2$) que permite importar resultados conocidos de Cálculo de una variable al plano bidimensional.}
 
 \end{formulas}
