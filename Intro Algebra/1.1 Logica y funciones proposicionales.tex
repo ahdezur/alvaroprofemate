@@ -1,0 +1,533 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+\newenvironment{motivacion}{\section*{1. Motivación}}{}
+\newenvironment{preguntaguia}{\begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]}{\end{tcolorbox}}
+\newenvironment{teoria}{\section*{2. Definición y Teoría}}{}
+\newenvironment{definicion}[1]{\begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]}{\end{tcolorbox}}
+\newenvironment{teorema}[1]{\begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]}{\end{tcolorbox}}
+\newenvironment{alerta}[1]{\begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=Alerta: #1]}{\end{tcolorbox}}
+\newenvironment{procesamiento}[1]{\begin{tcolorbox}[colback=gray!10,colframe=gray!75!black,title=Procedimiento: #1]}{\end{tcolorbox}}
+\newenvironment{ejemplo}[1]{\begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Ejemplo: #1]}{\end{tcolorbox}}
+\newenvironment{aplicacion}{\section*{3. Aplicación y Práctica}}{}
+\newenvironment{ejercicios}{\section*{4. Ejercicios Resueltos y Propuestos}}{}
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \hfill \normalfont\small(#2)}}{}
+\newcommand{\enunciado}[1]{\textbf{Enunciado:}\par#1\par\medskip}
+\newcommand{\solucion}[1]{\textbf{Solución:}\par#1\par\bigskip}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración Resuelta: #1 \hfill \normalfont\small(#2)}}{}
+\newcommand{\demostracion}[1]{\textbf{Demostración:}\par#1\par\bigskip}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \hfill \normalfont\small(#2)}}{}
+\newcommand{\pista}[1]{\textbf{Pista/Pauta:}\par#1\par\bigskip}
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}}{}
+\newcommand{\formula}[3]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=#1]\centering\[ #2 \]\tcblower\flushleft\small\textbf{Descripción:} #3\end{tcolorbox}}
+
+% --- ELEMENTOS INTERACTIVOS ---
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{pareadosdoscolumnas}[1]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=Términos Pareados (2 Columnas): #1]}{\end{tcolorbox}}
+\newenvironment{pareadostrescolumnas}[1]{\begin{tcolorbox}[colback=teal!5,colframe=teal!75!black,title=Términos Pareados (3 Columnas): #1]}{\end{tcolorbox}}
+\newcommand{\columnaI}[1]{\par\medskip\textbf{Columna 1 (Números):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaII}[1]{\par\medskip\textbf{Columna 2 (Letras):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaIII}[1]{\par\medskip\textbf{Columna 3 (Números Romanos):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\par\smallskip\textbf{Pareo [#1]:} #2\par}
+\newcommand{\pareotres}[2]{\par\smallskip\textbf{Pareo [#1]:} #2\par}
+% ==============================================================================
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE
+% ==============================================================================
+% ID_CURSO: introduccion-algebra
+% NUMERO_UNIDAD: 1
+% TITULO_UNIDAD: Lógica Matemática
+% NUMERO_CAPITULO: 1.1
+% TITULO_CAPITULO: Lógica y Funciones Proposicionales
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+% ==============================================================================
+% PESTAÑA 1: MOTIVACIÓN (contentMotivation)
+% ==============================================================================
+\begin{motivacion}
+  En el lenguaje cotidiano, solemos afirmar o negar cosas constantemente. Sin embargo, en matemáticas necesitamos un nivel de precisión mucho mayor para evitar paradojas. La lógica es el \textbf{lenguaje formal} que nos permite estructurar el pensamiento y construir demostraciones irrefutables. 
+  
+  Cuando decimos \textit{«la persona $x$ es mayor de edad»}, no podemos determinar si la afirmación es verdadera o falsa hasta saber exactamente quién es $x$. Este es el principio de las \textbf{funciones proposicionales}: expresiones que dependen de una variable y que solo se convierten en \textbf{proposiciones} (afirmaciones estrictamente verdaderas o falsas) cuando las evaluamos en un contexto o valor específico. Comprender esta diferencia y aprender a relacionar estas ideas es el primer gran paso hacia el álgebra superior.
+
+  \begin{preguntaguia}
+    ¿Cómo podemos traducir expresiones matemáticas cotidianas al lenguaje formal y utilizar conectivos lógicos (como «y», «o», «implica») para construir afirmaciones complejas sin margen de error?
+  \end{preguntaguia}
+\end{motivacion}
+
+
+% ==============================================================================
+% PESTAÑA 2: DEFINICIÓN Y TEORÍA (contentTheory)
+% ==============================================================================
+\begin{teoria}
+  La lógica matemática nos entrega el marco formal para construir enunciados precisos y evaluar su validez sin ambigüedades.
+
+  \begin{definicion}{Proposición Lógica}
+    Una \textbf{proposición} es una oración declarativa de la cual se puede afirmar, sin ambigüedad, que es únicamente \textbf{Verdadera (V)} o \textbf{Falsa (F)}, pero no ambas a la vez.
+    \begin{itemize}
+      \item \textbf{Es proposición:} $p:$ «$7$ es un número primo» (Valor: V).
+      \item \textbf{Es proposición:} $q:$ «$2 + 3 = 9$» (Valor: F).
+      \item \textbf{NO es proposición:} «¿Puedes cerrar la puerta?» (Pregunta / Imperativo).
+      \item \textbf{NO es proposición:} «$x + 3 = 8$» (El valor depende de la variable $x$, por lo que no posee valor de verdad determinado a priori).
+    \end{itemize}
+  \end{definicion}
+
+  \begin{definicion}{Conectivos Lógicos y Tablas de Verdad}
+    A partir de proposiciones simples $p$ y $q$, podemos construir proposiciones compuestas mediante los siguientes conectivos fundamentales:
+    \begin{itemize}
+      \item \textbf{Negación ($\neg p$):} Invierte el valor de verdad de $p$ («no $p$»).
+      \item \textbf{Conjunción ($p \wedge q$):} Es verdadera únicamente si \textbf{ambas} proposiciones son verdaderas («$p$ y $q$»).
+      \item \textbf{Disyunción Inclusiva ($p \vee q$):} Es falsa únicamente si \textbf{ambas} proposiciones son falsas («$p$ o $q$, o ambos»).
+      \item \textbf{Disyunción Excluyente ($p \veebar q$ o $p \Delta q$):} Es verdadera únicamente cuando \textbf{exactamente una} de las dos proposiciones es verdadera («o bien $p$, o bien $q$»).
+      \item \textbf{Condicional Material ($p \rightarrow q$):} Es falsa únicamente cuando el antecedente $p$ es verdadero y el consecuente $q$ es falso («si $p$, entonces $q$»).
+      \item \textbf{Bicondicional ($p \leftrightarrow q$):} Es verdadera únicamente cuando $p$ y $q$ poseen el mismo valor de verdad («$p$ si y solo si $q$»).
+    \end{itemize}
+
+    \vspace{0.3cm}
+    \textbf{Tabla de Verdad Resumen:}
+    \begin{center}
+      \renewcommand{\arraystretch}{1.5}
+      \begin{tabular}{|c|c||c|c|c|c|c|c|}
+        \hline
+        $p$ & $q$ & $\neg p$ & $p \wedge q$ & $p \vee q$ & $p \veebar q$ & $p \rightarrow q$ & $p \leftrightarrow q$ \\
+        \hline\hline
+        V & V & F & V & V & F & V & V \\
+        V & F & F & F & V & V & F & F \\
+        F & V & V & F & V & V & V & F \\
+        F & F & V & F & F & F & V & V \\
+        \hline
+      \end{tabular}
+    \end{center}
+  \end{definicion}
+
+  \begin{teorema}{Leyes del Álgebra Proposicional (Equivalencias Lógicas)}
+    Dos proposiciones son lógicamente equivalentes ($\equiv$) si tienen idénticas tablas de verdad. Estas leyes son fundamentales para simplificar expresiones complejas:
+    
+    \vspace{0.2cm}
+    \begin{center}
+      \renewcommand{\arraystretch}{1.5}
+      \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Nombre de la Ley} & \textbf{Disyunción ($\vee$)} & \textbf{Conjunción ($\wedge$)} \\
+        \hline\hline
+        \textbf{1. Idempotencia} & $p \vee p \equiv p$ & $p \wedge p \equiv p$ \\
+        \textbf{2. Conmutatividad} & $p \vee q \equiv q \vee p$ & $p \wedge q \equiv q \wedge p$ \\
+        \textbf{3. Asociatividad} & $(p \vee q) \vee r \equiv p \vee (q \vee r)$ & $(p \wedge q) \wedge r \equiv p \wedge (q \wedge r)$ \\
+        \textbf{4. Distributividad} & $p \vee (q \wedge r) \equiv (p \vee q) \wedge (p \vee r)$ & $p \wedge (q \vee r) \equiv (p \wedge q) \vee (p \wedge r)$ \\
+        \textbf{5. Identidad} & $p \vee F \equiv p$ & $p \wedge V \equiv p$ \\
+        \textbf{6. Dominación (Absorbente)} & $p \vee V \equiv V$ & $p \wedge F \equiv F$ \\
+        \textbf{7. Complemento} & $p \vee \neg p \equiv V$ & $p \wedge \neg p \equiv F$ \\
+        \textbf{8. Leyes de De Morgan} & $\neg(p \vee q) \equiv \neg p \wedge \neg q$ & $\neg(p \wedge q) \equiv \neg p \vee \neg q$ \\
+        \textbf{9. Absorción} & $p \vee (p \wedge q) \equiv p$ & $p \wedge (p \vee q) \equiv p$ \\
+        \hline
+      \end{tabular}
+    \end{center}
+    
+    \vspace{0.2cm}
+    \textbf{Otras equivalencias críticas:}
+    \begin{itemize}
+        \item \textbf{Doble Negación (Involución):} $\neg(\neg p) \equiv p$
+        \item \textbf{Definición de Implicación:} $p \rightarrow q \equiv \neg p \vee q$
+        \item \textbf{Ley de la Contrapuesta:} $p \rightarrow q \equiv \neg q \rightarrow \neg p$
+        \item \textbf{Definición de Bicondicional:} $p \leftrightarrow q \equiv (p \rightarrow q) \wedge (q \rightarrow p)$
+    \end{itemize}
+  \end{teorema}
+
+  \begin{teorema}{Clasificación de Formas Proposicionales}
+    Dada una proposición compuesta expresada en términos de variables proposicionales:
+    \begin{itemize}
+      \item \textbf{Tautología:} Es una forma proposicional que resulta ser \textbf{verdadera en todos los casos posibles} de su tabla de verdad (ejemplo: $p \vee \neg p$).
+      \item \textbf{Contradicción:} Es una forma proposicional que resulta ser \textbf{falsa en todos los casos posibles} (ejemplo: $p \wedge \neg p$).
+      \item \textbf{Contingencia:} Es una forma proposicional que adopta valores verdaderos para algunas combinaciones y falsos para otras.
+    \end{itemize}
+  \end{teorema}
+
+  \begin{definicion}{Función Proposicional (Predicado)}
+    Una \textbf{función proposicional} $P(x)$ definida sobre un dominio de discurso $D$ es una expresión declarativa que contiene una o más variables $x \in D$, la cual no posee un valor de verdad definido por sí misma.
+    
+    Para transformar una función proposicional en una proposición lógica estricta, debemos \textbf{evaluar} la variable asignándole elementos concretos del dominio.
+  \end{definicion}
+
+  \begin{ejemplo}{Ejemplos de Funciones Proposicionales de 1 y 2 Variables}
+    A continuación se presentan distintos tipos de funciones proposicionales y su evaluación en dominios específicos:
+    \begin{enumerate}
+      \item \textbf{De una variable algebraica ($x \in \mathbb{R}$):}
+            $$ P(x) : x^2 - 4 = 0 $$
+            \begin{itemize}
+              \item $P(2): 2^2 - 4 = 0 \implies$ Proposición \textbf{Verdadera (V)}.
+              \item $P(1): 1^2 - 4 = 0 \implies$ Proposición \textbf{Falsa (F)}.
+            \end{itemize}
+      
+      \item \textbf{De teoría de números ($n \in \mathbb{N}$):}
+            $$ Q(n) : n \text{ es un número primo y } n < 10 $$
+            \begin{itemize}
+              \item $Q(5):$ «$5$ es primo y $5 < 10$» $\implies$ Proposición \textbf{Verdadera (V)}.
+              \item $Q(9):$ «$9$ es primo y $9 < 10$» $\implies$ Proposición \textbf{Falsa (F)} (pues 9 no es primo).
+            \end{itemize}
+
+      \item \textbf{De dos variables ($x, y \in \mathbb{R}$):}
+            $$ R(x, y) : x + 2y = 10 $$
+            \begin{itemize}
+              \item $R(4, 3): 4 + 2(3) = 10 \implies$ Proposición \textbf{Verdadera (V)}.
+              \item $R(1, 1): 1 + 2(1) = 10 \implies$ Proposición \textbf{Falsa (F)}.
+            \end{itemize}
+
+      \item \textbf{De orden o desigualdades ($a, b \in \mathbb{R}$):}
+            $$ S(a, b) : a^2 \leq b $$
+            \begin{itemize}
+              \item $S(-3, 10): (-3)^2 \leq 10 \implies 9 \leq 10$, Proposición \textbf{Verdadera (V)}.
+              \item $S(4, 5): 4^2 \leq 5 \implies 16 \leq 5$, Proposición \textbf{Falsa (F)}.
+            \end{itemize}
+    \end{enumerate}
+  \end{ejemplo}
+
+  \begin{alerta}{El Dominio Importa al Evaluar}
+    El conjunto donde viven las variables (el \textit{Dominio de Discurso}) altera el resultado de la evaluación. 
+    Por ejemplo, dada $P(x) : x^2 = 2$:
+    \begin{itemize}
+      \item Si trabajamos en los números enteros ($\mathbb{Z}$), no existe ningún $x \in \mathbb{Z}$ que haga a $P(x)$ verdadera.
+      \item Si trabajamos en los números reales ($\mathbb{R}$), para $x = \sqrt{2} \in \mathbb{R}$ la proposición $P(\sqrt{2})$ es \textbf{Verdadera}.
+    \end{itemize}
+  \end{alerta}
+\end{teoria}
+
+
+% ==============================================================================
+% PESTAÑA 3: APLICACIÓN Y PRÁCTICA (contentApplication)
+% ==============================================================================
+\begin{aplicacion}
+  Ahora pondremos a prueba nuestra capacidad para traducir proposiciones del lenguaje cotidiano, determinar valores de verdad y aplicar los conectivos lógicos correctamente.
+
+  \begin{ejemplo}{Traducción al Lenguaje Formal}
+    Consideremos las siguientes proposiciones simples extraídas del apunte:
+    \begin{itemize}
+      \item $p$: «Llueve»
+      \item $q$: «El piso está mojado»
+    \end{itemize}
+    La proposición compuesta $p \Rightarrow q$ se lee como: \textit{«Si llueve, entonces el piso está mojado»}. 
+    
+    Observa que la implicación \textbf{no} dice que esté lloviendo ahora mismo, ni garantiza que si el piso está mojado sea exclusivamente por la lluvia (alguien pudo haber arrojado agua). Solo afirma que la lluvia es \textit{condición suficiente} para que el piso se moje.
+  \end{ejemplo}
+
+  \begin{preguntaalternativas}{Reconociendo la Implicación}
+    Utilizando las proposiciones del ejemplo anterior ($p$: Llueve, $q$: El piso está mojado), ¿cómo se traduciría al lenguaje formal la frase: \textit{«El piso no está mojado, por lo tanto, no llueve»}?
+    
+    \opcion{$\neg q \Rightarrow \neg p$}{Correcto}{¡Exacto! Esta es la forma contrapíproca de $p \Rightarrow q$ y es lógicamente equivalente a la implicación original.}
+    \opcion{$\neg p \Rightarrow \neg q$}{Incorrecto}{Cuidado. Esto diría «Si no llueve, entonces el piso no está mojado», lo cual es una falacia (el piso podría estar mojado por otra razón).}
+    \opcion{$\neg (p \Rightarrow q)$}{Incorrecto}{Esto representaría la negación de toda la premisa, no la relación causal invertida.}
+  \end{preguntaalternativas}
+
+  \begin{preguntaalternativas}{Determinación de Valores de Verdad}
+    Si la proposición compuesta $(p \wedge \neg q) \rightarrow r$ es \textbf{Falsa}, ¿cuáles son los valores de verdad de $p$, $q$ y $r$ respectivamente?
+    
+    \opcion{$p = V, q = F, r = F$}{Correcto}{¡Excelente razonamiento! Un condicional $A \rightarrow B$ es falso solo si $A = V$ y $B = F$. Por lo tanto $r = F$. Luego, para que $p \wedge \neg q$ sea verdadero, se exige que $p = V$ y $\neg q = V \implies q = F$.}
+    \opcion{$p = V, q = V, r = F$}{Incorrecto}{Si $q = V$, entonces $\neg q = F$, lo que haría que $p \wedge \neg q$ fuera Falso, y el condicional resultaría Verdadero.}
+    \opcion{$p = F, q = F, r = F$}{Incorrecto}{Si $p = F$, el antecedente $p \wedge \neg q$ es Falso, por lo que el condicional completo sería Verdadero.}
+  \end{preguntaalternativas}
+
+  \begin{preguntaverdaderofalso}{Evaluación de Tautologías Básicas}
+    La expresión $(p \wedge q) \Rightarrow p$ es una tautología (siempre verdadera), sin importar los valores de $p$ y $q$.
+    \verdaderofalso{V}
+      {Incorrecto. Haz la prueba mental: Si afirmo que «Llueve y hace frío», ¿puedo concluir lógicamente que «Llueve»? Sí, siempre.}
+      {¡Correcto! Si asumimos que una conjunción (ambas son ciertas) es verdadera, entonces cualquiera de sus partes por separado obligatoriamente tiene que ser cierta.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaverdaderofalso}{Equivalencia del Condicional}
+    La proposición $p \rightarrow q$ es lógicamente equivalente a $\neg p \vee q$.
+    \verdaderofalso{V}
+      {Incorrecto. Comprueba la tabla de verdad: $p \rightarrow q$ y $\neg p \vee q$ tienen exactamente la misma columna de resultados (solo son falsas cuando $p=V$ y $q=F$).}
+      {¡Correcto! Esta es la definición material de la implicación en álgebra proposicional.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntacasillas}{Conectivos y Equivalencias}
+    Seleccione todas las afirmaciones que sean \textbf{Verdaderas}:
+    
+    \casilla{La negación de $p \rightarrow q$ es $p \wedge \neg q$.}{Correcto}{¡Así es! Como $p \rightarrow q \equiv \neg p \vee q$, al negar obtenemos $\neg(\neg p \vee q) \equiv p \wedge \neg q$.}
+    \casilla{La disyunción excluyente $p \veebar q$ es verdadera cuando $p$ y $q$ son ambas verdaderas.}{Incorrecto}{La disyunción excluyente requiere que *exactamente una* sea verdadera, por lo que si ambas son verdaderas el resultado es Falso.}
+    \casilla{La expresión $p \vee \neg p$ es una Tautología.}{Correcto}{Cierto, representa el Principio del Tercero Excluido: una proposición es verdadera o su negación lo es.}
+  \end{preguntacasillas}
+
+  \begin{pareadosdoscolumnas}{Símbolos Lógicos}
+    Relacione el símbolo de conectivo lógico (Números) con su significado en español (Letras).
+    \columnaI{
+      \item[1.] $\neg$
+      \item[2.] $\veebar$ (o $\Delta$)
+      \item[3.] $\wedge$
+      \item[4.] $\leftrightarrow$
+    }
+    \columnaII{
+      \item[A.] Y (Conjunción)
+      \item[B.] Si y solo si (Bicondicional)
+      \item[C.] No (Negación)
+      \item[D.] O bien... o bien... (Disyunción Excluyente)
+    }
+    
+    \pareo{1-C}{¡Correcto! Es el operador de negación.}
+    \pareo{2-D}{¡Correcto! Es la disyunción excluyente.}
+    \pareo{3-A}{¡Correcto! Representa la conjunción lógica.}
+    \pareo{4-B}{¡Correcto! Es la equivalencia o bicondicional.}
+  \end{pareadosdoscolumnas}
+
+\end{aplicacion}
+
+
+% ==============================================================================
+% PESTAÑA 4: EJERCICIOS RESUELTOS Y PROPUESTOS (contentExercises)
+% ==============================================================================
+\begin{ejercicios}
+
+  \begin{ejercicioresuelto}{Determinación de Valores de Verdad}{nivel-1}
+    \enunciado{
+      Sabiendo que la proposición $p \rightarrow (q \vee \neg r)$ es \textbf{Falsa}, determine el valor de verdad de las siguientes proposiciones lógicas:
+      \begin{enumerate}
+        \item $A: (p \wedge q) \leftrightarrow r$
+        \item $B: (p \vee r) \rightarrow \neg q$
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{Paso 1: Determinar los valores individuales de $p, q, r$.}
+      Como la implicación $p \rightarrow (q \vee \neg r)$ es Falsa:
+      \begin{itemize}
+        \item El antecedente debe ser verdadero: $p = V$.
+        \item El consecuente debe ser falso: $q \vee \neg r = F$.
+      \end{itemize}
+      Para que una disyunción sea Falsa, ambos términos deben ser Falsos:
+      \begin{itemize}
+        \item $q = F$.
+        \item $\neg r = F \implies r = V$.
+      \end{itemize}
+      Concluimos que: $p = V$, $q = F$, $r = V$.
+
+      \textbf{Paso 2: Evaluar la proposición $A$.}
+      $$ A: (V \wedge F) \leftrightarrow V \implies F \leftrightarrow V \implies \mathbf{F} $$
+
+      \textbf{Paso 3: Evaluar la proposición $B$.}
+      $$ B: (V \vee V) \rightarrow \neg F \implies V \rightarrow V \implies \mathbf{V} $$
+      
+      \textbf{Respuesta:} $A$ es Falsa (F) y $B$ es Verdadera (V).
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Demostración de Tautología mediante Álgebra}{nivel-2}
+    \enunciado{
+      Demuestre, utilizando las leyes del álgebra proposicional (equivalencias lógicas), que la siguiente proposición es una tautología:
+      $$ [(p \wedge \neg q) \Rightarrow \neg p] \Rightarrow (p \Rightarrow q) $$
+    }
+    \solucion{
+      \textbf{Paso 1: Simplificar el antecedente (el corchete exterior).}
+      Tomamos la primera parte: $(p \wedge \neg q) \Rightarrow \neg p$.
+      Aplicamos la definición de implicación ($A \Rightarrow B \equiv \neg A \vee B$):
+      $$ \neg(p \wedge \neg q) \vee \neg p $$
+      
+      Aplicamos la Ley de De Morgan en el paréntesis:
+      $$ (\neg p \vee \neg(\neg q)) \vee \neg p $$
+      $$ (\neg p \vee q) \vee \neg p $$
+      
+      Por asociatividad e idempotencia ($\neg p \vee \neg p \equiv \neg p$), el antecedente se reduce a:
+      $$ \neg p \vee q $$
+      
+      \textbf{Paso 2: Reconstruir la proposición completa.}
+      Sustituimos el resultado del Paso 1 en la expresión original:
+      $$ (\neg p \vee q) \Rightarrow (p \Rightarrow q) $$
+      
+      \textbf{Paso 3: Identificar la equivalencia.}
+      Sabemos por definición que $(p \Rightarrow q) \equiv \neg p \vee q$. Por lo tanto, la proposición se convierte en:
+      $$ (p \Rightarrow q) \Rightarrow (p \Rightarrow q) $$
+      
+      Como cualquier proposición implicándose a sí misma ($A \Rightarrow A$) es siempre verdadera, concluimos que la expresión es una \textbf{Tautología}.
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Simplificación Algebraica de Formas Proposicionales}{nivel-2}
+    \enunciado{
+      Simplifique al máximo la siguiente expresión proposicional $S$ utilizando leyes del álgebra de conectores:
+      $$ S: \neg[\neg(p \wedge q) \rightarrow \neg q] \vee p $$
+    }
+    \solucion{
+      \textbf{Paso 1: Transformar el condicional interno.}
+      Usamos $A \rightarrow B \equiv \neg A \vee B$:
+      $$ \neg[\neg(\neg(p \wedge q)) \vee \neg q] \vee p $$
+      Por doble negación $\neg(\neg(p \wedge q)) \equiv p \wedge q$:
+      $$ \neg[(p \wedge q) \vee \neg q] \vee p $$
+
+      \textbf{Paso 2: Aplicar la ley distributiva dentro del corchete.}
+      $$ (p \wedge q) \vee \neg q \equiv (p \vee \neg q) \wedge (q \vee \neg q) $$
+      Como $q \vee \neg q \equiv V$ (Tautología):
+      $$ (p \vee \neg q) \wedge V \equiv p \vee \neg q $$
+
+      \textbf{Paso 3: Sustituir y aplicar Ley de De Morgan.}
+      Sustituimos el contenido simplificado del corchete:
+      $$ S \equiv \neg(p \vee \neg q) \vee p $$
+      Aplicando De Morgan:
+      $$ (\neg p \wedge q) \vee p $$
+
+      \textbf{Paso 4: Distribuir la disyunción exterior sobre la conjunción.}
+      $$ (\neg p \vee p) \wedge (q \vee p) $$
+      Como $\neg p \vee p \equiv V$:
+      $$ V \wedge (q \vee p) \equiv q \vee p \equiv p \vee q $$
+
+      \textbf{Respuesta:} La expresión simplificada es $p \vee q$.
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejerciciodemostracion}{Equivalencia Lógica Compleja}{nivel-3}
+    \enunciado{
+      Demuestre paso a paso la siguiente equivalencia lógica analizada en el apunte:
+      $$ [(p \Rightarrow q) \Leftrightarrow p] \Leftrightarrow p \wedge q $$
+    }
+    \demostracion{
+      Comenzaremos simplificando el lado izquierdo de la equivalencia.
+      
+      \textbf{Paso 1: Expandir la implicación interna.}
+      Reemplazamos $p \Rightarrow q$ por $\neg p \vee q$:
+      $$ [(\neg p \vee q) \Leftrightarrow p] $$
+      
+      \textbf{Paso 2: Expandir la equivalencia (bicondicional).}
+      Usamos la ley: $A \Leftrightarrow B \equiv (A \wedge B) \vee (\neg A \wedge \neg B)$.
+      Donde $A = (\neg p \vee q)$ y $B = p$.
+      $$ [(\neg p \vee q) \wedge p] \vee [\neg(\neg p \vee q) \wedge \neg p] $$
+      
+      \textbf{Paso 3: Simplificar el primer término rectangular.}
+      Aplicamos distributividad en $(\neg p \vee q) \wedge p$:
+      $$ (\neg p \wedge p) \vee (q \wedge p) $$
+      Como $(\neg p \wedge p)$ es una contradicción ($F$), queda:
+      $$ F \vee (p \wedge q) \equiv p \wedge q $$
+      
+      \textbf{Paso 4: Simplificar el segundo término rectangular.}
+      Aplicamos De Morgan a la negación: $\neg(\neg p \vee q) \equiv (p \wedge \neg q)$.
+      El término queda:
+      $$ (p \wedge \neg q) \wedge \neg p $$
+      Reordenando (asociatividad y conmutatividad):
+      $$ (p \wedge \neg p) \wedge \neg q \equiv F \wedge \neg q \equiv F $$
+      
+      \textbf{Paso 5: Unir ambos resultados.}
+      Sustituyendo los resultados de los pasos 3 y 4 en la expansión del paso 2:
+      $$ (p \wedge q) \vee F \equiv p \wedge q $$
+      
+      Hemos llegado exactamente a la expresión de la derecha. La equivalencia queda demostrada. Q.E.D.
+    }
+  \end{ejerciciodemostracion}
+
+  \begin{ejerciciodemostracion}{Ley del Silogismo Hipotético}{nivel-2}
+    \enunciado{
+      Demuestre analíticamente que la regla del Silogismo Hipotético es una Tautología:
+      $$ T: [(p \rightarrow q) \wedge (q \rightarrow r)] \rightarrow (p \rightarrow r) $$
+    }
+    \demostracion{
+      Demostraremos esto transformando la implicación principal mediante álgebra proposicional.
+      
+      \textbf{Paso 1: Expresar los condicionales con negación y disyunción.}
+      $$ (p \rightarrow q) \equiv \neg p \vee q $$
+      $$ (q \rightarrow r) \equiv \neg q \vee r $$
+      $$ (p \rightarrow r) \equiv \neg p \vee r $$
+      
+      El antecedente queda: $A \equiv (\neg p \vee q) \wedge (\neg q \vee r)$.
+      Queremos probar que $A \rightarrow (\neg p \vee r) \equiv \neg A \vee (\neg p \vee r)$ es $V$.
+      
+      \textbf{Paso 2: Negar el antecedente $A$ mediante Ley de De Morgan.}
+      $$ \neg A \equiv \neg [(\neg p \vee q) \wedge (\neg q \vee r)] \equiv \neg(\neg p \vee q) \vee \neg(\neg q \vee r) $$
+      $$ \equiv (p \wedge \neg q) \vee (q \wedge \neg r) $$
+      
+      \textbf{Paso 3: Unir con el consecuente.}
+      $$ T \equiv (p \wedge \neg q) \vee (q \wedge \neg r) \vee \neg p \vee r $$
+      Reagrupamos términos por asociatividad:
+      $$ T \equiv [(p \wedge \neg q) \vee \neg p] \vee [(q \wedge \neg r) \vee r] $$
+      
+      \textbf{Paso 4: Aplicar ley de absorción/distributividad en cada corchete.}
+      $$ (p \wedge \neg q) \vee \neg p \equiv (p \vee \neg p) \wedge (\neg q \vee \neg p) \equiv V \wedge (\neg q \vee \neg p) \equiv \neg p \vee \neg q $$
+      $$ (q \wedge \neg r) \vee r \equiv (q \vee r) \wedge (\neg r \vee r) \equiv (q \vee r) \wedge V \equiv q \vee r $$
+      
+      \textbf{Paso 5: Ensamblar los corchetes.}
+      $$ T \equiv (\neg p \vee \neg q) \vee (q \vee r) \equiv \neg p \vee (\neg q \vee q) \vee r $$
+      Como $\neg q \vee q \equiv V$:
+      $$ T \equiv \neg p \vee V \vee r \equiv \mathbf{V} $$
+      
+      Por lo tanto, la expresión $T$ es una Tautología. Q.E.D.
+    }
+  \end{ejerciciodemostracion}
+
+  \begin{ejerciciopropuesto}{Silogismo Disyuntivo}{nivel-1}
+    \enunciado{
+      Demuestre utilizando tablas de verdad o álgebra proposicional que la forma proposicional $[(p \vee q) \wedge \neg p] \rightarrow q$ es una Tautología.
+    }
+    \pista{
+      Aplica la ley distributiva al antecedente: $(p \vee q) \wedge \neg p \equiv (p \wedge \neg p) \vee (q \wedge \neg p) \equiv F \vee (q \wedge \neg p) \equiv q \wedge \neg p$. Luego evalúa $(q \wedge \neg p) \rightarrow q$.
+    }
+  \end{ejerciciopropuesto}
+
+  \begin{ejerciciopropuesto}{Simplificación con Leyes de Absorción}{nivel-2}
+    \enunciado{
+      Simplifique la siguiente expresión proposicional al menor número de conectivos posible:
+      $$ P: [p \wedge (p \vee q)] \vee [\neg p \wedge (p \vee \neg q)] $$
+    }
+    \pista{
+      Por la primera ley de absorción, $p \wedge (p \vee q) \equiv p$. Para la segunda parte, aplica distributividad: $\neg p \wedge (p \vee \neg q) \equiv (\neg p \wedge p) \vee (\neg p \wedge \neg q) \equiv F \vee (\neg p \wedge \neg q) \equiv \neg p \wedge \neg q$.
+    }
+  \end{ejerciciopropuesto}
+
+  \begin{ejerciciopropuesto}{Evaluación de Funciones Proposicionales}{nivel-2}
+    \enunciado{
+      Dada la función proposicional de dos variables $P(x, y): x^2 + y^2 \leq 25$ sobre el dominio $D = \mathbb{Z} \times \mathbb{Z}$, determine el valor de verdad de las siguientes proposiciones:
+      \begin{enumerate}
+        \item $a = P(3, 4)$
+        \item $b = P(1, 5)$
+        \item $c = P(-2, 2)$
+      \end{enumerate}
+    }
+    \pista{
+      Calcula la suma de los cuadrados de las componentes y compara con 25. $a: 3^2+4^2=25 \leq 25$ (V), $b: 1^2+5^2=26 \leq 25$ (F), $c: (-2)^2+2^2=8 \leq 25$ (V).
+    }
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+
+% ==============================================================================
+% PESTAÑA 5: FÓRMULAS CLAVE (contentFormulas)
+% ==============================================================================
+\begin{formulas}
+
+  \formula{Implicación Lógica (Definición Material)}
+    {p \rightarrow q \equiv \neg p \vee q}
+    {Expresa que un condicional es falso únicamente cuando el antecedente es verdadero y el consecuente falso.}
+
+  \formula{Leyes de De Morgan}
+    {\neg (p \wedge q) \equiv \neg p \vee \neg q \quad \text{y} \quad \neg (p \vee q) \equiv \neg p \wedge \neg q}
+    {Reglas de equivalencia fundamentales para negar conjunciones (Y) y disyunciones (O).}
+
+  \formula{Ley de la Contrapuesta}
+    {p \rightarrow q \equiv \neg q \rightarrow \neg p}
+    {Demuestra que un condicional es equivalente a la implicación de sus términos negados e invertidos.}
+
+  \formula{Leyes de Absorción}
+    {p \wedge (p \vee q) \equiv p \quad \text{y} \quad p \vee (p \wedge q) \equiv p}
+    {Permite simplificar expresiones compuestas donde una variable proposicional se repite dentro y fuera de un paréntesis.}
+
+  \formula{Bicondicional y Disyunción Excluyente}
+    {p \leftrightarrow q \equiv (p \rightarrow q) \wedge (q \rightarrow p) \quad \text{y} \quad p \veebar q \equiv (p \vee q) \wedge \neg(p \wedge q)}
+    {Definición de equivalencia como doble implicación y de disyunción excluyente como disyunción menos conjunción.}
+
+\end{formulas}
+
+\end{document}
