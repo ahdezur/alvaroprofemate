@@ -202,10 +202,11 @@ function initCoursePage() {
 
       courseStructure = data;
       if (data.course) {
-        document.title = `${data.course.title} - Plataforma RAM`;
+        const cleanTabTitle = (data.course.title || "").replace(/\$\s*\\mathbb\{R\}\^n\s*\$/g, "ℝⁿ").replace(/\\mathbb\{R\}\^n/g, "ℝⁿ");
+        document.title = `${cleanTabTitle} - Plataforma RAM`;
         const brandTitle = document.querySelector(".brand-title");
         if (brandTitle) {
-          brandTitle.textContent = data.course.title;
+          brandTitle.innerHTML = data.course.title;
         }
       }
       renderSidebar(data);
@@ -339,6 +340,10 @@ function initCoursePage() {
 
         chapterListContainer.appendChild(item);
       });
+
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        MathJax.typesetPromise([accordion]);
+      }
 
       // Click handler de acordeón
       accordion.querySelector(".unit-header-btn").onclick = (e) => {
@@ -529,7 +534,7 @@ function initCoursePage() {
 
       // Renderizar MathJax sobre todo el contenedor inyectado
       if (window.MathJax && window.MathJax.typesetPromise) {
-        MathJax.typesetPromise([dynamicContainer]);
+        MathJax.typesetPromise([dynamicContainer, document.querySelector(".brand-title"), document.getElementById("sidebar-menu-container")].filter(Boolean));
       }
 
     } catch (err) {
