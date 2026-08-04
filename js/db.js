@@ -792,13 +792,13 @@ const DB = {
     let chapters = localStorage.getItem("alvaro_profemate_chapters");
 
     let dbVersion = localStorage.getItem("alvaro_profemate_db_version");
-    if (dbVersion === "500.0" && courses && courses.includes("introduccion-algebra") && chapters && chapters.includes("Lógica y Funciones Proposicionales")) {
+    if (dbVersion === "501.0" && courses && courses.includes("introduccion-algebra") && chapters && chapters.includes("Matrices y clasificación")) {
       return;
     }
     localStorage.removeItem("alvaro_profemate_courses");
     localStorage.removeItem("alvaro_profemate_units");
     localStorage.removeItem("alvaro_profemate_chapters");
-    localStorage.setItem("alvaro_profemate_db_version", "500.0");
+    localStorage.setItem("alvaro_profemate_db_version", "501.0");
 
     console.log("Sembrando base de datos LocalStorage de cursos...");
 
