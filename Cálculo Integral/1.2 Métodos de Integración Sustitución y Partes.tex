@@ -1,0 +1,275 @@
+\documentclass[11pt]{article}
+
+\package[spanish]{babel}
+\package[utf8]{inputenc}
+\package[T1]{fontenc}
+\package{amsmath, amssymb, amsthm, mathtools}
+\package{geometry}
+\package{xcolor}
+\package{tcolorbox}
+\package{booktabs}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+\newenvironment{motivacion}{\section*{1. Motivación}}{}
+\newenvironment{preguntaguia}{\begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]}{\end{tcolorbox}}
+\newenvironment{teoria}{\section*{2. Definición y Teoría}}{}
+\newenvironment{definicion}[1]{\begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]}{\end{tcolorbox}}
+\newenvironment{teorema}[1]{\begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]}{\end{tcolorbox}}
+\newenvironment{alerta}[1]{\begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=Alerta: #1]}{\end{tcolorbox}}
+\newenvironment{procesamiento}[1]{\begin{tcolorbox}[colback=gray!10,colframe=gray!75!black,title=Procedimiento / Trampa: #1]}{\end{tcolorbox}}
+\newenvironment{ejemplo}[1]{\begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Ejemplo Analítico: #1]}{\end{tcolorbox}}
+\newenvironment{aplicacion}{\section*{3. Aplicación y Práctica}}{}
+\newenvironment{ejercicios}{\section*{4. Ejercicios Resueltos y Propuestos}}{}
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\enunciado}[1]{\textbf{Enunciado:}\par#1\par\medskip}
+\newcommand{\solucion}[1]{\textbf{Solución:}\par#1\par\bigskip}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración Resuelta: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\demostracion}[1]{\textbf{Demostración:}\par#1\par\bigskip}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\pista}[1]{\textbf{Pista/Pauta:}\par#1\par\bigskip}
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}}{}
+\newcommand{\formula}[3]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=#1]\centering\[ #2 \]\tcblower\flushleft\small\textbf{Descripción:} #3\end{tcolorbox}}
+
+% Interacción
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{pareadosdoscolumnas}[1]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=Términos Pareados (2 Columnas): #1]}{\end{tcolorbox}}
+\newcommand{\columnaI}[1]{\par\medskip\textbf{Columna 1 (Números):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaII}[1]{\par\medskip\textbf{Columna 2 (Letras):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\par\smallskip\textbf{Pareo [#1]:} #2\par}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE
+% ==============================================================================
+% ID_CURSO: calculo-integral
+% NUMERO_UNIDAD: 1
+% TITULO_UNIDAD: Integración Indefinida
+% NUMERO_CAPITULO: 1.2
+% TITULO_CAPITULO: Métodos de Integración: Sustitución y Partes
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+\begin{center}
+  {\Large \textbf{Cálculo Integral: Métodos de Integración (Sustitución y Partes)}}\par
+  \vspace{0.5em}
+  {\normalsize Proyecto Educación - Ciclo RAM}\par
+  \vspace{1em}
+\end{center}
+
+\begin{motivacion}
+  En el Cálculo Diferencial, la derivación de funciones compuestas y de productos se rige por algoritmos directos y sistemáticos (la Regla de la Cadena y la Regla del Producto). Sin embargo, el operador integral carece de propiedades de linealidad para productos o composiciones. Por lo tanto, es imperativo desarrollar métodos analíticos rigurosos que permitan invertir estas reglas operatorias, transformando integrandos complejos en expresiones elementales que puedan ser evaluadas mediante la tabla de integrales estándar.
+
+  \begin{preguntaguia}
+    ¿De qué manera la estructura algebraica de un integrando nos permite deducir si este proviene de la derivada de una función compuesta o de la diferenciación de un producto de funciones?
+  \end{preguntaguia}
+\end{motivacion}
+
+\begin{teoria}
+
+  \begin{teorema}{Teorema del Cambio de Variable (Sustitución)}
+    Sea $g: I \to J$ una función diferenciable en un intervalo $I \subseteq \mathbb{R}$, y sea $f: J \to \mathbb{R}$ una función continua en $J$. Si $F$ es una primitiva de $f$ en $J$, entonces la función compuesta $F \circ g$ es una primitiva de $(f \circ g) \cdot g'$ en $I$, de modo que:
+    \[ \displaystyle\int f(g(x)) \cdot g'(x) \, dx = \displaystyle\int f(u) \, du = F(u) + C = F(g(x)) + C \]
+    donde se define la sustitución formal $u = g(x)$ y el diferencial $du = g'(x) \, dx$.
+  \end{teorema}
+
+  \textbf{Demostración:} Consideremos $H(x) = F(g(x))$. Por la Regla de la Cadena, $H'(x) = F'(g(x)) \cdot g'(x)$. Dado que $F'(u) = f(u)$, obtenemos $H'(x) = f(g(x)) \cdot g'(x)$. Por definición de integral indefinida, su antiderivada es $H(x) + C$, lo que demuestra el teorema. $\blacksquare$
+
+  \begin{definicion}{Reconocimiento de la Estructura $f(g(x)) \cdot g'(x)$}
+    Para que el cambio de variable sea aplicable, el integrando debe presentar una estructura donde una subexpresión interna $g(x)$ tenga a su derivada $g'(x)$ como factor multiplicativo del diferencial $dx$ (salvo constantes multiplicativas).
+  \end{definicion}
+
+  \begin{procesamiento}{Incompatibilidad Diferencial}
+    \textbf{Omisión de la Transformación del Diferencial:} Un error grave es realizar el cambio $u = g(x)$ pero mantener el diferencial original $dx$, generando $\displaystyle\int f(u) \, dx$. Todo factor dependiente de $x$ y el diferencial $dx$ deben transformarse íntegramente en términos de $u$ y $du$.
+  \end{procesamiento}
+
+  \begin{ejemplo}{Reconocimiento Directo del Diferencial (Sustitución)}
+    Evaluar $\displaystyle\int \frac{(\ln x)^2}{x} \, dx$.
+    \begin{itemize}
+      \item Sea $\displaystyle u = \ln x \implies du = \frac{1}{x} \, dx$.
+      \item Transformamos: $\displaystyle\int (\ln x)^2 \left( \frac{1}{x} \, dx \right) = \displaystyle\int u^2 \, du$.
+      \item Integramos: $\displaystyle \frac{u^3}{3} + C = \frac{(\ln x)^3}{3} + C$.
+    \end{itemize}
+  \end{ejemplo}
+
+  \begin{ejemplo}{Ajuste de Constantes Multiplicativas (Sustitución)}
+    Evaluar $\displaystyle\int x \sqrt{x^2 + 4} \, dx$.
+    \begin{itemize}
+      \item Sea $\displaystyle u = x^2 + 4 \implies du = 2x \, dx \implies \frac{du}{2} = x \, dx$.
+      \item Transformamos: $\displaystyle\int \sqrt{u} \frac{du}{2} = \frac{1}{2} \displaystyle\int u^{1/2} \, du$.
+      \item Integramos: $\displaystyle \frac{1}{2} \left( \frac{2}{3} u^{3/2} \right) + C = \frac{1}{3} (x^2 + 4)^{3/2} + C$.
+    \end{itemize}
+  \end{ejemplo}
+
+  \begin{teorema}{Teorema de Integración por Partes}
+    Sean $u: I \to \mathbb{R}$ y $v: I \to \mathbb{R}$ funciones diferenciables en un intervalo $I \subseteq \mathbb{R}$, tales que sus derivadas $u'$ y $v'$ son continuas en $I$. Entonces:
+    \[ \displaystyle\int u(x) \cdot v'(x) \, dx = u(x) \cdot v(x) - \displaystyle\int v(x) \cdot u'(x) \, dx \]
+    O expresado en notación de diferenciales abreviada:
+    \[ \displaystyle\int u \, dv = u \cdot v - \displaystyle\int v \, du \]
+  \end{teorema}
+
+  \textbf{Demostración:} Por la Regla del Producto, $\displaystyle \frac{d}{dx}[u(x)v(x)] = u'(x)v(x) + u(x)v'(x)$. Integrando ambos miembros respecto a $x$ y despejando $\displaystyle\int u(x)v'(x) \, dx$, se obtiene la fórmula directa. $\blacksquare$
+
+  \begin{alerta}{Estrategia de Reducción Estructural y Ciclos}
+    \textbf{Elección de variables:} $u$ debe ser una función que se simplifique al derivarse, y $dv$ debe ser fácilmente integrable. 
+    \textbf{Integrales Cíclicas:} Productos como $e^{ax}\cos(bx)$ no se anulan al derivar. La integración por partes repetida reproduce la integral original, requiriendo un despeje algebraico.
+  \end{alerta}
+
+  \begin{ejemplo}{Reducción de Grado Algebraico (Por Partes)}
+    Evaluar $\displaystyle\int x e^{2x} \, dx$.
+    \begin{itemize}
+      \item $\displaystyle u = x \implies du = dx$ \quad y \quad $\displaystyle dv = e^{2x} \, dx \implies v = \frac{1}{2} e^{2x}$.
+      \item Aplicamos $uv - \displaystyle\int v \, du$: $\displaystyle x \left( \frac{1}{2} e^{2x} \right) - \displaystyle\int \frac{1}{2} e^{2x} \, dx$.
+      \item Integramos: $\displaystyle \frac{x e^{2x}}{2} - \frac{e^{2x}}{4} + C$.
+    \end{itemize}
+  \end{ejemplo}
+
+  \begin{ejemplo}{El Diferencial "Oculto" (Por Partes)}
+    Evaluar $\displaystyle\int \ln x \, dx$.
+    \begin{itemize}
+      \item $\displaystyle u = \ln x \implies du = \frac{1}{x} \, dx$ \quad y \quad $\displaystyle dv = dx \implies v = x$.
+      \item Aplicamos $uv - \displaystyle\int v \, du$: $\displaystyle (\ln x)(x) - \displaystyle\int x \left( \frac{1}{x} \, dx \right) = x \ln x - \displaystyle\int 1 \, dx$.
+      \item Integramos: $\displaystyle x \ln x - x + C$.
+    \end{itemize}
+  \end{ejemplo}
+
+\end{teoria}
+
+\begin{aplicacion}
+
+  \begin{preguntaverdaderofalso}{Al aplicar el método de integración por partes a la integral $\displaystyle\int e^x \sin(x) \, dx$, el proceso iterativo concluye cuando el integrando resultante se reduce a un polinomio de grado cero.}
+    \verdaderofalso{Falso}
+    {¡Correcto! Estas funciones son trascendentes y no se anulan. Generan una integral cíclica.}
+    {Cuidado. Las funciones exponencial y trigonométrica nunca se reducen a grado cero al derivarlas.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaverdaderofalso}{Para evaluar la integral $\displaystyle\int x^2 \cos(x^3) \, dx$, la sustitución formal más eficiente es definir $u = \cos(x^3)$.}
+    \verdaderofalso{Falso}
+    {¡Bien detectado! El cambio óptimo es $u = x^3$, cuyo diferencial $3x^2 dx$ está en el integrando.}
+    {Error de diagnóstico. Si $u=\cos(x^3)$, su derivada no simplifica la expresión de manera directa.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaalternativas}{Dada la integral no elemental $\displaystyle\int x^2 e^{x} \, dx$, ¿cuál es el diagnóstico analítico correcto y la primera acción a ejecutar?}
+    \opcion{A}{Incorrecta}{Sustitución simple definiendo $u = x^2$.}
+    \opcion{B}{Incorrecta}{Integración por partes definiendo $u = e^x$ y $dv = x^2 \, dx$.}
+    \opcion{C}{Correcta}{Integración por partes definiendo $u = x^2$ y $dv = e^x \, dx$.}
+    \opcion{D}{Incorrecta}{La integral no admite primitiva en términos de funciones elementales.}
+  \end{preguntaalternativas}
+
+  \begin{preguntacasillas}{Selecciona TODAS las integrales cuya morfología algebraica permite una resolución directa y eficiente mediante Sustitución Simple.}
+    \casilla{Opción 1}{Correcta}{$\displaystyle\int \frac{e^{\sqrt{x}}}{\sqrt{x}} \, dx$}
+    \casilla{Opción 2}{Incorrecta}{$\displaystyle\int \arcsin(x) \, dx$}
+    \casilla{Opción 3}{Correcta}{$\displaystyle\int \frac{\ln(x)}{x} \, dx$}
+    \casilla{Opción 4}{Incorrecta}{$\displaystyle\int x \cos(x) \, dx$}
+  \end{preguntacasillas}
+
+  \begin{pareadosdoscolumnas}{Estrategias y Diagnóstico}
+    \columnaI{
+      \item 1. $\displaystyle\int x \sin(x^2) \, dx$
+      \item 2. $\displaystyle\int x \sin(x) \, dx$
+      \item 3. $\displaystyle\int \sin^2(x)\cos(x) \, dx$
+      \item 4. $\displaystyle\int \ln(x) \, dx$
+    }
+    \columnaII{
+      \item A. Sustitución definiendo $u = x^2$
+      \item B. Integración por partes definiendo $u = x$
+      \item C. Sustitución definiendo $u = \sin(x)$
+      \item D. Integración por partes definiendo $dv = dx$
+      \item E. Sustitución definiendo $u = \cos(x)$ (Distractor)
+    }
+    \pareo{1}{A}
+    \pareo{2}{B}
+    \pareo{3}{C}
+    \pareo{4}{D}
+  \end{pareadosdoscolumnas}
+
+\end{aplicacion}
+
+\begin{ejercicios}
+
+  \begin{ejercicioresuelto}{Integración por Sustitución Simple}{Nivel 1}
+    \enunciado{Utilice el método de sustitución para evaluar la integral: $\displaystyle\int \frac{x^2}{\sqrt{x^3 + 8}} \, dx$}
+    \solucion{
+      Sea $\displaystyle u = x^3 + 8 \implies du = 3x^2 \, dx \implies \frac{du}{3} = x^2 \, dx$. \\
+      Transformamos la integral: 
+      \[ \displaystyle\int \frac{1}{\sqrt{u}} \cdot \frac{du}{3} = \frac{1}{3} \displaystyle\int u^{-1/2} \, du \]
+      Integramos: 
+      \[ \displaystyle \frac{1}{3} \left( \frac{u^{1/2}}{1/2} \right) + C = \frac{2}{3}\sqrt{u} + C = \frac{2}{3}\sqrt{x^3 + 8} + C \]
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Integración por Partes}{Nivel 2}
+    \enunciado{Aplique el teorema de integración por partes para resolver: $\displaystyle\int x \sin(2x) \, dx$}
+    \solucion{
+      Sea $\displaystyle u = x \implies du = dx$, y $\displaystyle dv = \sin(2x) \, dx \implies v = -\frac{1}{2}\cos(2x)$. \\
+      Aplicamos $uv - \displaystyle\int v \, du$:
+      \[ = \displaystyle -x \left(\frac{1}{2}\cos(2x)\right) - \displaystyle\int \left(-\frac{1}{2}\cos(2x)\right) \, dx \]
+      \[ = \displaystyle -\frac{x}{2}\cos(2x) + \frac{1}{2} \displaystyle\int \cos(2x) \, dx = -\frac{x}{2}\cos(2x) + \frac{1}{4}\sin(2x) + C \]
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Dualidad: Equivalencia de Métodos}{Nivel 3}
+    \enunciado{Demuestre que la integral $\displaystyle\int x \sqrt{x - 1} \, dx$ puede ser resuelta tanto por sustitución como por partes, conduciendo a familias equivalentes.}
+    \solucion{
+      \textbf{Vía Sustitución:} $\displaystyle u = x - 1 \implies x = u + 1$ y $\displaystyle dx = du$. \\
+      $\displaystyle \displaystyle\int (u + 1)\sqrt{u} \, du = \displaystyle\int (u^{3/2} + u^{1/2}) \, du = \frac{2}{5}(x - 1)^{5/2} + \frac{2}{3}(x - 1)^{3/2} + C_1$. \\
+      \textbf{Vía Partes:} $\displaystyle u = x \implies du = dx$, y $\displaystyle dv = (x - 1)^{1/2}dx \implies v = \frac{2}{3}(x - 1)^{3/2}$. \\
+      $\displaystyle x \cdot \frac{2}{3}(x - 1)^{3/2} - \displaystyle\int \frac{2}{3}(x - 1)^{3/2} \, dx = \frac{2x}{3}(x - 1)^{3/2} - \frac{4}{15}(x - 1)^{5/2} + C_2$. \\
+      (Al factorizar $(x-1)^{3/2}$, se comprueba algebraicamente que ambas expresiones son la misma función).
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Composición: Sustitución previa a Partes}{Nivel 3}
+    \enunciado{Evalúe la integral de función compuesta: $\displaystyle\int e^{\sqrt{x}} \, dx$}
+    \solucion{
+      1. Sustitución: $\displaystyle w = \sqrt{x} \implies x = w^2 \implies dx = 2w \, dw$. La integral es $\displaystyle 2 \displaystyle\int w e^w \, dw$. \\
+      2. Partes: $\displaystyle u = w \implies du = dw$, y $\displaystyle dv = e^w \, dw \implies v = e^w$. \\
+      $\displaystyle 2 \left( w e^w - \displaystyle\int e^w \, dw \right) = 2(w e^w - e^w) + C$. \\
+      Inversión final: $\displaystyle 2\sqrt{x}e^{\sqrt{x}} - 2e^{\sqrt{x}} + C = 2e^{\sqrt{x}}(\sqrt{x} - 1) + C$.
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejerciciopropuesto}{Diagnóstico Integrado A}{Nivel 2}
+    \enunciado{Evalúe: $\displaystyle\int \frac{e^x}{1 + e^{2x}} \, dx$}
+    \pista{Reescriba $e^{2x}$ como $(e^x)^2$ e intente una sustitución $u = e^x$. (Respuesta: $\arctan(e^x) + C$).}
+  \end{ejerciciopropuesto}
+
+  \begin{ejerciciopropuesto}{Diagnóstico Integrado B}{Nivel 2}
+    \enunciado{Evalúe: $\displaystyle\int \arcsin(x) \, dx$}
+    \pista{Función trascendente aislada. Use partes asignando el diferencial $dv = dx$.}
+  \end{ejerciciopropuesto}
+  
+  \begin{ejerciciopropuesto}{Diagnóstico Integrado C}{Nivel 3}
+    \enunciado{Evalúe: $\displaystyle\int x^3 \cos(x^2) \, dx$}
+    \pista{Descomponga $x^3 = x^2 \cdot x$. Use sustitución $w = x^2$ para neutralizar el argumento trigonométrico, seguido de partes.}
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+\begin{formulas}
+
+  \formula{Teorema del Cambio de Variable (Sustitución)}
+    {\displaystyle\int f(g(x)) \cdot g'(x) \, dx = \displaystyle\int f(u) \, du}
+    {Se emplea la sustitución $u = g(x)$ y se transforma el diferencial completo como $du = g'(x)dx$.}
+
+  \formula{Teorema de Integración por Partes}
+    {\displaystyle\int u \, dv = u \cdot v - \displaystyle\int v \, du}
+    {Diseñada para invertir la regla del producto. Traslada el operador diferencial de un factor a otro para generar una integral más sencilla.}
+
+  \formula{Regla Heurística ILATE (Elección de $u$)}
+    {\text{Inversas} > \text{Logarítmicas} > \text{Algebraicas} > \text{Trigonométricas} > \text{Exponenciales}}
+    {Orden de prioridad recomendado para seleccionar la función $u$ en la integración por partes. La función que aparece primero en la lista suele ser la mejor elección para derivar.}
+
+\end{formulas}
+
+\end{document}

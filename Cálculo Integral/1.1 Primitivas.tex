@@ -1,0 +1,245 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+\newenvironment{motivacion}{\section*{1. Motivación}}{}
+\newenvironment{preguntaguia}{\begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]}{\end{tcolorbox}}
+\newenvironment{teoria}{\section*{2. Definición y Teoría}}{}
+\newenvironment{definicion}[1]{\begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]}{\end{tcolorbox}}
+\newenvironment{teorema}[1]{\begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]}{\end{tcolorbox}}
+\newenvironment{alerta}[1]{\begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=Alerta: #1]}{\end{tcolorbox}}
+\newenvironment{procesamiento}[1]{\begin{tcolorbox}[colback=gray!10,colframe=gray!75!black,title=Trampa Cognitiva: #1]}{\end{tcolorbox}}
+\newenvironment{ejemplo}[1]{\begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Idea Clave: #1]}{\end{tcolorbox}}
+\newenvironment{aplicacion}{\section*{3. Aplicación y Práctica}}{}
+\newenvironment{ejercicios}{\section*{4. Ejercicios Resueltos y Propuestos}}{}
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\enunciado}[1]{\textbf{Enunciado:}\par#1\par\medskip}
+\newcommand{\solucion}[1]{\textbf{Solución:}\par#1\par\bigskip}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración Resuelta: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\demostracion}[1]{\textbf{Demostración:}\par#1\par\bigskip}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\pista}[1]{\textbf{Pista/Pauta:}\par#1\par\bigskip}
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}}{}
+\newcommand{\formula}[3]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=#1]\centering\[ #2 \]\tcblower\flushleft\small\textbf{Descripción:} #3\end{tcolorbox}}
+
+% Interacción
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{pareadosdoscolumnas}[1]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=Términos Pareados (2 Columnas): #1]}{\end{tcolorbox}}
+\newcommand{\columnaI}[1]{\par\medskip\textbf{Columna 1 (Números):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaII}[1]{\par\medskip\textbf{Columna 2 (Letras):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\par\smallskip\textbf{Pareo [#1]:} #2\par}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE
+% ==============================================================================
+% ID_CURSO: calculo-integral
+% NUMERO_UNIDAD: 1
+% TITULO_UNIDAD: Integración Indefinida
+% NUMERO_CAPITULO: 1.1
+% TITULO_CAPITULO: Primitivas
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+\begin{center}
+  {\Large \textbf{Cálculo Integral: Primitivas e Integrales Indefinidas}}\par
+  \vspace{0.5em}
+  {\normalsize Proyecto Educación - Ciclo RAM}\par
+  \vspace{1em}
+\end{center}
+
+\begin{motivacion}
+  Hacemos reflexionar al estudiante sobre cómo la derivada "borra" información. Si derivamos $f(x) = x^2 + 5$, $g(x) = x^2 - 10$ y $h(x) = x^2 + \pi$, todas nos dan exactamente $2x$. La derivada sufre de amnesia respecto a las constantes. Ahora, nuestro trabajo como matemáticos es hacer el proceso inverso: nos entregan el $2x$ y nos piden averiguar de dónde vino.
+
+  \begin{preguntaguia}
+    Si una función derivada ha "olvidado" su constante original, ¿es posible recuperar la función exacta de la cual proviene, o estamos condenados a encontrar infinitas posibilidades?
+  \end{preguntaguia}
+\end{motivacion}
+
+\begin{teoria}
+  Se formaliza la noción de "operación inversa" en el cálculo. Así como la resta invierte a la suma y la división a la multiplicación, buscaremos una operación que revierta el proceso de diferenciación sobre un intervalo real $I \subseteq \mathbb{R}$.
+
+  \begin{definicion}{Función Primitiva}
+    Sea $f: I \to \mathbb{R}$ una función definida en un intervalo $I$. Decimos que una función $F: I \to \mathbb{R}$ es una \textbf{primitiva} (o \textit{antiderivada}) de $f$ en $I$ si $F$ es diferenciable en $I$ y cumple:
+    \[ F'(x) = f(x), \quad \forall x \in I \]
+  \end{definicion}
+
+  \begin{teorema}{Caracterización de la Primitiva General}
+    Sea $F(x)$ una primitiva de $f(x)$ en un intervalo $I$. 
+    \begin{enumerate}
+      \item Para cualquier constante $C \in \mathbb{R}$, la función $G(x) = F(x) + C$ también es una primitiva de $f(x)$ en $I$.
+      \item Si $G(x)$ es otra primitiva cualquiera de $f(x)$ en el \textbf{intervalo} $I$, entonces existe una constante $C \in \mathbb{R}$ tal que $G(x) = F(x) + C$ para todo $x \in I$.
+    \end{enumerate}
+  \end{teorema}
+
+  \textbf{Demostración:} Se define $H(x) = G(x) - F(x)$. Como $G'(x) = f(x)$ y $F'(x) = f(x)$, se tiene $H'(x) = G'(x) - F'(x) = 0$ en $I$.
+  Por consecuencia del Teorema del Valor Medio, una función con derivada nula en todo un intervalo es necesariamente constante. Por lo tanto, $H(x) = C$, lo que implica $G(x) = F(x) + C$. $\blacksquare$
+
+  \begin{ejemplo}{Integrar es buscar la totalidad de las primitivas}
+    Integrar una función $f(x)$ \textbf{no es simplemente encontrar un resultado}, sino determinar el \textbf{conjunto completo de todas las primitivas} que dieron origen a $f(x)$. En la práctica, el proceso consiste en encontrar una sola primitiva particular $F(x)$, y gracias al Teorema de Caracterización, se deduce rigurosamente que cualquier otra primitiva posible debe ser de la forma $F(x) + C$. Omitir el $+C$ es un error conceptual grave.
+  \end{ejemplo}
+
+  \begin{definicion}{Notación de la Integral Indefinida}
+    El conjunto de todas las primitivas de una función $f(x)$ en un intervalo $I$ se denota mediante el símbolo de la \textbf{integral indefinida}:
+    \[ \int f(x) \, dx = F(x) + C \]
+    donde $\int$ es el signo de integral, $f(x)$ es el integrando, $dx$ es el diferencial de la variable, $F(x)$ es una primitiva particular y $C$ es la constante de integración.
+  \end{definicion}
+
+  \begin{teorema}{Cancelación Mutua entre Derivada e Integral}
+    La diferenciación y la integración indefinida son operaciones inversas:
+    \begin{enumerate}
+      \item $\displaystyle \frac{d}{dx} \left[ \int f(x) \, dx \right] = f(x)$
+      \item $\displaystyle \int F'(x) \, dx = F(x) + C$
+    \end{enumerate}
+  \end{teorema}
+
+  \begin{teorema}{Linealidad de la Integral Indefinida}
+    Sean $f$ y $g$ funciones con primitiva y $k \in \mathbb{R}$ una constante:
+    \begin{enumerate}
+      \item $\displaystyle \int k \cdot f(x) \, dx = k \int f(x) \, dx \quad (k \neq 0)$
+      \item $\displaystyle \int [f(x) \pm g(x)] \, dx = \int f(x) \, dx \pm \int g(x) \, dx$
+    \end{enumerate}
+  \end{teorema}
+
+  \begin{procesamiento}{Falacias de Linealidad}
+    La linealidad fantasma del producto y cociente:
+    \[ \int [f(x) \cdot g(x)] \, dx \neq \left(\int f(x) \, dx\right) \cdot \left(\int g(x) \, dx\right) \]
+    Extracción de variables fuera de la integral:
+    \[ \int x \cdot f(x) \, dx \neq x \int f(x) , dx \]
+  \end{procesamiento}
+
+\end{teoria}
+
+\begin{aplicacion}
+
+  \begin{preguntaverdaderofalso}{La integral de un producto es igual al producto de las integrales.}
+    \verdaderofalso{Falso}
+    {¡Exacto! Cuidado con la linealidad fantasma. La integral indefinida es un operador lineal solo para sumas y restas.}
+    {¡Cuidado! La integral del producto NO es el producto de las integrales.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaverdaderofalso}{Si derivas una función y luego la integras, obtienes exactamente la misma función original.}
+    \verdaderofalso{Falso}
+    {¡Bien! Te acordaste de la amnesia de la derivada. Al integrar la derivada, obtienes la original más una constante.}
+    {Recuerda que la integral incorpora un $+C$. No recuperas obligatoriamente la original sin una condición inicial.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaverdaderofalso}{Si $F(x)$ y $G(x)$ son dos primitivas de la misma función $f(x)$ en un intervalo $I$, sus gráficas son curvas strictly paralelas.}
+    \verdaderofalso{Verdadero}
+    {Revisa el teorema de caracterización.}
+    {¡Exacto! Geométricamente solo difieren por una traslación vertical constante.}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaalternativas}{¿Cuál de las siguientes expresiones representa la familia completa de primitivas de la función $f(x) = 3x^2 - \frac{1}{x}$ en el intervalo $(0, \infty)$?}
+    \opcion{A}{Incorrecta}{$x^3 - \ln(x)$}
+    \opcion{B}{Incorrecta}{$6x + \frac{1}{x^2} + C$}
+    \opcion{C}{Correcta}{$x^3 - \ln(x) + C$}
+    \opcion{D}{Incorrecta}{$x^3 + \ln(x) + C$}
+  \end{preguntaalternativas}
+
+  \begin{preguntacasillas}{Selecciona TODAS las funciones que sean primitivas válidas de la función $f(x) = e^x + 2x$ en todo $\mathbb{R}$.}
+    \casilla{Opción 1}{Correcta}{$F(x) = e^x + x^2$}
+    \casilla{Opción 2}{Incorrecta}{$F(x) = e^x + 2$}
+    \casilla{Opción 3}{Correcta}{$F(x) = e^x + x^2 - 42$}
+    \casilla{Opción 4}{Correcta}{$F(x) = e^x + x^2 + \pi$}
+  \end{preguntacasillas}
+
+  \begin{pareadosdoscolumnas}{Integrales Inmediatas}
+    \columnaI{
+      \item 1. $\int x^3 \, dx$
+      \item 2. $\int \frac{1}{1+x^2} \, dx$
+      \item 3. $\int \sec^2(x) \, dx$
+      \item 4. $\int \sin(x) \, dx$
+    }
+    \columnaII{
+      \item A. $\frac{x^4}{4} + C$
+      \item B. $\arctan(x) + C$
+      \item C. $\tan(x) + C$
+      \item D. $-\cos(x) + C$
+      \item E. $\cos(x) + C$
+    }
+    \pareo{1}{A}
+    \pareo{2}{B}
+    \pareo{3}{C}
+    \pareo{4}{D}
+  \end{pareadosdoscolumnas}
+
+\end{aplicacion}
+
+\begin{ejercicios}
+  \begin{ejercicioresuelto}{Álgebra antes del Cálculo}{Nivel 1}
+    \enunciado{Calcula la siguiente integral indefinida:
+      \[ \int \frac{2x^3 - 5\sqrt{x} + 3}{x} \, dx \]
+    }
+    \solucion{
+      Separamos la fracción:
+      \[ \int \left( 2x^2 - 5x^{-1/2} + \frac{3}{x} \right) \, dx \]
+      Integramos término a término:
+      \[ = \frac{2}{3}x^3 - 10\sqrt{x} + 3\ln|x| + C \]
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Recuperando la función exacta (Fijando C)}{Nivel 2}
+    \enunciado{Encuentra la función exacta $f(x)$ sabiendo que su derivada es $f'(x) = 4x - \cos(x)$ y que satisface la condición inicial $f(0) = 5$.}
+    \solucion{
+      Integramos para hallar la familia de primitivas:
+      \[ f(x) = \int (4x - \cos(x)) \, dx = 2x^2 - \sin(x) + C \]
+      Evaluamos en $x=0$:
+      \[ f(0) = 2(0)^2 - \sin(0) + C = 5 \implies C = 5 \]
+      Por lo tanto, la función es $f(x) = 2x^2 - \sin(x) + 5$.
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejerciciodemostracion}{Regla de escalamiento lineal}{Nivel 3}
+    \enunciado{Demuestra que si $F(x)$ es una primitiva de $f(x)$, entonces $\int f(kx) \, dx = \frac{1}{k}F(kx) + C$ para $k \neq 0$.}
+    \demostracion{
+      Derivamos el resultado propuesto $G(x) = \frac{1}{k}F(kx) + C$:
+      \[ G'(x) = \frac{1}{k} \cdot F'(kx) \cdot k = F'(kx) \]
+      Como $F$ es primitiva de $f$, $F'(u) = f(u)$. Evaluando en $u=kx$, queda $G'(x) = f(kx)$. $\blacksquare$
+    }
+  \end{ejerciciodemostracion}
+
+  \begin{ejerciciopropuesto}{El cuadrado del binomio}{Nivel 1}
+    \enunciado{Calcula $\int (3x - 2)^2 \, dx$.}
+    \pista{Expande el binomio al cuadrado primero. Respuesta: $3x^3 - 6x^2 + 4x + C$.}
+  \end{ejerciciopropuesto}
+\end{ejercicios}
+
+\begin{formulas}
+  \formula{Regla de la Potencia}
+    {\int x^n \, dx = \frac{x^{n+1}}{n+1} + C, \quad n \neq -1}
+    {Válido para cualquier exponente real distinto de -1.}
+
+  \formula{Integral del Inverso Multiplicativo}
+    {\int \frac{1}{x} \, dx = \ln|x| + C}
+    {Requiere valor absoluto para abarcar el dominio completo ($x \neq 0$).}
+
+  \formula{Integral de la Función Exponencial}
+    {\int e^x \, dx = e^x + C}
+    {La exponencial natural es su propia primitiva.}
+    
+  \formula{Integral Trigonométrica (Seno)}
+    {\int \sin(x) \, dx = -\cos(x) + C}
+    {El signo negativo compensa el hecho de que la derivada del coseno es -seno.}
+\end{formulas}
+
+\end{document}
