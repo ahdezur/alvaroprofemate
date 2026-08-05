@@ -1,0 +1,305 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\package[T1]{fontenc}
+\package{amsmath, amssymb, amsthm, mathtools}
+\package{geometry}
+\package{xcolor}
+\package{tcolorbox}
+
+\geometry{letterpaper, margin=2.2cm}
+
+% ==============================================================================
+% DEFINICIONES DE ENTORNOS PERSONALIZADOS PARA COMPILACIÓN
+% ==============================================================================
+\newenvironment{motivacion}{\section*{1. Motivación}}{}
+\newenvironment{preguntaguia}{\begin{tcolorbox}[colback=cyan!5,colframe=cyan!75!black,title=Pregunta Guía]}{\end{tcolorbox}}
+\newenvironment{teoria}{\section*{2. Definición y Teoría}}{}
+\newenvironment{definicion}[1]{\begin{tcolorbox}[colback=blue!5,colframe=blue!75!black,title=Definición: #1]}{\end{tcolorbox}}
+\newenvironment{teorema}[1]{\begin{tcolorbox}[colback=green!5,colframe=green!75!black,title=Teorema: #1]}{\end{tcolorbox}}
+\newenvironment{alerta}[1]{\begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=Alerta: #1]}{\end{tcolorbox}}
+\newenvironment{procesamiento}[1]{\begin{tcolorbox}[colback=gray!10,colframe=gray!75!black,title=Procedimiento: #1]}{\end{tcolorbox}}
+\newenvironment{ejemplo}[1]{\begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=Ejemplo: #1]}{\end{tcolorbox}}
+\newenvironment{aplicacion}{\section*{3. Aplicación y Práctica}}{}
+\newenvironment{ejercicios}{\section*{4. Ejercicios Resueltos y Propuestos}}{}
+\newenvironment{ejercicioresuelto}[2]{\subsection*{Ejercicio Resuelto: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\enunciado}[1]{\textbf{Enunciado:}\par#1\par\medskip}
+\newcommand{\solucion}[1]{\textbf{Solución:}\par#1\par\bigskip}
+\newenvironment{ejerciciodemostracion}[2]{\subsection*{Demostración Resuelta: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\demostracion}[1]{\textbf{Demostración:}\par#1\par\bigskip}
+\newenvironment{ejerciciopropuesto}[2]{\subsection*{Ejercicio Propuesto: #1 \hfill \normalfont\small(#2)}}{ }
+\newcommand{\pista}[1]{\textbf{Pista/Pauta:}\par#1\par\bigskip}
+\newenvironment{formulas}{\section*{5. Fórmulas Clave}}{}
+\newcommand{\formula}[3]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=#1]\centering\[ #2 \]\tcblower\flushleft\small\textbf{Descripción:} #3\end{tcolorbox}}
+
+% --- ELEMENTOS INTERACTIVOS ---
+\newenvironment{preguntaalternativas}[1]{\subsection*{Pregunta: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\opcion}[3]{\par\noindent $\bullet$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{preguntaverdaderofalso}[1]{\subsection*{Pregunta V/F: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\verdaderofalso}[3]{\par\noindent\textbf{Respuesta correcta: #1} \\ \textit{Si marca Falso:} #2 \\ \textit{Si marca Verdadero:} #3\par\vspace{0.15cm}}
+\newenvironment{preguntacasillas}[1]{\subsection*{Selección Múltiple: #1}\par\vspace{0.1cm}}{\vspace{0.3cm}}
+\newcommand{\casilla}[3]{\par\noindent $\square$ \textbf{#1} \textit{(#2)} - #3\par\vspace{0.15cm}}
+\newenvironment{pareadosdoscolumnas}[1]{\begin{tcolorbox}[colback=violet!5,colframe=violet!75!black,title=Términos Pareados (2 Columnas): #1]}{\end{tcolorbox}}
+\newenvironment{pareadostrescolumnas}[1]{\begin{tcolorbox}[colback=teal!5,colframe=teal!75!black,title=Términos Pareados (3 Columnas): #1]}{\end{tcolorbox}}
+\newcommand{\columnaI}[1]{\par\medskip\textbf{Columna 1 (Números):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaII}[1]{\par\medskip\textbf{Columna 2 (Letras):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\columnaIII}[1]{\par\medskip\textbf{Columna 3 (Números Romanos):}\par\begin{itemize}#1\end{itemize}}
+\newcommand{\pareo}[2]{\par\smallskip\textbf{Pareo [#1]:} #2\par}
+\newcommand{\pareotres}[2]{\par\smallskip\textbf{Pareo [#1]:} #2\par}
+
+% ==============================================================================
+% 1. METADATOS TÉCNICOS DE DESPLIEGUE
+% ==============================================================================
+% ID_CURSO: introduccion-algebra
+% NUMERO_UNIDAD: 1
+% TITULO_UNIDAD: Lógica Matemática
+% NUMERO_CAPITULO: 1.2
+% TITULO_CAPITULO: Cuantificadores Lógicos
+% ESTADO_BLOQUEADO: false
+% ESTADO_COMPLETADO: false
+% ==============================================================================
+
+\begin{document}
+
+\begin{motivacion}
+  En el capítulo anterior descubrimos que una función proposicional como $P(x):$ «$x$ es un número par» no posee un valor de verdad fijo hasta que reemplazamos la variable $x$ por un valor concreto. Pero, ¿qué ocurre si queremos hacer una afirmación sobre un conjunto entero de elementos sin tener que evaluarlos uno por uno?
+
+  En la vida diaria, y especialmente en matemáticas, constantemente hacemos generalizaciones o afirmamos la existencia de algo. Decimos frases como \textit{«Todos los múltiplos de 4 son pares»} o \textit{«Existe una solución para esta ecuación»}. Para transformar las funciones proposicionales (abiertas) en afirmaciones absolutas (proposiciones lógicas con un valor $V$ o $F$), el álgebra utiliza los \textbf{cuantificadores}. 
+
+  El dominio de estos conceptos —el cuantificador universal ($\forall$, «para todo») y el cuantificador existencial ($\exists$, «existe»)— nos entregará el vocabulario final necesario para leer, escribir y, más adelante, demostrar los teoremas fundamentales del cálculo y el álgebra superior.
+
+  \begin{preguntaguia}
+    ¿Cómo podemos traducir al lenguaje matemático riguroso frases como «Todo número natural es mayor que cero» o «Existe al menos un número primo que es par», y qué reglas lógicas debemos aplicar cuando queremos negar estas afirmaciones rotundas?
+  \end{preguntaguia}
+\end{motivacion}
+
+\begin{teoria}
+  Para transformar una función proposicional $P(x)$ en una proposición lógica (con un valor de verdad $V$ o $F$) sin necesidad de evaluar $x$ en un número específico, utilizamos los cuantificadores lógicos. Estos nos permiten hacer afirmaciones sobre todo un conjunto (dominio de discurso).
+
+  \begin{definicion}{Cuantificador Universal ($\forall$)}
+    El símbolo $\forall$ se lee \textit{«para todo»} o \textit{«para cualquier»}. Dada una función proposicional $P(x)$ y un universo de discurso $U$, la proposición:
+    \[ \forall x \in U, P(x) \]
+    es \textbf{Verdadera} si y solo si $P(x)$ es verdadera para \textbf{cada uno} de los elementos del conjunto $U$.
+    Basta con encontrar un solo elemento en $U$ que haga que $P(x)$ sea falsa (llamado \textbf{contraejemplo}) para que la proposición completa sea \textbf{Falsa}.
+  \end{definicion}
+
+  \begin{definicion}{Cuantificador Existencial ($\exists$)}
+    El símbolo $\exists$ se lee \textit{«existe al menos un»} o \textit{«existe algún»}. Dada una función proposicional $P(x)$ y un universo de discurso $U$, la proposición:
+    \[ \exists x \in U : P(x) \]
+    es \textbf{Verdadera} si y solo si existe \textbf{al menos un} elemento en el conjunto $U$ que haga que $P(x)$ sea verdadera.
+    La proposición solo será \textbf{Falsa} si $P(x)$ es falsa para todos los elementos de $U$.
+  \end{definicion}
+
+  \begin{alerta}{El Cuantificador Existencial Único ($\exists!$)}
+    Existe una variante del cuantificador existencial denotada por $\exists!$, que se lee \textit{«existe un único»}. 
+    \[ \exists! x \in U : P(x) \]
+    Esta proposición es Verdadera si \textbf{exactamente un} elemento del universo cumple la condición. Si hay cero elementos o si hay más de uno, la proposición es Falsa.
+  \end{alerta}
+
+  \begin{teorema}{Negación de Cuantificadores (Leyes de De Morgan Generalizadas)}
+    Negar una afirmación cuantificada requiere cambiar el cuantificador y negar la función proposicional interior.
+    \begin{itemize}
+        \item \textbf{Negación del Universal:} La negación de que \textit{«todos cumplen»} es que \textit{«al menos uno no cumple»}.
+        \[ \neg (\forall x \in U, P(x)) \equiv \exists x \in U : \neg P(x) \]
+        \item \textbf{Negación del Existencial:} La negación de que \textit{«al menos uno cumple»} es que \textit{«ninguno cumple»} (es decir, \textit{«todos no cumplen»}).
+        \[ \neg (\exists x \in U : P(x)) \equiv \forall x \in U, \neg P(x) \]
+    \end{itemize}
+  \end{teorema}
+
+  \begin{ejemplo}{Aplicación de la Negación Matemática}
+    Para aplicar correctamente la negación $\neg P(x)$ en expresiones matemáticas, recuerda invertir las relaciones de orden:
+    \begin{itemize}
+        \item $\neg(x = y) \equiv x \neq y$
+        \item $\neg(x < y) \equiv x \geq y$
+        \item $\neg(x \leq y) \equiv x > y$
+    \end{itemize}
+    \textbf{Ejemplo:} Negar la proposición $p: \forall x \in \mathbb{R}, x^2 \geq 0$
+    \[ \neg p : \exists x \in \mathbb{R} : x^2 < 0 \]
+    (Nota: $p$ es una proposición Verdadera, por lo que su negación $\neg p$ es Falsa).
+  \end{ejemplo}
+
+\end{teoria}
+
+\begin{aplicacion}
+  Ahora pondremos a prueba tu comprensión de los cuantificadores lógicos. El objetivo es identificar cuándo una proposición cuantificada es verdadera o falsa, cómo traducirla y cómo negarla correctamente.
+
+  \begin{preguntaverdaderofalso}{Evaluación del Cuantificador Universal}
+    Sea el universo de discurso los números reales ($\mathbb{R}$). La proposición $\forall x \in \mathbb{R}, x^2 > 0$ es Verdadera.
+    \verdaderofalso{F}
+      {¡Correcto! Es Falsa. Aunque casi todos los números reales al cuadrado son positivos, existe un contraejemplo fatal: si $x = 0$, entonces $0^2 = 0$, lo cual no es estrictamente mayor que cero. La proposición correcta sería $\forall x \in \mathbb{R}, x^2 \geq 0$.}
+      {Incorrecto. Recuerda que para que un «Para todo» sea verdadero, no puede fallar ni una sola vez. ¿Qué pasa si evalúas la función en $x = 0$?}
+  \end{preguntaverdaderofalso}
+
+  \begin{preguntaalternativas}{Traducción al Lenguaje Formal}
+    ¿Cuál de las siguientes opciones traduce correctamente la frase: \textit{«Existe un número real cuyo cuadrado es negativo»}?
+    
+    \opcion{A}{Incorrecto}{$\forall x \in \mathbb{R}, x^2 < 0$ (Esto se lee como «Para todo número real, su cuadrado es negativo»)}
+    \opcion{B}{Incorrecto}{$\exists x \in \mathbb{R} : x^2 \leq 0$ (Cuidado con la desigualdad. «Menor o igual» incluye al cero)}
+    \opcion{C}{Correcto}{$\exists x \in \mathbb{R} : x^2 < 0$ (¡Exacto! El existencial $\exists$ indica que «existe un», y $x^2 < 0$ es estrictamente negativo)}
+  \end{preguntaalternativas}
+
+  \begin{preguntacasillas}{Evaluando Múltiples Cuantificadores}
+    Considera que el universo de discurso son los \textbf{números naturales} ($\mathbb{N} = \{1, 2, 3, \dots\}$). Selecciona \textbf{todas} las proposiciones que sean \textbf{Verdaderas}:
+    
+    \casilla{Opción 1}{Correcto}{$\exists x \in \mathbb{N} : x - 5 = 0$ (Verdadera, $x=5$ es natural)}
+    \casilla{Opción 2}{Correcto}{$\forall x \in \mathbb{N}, x > 0$ (Verdadera, todos los naturales son mayores que 0)}
+    \casilla{Opción 3}{Incorrecto}{$\forall x \in \mathbb{N}, x^2 > x$ (Falsa, para $x=1$, $1^2 > 1$ es falso)}
+    \casilla{Opción 4}{Incorrecto}{$\exists x \in \mathbb{N} : x + 2 = 0$ (Falsa, la solución $x=-2 \notin \mathbb{N}$)}
+  \end{preguntacasillas}
+
+  \begin{preguntaalternativas}{Negación en Lenguaje Natural}
+    ¿Cuál es la negación lógica correcta de la afirmación \textit{«Todos los estudiantes aprobaron el examen de álgebra»}?
+    
+    \opcion{A}{Incorrecto}{Ningún estudiante aprobó el examen de álgebra.}
+    \opcion{B}{Correcto}{Existe al menos un estudiante que no aprobó el examen de álgebra.}
+    \opcion{C}{Incorrecto}{Existe al menos un estudiante que aprobó el examen de álgebra.}
+  \end{preguntaalternativas}
+
+  \begin{preguntaverdaderofalso}{El Cuantificador Existencial Único}
+    Sea el universo de discurso los números reales ($\mathbb{R}$). La proposición $\exists! x \in \mathbb{R} : x^2 = 9$ es Verdadera.
+    \verdaderofalso{F}
+      {¡Correcto! Es Falsa. La ecuación $x^2 = 9$ tiene dos soluciones reales: $x = 3$ y $x = -3$. Como el cuantificador es $\exists!$ (existe un \textbf{único}), la presencia de dos soluciones hace que la proposición falle.}
+      {Incorrecto. El símbolo $\exists!$ significa «existe exactamente uno». ¿Estás seguro de que solo hay un número real que elevado al cuadrado dé 9?}
+  \end{preguntaverdaderofalso}
+
+  \begin{pareadosdoscolumnas}{Leyes de De Morgan Generalizadas}
+    Relaciona cada proposición cuantificada (Números) con su respectiva \textbf{negación lógica} matemática (Letras).
+    \columnaI{
+      \item 1. $\forall x \in U, P(x)$
+      \item 2. $\exists x \in U : P(x)$
+      \item 3. $\forall x \in U, \neg P(x)$
+      \item 4. $\exists x \in U : \neg P(x)$
+    }
+    \columnaII{
+      \item A. $\forall x \in U, P(x)$
+      \item B. $\forall x \in U, \neg P(x)$
+      \item C. $\exists x \in U : \neg P(x)$
+      \item D. $\exists x \in U : P(x)$
+    }
+    
+    \pareo{1}{C}
+    \pareo{2}{B}
+    \pareo{3}{D}
+    \pareo{4}{A}
+  \end{pareadosdoscolumnas}
+
+\end{aplicacion}
+
+\begin{ejercicios}
+
+  \begin{ejercicioresuelto}{Análisis de Implicación con Cuantificadores}{Nivel 2}
+    \enunciado{
+      En el conjunto de los números enteros ($\mathbb{Z}$) se define la siguiente función proposicional:
+      \[ P(x, y) : x \leq y \implies x^2 \leq y^2 \]
+      \begin{enumerate}
+        \item[(a)] Encuentre el conjunto $\{x \in \mathbb{Z} : P(x, 1) \equiv V\}$.
+        \item[(b)] Determine el valor de verdad de la proposición: $(\forall x \in \mathbb{Z})(\forall y \in \mathbb{Z})(P(x, y))$.
+        \item[(c)] Niegue la proposición del apartado (b).
+      \end{enumerate}
+    }
+    \solucion{
+      \textbf{Parte (a):} Evaluamos la función en $y=1$. Obtenemos $P(x, 1): x \leq 1 \implies x^2 \leq 1$.
+      Recordemos que una implicación $A \implies B$ es verdadera si el antecedente $A$ es falso, o si ambos $A$ y $B$ son verdaderos ($A \implies B \equiv \neg A \vee B$).
+      \begin{itemize}
+          \item Si $A$ es falso: $\neg(x \leq 1) \implies x > 1$. Como $x \in \mathbb{Z}$, esto cubre los valores $\{2, 3, 4, \dots\}$.
+          \item Si $B$ es verdadero: $x^2 \leq 1 \implies -1 \leq x \leq 1$. En los enteros, esto cubre los valores $\{-1, 0, 1\}$.
+      \end{itemize}
+      Uniendo ambas condiciones, $P(x,1)$ es verdadera para $\{-1, 0, 1, 2, 3, \dots\}$. 
+      Por lo tanto, el conjunto es: $\mathbf{\{x \in \mathbb{Z} : x \geq -1\}}$.
+
+      \textbf{Parte (b):} Falso. 
+      Para desmentir un cuantificador universal, basta exhibir un \textbf{contraejemplo}. 
+      Si tomamos $x = -2$ e $y = 1$, el antecedente $x \leq y$ es verdadero ($-2 \leq 1$), pero el consecuente $x^2 \leq y^2$ resulta falso ($4 \leq 1$). Una verdad implicando una falsedad hace que la proposición sea \textbf{Falsa}.
+
+      \textbf{Parte (c):} Aplicamos las Leyes de De Morgan generalizadas y la negación de la implicación ($\neg(A \implies B) \equiv A \wedge \neg B$):
+      \[ \neg [(\forall x \in \mathbb{Z})(\forall y \in \mathbb{Z})(x \leq y \implies x^2 \leq y^2)] \]
+      \[ \equiv (\exists x \in \mathbb{Z})(\exists y \in \mathbb{Z}) \neg (x \leq y \implies x^2 \leq y^2) \]
+      \[ \mathbf{\equiv (\exists x \in \mathbb{Z})(\exists y \in \mathbb{Z}) (x \leq y \wedge x^2 > y^2)} \]
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Conjuntos de Verdad e Intervalos}{Nivel 3}
+    \enunciado{
+      Determine el conjunto $\{x \in \mathbb{R} \mid P(x) \text{ es } V\}$, donde para cada $x \in \mathbb{R}$, se define la función proposicional:
+      \[ P(x) : (\forall y \in [0, 1])(y \leq x \implies 2y \leq 1) \]
+    }
+    \solucion{
+      Debemos encontrar para qué valores de $x$ la implicación es cierta para \textbf{todo} $y \in [0, 1]$. 
+      Reescribimos la implicación usando equivalencia lógica ($A \implies B \equiv \neg A \vee B$):
+      \[ \neg(y \leq x) \vee (2y \leq 1) \equiv (y > x) \vee \left(y \leq \frac{1}{2}\right) \]
+      
+      Analizamos por casos el valor de $x$:
+      \begin{itemize}
+          \item \textbf{Caso 1 ($x < 0$):} Para cualquier $y \in [0, 1]$, siempre se cumple que $y > x$. Por tanto, la disyunción es siempre verdadera. $P(x)$ es $V$.
+          \item \textbf{Caso 2 ($0 \leq x \leq \frac{1}{2}$):} Tomemos cualquier $y \in [0, 1]$. Si $y \leq x$, entonces $y \leq x \leq \frac{1}{2}$, por lo que $y \leq \frac{1}{2}$ es verdadero. La disyunción es verdadera. $P(x)$ es $V$.
+          \item \textbf{Caso 3 ($x > \frac{1}{2}$):} Necesitamos ver si la condición falla para algún $y \in [0, 1]$. 
+          Si elegimos un valor de $y$ tal que $\frac{1}{2} < y \leq \min(x, 1)$ (por ejemplo, si $x=0.8$, elegimos $y=0.6$). 
+          Para este $y$, se cumple $y \leq x$ (el antecedente es Verdadero), pero $y \leq \frac{1}{2}$ (el consecuente es Falso). La implicación falla. Por lo tanto, el $\forall y$ no se cumple. $P(x)$ es $F$.
+      \end{itemize}
+      
+      En conclusión, $P(x)$ solo es verdadera cuando $x \leq \frac{1}{2}$.
+      El conjunto solución es el intervalo: $\mathbf{(-\infty, 1/2]}$.
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejercicioresuelto}{Negación y Valor de Verdad en Racionales}{Nivel 3}
+    \enunciado{
+      Escriba la negación y determine el valor de verdad de la siguiente proposición (recuerde que $\mathbb{Q}$ denota al conjunto de los números racionales):
+      \[ p : (\forall x \in \mathbb{Q})(\exists y \in \mathbb{Q})(xy = 1 \vee x^2 + y^2 = 2) \]
+    }
+    \solucion{
+      \textbf{Paso 1: Escribir la negación.}
+      Aplicamos De Morgan generalizado (los cuantificadores se invierten) y De Morgan estándar para negar la disyunción interna ($\vee \to \wedge$):
+      \[ \neg p : (\exists x \in \mathbb{Q})(\forall y \in \mathbb{Q}) \neg(xy = 1 \vee x^2 + y^2 = 2) \]
+      \[ \mathbf{\neg p : (\exists x \in \mathbb{Q})(\forall y \in \mathbb{Q}) (xy \neq 1 \wedge x^2 + y^2 \neq 2)} \]
+
+      \textbf{Paso 2: Determinar el valor de verdad.}
+      Es más sencillo evaluar la negación $\neg p$. Nos preguntamos: ¿Existe algún racional $x$ «problemático» para el cual NINGÚN racional $y$ pueda cumplir $xy=1$ o $x^2+y^2=2$?
+      
+      Probemos qué pasa si \textbf{$x = 0$} en la proposición $\neg p$:
+      La expresión interna queda: $(0 \cdot y \neq 1) \wedge (0^2 + y^2 \neq 2)$.
+      \begin{itemize}
+          \item La primera parte es $0 \neq 1$, lo cual es \textbf{siempre Verdadero} para todo $y$.
+          \item La segunda parte es $y^2 \neq 2$. Como $\sqrt{2}$ es un número irracional ($\notin \mathbb{Q}$), no existe ningún número racional que elevado al cuadrado dé exactamente 2. Por tanto, esto también es \textbf{siempre Verdadero} para todo $y \in \mathbb{Q}$.
+      \end{itemize}
+      
+      Hemos demostrado que $\neg p$ es Verdadera (basta con usar el testigo $x=0$). 
+      En consecuencia, \textbf{la proposición original $p$ es Falsa}.
+    }
+  \end{ejercicioresuelto}
+
+  \begin{ejerciciopropuesto}{Análisis de Existencia Única}{Nivel 2}
+    \enunciado{
+      Determine el valor de verdad de la siguiente proposición en el universo de los números reales $\mathbb{R}$:
+      \[ \forall x \in \mathbb{R}, \exists! y \in \mathbb{R} : x = y^3 \]
+      Justifique rigurosamente y escriba su negación lógica.
+    }
+    \pista{
+      Recuerda que $\exists!$ significa «existe un único». Dado cualquier número real $x$, ¿cuántas raíces cúbicas reales tiene? Todo real tiene exactamente una raíz cúbica real. Por tanto, es Verdadera.
+    }
+  \end{ejerciciopropuesto}
+
+\end{ejercicios}
+
+\begin{formulas}
+
+  \formula{Cuantificador Universal ($\forall$)}
+    {\forall x \in U, P(x)}
+    {Se lee «Para todo $x$ en el universo $U$, se cumple $P(x)$». Es falsa si existe al menos un contraejemplo.}
+
+  \formula{Cuantificador Existencial ($\exists$)}
+    {\exists x \in U : P(x)}
+    {Se lee «Existe al menos un $x$ en el universo $U$ tal que se cumple $P(x)$». Es falsa solo si ningún elemento cumple la propiedad.}
+
+  \formula{Leyes de De Morgan Generalizadas}
+    {\neg(\forall x, P(x)) \equiv \exists x, \neg P(x) \quad \text{y} \quad \neg(\exists x, P(x)) \equiv \forall x, \neg P(x)}
+    {Para negar una proposición cuantificada, se invierte el cuantificador y se niega la función proposicional interior.}
+
+  \formula{Negación de la Implicación (Vital para ejercicios)}
+    {\neg(A \implies B) \equiv A \wedge \neg B}
+    {Cuando una función proposicional condicional está dentro de un cuantificador y se niega, NUNCA resulta en otra implicación. Resulta en una conjunción.}
+
+\end{formulas}
+
+\end{document}
