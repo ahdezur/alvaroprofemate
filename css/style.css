@@ -1964,6 +1964,8 @@ button, input[type="button"], input[type="submit"], select, .btn, .nav-link, .mo
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .booking-modal-card {
@@ -1972,10 +1974,38 @@ button, input[type="button"], input[type="submit"], select, .btn, .nav-link, .mo
   border-radius: var(--border-radius-md);
   max-width: 550px;
   width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 30px;
   box-shadow: var(--shadow-lg);
   position: relative;
   animation: modalEnter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 600px) {
+  .booking-modal-wrapper {
+    padding: 12px;
+  }
+  
+  .booking-modal-card {
+    padding: 20px 16px;
+    max-height: 92vh;
+  }
+
+  .booking-modal-card form div[style*="text-align: right"] {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .booking-modal-card form div[style*="text-align: right"] .btn {
+    width: 100%;
+    margin-right: 0 !important;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 15px;
+  }
 }
 
 @keyframes modalEnter {
