@@ -75,43 +75,48 @@ function initCoursePage() {
     const sidebar = document.querySelector(".sidebar");
     const shellContainer = document.querySelector(".shell-container");
 
-    function openMobileSidebar() {
+    function openSidebar() {
       if (shellContainer) shellContainer.classList.remove("sidebar-collapsed");
-      if (sidebar) sidebar.classList.add("mobile-open");
-      if (sidebarBackdrop) sidebarBackdrop.classList.add("active");
+      if (window.innerWidth <= 992) {
+        if (sidebar) sidebar.classList.add("mobile-open");
+        if (sidebarBackdrop) sidebarBackdrop.classList.add("active");
+      } else {
+        if (sidebar) sidebar.classList.remove("mobile-open");
+        if (sidebarBackdrop) sidebarBackdrop.classList.remove("active");
+      }
     }
 
-    function closeMobileSidebar() {
+    function closeSidebar() {
       if (shellContainer) shellContainer.classList.add("sidebar-collapsed");
       if (sidebar) sidebar.classList.remove("mobile-open");
       if (sidebarBackdrop) sidebarBackdrop.classList.remove("active");
     }
 
     if (sidebarCollapseBtn) {
-      sidebarCollapseBtn.addEventListener("click", closeMobileSidebar);
+      sidebarCollapseBtn.addEventListener("click", closeSidebar);
     }
 
     if (sidebarShowBtn) {
       sidebarShowBtn.addEventListener("click", () => {
-        if (sidebar && sidebar.classList.contains("mobile-open")) {
-          closeMobileSidebar();
-        } else if (shellContainer && shellContainer.classList.contains("sidebar-collapsed")) {
-          openMobileSidebar();
+        if (shellContainer && shellContainer.classList.contains("sidebar-collapsed")) {
+          openSidebar();
+        } else if (window.innerWidth <= 992 && sidebar && sidebar.classList.contains("mobile-open")) {
+          closeSidebar();
         } else {
-          openMobileSidebar();
+          closeSidebar();
         }
       });
     }
 
     if (sidebarBackdrop) {
-      sidebarBackdrop.addEventListener("click", closeMobileSidebar);
+      sidebarBackdrop.addEventListener("click", closeSidebar);
     }
 
     // Cerrar sidebar al hacer clic en un capítulo en modo móvil/tablet
     document.addEventListener("click", (e) => {
       const chapterItem = e.target.closest(".chapter-item");
       if (chapterItem && window.innerWidth <= 992) {
-        closeMobileSidebar();
+        closeSidebar();
       }
     });
 

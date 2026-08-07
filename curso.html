@@ -1362,10 +1362,92 @@
     .ram-section {
       display: none;
       animation: fadeInSection 0.4s ease-out forwards;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .ram-section.active-section {
       display: block;
+    }
+
+    /* ==========================================================================
+       UNIFICACIÓN DEL TAMAÑO DE FUENTE EN TODAS LAS PESTAÑAS Y CURSOS
+       ========================================================================== */
+    .ram-section,
+    .ram-section p,
+    .ram-section li,
+    .ram-section td,
+    .ram-section th,
+    .ram-section label,
+    .ram-section div.caja-ram-body,
+    .ram-section div.caja-ram-body p,
+    .ram-section .caja-ram p,
+    .ram-section .eval-pregunta div,
+    .ram-section .evaluacion-formativa p,
+    .ram-section .quiz-block p,
+    .ram-section .opcion-btn,
+    .ram-section .quiz-option,
+    .ram-section .quiz-option span,
+    .ram-section .quiz-casilla-option,
+    .ram-section .quiz-casilla-option span,
+    .ram-section .pareo-row-item,
+    .ram-section .exercise-card,
+    .ram-section .exercise-pane,
+    .ram-section .statement,
+    .ram-section .statement p,
+    .ram-section .solution,
+    .ram-section .solution p,
+    .ram-section .formula-card,
+    .ram-section .formula-card p,
+    .ram-section .formula-pane {
+      font-size: 1em !important;
+      line-height: 1.6;
+    }
+
+    .ram-section h2 {
+      font-size: 1.5em !important;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-top: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .ram-section h3 {
+      font-size: 1.25em !important;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .ram-section h4,
+    .ram-section .caja-ram-title,
+    .ram-section .exercise-title,
+    .ram-section .formula-card h4 {
+      font-size: 1.05em !important;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .ram-section select,
+    .ram-section button.btn-verify-quiz,
+    .ram-section button.btn-verify-vf,
+    .ram-section button.btn-verify-casillas,
+    .ram-section button.btn-verify-pareados,
+    .ram-section button.btn-verificar-casillas,
+    .ram-section .btn-pista {
+      font-size: 0.95em !important;
+    }
+
+    .ram-section .eval-pregunta span,
+    .ram-section .quiz-option-tag,
+    .ram-section .pareo-row-item span.item-tag {
+      font-size: 0.85em !important;
+    }
+
+    .ram-section .caja-ram-icon,
+    .ram-section .tab-icon {
+      font-size: 1.3em !important;
     }
 
     @keyframes fadeInSection {
@@ -1469,6 +1551,7 @@
 
     /* Adaptabilidad Móvil y Tablet Avanzada */
     .sidebar-backdrop {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -1480,14 +1563,19 @@
       z-index: 1050;
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
       transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .sidebar-backdrop.active {
-      opacity: 1;
-      visibility: visible;
     }
 
     @media (max-width: 992px) {
+      .sidebar-backdrop {
+        display: block;
+      }
+      .sidebar-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
       :root {
         --sidebar-width: 290px;
       }
